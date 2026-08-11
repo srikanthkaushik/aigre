@@ -891,6 +891,23 @@ Playwright run through the real UI against the real backend, screenshotted
 `docs/images/12-clarify-result.png`) and embedded in `docs/APP_WALKTHROUGH.md`.
 Worked correctly on the first real run once the confidence/reasoning fix landed.
 
+**User-reported bug, live-diagnosed, real design gap found (not a code bug):** tried
+with "Things are pretty bad around town" → "There are new potholes on main st" and it
+stayed pending. Reproduced directly against the exact grievance row: re-ran the
+*identical* clarify call against the *same* row with the *same* text — succeeded
+immediately (DOT, confidence 0.8). Confirmed genuine LLM sampling variance (the same
+pattern documented throughout this project for `qwen2.5:7b`), not a bug in the new
+endpoint. But the one-shot design meant a citizen who hit an unlucky round had no
+recourse but to wait for a supervisor, even though a retry had a real chance of
+working — so a real gap regardless of the root cause being "expected variance."
+
+**Fix**: capped at 2 clarification attempts instead of 1 (`MAX_CLARIFICATION_ATTEMPTS`
+in `citizen.ts`), not unbounded — still avoids an open-ended back-and-forth, but gives
+the stochastic classifier a fair second roll. Label changes between attempts ("Can you
+tell us more?" → "Try adding a bit more detail"). Verified live with Playwright:
+deliberately unhelpful first attempt kept it pending and correctly brought the form
+back for attempt 2; a real second attempt resolved it.
+
 ## First actual visual verification — and a real bug it caught
 
 Every frontend change all session had the same caveat: "no browser tool in this

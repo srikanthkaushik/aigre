@@ -65,15 +65,15 @@
                 <div class="result-text">
                   @if (result.pendingReview) {
                     <h3>Needs a closer look</h3>
-                    @if (clarificationAttempted()) {
-                      <p>
-                        Thanks for the extra detail — this still needs a supervisor's review.
-                        Check back using your grievance ID below.
-                      </p>
-                    } @else {
+                    @if (clarificationAttemptsRemaining > 0) {
                       <p>
                         A supervisor will review your complaint before it's routed. If you can add
                         a bit more detail below, we may be able to route it right away instead.
+                      </p>
+                    } @else {
+                      <p>
+                        Thanks for the extra detail — this still needs a supervisor's review.
+                        Check back using your grievance ID below.
                       </p>
                     }
                   } @else if (result.status === 'NOT_ACTIONABLE') {
@@ -93,10 +93,12 @@
                     <button mat-stroked-button class="btn-small" (click)="useSubmittedId()">Track this</button>
                   </p>
 
-                  @if (result.pendingReview && !clarificationAttempted()) {
+                  @if (result.pendingReview && clarificationAttemptsRemaining > 0) {
                     <div class="clarification-form">
                       <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>Can you tell us more?</mat-label>
+                        <mat-label>
+                          {{ clarificationAttempts() === 0 ? 'Can you tell us more?' : 'Try adding a bit more detail' }}
+                        </mat-label>
                         <textarea
                           matInput
                           rows="2"

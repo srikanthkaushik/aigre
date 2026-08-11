@@ -78,11 +78,14 @@ paused workflow — no supervisor needed after all:
 
 ![Result after clarification — now routed](images/12-clarify-result.png)
 
-If the added detail *still* isn't enough to classify confidently, the case stays
-parked for a supervisor exactly as before — but the fuller text is saved either way,
-so whoever reviews it next sees the citizen's complete context, not just the original
-vague sentence. The form only appears once per submission; there's no open-ended
-back-and-forth.
+If the added detail still isn't enough to classify confidently, the form reappears
+once more (2 attempts total, not one-shot) — classification confidence has documented
+run-to-run sampling variance (see `PROJECT.md`), so a second try genuinely has a real
+chance of succeeding even with the same or similar wording. Confirmed live: the exact
+same clarification text failed once and then succeeded immediately on an identical
+retry, no code changes in between. After 2 attempts, the case stays parked for a
+supervisor with the fuller text saved either way, and the form doesn't reappear —
+bounded, not an open-ended back-and-forth.
 
 **Example 3 — out of scope:**
 

@@ -49,10 +49,16 @@ export class Citizen {
   readonly submitResult = signal<GrievanceWorkflowResponse | null>(null);
   readonly submitError = signal<string | null>(null);
 
-  // -- inline clarification, offered once when a submission comes back pendingReview --
+  // -- inline clarification, offered when a submission comes back pendingReview --
+  // Capped at MAX_CLARIFICATION_ATTEMPTS, not one-shot: classification confidence has
+  // documented run-to-run sampling variance (see PROJECT.md), so a citizen who hits an unlucky
+  // round has a real chance a retry just works -- confirmed live: the exact same clarification
+  // text failed once, then succeeded immediately on retry with zero code changes in between.
+  static readonly MAX_CLARIFICATION_ATTEMPTS = 2;
+  readonly maxClarificationAttempts = Citizen.MAX_CLARIFICATION_ATTEMPTS;
   clarificationText = '';
   readonly clarifying = signal(false);
-  readonly clarificationAttempted = signal(false);
+  readonly clarificationAttempts = signal(0);
   readonly clarificationError = signal<string | null>(null);
 
   // -- status tab --
@@ -80,7 +86,7 @@ export class Citizen {
     this.submitResult.set(null);
     this.clarificationText = '';
     this.clarifying.set(false);
-    this.clarificationAttempted.set(false);
+    this.clarificationAttempts.set(0);
     this.clarificationError.set(null);
 
     this.api
@@ -103,10 +109,9 @@ export class Citizen {
   }
 
   /**
-   * Offered once, inline, right after a submission comes back pendingReview -- the citizen gets
-   * one chance to add detail that might resolve the ambiguity themselves before it falls back to
-   * a supervisor. Whatever happens (resolves or still needs a human), the form doesn't reappear
-   * for this submission -- avoids an open-ended back-and-forth loop.
+   * Offered inline right after a submission comes back pendingReview, up to
+   * MAX_CLARIFICATION_ATTEMPTS times -- bounded, not open-ended, but not one-shot either (see
+   * the field comment above for why a retry is worth offering).
    */
   submitClarification(): void {
     const id = this.submitResult()?.grievanceId;
@@ -114,18 +119,25 @@ export class Citizen {
 
     this.clarifying.set(true);
     this.clarificationError.set(null);
+    const submittedText = this.clarificationText;
+    this.clarificationText = '';
 
-    this.api.clarify(id, this.clarificationText).subscribe({
+    this.api.clarify(id, submittedText).subscribe({
       next: (result) => {
         this.submitResult.set(result);
         this.clarifying.set(false);
-        this.clarificationAttempted.set(true);
+        this.clarificationAttempts.update((n) => n + 1);
       },
       error: (err) => {
         this.clarificationError.set(err?.error?.message ?? 'Could not submit your additional detail. Please try again.');
         this.clarifying.set(false);
+        this.clarificationText = submittedText;
       }
     });
+  }
+
+  get clarificationAttemptsRemaining(): number {
+    return this.maxClarificationAttempts - this.clarificationAttempts();
   }
 
   lookupStatus(): void {
