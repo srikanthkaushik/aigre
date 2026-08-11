@@ -56,11 +56,9 @@ approved Milestone-0 plan (see `kickoff.md` for the original brief).
       `interruptBefore`/resume, verified live pause/resume cycle). See below.
 - [x] Milestone 5 — Angular frontend (citizen portal + employee dashboard),
       built and serving; **not visually verified in a browser** — see below.
-- [~] Milestone 6 — hardening: PII redaction guardrail done (see below);
-      observability (per-call-type LLM timers, Actuator/Micrometer) was
-      already in place since milestone 1; eval suite expansion beyond the
-      current 108 docs/62 questions/91 complaints not pursued further this
-      pass
+- [~] Milestone 6 — hardening: PII redaction guardrail done, observability
+      extended (see below); eval suite expansion beyond the current 108
+      docs/62 questions/91 complaints not pursued further this pass
 
 ## Local environment
 - **App port: 8085**, not 8080 — 8080 and 8090 are already taken by an
@@ -1096,6 +1094,60 @@ GRV-074 SSN text to `/grievances`, queried the DB directly, got back `"My SSN
 is [REDACTED-SSN] and I want to know why..."`; same live check repeated
 against `/grievances/{id}/workflow/clarify` with an embedded email, redacted
 correctly there too.
+
+## Milestone 6: observability extended
+
+Audited what "instrument every call site" (the standing design rule) actually
+covered so far -- turned out to be incomplete in a way that wasn't visible
+until checked directly:
+
+- **`RetrievalService.retrieve()`** timed the LLM rerank call (one `LlmCallTimer`
+  call per candidate, already fine-grained) but not the embedding call or the
+  pgvector search itself -- the two steps that run *before* rerank on every
+  single retrieval, completely invisible. Added `llmCallTimer.time("embed",
+  ...)` and `llmCallTimer.time("vector_search", ...)`, same pattern as the
+  existing call sites.
+- **The streaming chat endpoint had zero instrumentation** -- despite
+  "chatbot" being explicitly named as a call type in the original
+  milestone-0 metrics plan item. It doesn't fit `LlmCallTimer`'s synchronous
+  `Supplier<T>` shape (completes via an async callback, not a return value),
+  so it needed a different mechanism: a Micrometer `Timer.Sample` created in
+  `ChatController` and passed into `SseTokenStreamingHandler`, which stops it
+  twice against two different timers -- once on the first `onPartialResponse`
+  (`aigre.chat.time_to_first_token`) and once on `onCompleteResponse`/
+  `onError` (`aigre.chat.stream_duration`, tagged `outcome`). Confirmed a
+  `Timer.Sample` can be stopped more than once against different `Timer`s
+  (each `stop()` just measures elapsed-since-start, it doesn't consume the
+  sample) before relying on it.
+- **The PII guardrail (previous entry) only logged a WARN** -- not queryable,
+  not graphable. Added `aigre.guardrail.pii_redacted`, a `Counter` tagged by
+  PII type and field, alongside the existing log line.
+- **A real, previously-invisible gap**: `/actuator/prometheus` has been
+  listed in `management.endpoints.web.exposure.include` and *documented in
+  ARCHITECTURE.md as working* since milestone 1 -- but `micrometer-registry-
+  prometheus` was never actually added as a dependency, so the endpoint
+  404'd the entire time despite being "exposed." Only caught because
+  extending this section meant actually curling the endpoint rather than
+  trusting the existing doc text. Added the dependency
+  (`io.micrometer:micrometer-registry-prometheus`) -- confirmed live,
+  `/actuator/prometheus` now returns real `aigre_*` series in exposition
+  format, actuator's own startup log went from "Exposing 3 endpoints" to
+  "Exposing 4."
+
+**Verified live** against the real running app: exercised `/chat/stream` and
+`/grievances` (one with embedded PII), then confirmed all 4 new/extended
+metrics populated correctly via `/actuator/metrics/<name>` and
+`/actuator/prometheus` -- `aigre.llm.call`'s `call_type` tag now includes
+`embed`/`vector_search` alongside the pre-existing `classification`/`rerank`;
+`aigre.chat.time_to_first_token` and `aigre.chat.stream_duration` each
+recorded a real sample from one chat call; `aigre.guardrail.pii_redacted`
+recorded one `PHONE`/`rawText` increment. Full test suite re-run afterward:
+no new regressions from this change (one unrelated flake,
+`LlmGrievanceClassifierTest.pureComplimentIsNotActionable`, confirmed via
+`git diff` to be untouched by anything in this pass -- the same documented
+live-LLM sampling variance as every other `qwen2.5:7b` flake in this
+project); corpus re-seeded via `POST /ingest/reset` after the run wiped it
+again, same as every prior full-suite run.
 
 ## Open items to revisit
 - RBAC/department-scoping for employee dashboards — real requirement,

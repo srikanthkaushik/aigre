@@ -3,6 +3,8 @@ package com.aigre.chat;
 import com.aigre.retrieval.RetrievalService;
 import com.aigre.retrieval.RetrievedSource;
 import dev.langchain4j.model.chat.StreamingChatModel;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -32,12 +34,17 @@ public class ChatController {
     private final StreamingChatModel streamingChatModel;
     private final RetrievalService retrievalService;
     private final ObjectMapper objectMapper;
+    private final MeterRegistry meterRegistry;
 
     public ChatController(
-            StreamingChatModel streamingChatModel, RetrievalService retrievalService, ObjectMapper objectMapper) {
+            StreamingChatModel streamingChatModel,
+            RetrievalService retrievalService,
+            ObjectMapper objectMapper,
+            MeterRegistry meterRegistry) {
         this.streamingChatModel = streamingChatModel;
         this.retrievalService = retrievalService;
         this.objectMapper = objectMapper;
+        this.meterRegistry = meterRegistry;
     }
 
     @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -62,7 +69,8 @@ public class ChatController {
                         .formatted(context, question);
 
         Sinks.Many<ServerSentEvent<String>> sink = Sinks.many().unicast().onBackpressureBuffer();
-        streamingChatModel.chat(prompt, new SseTokenStreamingHandler(sink));
+        Timer.Sample sample = Timer.start(meterRegistry);
+        streamingChatModel.chat(prompt, new SseTokenStreamingHandler(sink, sample, meterRegistry));
 
         Flux<ServerSentEvent<String>> sourcesEvent =
                 Flux.just(ServerSentEvent.builder(toJson(sources)).event("sources").build());

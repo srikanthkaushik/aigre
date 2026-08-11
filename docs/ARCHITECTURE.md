@@ -292,12 +292,37 @@ in that harness even though the same rows are redacted for real over HTTP.
 
 ### Cross-cutting: observability
 
-Every LLM call is wrapped in `LlmCallTimer`, tagged by call type
-(`classification` / `rerank` / `chat`) and exposed via Actuator/Micrometer
-(`/actuator/prometheus`). This was a real finding, not a hypothetical: in earlier
-project work, a "critic" LLM step turned out to be 53% of total runtime — more than
-the step it was reviewing. Instrumenting every call site from day one is a standing
-practice here, not an afterthought.
+Every step in the classification and retrieval pipelines is wrapped in
+`LlmCallTimer`, tagged by call type (`classification` / `rerank` / `embed` /
+`vector_search`) under one metric, `aigre.llm.call` — deliberately one metric
+family covering both real LLM inference calls and the non-LLM pgvector search
+step around them, so a single dashboard panel can compare which step is
+actually slow across the whole pipeline. This was a real finding, not a
+hypothetical: in earlier project work, a "critic" LLM step turned out to be
+53% of total runtime — more than the step it was reviewing. Instrumenting
+every call site from day one is a standing practice here, not an afterthought.
+
+The streaming chat endpoint doesn't fit `LlmCallTimer`'s synchronous
+Supplier shape (it completes via an async callback, not a return value), so
+it gets its own two metrics recorded directly in `SseTokenStreamingHandler`
+via a Micrometer `Timer.Sample`: `aigre.chat.time_to_first_token` and
+`aigre.chat.stream_duration` (tagged `outcome=success|error`) — the two
+latency numbers that actually matter for a streaming UX, distinct from a
+single blocking-call duration. The PII guardrail (previous section) also
+exposes `aigre.guardrail.pii_redacted`, a `Counter` tagged by PII type and
+field, alongside its WARN log line — a log line alone isn't queryable, and
+"how often is this actually happening" is exactly the kind of thing that
+shouldn't be guessed.
+
+All of the above are visible at `/actuator/metrics/<name>` and, since
+`micrometer-registry-prometheus` is on the classpath, scraped in Prometheus
+exposition format at `/actuator/prometheus` — the latter was listed in
+`management.endpoints.web.exposure.include` from day one but the actual
+registry dependency was missing until this pass, so the endpoint 404'd
+despite being "exposed"; caught while extending this section, not by any
+external monitoring (there isn't any here — a real deployment would point a
+Prometheus scrape config at this endpoint and layer Grafana on top, neither
+of which exists in this repo).
 
 ---
 

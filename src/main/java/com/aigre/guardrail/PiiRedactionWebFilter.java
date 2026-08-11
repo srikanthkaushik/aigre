@@ -1,5 +1,7 @@
 package com.aigre.guardrail;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -29,6 +31,11 @@ import java.util.Set;
  * (GrievanceIntakeRequest.rawText, ClarificationRequest.additionalText) -- the structured
  * citizenEmail/citizenPhone contact fields are deliberately left untouched, they're legitimate
  * contact info, not incidental PII typed into a complaint.
+ *
+ * Redaction volume is also exposed as a Counter (aigre.guardrail.pii_redacted, tagged by PII
+ * type) alongside the WARN log line -- a log line alone isn't queryable/graphable, and "is this
+ * actually happening in practice, and how often" is exactly the kind of thing that shouldn't be
+ * guessed (see plan §"instrument before optimising").
  */
 @Component
 public class PiiRedactionWebFilter implements WebFilter {
@@ -38,10 +45,12 @@ public class PiiRedactionWebFilter implements WebFilter {
 
     private final ObjectMapper objectMapper;
     private final PiiRedactor redactor;
+    private final MeterRegistry meterRegistry;
 
-    public PiiRedactionWebFilter(ObjectMapper objectMapper, PiiRedactor redactor) {
+    public PiiRedactionWebFilter(ObjectMapper objectMapper, PiiRedactor redactor, MeterRegistry meterRegistry) {
         this.objectMapper = objectMapper;
         this.redactor = redactor;
+        this.meterRegistry = meterRegistry;
     }
 
     @Override
@@ -91,6 +100,13 @@ public class PiiRedactionWebFilter implements WebFilter {
                     changed = true;
                     log.warn("Redacted PII ({}) from '{}' on {} before storage/classification",
                             result.redactedTypes(), field, path);
+                    for (String type : result.redactedTypes()) {
+                        Counter.builder("aigre.guardrail.pii_redacted")
+                                .tag("type", type)
+                                .tag("field", field)
+                                .register(meterRegistry)
+                                .increment();
+                    }
                 }
             }
             return changed ? objectMapper.writeValueAsBytes(obj) : original;

@@ -64,12 +64,13 @@ public class RetrievalService {
 
     public List<RetrievedSource> retrieve(String query) {
         EmbeddingSearchRequest request = EmbeddingSearchRequest.builder()
-                .queryEmbedding(embeddingModel.embed(query).content())
+                .queryEmbedding(llmCallTimer.time("embed", () -> embeddingModel.embed(query)).content())
                 .query(query)
                 .maxResults(initialK)
                 .build();
 
-        List<EmbeddingMatch<TextSegment>> matches = embeddingStore.search(request).matches();
+        List<EmbeddingMatch<TextSegment>> matches =
+                llmCallTimer.time("vector_search", () -> embeddingStore.search(request)).matches();
 
         return matches.stream()
                 .map(match -> new RetrievedSource(
