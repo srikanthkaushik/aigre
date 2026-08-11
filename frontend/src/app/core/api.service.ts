@@ -51,11 +51,9 @@ export class ApiService {
     return this.http.get<GrievanceStatusResult>(`${API_BASE}/grievances/${grievanceId}`);
   }
 
-  listGrievances(department?: string | null, status?: string | null): Observable<GrievanceSummary[]> {
-    const params: string[] = [];
-    if (department) params.push(`department=${encodeURIComponent(department)}`);
-    if (status) params.push(`status=${encodeURIComponent(status)}`);
-    const query = params.length ? `?${params.join('&')}` : '';
+  /** Department is never client-supplied -- SecurityConfig/GrievanceQueryController derive it from the authenticated employee's own token. */
+  listGrievances(status?: string | null): Observable<GrievanceSummary[]> {
+    const query = status ? `?status=${encodeURIComponent(status)}` : '';
     return this.http.get<GrievanceSummary[]>(`${API_BASE}/grievances${query}`);
   }
 

@@ -155,20 +155,39 @@ but different SLA.
 
 ## Employee Dashboard (`/employee`)
 
-**Viewing as** — a department picker in its own toolbar row (full department names,
-not codes — "Department of Housing and Urban Development", not "DHUD"). This is a
-demo-only client-side stub, not real login (see `ARCHITECTURE.md`'s limitations). It
-persists across page reloads via `localStorage`.
+Route-guarded — visiting it while logged out redirects to `/login`, a real Spring
+Security + JWT sign-in (see `RUNNING.md` for the seeded demo accounts; every seeded
+employee shares the password `Demo1234!`).
 
-Below the picker, a 3-stat summary row: **Pending review** (count, cross-department),
-**{department} queue** (count for the selected department), **SLA breaches** (flagged
+![Employee sign-in](images/16-employee-login.png)
+
+Once signed in, the toolbar shows the employee's name, department, and role — no
+picker anymore. Dashboard access is scoped strictly to that employee's own department,
+enforced server-side, not just hidden in the UI: the department shown is whatever the
+logged-in employee's account belongs to, and every query the dashboard makes is
+filtered to it by the backend regardless of what the client asks for.
+
+![Employee dashboard, logged in as a DOT agent](images/17-employee-agent-dashboard.png)
+
+**AGENT vs. SUPERVISOR** — an AGENT can view their department's queue but not act on
+it: opening a case shows the classification and reasoning read-only, with a note that
+only a supervisor can confirm a routing decision or close a case.
+
+![AGENT view — read-only, no action buttons](images/18-employee-agent-readonly.png)
+
+A SUPERVISOR sees the same detail plus the actual controls — **Confirm & Route** for a
+paused review, **Mark Resolved**/**Mark Closed** for an open case.
+
+![SUPERVISOR view — same case, action buttons present](images/19-employee-supervisor-actions.png)
+
+Below the toolbar, a 3-stat summary row: **Pending review** (count, own department),
+**{department} queue** (count), **SLA breaches** (flagged
 red if non-zero).
 
 ### Pending Review tab
 
-A paginated table of every grievance currently paused at the human-review gate,
-regardless of department (there's no department to filter by yet — that's exactly
-what's undetermined).
+A paginated table of every grievance currently paused at the human-review gate for the
+logged-in employee's own department (department-scoped, like every other tab now).
 
 ![Pending Review queue](images/07-employee-pending-review.png)
 
@@ -239,10 +258,15 @@ project:
 
 - **Real**: the LLM classification, the RAG retrieval/rerank/citation pipeline, the
   LangGraph4j pause/resume workflow, the MCP tool server, the database and its
-  aggregation queries. These all run against a live Ollama instance and a live
-  Postgres instance — nothing in the walkthrough above is mocked.
-- **Demo-only**: the department picker (no real login). `RESOLVED`/`CLOSED` now have
-  a real dashboard action (Mark Resolved/Mark Closed), and `REOPENED` a real
-  citizen-facing action too — but `ROUTED`/`IN_PROGRESS` still have no dashboard UI;
-  a real deployment would need a caseworker view for actually working a ticket after
-  it's routed, not just approving its classification and closing it out.
+  aggregation queries, and employee authentication (Spring Security + JWT,
+  department-scoped, role-gated — the department picker is gone, replaced by real
+  login). These all run against a live Ollama instance and a live Postgres instance —
+  nothing in the walkthrough above is mocked.
+- **Demo-grade, not production-grade**: all 12 seeded employee accounts share one
+  password, and the Trends tab's "All Departments" toggle is deliberately *not*
+  department-restricted (aggregate/statistical, not case-level data — a narrower
+  reading of "own department only" than the case-management views). `RESOLVED`/
+  `CLOSED` now have a real dashboard action (Mark Resolved/Mark Closed), and
+  `REOPENED` a real citizen-facing action too — but `ROUTED`/`IN_PROGRESS` still have
+  no dashboard UI; a real deployment would need a caseworker view for actually working
+  a ticket after it's routed, not just approving its classification and closing it out.

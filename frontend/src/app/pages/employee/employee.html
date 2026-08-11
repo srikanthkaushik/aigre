@@ -5,19 +5,21 @@
   </div>
 
   <div class="toolbar-row">
-    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="dept-select">
-      <mat-label>Viewing as</mat-label>
-      <mat-select [ngModel]="department()" (ngModelChange)="onDepartmentChange($event)" panelWidth="auto">
-        @for (d of departments; track d) {
-          <mat-option [value]="d">{{ d | departmentName }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <div class="session-badge">
+      <mat-icon>badge</mat-icon>
+      <div>
+        <div class="session-name">{{ auth.session()?.name }}</div>
+        <div class="session-meta">{{ department | departmentName }} &middot; {{ auth.session()?.role }}</div>
+      </div>
+    </div>
     <button mat-stroked-button (click)="refresh()">
       <mat-icon>refresh</mat-icon>
       Refresh
     </button>
-    <p class="hint disclaimer">Demo-only department picker — no real authentication in this pass.</p>
+    <button mat-stroked-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Log out
+    </button>
   </div>
 
   <div class="stat-row">
@@ -32,7 +34,7 @@
       <mat-icon class="stat-icon">inbox</mat-icon>
       <div>
         <div class="stat-value">{{ departmentDataSource.data.length }}</div>
-        <div class="stat-label">{{ department() | departmentName }} queue</div>
+        <div class="stat-label">{{ department | departmentName }} queue</div>
       </div>
     </div>
     <div class="stat-card" [class.alert]="breachedCount() > 0">
@@ -88,7 +90,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab [label]="(department() | departmentName) + ' Queue (' + departmentDataSource.data.length + ')'">
+    <mat-tab [label]="(department | departmentName) + ' Queue (' + departmentDataSource.data.length + ')'">
       <div class="tab-panel">
         @if (loading()) {
           <div class="loading-row">
@@ -156,7 +158,7 @@
 
     <mat-tab label="Trends">
       <div class="tab-panel">
-        <app-trends [department]="department()" />
+        <app-trends [department]="department" />
       </div>
     </mat-tab>
   </mat-tab-group>

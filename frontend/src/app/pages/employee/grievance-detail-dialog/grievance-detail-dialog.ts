@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiService } from '../../../core/api.service';
+import { AuthService } from '../../../core/auth.service';
 import { GrievanceWorkflowResponse } from '../../../core/models';
 import { DepartmentNamePipe } from '../../../core/department-name.pipe';
 
@@ -55,6 +56,7 @@ export class GrievanceDetailDialog implements OnInit {
   constructor(
     private readonly api: ApiService,
     private readonly dialogRef: MatDialogRef<GrievanceDetailDialog, boolean>,
+    readonly auth: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: GrievanceDetailDialogData
   ) {
     this.reviewedBy = data.defaultReviewedBy;

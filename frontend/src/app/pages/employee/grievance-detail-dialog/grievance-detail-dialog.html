@@ -52,7 +52,7 @@
         </p>
       }
 
-      @if (!['CLOSED', 'NOT_ACTIONABLE', 'DUPLICATE'].includes(detail.status)) {
+      @if (auth.isSupervisor() && !['CLOSED', 'NOT_ACTIONABLE', 'DUPLICATE'].includes(detail.status)) {
         <div class="lifecycle-action">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Resolution note (required to mark resolved/closed)</mat-label>
@@ -91,39 +91,43 @@
         <p class="reasoning">{{ detail.reasoning || '(no reasoning captured for this run)' }}</p>
       </div>
 
-      <div class="grid-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Department</mat-label>
-          <mat-select [(ngModel)]="reviewDepartment">
-            <mat-option value="">(keep as-is)</mat-option>
-            @for (d of data.departments; track d) {
-              <mat-option [value]="d">{{ d | departmentName }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Category</mat-label>
-          <input matInput type="text" [(ngModel)]="reviewCategory" placeholder="(keep as-is)" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Priority</mat-label>
-          <mat-select [(ngModel)]="reviewPriority">
-            <mat-option value="">(keep as-is)</mat-option>
-            @for (p of data.priorities; track p) {
-              <mat-option [value]="p">{{ p }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
+      @if (auth.isSupervisor()) {
+        <div class="grid-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Department</mat-label>
+            <mat-select [(ngModel)]="reviewDepartment">
+              <mat-option value="">(keep as-is)</mat-option>
+              @for (d of data.departments; track d) {
+                <mat-option [value]="d">{{ d | departmentName }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <input matInput type="text" [(ngModel)]="reviewCategory" placeholder="(keep as-is)" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Priority</mat-label>
+            <mat-select [(ngModel)]="reviewPriority">
+              <mat-option value="">(keep as-is)</mat-option>
+              @for (p of data.priorities; track p) {
+                <mat-option [value]="p">{{ p }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Review note (required)</mat-label>
-        <textarea matInput rows="2" [(ngModel)]="reviewNote"></textarea>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Reviewed by</mat-label>
-        <input matInput type="text" [(ngModel)]="reviewedBy" />
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Review note (required)</mat-label>
+          <textarea matInput rows="2" [(ngModel)]="reviewNote"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Reviewed by</mat-label>
+          <input matInput type="text" [(ngModel)]="reviewedBy" />
+        </mat-form-field>
+      } @else {
+        <p class="hint">Only a supervisor can confirm a routing decision for a paused case.</p>
+      }
 
       @if (error()) {
         <p class="error-text">{{ error() }}</p>
@@ -138,7 +142,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  @if (detail()?.pendingReview) {
+  @if (detail()?.pendingReview && auth.isSupervisor()) {
     <button mat-button (click)="close()">Cancel</button>
     <button
       mat-flat-button

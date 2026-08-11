@@ -492,9 +492,10 @@ theming, a custom navy/amber palette generated via
   check status by grievance ID, and the RAG chatbot (hand-rolled SSE parsing via
   `fetch()` + `ReadableStream`, since the endpoint is POST-based and the browser's
   native `EventSource` is GET-only).
-- **`/employee`** — three tabs: Pending Review (the human-approval-gate queue,
-  cross-department), a department-scoped queue with pagination, and Trends (Chart.js
-  visualizations — volume, category, priority, sentiment, SLA snapshot).
+- **`/login`** — employee sign-in; **`/employee`** (route-guarded, redirects to
+  `/login` if not authenticated) — three tabs: Pending Review, a department-scoped
+  queue with pagination, and Trends (Chart.js visualizations — volume, category,
+  priority, sentiment, SLA snapshot).
 
 Chart.js (~170KB) is scoped to the `Trends` component's own `providers` array rather
 than registered app-wide, so the citizen-facing routes don't pay for a dependency they
@@ -504,9 +505,40 @@ actually move the code out of the eager bundle, because top-level static imports
 that file get bundled eagerly regardless of when the provider function runs; scoping
 it inside the lazily-loaded component itself was the fix that actually worked).
 
-No frontend authentication in this pass — the Employee Dashboard's department picker
-is a client-side-only stub (`localStorage`-persisted), explicitly not real RBAC. See
-[Known limitations](#known-limitations).
+### Cross-cutting: employee authentication (`com.aigre.auth`)
+
+Replaced the milestone-5 department-picker stub with real Spring Security + JWT, tied
+to `department_employees` (which gained `username`/`password_hash` columns for this).
+`POST /auth/login` validates against a bcrypt hash and issues a JWT (`JwtService`,
+`io.jsonwebtoken`) carrying the employee's id/department/role as claims — no session
+state, no per-restart-random signing key (that would log every employee out on every
+backend restart during dev). `JwtAuthenticationWebFilter` validates the bearer token
+and populates the reactive `SecurityContext`; registered directly inside
+`SecurityConfig`'s `SecurityWebFilterChain`, not as a `@Component`, so it runs inside
+Spring Security's own filter chain and context propagation rather than as a second,
+independently-ordered generic `WebFilter` (the same category of gotcha as
+`PiiRedactionWebFilter`, for a different reason).
+
+**Department scoping is enforced server-side, not just "logged in or not."**
+`GrievanceQueryController.list()` derives its department filter from the authenticated
+principal directly — never a client-supplied query parameter — so a DOT employee's
+token can't be used to request another department's queue. The four endpoints that act
+on a specific grievance by ID (view/resume the paused workflow, mark resolved/closed)
+additionally compare the grievance's own department against the principal's
+(`DepartmentAccess.requireOwnDepartment`) before allowing the action, since role-based
+route rules alone don't stop an authenticated employee from reaching another
+department's grievance by ID. AGENT can view; SUPERVISOR can additionally resume a
+review or mark a grievance resolved/closed (`hasRole("SUPERVISOR")` in
+`SecurityConfig`, mirrored in the frontend for UX — the backend check is the actual
+enforcement).
+
+Citizen-facing endpoints (submit, status lookup, clarify, reopen) and the chat endpoint
+stay fully public — citizens never log in. A real gap caught and fixed while building
+this: `pathMatchers(GET, "/grievances/{id}")` (public, the citizen status lookup) also
+matches `/grievances/trends` — `{id}` matches any single path segment — which would
+have silently made the employee-only Trends endpoint public too; caught by testing the
+actual URL rather than assuming the rule was scoped correctly, fixed with a
+more-specific rule ordered first (`authorizeExchange` matches in declaration order).
 
 ---
 
@@ -544,7 +576,11 @@ Full detail lives in `PROJECT.md`; the headline items:
 - **In-memory workflow checkpointing** — a paused human-review case is lost on
   application restart. `langgraph4j-postgres-saver` is the documented upgrade path.
   path.
-- **No real authentication/RBAC** — the department picker is a demo-only stub.
+- **Employee auth is real (Spring Security + JWT, department-scoped, role-gated) but
+  demo-grade**: all 12 seeded accounts share one password, the signing secret is a
+  fixed value in `application.yml` rather than a secrets manager, and there's no
+  refresh-token flow (an 8-hour token, then a re-login) — see `RUNNING.md` for the
+  seeded credentials.
 - **The workflow graph writes to Postgres directly** rather than calling the MCP tools
   from §4 as actual tool-use — the MCP server and the agent workflow are both built,
   but not yet wired to each other.

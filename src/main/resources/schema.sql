@@ -14,8 +14,16 @@ CREATE TABLE IF NOT EXISTS department_employees (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     department_id VARCHAR(10) REFERENCES departments (id),
     name VARCHAR(120) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('AGENT', 'SUPERVISOR'))
+    role VARCHAR(20) NOT NULL CHECK (role IN ('AGENT', 'SUPERVISOR')),
+    username VARCHAR(60) UNIQUE,
+    password_hash VARCHAR(100)
 );
+
+-- No migration tool in this project (schema.sql's CREATE TABLE IF NOT EXISTS is a no-op against
+-- an already-existing table) -- these ALTERs let username/password_hash reach an existing
+-- aigre-pg database from an earlier session, not just a fresh one.
+ALTER TABLE department_employees ADD COLUMN IF NOT EXISTS username VARCHAR(60) UNIQUE;
+ALTER TABLE department_employees ADD COLUMN IF NOT EXISTS password_hash VARCHAR(100);
 
 CREATE TABLE IF NOT EXISTS citizens (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

@@ -1,9 +1,12 @@
 package com.aigre.query;
 
+import com.aigre.auth.DepartmentAccess;
+import com.aigre.auth.EmployeePrincipal;
 import com.aigre.tools.GrievanceStatusResult;
 import com.aigre.tools.ReopenResult;
 import com.aigre.tools.UpdateStatusResult;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,19 +39,37 @@ public class GrievanceQueryController {
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
+    /**
+     * Employee-facing (both the Pending Review and department-queue tables) -- department is
+     * always derived from the authenticated employee, never a client-supplied value, which is
+     * what actually makes this "strictly own department" rather than just "logged in": a
+     * DOT employee's token can't be used to request ?department=DPW.
+     */
     @GetMapping
     public Flux<GrievanceSummary> list(
-            @RequestParam(required = false) String department, @RequestParam(required = false) String status) {
-        return Mono.fromCallable(() -> service.list(department, status))
+            @RequestParam(required = false) String status, @AuthenticationPrincipal EmployeePrincipal principal) {
+        return Mono.fromCallable(() -> service.list(principal.departmentId(), status))
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMapMany(Flux::fromIterable);
     }
 
-    /** Employee-facing lifecycle action (e.g. "Mark Resolved"/"Mark Closed") -- a thin HTTP wrapper around the same update_grievance_status MCP tool an agent could call. */
+    /**
+     * Employee-facing lifecycle action (e.g. "Mark Resolved"/"Mark Closed") -- a thin HTTP
+     * wrapper around the same update_grievance_status MCP tool an agent could call.
+     * SUPERVISOR-only (SecurityConfig) and department-scoped, checked before the mutation.
+     */
     @PostMapping("/{id}/status")
-    public Mono<UpdateStatusResult> updateStatus(@PathVariable String id, @Valid @RequestBody UpdateStatusRequest request) {
-        return Mono.fromCallable(() -> service.updateStatus(id, request.newStatus(), request.note(), request.changedBy()))
-                .subscribeOn(Schedulers.boundedElastic());
+    public Mono<UpdateStatusResult> updateStatus(
+            @PathVariable String id,
+            @Valid @RequestBody UpdateStatusRequest request,
+            @AuthenticationPrincipal EmployeePrincipal principal) {
+        return Mono.fromCallable(() -> {
+            GrievanceStatusResult current = service.getStatus(id);
+            String department =
+                    current.departmentConfirmed() != null ? current.departmentConfirmed() : current.departmentPredicted();
+            DepartmentAccess.requireOwnDepartment(principal, department);
+            return service.updateStatus(id, request.newStatus(), request.note(), request.changedBy());
+        }).subscribeOn(Schedulers.boundedElastic());
     }
 
     /** Citizen-facing reopen (plan.md scenario 7) -- only succeeds when the grievance is currently CLOSED. */

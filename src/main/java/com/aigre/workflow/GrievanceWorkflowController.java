@@ -1,7 +1,10 @@
 package com.aigre.workflow;
 
+import com.aigre.auth.DepartmentAccess;
+import com.aigre.auth.EmployeePrincipal;
 import com.aigre.intake.GrievanceIntakeRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,17 +37,26 @@ public class GrievanceWorkflowController {
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
+    /** Employee-facing (the dashboard's detail dialog) -- department-scoped, see DepartmentAccess. */
     @GetMapping("/{id}/workflow")
-    public Mono<GrievanceWorkflowResponse> status(@PathVariable UUID id) {
-        return Mono.fromCallable(() -> service.status(id))
-                .subscribeOn(Schedulers.boundedElastic());
+    public Mono<GrievanceWorkflowResponse> status(@PathVariable UUID id, @AuthenticationPrincipal EmployeePrincipal principal) {
+        return Mono.fromCallable(() -> {
+            GrievanceWorkflowResponse response = service.status(id);
+            DepartmentAccess.requireOwnDepartment(principal, response.department());
+            return response;
+        }).subscribeOn(Schedulers.boundedElastic());
     }
 
+    /** SUPERVISOR-only (SecurityConfig) and department-scoped -- checked before the resume actually mutates anything. */
     @PostMapping("/{id}/workflow/resume")
     public Mono<GrievanceWorkflowResponse> resume(
-            @PathVariable UUID id, @Valid @RequestBody GrievanceReviewDecision decision) {
-        return Mono.fromCallable(() -> service.resume(id, decision))
-                .subscribeOn(Schedulers.boundedElastic());
+            @PathVariable UUID id,
+            @Valid @RequestBody GrievanceReviewDecision decision,
+            @AuthenticationPrincipal EmployeePrincipal principal) {
+        return Mono.fromCallable(() -> {
+            DepartmentAccess.requireOwnDepartment(principal, service.status(id).department());
+            return service.resume(id, decision);
+        }).subscribeOn(Schedulers.boundedElastic());
     }
 
     @PostMapping("/{id}/workflow/clarify")

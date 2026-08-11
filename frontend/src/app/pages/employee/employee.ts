@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -12,22 +10,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ApiService } from '../../core/api.service';
+import { AuthService } from '../../core/auth.service';
 import { DEPARTMENTS, GrievanceSummary } from '../../core/models';
 import { DepartmentNamePipe } from '../../core/department-name.pipe';
 import { GrievanceDetailDialog } from './grievance-detail-dialog/grievance-detail-dialog';
 import { Trends } from './trends/trends';
 
-const DEPARTMENT_STORAGE_KEY = 'aigre.employee.department';
 const PAGE_SIZE = 10;
 
 @Component({
   selector: 'app-employee',
   imports: [
-    FormsModule,
     DatePipe,
     MatTabsModule,
-    MatFormFieldModule,
-    MatSelectModule,
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
@@ -42,10 +37,8 @@ const PAGE_SIZE = 10;
   styleUrl: './employee.scss'
 })
 export class Employee implements OnInit, AfterViewInit {
-  readonly departments = DEPARTMENTS;
   readonly pageSize = PAGE_SIZE;
 
-  readonly department = signal<string>(localStorage.getItem(DEPARTMENT_STORAGE_KEY) ?? DEPARTMENTS[0]);
   readonly loading = signal(false);
   readonly breachedCount = signal(0);
 
@@ -58,7 +51,12 @@ export class Employee implements OnInit, AfterViewInit {
   @ViewChild('pendingPaginator') private pendingPaginator!: MatPaginator;
   @ViewChild('departmentPaginator') private departmentPaginator!: MatPaginator;
 
-  constructor(private readonly api: ApiService, private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly api: ApiService,
+    private readonly dialog: MatDialog,
+    readonly auth: AuthService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.refresh();
@@ -69,19 +67,25 @@ export class Employee implements OnInit, AfterViewInit {
     this.departmentDataSource.paginator = this.departmentPaginator;
   }
 
-  onDepartmentChange(dept: string): void {
-    this.department.set(dept);
-    localStorage.setItem(DEPARTMENT_STORAGE_KEY, dept);
-    this.refresh();
+  get department(): string {
+    return this.auth.session()?.departmentId ?? '';
+  }
+
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 
   refresh(): void {
     this.loading.set(true);
-    this.api.listGrievances(null, 'NEW').subscribe({
+    // Both tabs are now department-scoped server-side (SecurityConfig/GrievanceQueryController
+    // derive the department from the logged-in employee's token, not a client-supplied value) --
+    // they differ only by status filter, not by department anymore.
+    this.api.listGrievances('NEW').subscribe({
       next: (items) => (this.pendingDataSource.data = items),
       error: () => (this.pendingDataSource.data = [])
     });
-    this.api.listGrievances(this.department(), null).subscribe({
+    this.api.listGrievances().subscribe({
       next: (items) => {
         this.departmentDataSource.data = items;
         this.breachedCount.set(items.filter((i) => i.breached).length);
@@ -92,12 +96,13 @@ export class Employee implements OnInit, AfterViewInit {
   }
 
   openDetail(id: string): void {
+    const session = this.auth.session();
     const ref = this.dialog.open(GrievanceDetailDialog, {
       data: {
         grievanceId: id,
         departments: DEPARTMENTS,
         priorities: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
-        defaultReviewedBy: `${this.department()}-supervisor`
+        defaultReviewedBy: session?.name ?? session?.departmentId ?? 'employee'
       }
     });
 

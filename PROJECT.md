@@ -659,15 +659,18 @@ status-lookup story: `GET /grievances/{id}` (delegates into
 of whether it came from plain intake, the workflow graph, or a seeded
 operational row) and `GET /grievances?department=&status=` (dashboard
 listing, with a computed `breached` flag). Malformed/unknown IDs map to a
-404 via `ResponseStatusException` rather than the default 500. `WebConfig`
-(`com.aigre.config`) adds CORS for `http://localhost:4200`/`:4300` since
-`ng serve` runs on a different origin than the Spring Boot app (port 8085).
+404 via `ResponseStatusException` rather than the default 500. CORS for
+`http://localhost:4200`/`:4300` was added here (`WebConfig`,
+`com.aigre.config`) since `ng serve` runs on a different origin than the
+Spring Boot app (port 8085) — **superseded later** when real auth landed
+and CORS had to move into `SecurityConfig` instead (Spring Security's
+filter chain runs in front of WebFlux's own CORS handling; see below).
 
 **Scope decisions (asked and answered before building):**
-- **Auth: a department-picker stub, not real auth.** No login — the
-  employee dashboard has a plain dropdown that scopes the view client-side,
-  persisted to `localStorage`. Real Spring Security + JWT tied to
-  `department_employees` is an explicit open item (below), not built.
+- **Auth: a department-picker stub, not real auth, for this pass.** No
+  login — the employee dashboard has a plain dropdown that scopes the view
+  client-side, persisted to `localStorage`. **Replaced later with real
+  Spring Security + JWT — see below.**
 - **Both citizen and employee views in one pass**, sharing one Angular app
   and API client rather than building them separately.
 
@@ -1344,9 +1347,131 @@ into two already-understood, separate families (resolved-case-log
 competition; LLM-rerank sampling variance) neither of which this fix
 was targeting.
 
+## Real employee auth: Spring Security + JWT, department-scoped, role-gated
+
+The last item on the open-items list, and the biggest single feature this
+session. Replaces the milestone-5 department-picker stub (client-side only,
+`localStorage`-persisted, no login) with real authentication tied to
+`department_employees`.
+
+**Decisions confirmed with the user before starting** (two real forks, not
+silently assumed): (1) dashboard access is scoped **strictly to the logged-in
+employee's own department**, server-enforced, not just "logged in or not" —
+the picker goes away entirely; (2) **AGENT views, SUPERVISOR acts** — an
+AGENT can see their department's queue read-only, SUPERVISOR can
+additionally resume a paused review or mark a grievance resolved/closed.
+
+**Schema**: `department_employees` gained `username`/`password_hash`
+columns. No migration tool in this project (`schema.sql`'s `CREATE TABLE IF
+NOT EXISTS` is a no-op against an already-existing table), so these needed
+explicit `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` statements to actually
+reach the existing `aigre-pg` database from earlier sessions, not just a
+fresh one — same pattern as `grievances.duplicate_of_id` etc. earlier this
+session. `seed.sql`'s employee INSERT gained an `ON CONFLICT (id) DO UPDATE`
+specifically so it could backfill credentials onto the 12 already-seeded
+rows without needing a full reseed.
+
+**Backend** (`com.aigre.auth`, new package): `JwtService` issues/validates
+JWTs (`io.jsonwebtoken` 0.12.7 — exact API confirmed via `javap` against the
+resolved jar before writing code, not assumed, since 0.12.x renamed several
+methods from 0.11.x's `setSubject()`-style builder to `subject()`-style).
+Signing key is a fixed configured secret (`application.yml`), not
+per-restart-random — a random key would log every employee out on every
+backend restart, which happens constantly in this dev workflow.
+`JwtAuthenticationWebFilter` validates the bearer token and populates the
+reactive `SecurityContext`; registered directly inside `SecurityConfig`'s
+`SecurityWebFilterChain`, deliberately **not** `@Component`-annotated — a
+plain `WebFilter` bean would also get picked up by WebFlux's own generic
+filter registration, running outside Spring Security's filter ordering and
+context propagation entirely (same category of gotcha already documented on
+`PiiRedactionWebFilter`, for a different reason: no `@Component`, not
+because embedded vs. rerank text differ). `POST /auth/login` validates
+against a bcrypt hash (`spring-boot-starter-security`'s `PasswordEncoder`)
+and returns a token + the employee's name/department/role.
+
+**Department scoping is the actual point, not incidental**:
+`GrievanceQueryController.list()` derives its department filter from the
+authenticated principal directly, never a client-supplied query parameter —
+this is what makes it "strictly own department" rather than just "logged
+in": a DOT employee's valid token can't be used to request `?department=DPW`
+by hand. The four endpoints that act on one grievance by ID (view/resume the
+paused workflow, mark resolved/closed) additionally compare that
+grievance's own department against the principal's
+(`DepartmentAccess.requireOwnDepartment`, a small static utility, 4 call
+sites) before allowing anything — role rules alone don't stop an
+authenticated employee from reaching another department's grievance by ID,
+only from reaching the mutation endpoints at all.
+
+**A real bug caught before it shipped, not after**: `SecurityConfig`'s
+`pathMatchers(GET, "/grievances/{id}")` is `permitAll()` for the citizen
+status lookup — but `{id}` matches *any* single path segment, including the
+literal string `"trends"`, which would have made the employee-only
+`GET /grievances/trends` endpoint silently public. Caught by testing the
+actual URL against the running app rather than assuming the rule was scoped
+correctly (`authorizeExchange` matches in declaration order, first match
+wins), fixed by adding a more-specific `/grievances/trends` rule ordered
+before the wildcard one, with a comment explaining why the ordering matters
+so it isn't reintroduced. Added a regression test for this exact case
+(`SecurityIntegrationTest.trendsEndpointIsNotAccidentallyPublicViaTheGrievanceIdPattern`).
+
+**A second real bug, live-diagnosed**: after wiring Spring Security in,
+`POST /auth/login` started failing from the Angular dev server with a CORS
+preflight error, even though `/auth/login` is `permitAll()`. Root cause:
+`WebConfig` (a `WebFluxConfigurer` bean, milestone 5) registered CORS at the
+WebFlux routing layer, but Spring Security's filter chain now sits in front
+of *all* requests, including the CORS preflight `OPTIONS` request itself —
+by the time a request would reach WebFlux's own CORS handling, Security had
+already rejected the unauthenticated preflight. Fixed by moving CORS
+configuration into `SecurityConfig` itself (`.cors(...)` wired to an
+explicit `CorsConfigurationSource` bean, plus an explicit
+`permitAll()` on all `OPTIONS` requests) and deleting the now-fully-
+superseded `WebConfig.java` — one source of truth instead of two competing,
+differently-timed ones.
+
+**A third, smaller finding**: Spring Boot hides exception messages from
+error responses by default (`server.error.include-message`), which is
+usually the right call for a real deployment but meant the frontend only
+ever saw a generic "Unauthorized" instead of "Invalid username or
+password." on a failed login. Tried the config property first — confirmed
+live it had no effect on this app's WebFlux error responses (not chased
+further; a login-page message isn't worth debugging Boot's reactive error-
+attribute internals for). Fixed more directly instead: `AuthController`
+catches the failure itself and returns an explicit JSON body with a
+`message` field, sidestepping the question of what Boot's default renderer
+does or doesn't include.
+
+**Frontend**: `AuthService` (signal-based session state, `sessionStorage`-
+persisted rather than `localStorage` — cleared on tab close rather than
+persisting indefinitely), an `authInterceptor` (attaches the bearer token to
+every request when present; also catches a 401 from an *already*-
+authenticated session and bounces to `/login`, so an expired token doesn't
+just leave the dashboard silently broken), an `authGuard` protecting
+`/employee`, and a new `/login` page. `GrievanceDetailDialog` and
+`Employee` both read `auth.isSupervisor()` to hide actions an AGENT can't
+use anyway — a UX nicety, not the actual enforcement (the backend's role
+and department checks are what actually matter; the frontend gate just
+avoids showing a control that would 403).
+
+**Verified four ways**: `JwtServiceTest` (issue/parse round-trip, wrong-
+secret rejection, expired-token rejection — pure unit tests, no Spring
+context). `SecurityIntegrationTest` (9 cases against a real embedded server
+and the real seeded employees: login success/failure, unauthenticated 401,
+AGENT 403 on a mutation, cross-department 403 for a SUPERVISOR acting
+outside their own department, the trends-path regression guard above). Live
+curl end-to-end: login, AGENT list success, AGENT mutation 403, SUPERVISOR
+same-department success, SUPERVISOR cross-department 403, bad-password 401
+— all confirmed against the real running app and real Postgres instance
+before any frontend work started. Playwright end-to-end through the real
+UI: unauthenticated redirect to `/login`, AGENT login showing a
+department-scoped read-only dashboard with no action buttons, SUPERVISOR
+login on the *same* seeded case showing the full action set, logout
+returning to `/login`, and a bad-password attempt showing the real error
+message inline. Full backend test suite re-run afterward (94 tests now, up
+from 81): only the already-documented `RagEvalSuiteTest` findings (5/34,
+unrelated to this change) — no new regressions from wiring Spring Security
+into an app that previously had none.
+
 ## Open items to revisit
-- RBAC/department-scoping for employee dashboards — real requirement,
-  deferred to milestone 5.
 - Dark mode — explicitly deferred in the redesign pass above; the token
   system (`--mat-sys-*` throughout, no hardcoded colors outside the
   priority/status chip maps) should make a dark variant a fast follow
@@ -1365,10 +1490,10 @@ was targeting.
   `MemorySaver`, so a paused (pending-review) workflow does not survive an
   app restart. `langgraph4j-postgres-saver` exists upstream if this becomes
   a real requirement; not needed for the current single-instance demo.
-- Real auth/RBAC for the employee dashboard — milestone 5 shipped a
-  department-picker stub (no login, client-side scoping only) by explicit
-  choice for this pass. Spring Security + JWT tied to `department_employees`
-  is the real requirement if this goes beyond a demo.
+- Real auth/RBAC for the employee dashboard — **built, see below**. Residual
+  demo-grade gaps: all 12 seeded accounts share one password, the JWT
+  signing secret is a fixed `application.yml` value rather than a secrets
+  manager, no refresh-token flow (8-hour token, then re-login).
 - Frontend `API_BASE` is a hardcoded `http://localhost:8085` constant in
   `frontend/src/app/core/api.service.ts` — fine for local dev, would need an
   environment-file/build-config split before any real deployment.

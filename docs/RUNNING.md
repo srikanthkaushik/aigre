@@ -96,6 +96,27 @@ the corpus changes, but don't run it against a database you don't want reset.
 > `@BeforeEach` that wipes `rag_documents` down to 2 hardcoded fixture rows. If you run
 > that test, re-run step 4b afterward to restore the full corpus.
 
+**c) Employee login credentials** — step 4a's seed also creates 12 employee accounts
+(2 per department, 1 AGENT + 1 SUPERVISOR), all sharing the same demo password. A real
+deployment would never share one password across accounts; fine here since the point is
+exercising real Spring Security + JWT auth, not credential hygiene.
+
+| Username | Name | Department | Role |
+|---|---|---|---|
+| `priya.nakamura` / `marcus.webb` | Priya Nakamura / Marcus Webb | DOT | AGENT / SUPERVISOR |
+| `lena.ortiz` / `grant.okafor` | Lena Ortiz / Grant Okafor | DPW | AGENT / SUPERVISOR |
+| `a.sandoval` / `r.whitfield` | A. Sandoval / R. Whitfield | DHHS | AGENT / SUPERVISOR |
+| `kayla.simmons` / `dennis.choi` | Kayla Simmons / Dennis Choi | DOE | AGENT / SUPERVISOR |
+| `priscilla.adeyemi` / `tom.reilly` | Priscilla Adeyemi / Tom Reilly | DHUD | AGENT / SUPERVISOR |
+| `nora.fitzgerald` / `sam.alvarez` | Nora Fitzgerald / Sam Alvarez | DEP | AGENT / SUPERVISOR |
+
+Password for all: `Demo1234!`
+
+AGENT can view their department's queue read-only; SUPERVISOR can additionally resume
+a paused review and mark grievances resolved/closed. Dashboard access is scoped
+strictly to the logged-in employee's own department — there's no picker to switch
+departments anymore (see `ARCHITECTURE.md`).
+
 ## 5. Run the frontend
 
 ```
@@ -111,9 +132,9 @@ another Angular project on the same machine), specify one explicitly:
 npx ng serve --port 4300
 ```
 
-Backend CORS (`com.aigre.config.WebConfig`) is configured for `http://localhost:*`, so
-any local port works without a config change. Open whichever port you served on in a
-browser.
+Backend CORS (`com.aigre.auth.SecurityConfig`) is configured for `http://localhost:*`,
+so any local port works without a config change. Open whichever port you served on in
+a browser.
 
 ---
 

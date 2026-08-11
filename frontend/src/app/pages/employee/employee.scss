@@ -22,22 +22,28 @@
   }
 }
 
-// Widened to fit the longest full department name ("Department of Housing and
-// Urban Development") on one line -- the select trigger and its overlay panel
-// both need the room, not just the closed field.
-.dept-select {
-  width: 400px;
-  flex: 0 0 auto;
+.session-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--mat-sys-surface-container-low);
 
-  ::ng-deep .mat-mdc-select-value-text,
-  ::ng-deep .mat-mdc-select-min-line {
-    white-space: nowrap;
+  mat-icon {
+    color: var(--mat-sys-primary);
   }
 }
 
-.disclaimer {
-  margin: 0;
-  flex-basis: 100%;
+.session-name {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.session-meta {
+  font-size: 0.8rem;
+  color: var(--mat-sys-on-surface-variant);
+  line-height: 1.2;
 }
 
 .empty-state {
@@ -76,7 +82,7 @@ tr.breached-row {
 }
 
 @media (max-width: 700px) {
-  .dept-select {
+  .session-badge {
     width: 100%;
   }
 }

@@ -56,6 +56,14 @@ rag:
 grievances:
   duplicate-window-days: 7
 
+security:
+  jwt:
+    # Demo-only: a fixed configured secret, not per-restart-random (that would log every
+    # employee out on every backend restart) and not pulled from a real secrets manager (that's
+    # the real requirement beyond a single-instance demo). 256-bit random value, base64-encoded.
+    secret: 6UWjAYsTXxU3N61ttvUPFyDn4JfGXXmMBLTeff9XfKo=
+    expiration-hours: 8
+
 logging:
   level:
     com.aigre: INFO

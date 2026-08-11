@@ -15,19 +15,25 @@
 -- Department employees (2 per department: 1 agent, 1 supervisor)
 --------------------------------------------------------------------------
 
-INSERT INTO department_employees (id, department_id, name, role) VALUES
-    ('ee000000-0000-0000-0000-000000000001', 'DOT', 'Priya Nakamura', 'AGENT'),
-    ('ee000000-0000-0000-0000-000000000002', 'DOT', 'Marcus Webb', 'SUPERVISOR'),
-    ('ee000000-0000-0000-0000-000000000003', 'DPW', 'Lena Ortiz', 'AGENT'),
-    ('ee000000-0000-0000-0000-000000000004', 'DPW', 'Grant Okafor', 'SUPERVISOR'),
-    ('ee000000-0000-0000-0000-000000000005', 'DHHS', 'A. Sandoval', 'AGENT'),
-    ('ee000000-0000-0000-0000-000000000006', 'DHHS', 'R. Whitfield', 'SUPERVISOR'),
-    ('ee000000-0000-0000-0000-000000000007', 'DOE', 'Kayla Simmons', 'AGENT'),
-    ('ee000000-0000-0000-0000-000000000008', 'DOE', 'Dennis Choi', 'SUPERVISOR'),
-    ('ee000000-0000-0000-0000-000000000009', 'DHUD', 'Priscilla Adeyemi', 'AGENT'),
-    ('ee000000-0000-0000-0000-000000000010', 'DHUD', 'Tom Reilly', 'SUPERVISOR'),
-    ('ee000000-0000-0000-0000-000000000011', 'DEP', 'Nora Fitzgerald', 'AGENT'),
-    ('ee000000-0000-0000-0000-000000000012', 'DEP', 'Sam Alvarez', 'SUPERVISOR');
+-- password_hash is the same bcrypt hash (cost 10) for every seeded employee, all sharing the
+-- one demo password "Demo1234!" -- documented in RUNNING.md so the user can actually log in.
+-- A real deployment would obviously never share one password across accounts; fine for a
+-- single-instance demo where the point is exercising real Spring Security + JWT, not credential
+-- hygiene.
+INSERT INTO department_employees (id, department_id, name, role, username, password_hash) VALUES
+    ('ee000000-0000-0000-0000-000000000001', 'DOT', 'Priya Nakamura', 'AGENT', 'priya.nakamura', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000002', 'DOT', 'Marcus Webb', 'SUPERVISOR', 'marcus.webb', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000003', 'DPW', 'Lena Ortiz', 'AGENT', 'lena.ortiz', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000004', 'DPW', 'Grant Okafor', 'SUPERVISOR', 'grant.okafor', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000005', 'DHHS', 'A. Sandoval', 'AGENT', 'a.sandoval', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000006', 'DHHS', 'R. Whitfield', 'SUPERVISOR', 'r.whitfield', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000007', 'DOE', 'Kayla Simmons', 'AGENT', 'kayla.simmons', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000008', 'DOE', 'Dennis Choi', 'SUPERVISOR', 'dennis.choi', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000009', 'DHUD', 'Priscilla Adeyemi', 'AGENT', 'priscilla.adeyemi', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000010', 'DHUD', 'Tom Reilly', 'SUPERVISOR', 'tom.reilly', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000011', 'DEP', 'Nora Fitzgerald', 'AGENT', 'nora.fitzgerald', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    ('ee000000-0000-0000-0000-000000000012', 'DEP', 'Sam Alvarez', 'SUPERVISOR', 'sam.alvarez', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm')
+ON CONFLICT (id) DO UPDATE SET username = EXCLUDED.username, password_hash = EXCLUDED.password_hash;
 
 --------------------------------------------------------------------------
 -- Citizens (mixed completeness -- one deliberately missing all contact

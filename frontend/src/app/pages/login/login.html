@@ -1,0 +1,43 @@
+<div class="login-page">
+  <mat-card appearance="outlined" class="login-card">
+    <mat-card-content>
+      <div class="login-header">
+        <h1>Employee Sign In</h1>
+        <p class="hint">Department dashboard access -- citizens don't need an account.</p>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" [(ngModel)]="username" (keydown.enter)="submit()" autocomplete="username" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          type="password"
+          [(ngModel)]="password"
+          (keydown.enter)="submit()"
+          autocomplete="current-password"
+        />
+      </mat-form-field>
+
+      @if (error()) {
+        <p class="error-text">{{ error() }}</p>
+      }
+
+      <button
+        mat-flat-button
+        color="primary"
+        class="full-width"
+        [disabled]="loading() || !username.trim() || !password.trim()"
+        (click)="submit()"
+      >
+        @if (loading()) {
+          <mat-progress-spinner diameter="18" mode="indeterminate" />
+        }
+        {{ loading() ? 'Signing in…' : 'Sign In' }}
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>
