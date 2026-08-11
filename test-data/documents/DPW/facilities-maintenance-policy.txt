@@ -8,10 +8,10 @@ STATUS: CURRENT
 
 Governs maintenance of public buildings under DPW's direct management —
 city hall, public libraries, community centers, and recreation facilities.
-Distinct from DOE School Facilities Maintenance SOP (school buildings are
+[[XREF]]Distinct from DOE School Facilities Maintenance SOP (school buildings are
 DOE's responsibility, not DPW's, even though both are "public buildings")
 and distinct from DHUD Public Housing Maintenance SOP (public housing
-buildings are DHUD's, not DPW's).
+buildings are DHUD's, not DPW's).[[/XREF]]
 
 2. RESPONSE TIMELINE
 

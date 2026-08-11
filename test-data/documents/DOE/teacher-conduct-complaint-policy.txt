@@ -8,11 +8,11 @@ STATUS: CURRENT
 
 Governs complaints about a teacher's or staff member's own conduct toward
 a student — verbal demeaning behavior, unfair treatment, or inappropriate
-discipline. This is DISTINCT from DOE Student Safety & Anti-Bullying
+discipline. [[XREF]]This is DISTINCT from DOE Student Safety & Anti-Bullying
 Policy, which covers PEER-TO-PEER conduct between students. A complaint
 about an adult staff member's behavior toward a student always goes
 through this policy, not the anti-bullying policy, even though both
-involve a student feeling mistreated at school.
+involve a student feeling mistreated at school.[[/XREF]]
 
 2. RESPONSE TIMELINE
 

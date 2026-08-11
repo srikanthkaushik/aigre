@@ -9,9 +9,9 @@ STATUS: CURRENT
 Governs DHHS Environmental Health's investigation of public-health
 nuisance complaints on PRIVATE property: vector control (rodent/mosquito
 breeding conditions), accumulated trash creating a health hazard, and
-unsanitary living conditions reported about a residence (distinct from a
+unsanitary living conditions reported about a residence [[XREF]](distinct from a
 licensed food establishment, covered under DHHS Food Safety Complaint
-Investigation SOP).
+Investigation SOP)[[/XREF]].
 
 2. RESPONSE TIMELINE
 
@@ -25,14 +25,14 @@ Investigation SOP).
 
 3. DISTINGUISHING FROM OTHER DEPARTMENTS
 
-  3.1  A pest complaint about a RESTAURANT or licensed food establishment
-       goes to DHHS Food Safety Complaint Investigation SOP instead.
+  3.1  [[XREF]]A pest complaint about a RESTAURANT or licensed food establishment
+       goes to DHHS Food Safety Complaint Investigation SOP instead.[[/XREF]]
 
-  3.2  Illegally dumped material creating standing water on a VACANT LOT
+  3.2  [[XREF]]Illegally dumped material creating standing water on a VACANT LOT
        (not a maintained private residence) may also warrant a DEP
        illegal-dumping report in parallel — the two departments handle
        different aspects (health hazard vs. unauthorized disposal) of the
-       same underlying situation.
+       same underlying situation.[[/XREF]]
 
 4. RELATED POLICIES
 

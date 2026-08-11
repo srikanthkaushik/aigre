@@ -27,10 +27,10 @@ ratios, facility safety conditions, or unlicensed operation.
 
 3. DISTINGUISHING FROM A SCHOOL COMPLAINT
 
-Licensed child care (typically ages 0-5, pre-school) is a DHHS licensing
+[[XREF]]Licensed child care (typically ages 0-5, pre-school) is a DHHS licensing
 matter. A complaint about a K-12 public school is DOE's jurisdiction
 entirely, even if it involves similar concerns (staff conduct, safety) —
-see DOE Teacher Conduct Complaint Policy for the school-side equivalent.
+see DOE Teacher Conduct Complaint Policy for the school-side equivalent.[[/XREF]]
 
 4. RELATED POLICIES
 

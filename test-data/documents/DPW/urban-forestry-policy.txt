@@ -22,11 +22,11 @@ Public Works Services.
        within 10 business days; if confirmed hazardous, removal is
        scheduled on an expedited basis.
 
-  2.3  PROTECTED/HERITAGE TREES: Some right-of-way and even some private-
+  2.3  PROTECTED/HERITAGE TREES: [[XREF]]Some right-of-way and even some private-
        property trees are designated "protected" under the separate DEP
        Tree Preservation Ordinance Policy — removal of a protected tree,
        even a hazardous one, requires DEP sign-off in addition to DPW's
-       assessment. This is a genuine two-department case, not a routing
+       assessment.[[/XREF]] This is a genuine two-department case, not a routing
        error: DPW assesses the hazard, DEP confirms protected status.
 
   2.4  STORM DAMAGE: Fallen branches or downed right-of-way trees

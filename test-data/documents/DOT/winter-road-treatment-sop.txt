@@ -7,9 +7,9 @@ STATUS: CURRENT
 1. PURPOSE
 
 Governs DOT's PROACTIVE road treatment program (salt brine pre-treatment
-ahead of forecast winter weather) — distinct from DPW's REACTIVE snow
+ahead of forecast winter weather) [[XREF]]— distinct from DPW's REACTIVE snow
 plowing/removal during and after a storm, covered separately under DPW
-Snow Removal Priority Routes Policy. DOT treats the road surface itself
+Snow Removal Priority Routes Policy[[/XREF]]. DOT treats the road surface itself
 (chemical de-icing) before and during a storm; DPW physically clears
 accumulated snow. Both departments may be active on the same street during
 a single storm event, and citizen reports are routed based on the specific

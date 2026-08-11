@@ -83,15 +83,25 @@ class RagEvalSuiteTest {
                 Arguments.of(
                         "EQ-007",
                         "What happens if my trash isn't picked up on the scheduled day?",
-                        // Deliberately left strict, not relaxed: DEP's illegal-dumping-policy.txt
-                        // currently wins here because its own disambiguation text ("that's a
-                        // DPW matter, NOT illegal dumping") scores highly against this query --
-                        // that's a real corpus-tuning gap, not a legitimate alternate answer.
-                        // See PROJECT.md "known eval findings." Left failing on purpose.
+                        // FIXED (see PROJECT.md "cross-reference-competition"): DEP's
+                        // illegal-dumping-policy.txt used to win here because its own
+                        // disambiguation text ("that's a DPW matter, NOT illegal dumping")
+                        // scored highly against this query. Fixed at the corpus level --
+                        // authors wrap that clause in [[XREF]]...[[/XREF]] and
+                        // CorpusIngestionService excludes marked spans from both the embedded
+                        // vector and the rerank-scoring text (a "rerank_text" metadata field),
+                        // while the full original prose is still returned/shown.
                         Set.of("trash-collection-sop.txt")),
                 Arguments.of(
                         "EQ-008",
                         "Which streets get priority during a snowstorm?",
+                        // Newly observed failing (DOT's winter-road-treatment-sop.txt wins
+                        // instead) while verifying the cross-reference-competition fix above.
+                        // Investigated, not assumed: reverting the one corpus edit made to
+                        // that file reproduced the identical failure, so this isn't caused by
+                        // the fix -- most likely the same LLM-rerank sampling variance
+                        // documented elsewhere in this project (PROJECT.md). Left as a known
+                        // finding rather than relaxed into the accepted set.
                         Set.of("snow-removal-policy.txt")),
                 Arguments.of(
                         "EQ-009",
@@ -100,15 +110,25 @@ class RagEvalSuiteTest {
                 Arguments.of(
                         "EQ-010",
                         "How does the city investigate a complaint about unsanitary conditions at a restaurant?",
-                        // Cross-reference-competition pattern (see EQ-007/EQ-024): DHHS's
-                        // public-health-nuisance-inspection-sop.txt explicitly says "a pest
+                        // FIXED (cross-reference-competition, see EQ-007): DHHS's
+                        // public-health-nuisance-inspection-sop.txt explicitly said "a pest
                         // complaint about a RESTAURANT... goes to Food Safety SOP instead" --
-                        // that disambiguation sentence competes with the real answer. Left
-                        // strict on purpose; see PROJECT.md.
+                        // that disambiguation sentence used to compete with the real answer.
+                        // Now marked [[XREF]] and excluded from embedding/rerank scoring.
                         Set.of("food-safety-sop.txt")),
                 Arguments.of(
                         "EQ-011",
                         "How do I appeal a denied benefits eligibility decision?",
+                        // Newly observed failing (DOE's free-reduced-lunch-faq.txt wins
+                        // instead) while verifying the cross-reference-competition fix above.
+                        // Not new, on closer look: PROJECT.md already recorded this exact case
+                        // flipping during an earlier, unrelated experiment (a reverted rerank-
+                        // prompt tweak), described there as "a closely-related same-department
+                        // FAQ won... arguably a legitimate alternate answer... not clearly a
+                        // misretrieval." Reverting this fix's one relevant corpus edit
+                        // reproduced the identical failure, confirming it isn't caused by this
+                        // change. Left as a known finding rather than relaxed into the accepted
+                        // set.
                         Set.of("benefits-eligibility-faq.txt")),
                 Arguments.of(
                         "EQ-013",
@@ -117,11 +137,11 @@ class RagEvalSuiteTest {
                 Arguments.of(
                         "EQ-014",
                         "Who's responsible for fixing a broken HVAC system in a public school building?",
-                        // Same cross-reference-competition pattern: DPW's
-                        // facilities-maintenance-policy.txt says "distinct from DOE School
-                        // Facilities... school buildings are DOE's, not DPW's" -- namedrops
-                        // the correct answer's topic while explaining it's NOT DPW's. Left
-                        // strict on purpose; see PROJECT.md.
+                        // FIXED (cross-reference-competition, see EQ-007): DPW's
+                        // facilities-maintenance-policy.txt said "distinct from DOE School
+                        // Facilities... school buildings are DOE's, not DPW's" -- namedropped
+                        // the correct answer's topic while explaining it's NOT DPW's. Now
+                        // marked [[XREF]] and excluded from embedding/rerank scoring.
                         Set.of("school-facilities-sop.txt")),
                 Arguments.of(
                         "EQ-015",
@@ -139,12 +159,13 @@ class RagEvalSuiteTest {
                         "How long does public housing maintenance have to fix a broken elevator in a city housing complex?",
                         // SHARED/sla-policy-summary.txt namedrops "elevator outages" as a
                         // HIGH-priority example, which legitimately competes with the DHUD
-                        // SOP's detailed procedure -- corpus-tuning follow-up, not a bug.
-                        // A THIRD competitor showed up in tranche 2: DOE's
-                        // accessibility-ada-policy.txt says "same standard as an elevator
-                        // outage in DHUD public housing" -- that one is a genuine
-                        // misretrieval (DOE's own doc, not DHUD's), deliberately NOT added
-                        // to the accepted set. See PROJECT.md.
+                        // SOP's detailed procedure -- both accepted, not a bug.
+                        // A THIRD competitor showed up in tranche 2 and is now FIXED
+                        // (cross-reference-competition, see EQ-007): DOE's
+                        // accessibility-ada-policy.txt said "same standard as an elevator
+                        // outage in DHUD public housing" -- a genuine misretrieval (DOE's own
+                        // doc, not DHUD's). Now marked [[XREF]] and excluded from
+                        // embedding/rerank scoring.
                         Set.of("public-housing-maintenance-sop.txt", "sla-policy-summary.txt")),
                 Arguments.of(
                         "EQ-018",
@@ -157,6 +178,13 @@ class RagEvalSuiteTest {
                 Arguments.of(
                         "EQ-020",
                         "What counts as illegal dumping versus an ordinary missed trash pickup?",
+                        // Newly observed failing (a DEP resolved-case log wins instead) while
+                        // verifying the cross-reference-competition fix (see EQ-007). This is a
+                        // DIFFERENT, already-documented failure mode -- a concrete resolved-case
+                        // narrative outranking abstract policy prose -- same family as EQ-024,
+                        // EQ-061, EQ-062's history. Not caused by this fix: the file that wins
+                        // here (a resolved-cases-*.txt log) was never touched by it. Left as a
+                        // known finding rather than relaxed into the accepted set.
                         Set.of("illegal-dumping-policy.txt")),
                 Arguments.of(
                         "EQ-021",
@@ -182,6 +210,10 @@ class RagEvalSuiteTest {
                         "EQ-061",
                         "There's construction dust covering everyone's cars on the whole block, it's been going on "
                                 + "for a week",
+                        // A DEP resolved-case log wins instead of the policy doc -- the same
+                        // "concrete narrative beats abstract policy prose" failure mode as
+                        // EQ-020/EQ-024/EQ-062's history, not cross-reference-competition (see
+                        // EQ-007) and not affected by that fix. Left as a known finding.
                         Set.of("construction-dust-erosion-sop.txt")));
     }
 
@@ -218,10 +250,13 @@ class RagEvalSuiteTest {
                 Arguments.of(
                         "EQ-024",
                         "Someone is dumping construction debris in the empty lot next door",
-                        // Deliberately left strict: DEP's own resolved-case log document
-                        // (a different DEP doc, not the distractor) has repeatedly outranked
-                        // the primary policy doc across runs -- real corpus-tuning finding,
-                        // see PROJECT.md.
+                        // The cross-reference-competition part of this case is FIXED (see
+                        // EQ-007): the named distractor, trash-collection-sop.txt, no longer
+                        // wins -- confirmed it doesn't even place in the top 5 anymore. Left
+                        // strict rather than passing, though: a DIFFERENT DEP resolved-case log
+                        // document now wins instead, the same "concrete narrative beats abstract
+                        // policy prose" failure mode as EQ-020/EQ-061/EQ-062's history, a
+                        // separate, already-documented finding this fix doesn't target.
                         Set.of("illegal-dumping-policy.txt"),
                         "trash-collection-sop.txt"),
                 Arguments.of(
@@ -252,10 +287,11 @@ class RagEvalSuiteTest {
                 Arguments.of(
                         "EQ-062",
                         "My son's teacher has been saying demeaning things to him in front of the class",
-                        // Same pattern as EQ-024: a DOE resolved-case log (not either named
-                        // doc) won, not the named distractor -- a related same-department
-                        // document with concrete narrative phrasing outranking the abstract
-                        // policy doc. Left strict on purpose; see PROJECT.md.
+                        // FIXED (cross-reference-competition, see EQ-007): DOE's
+                        // teacher-conduct-complaint-policy.txt said "distinct from... the
+                        // anti-bullying policy" -- that clause used to let a DOE resolved-case
+                        // log win instead of either named doc. Now marked [[XREF]] and excluded
+                        // from embedding/rerank scoring.
                         Set.of("teacher-conduct-complaint-policy.txt"),
                         "student-safety-antibullying-policy.txt"));
     }

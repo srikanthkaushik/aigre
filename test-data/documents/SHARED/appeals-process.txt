@@ -7,9 +7,9 @@ STATUS: CURRENT
 1. PURPOSE
 
 Describes how a citizen may dispute the outcome or classification of a
-resolved grievance, distinct from a benefits-specific appeal (see DHHS
+resolved grievance, [[XREF]]distinct from a benefits-specific appeal (see DHHS
 Benefits Eligibility & Appeals FAQ, which is a separate statutory process
-with its own timeline).
+with its own timeline)[[/XREF]].
 
 2. WHEN AN APPEAL APPLIES
 
@@ -22,8 +22,8 @@ with its own timeline).
   2.2  The citizen disagrees with the department or priority a case was
        routed to — this may be raised through the portal and is reviewed
        by a supervisor in the originally assigned department, who may
-       manually re-route the case (see DPW Resolved Case Log example of
-       a case re-classified from missed-collection to illegal dumping).
+       manually re-route the case [[XREF]](see DPW Resolved Case Log example of
+       a case re-classified from missed-collection to illegal dumping)[[/XREF]].
 
 3. TIMELINE
 
@@ -35,8 +35,8 @@ dispatch.
 
 4. RELATED POLICIES
 
-See also DHHS Benefits Eligibility & Appeals FAQ (a distinct,
-statutorily-timed appeals process) and Citywide SLA Policy Summary.
+See also [[XREF]]DHHS Benefits Eligibility & Appeals FAQ (a distinct,
+statutorily-timed appeals process)[[/XREF]] and Citywide SLA Policy Summary.
 
 --------------------------------------------------------------------------
 Approved: City Grievance Resolution Program Office

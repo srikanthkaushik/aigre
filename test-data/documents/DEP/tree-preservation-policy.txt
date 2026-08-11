@@ -9,8 +9,8 @@ STATUS: CURRENT
 Governs the city's protected/heritage tree designation program under
 City Code §23-1, covering both right-of-way and certain qualifying
 private-property trees (large diameter, native species, or
-historically significant). This is DISTINCT from DPW's routine
-right-of-way tree MAINTENANCE role under DPW Urban Forestry Policy — DEP
+historically significant). [[XREF]]This is DISTINCT from DPW's routine
+right-of-way tree MAINTENANCE role under DPW Urban Forestry Policy[[/XREF]] — DEP
 determines protected STATUS and approves or denies removal of a
 protected tree; DPW performs the physical maintenance/removal work once
 approved.
@@ -29,10 +29,10 @@ approved.
        business days, may result in a citation and required replacement
        planting.
 
-  2.3  A general "this tree looks unhealthy, can someone check it"
+  2.3  [[XREF]]A general "this tree looks unhealthy, can someone check it"
        report about a right-of-way tree with NO indication of protected
        status is typically a DPW Urban Forestry matter first — DPW
-       determines whether protected-status review is even needed.
+       determines whether protected-status review is even needed.[[/XREF]]
 
 3. RELATED POLICIES
 

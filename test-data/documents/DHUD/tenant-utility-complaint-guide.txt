@@ -8,8 +8,8 @@ STATUS: CURRENT
 
 Governs DHUD's response to a tenant-reported utility outage (heat, hot
 water, electricity, water pressure) WITHIN a city-subsidized rental unit,
-as distinct from a city-infrastructure failure affecting an entire street
-or neighborhood.
+[[XREF]]as distinct from a city-infrastructure failure affecting an entire street
+or neighborhood[[/XREF]].
 
 2. HOW TO TELL THE DIFFERENCE FROM A DPW WATER MAIN ISSUE
 
@@ -18,11 +18,11 @@ or neighborhood.
        DHUD tenant-utility matter — the landlord is responsible for
        in-building systems (boiler, in-unit plumbing, electrical panel).
 
-  2.2  If MULTIPLE addresses across a street segment are affected
+  2.2  [[XREF]]If MULTIPLE addresses across a street segment are affected
        simultaneously, this may indicate a city water main issue — see
        DPW Water Main Break Response SOP. DHUD intake staff cross-check
        DPW's active-incident log before dispatching a code-enforcement
-       inspector, to avoid duplicate dispatch.
+       inspector, to avoid duplicate dispatch.[[/XREF]]
 
 3. RESPONSE TIMELINE
 

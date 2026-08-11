@@ -6,10 +6,10 @@ STATUS: CURRENT
 --------------------------------------------------------------------------
 1. PURPOSE
 
-Governs regular DOE-operated school bus service — distinct from DOT
+Governs regular DOE-operated school bus service [[XREF]]— distinct from DOT
 Public Transit Division's city bus service, and distinct from
 special-education student transportation (see DOE Special Education
-Services FAQ, which is administered under IDEA with its own timelines).
+Services FAQ, which is administered under IDEA with its own timelines)[[/XREF]].
 
 2. SCOPE
 
@@ -22,10 +22,10 @@ Services FAQ, which is administered under IDEA with its own timelines).
        Escalated to HIGH priority same day, coordinated with the
        transportation contractor.
 
-  2.3  This policy does NOT cover general city bus routes used
+  2.3  [[XREF]]This policy does NOT cover general city bus routes used
        incidentally by students — that remains DOT Public Transit
        Division's jurisdiction under DOT Public Transit Service Complaint
-       Guide.
+       Guide.[[/XREF]]
 
 3. RELATED POLICIES
 

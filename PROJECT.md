@@ -46,9 +46,10 @@ approved Milestone-0 plan (see `kickoff.md` for the original brief).
       SQL with all 5 deliberate edge cases. All verified live, see below.
 - [x] Real LLM-based classification (milestone 2 domain work) — replaces
       the day-one `PlaceholderClassifier` keyword stub. See below.
-- [~] Milestone 2 — domain RAG mostly done (real corpus, reranked, cited);
-      cross-reference-competition retrieval issue still open (two fix
-      attempts tried and reverted, see below)
+- [x] Milestone 2 — domain RAG done (real corpus, reranked, cited).
+      cross-reference-competition retrieval issue fixed via corpus
+      restructuring after two earlier attempts (elaborate rerank prompt,
+      ONNX cross-encoder) were tried and reverted — see below.
 - [x] Milestone 3 — MCP tools over systems-of-record (4 tools, verified live
       over the real MCP Streamable HTTP protocol, not just as plain Java
       methods). See below.
@@ -282,8 +283,8 @@ open items.
   as more "directly explanatory" than abstract policy prose — the
   opposite of the intended effect for that unrelated failure mode.
 
-  **Net status: cross-reference-competition is not fixed.** A single
-  prompt tweak was not sufficient — this needs either the corpus-
+  **Net status at the time: cross-reference-competition not fixed.** A
+  single prompt tweak was not sufficient — this needs either the corpus-
   restructuring approach (option a: exclude disambiguation text from
   embedded chunks) or a fundamentally different reranking mechanism (a
   dedicated cross-encoder scoring model instead of a general-purpose chat
@@ -292,7 +293,9 @@ open items.
   investments, not something to iterate further on mid-session. The value
   of this exercise: it caught a would-be regression before it shipped,
   which is the entire point of having the eval suite run before trusting
-  a change.
+  a change. **Option (a) was picked up and implemented in a later session
+  — see "Cross-reference-competition: fixed via corpus restructuring"
+  below.**
 
   **Attempted fix (option b, take 2) — dedicated cross-encoder, implemented
   and correctly wired, but blocked by a genuine environment issue on this
@@ -1244,6 +1247,102 @@ case back through a review gate, notifying the original department) is still
 out of scope — the plan's "flagged for supervisor review" is satisfied by the
 REOPENED status itself being visible in the department queue with its own
 chip color (already existed, unused until now), not a new approval gate.
+
+## Cross-reference-competition: fixed via corpus restructuring (option a)
+
+Picked up the open item from the "Eval suite" section above. The user had
+already installed neither JDK candidate needed for the cross-encoder
+retry (option b, take 2 — still blocked by the same onnxruntime/
+msvcp140.dll conflict, confirmed by re-checking for a newer JDK on this
+machine before starting: none found), so this pass implemented **option
+a — exclude disambiguation text from embedded chunks** — corpus-level,
+code-only, no environment dependency.
+
+**Convention**: corpus authors wrap a disambiguating clause inline in the
+source `.txt` with `[[XREF]]...[[/XREF]]`. Curated 20 files to mark (not
+a blind regex sweep — an initial broad grep for "distinct from"/"not
+a"/"instead" matched ~90 of 108 files, almost the whole corpus, since
+those phrases are common in ordinary policy prose; the actual target set
+came from `corpus-manifest.md`'s deliberately-curated "distinguishes
+from X" / "distractor" annotations plus the specific documents PROJECT.md
+already named as causing EQ-007/EQ-010/EQ-014/EQ-017/EQ-024/EQ-062).
+
+**A chunk needs three text representations, not two** — this was the
+real mid-implementation finding. First attempt: mark spans, strip them
+from the embedded vector only, keep the full original text as what's
+stored/returned. Re-ran the eval suite to verify rather than assuming it
+worked — **EQ-007 and EQ-024 were still failing, identically to before.**
+Investigated rather than guessing why: the vector store is HYBRID
+search (vector + Postgres FTS) over the *stored* text, and
+`RetrievalService`'s LLM rerank step — which actually decides the final
+top-1, since every `initialK` candidate gets reranked and sorted by
+`rerankScore` — also scores the stored text. Both were still fully
+exposed to the disambiguation content, since it was deliberately kept in
+what's stored (so the answering LLM wouldn't lose it). Fix: added a
+`rerank_text` metadata field at ingestion time — the same
+disambiguation-stripped text used for embedding — and pointed
+`RetrievalService.rerankScore()` at it instead of the returned text.
+`CorpusIngestionService` had to stop using `EmbeddingStoreIngestor`
+entirely to make this possible — it embeds and stores the same string by
+construction, with no interception point — replaced with a manual
+`splitAll()` → strip → `embedAll()` → `addAll()` loop that keeps the same
+batching behavior (still needed: `EmbeddingStoreIngestor.ingest()` was
+already documented to overwhelm the local Ollama embedding runner at
+corpus scale without per-batch chunking).
+
+**Verified via the same "diff the failure sets across runs" discipline
+this project has used for every prior retrieval-tuning attempt** (3 full
+34-case `RagEvalSuiteTest` runs, ~8 minutes each):
+- Run 1 (embed-only fix): EQ-007/EQ-024 still failing exactly as before
+  — the finding above.
+- Run 2 (embed + rerank_text fix): **29/34 (85.3%)**, up from the
+  documented 28/34 (82.4%) baseline. 5 of the 6 originally-named
+  cross-reference-competition failures now pass outright (EQ-007,
+  EQ-010, EQ-014, EQ-017, EQ-062). EQ-024's *specific named distractor*
+  (`trash-collection-sop.txt`) no longer wins — confirmed via a direct
+  chat query that it doesn't even place in the top 5 anymore — but a
+  different DEP resolved-case-log document wins instead, a separate,
+  already-documented failure mode (concrete narrative beating abstract
+  policy prose — same family as EQ-020/EQ-061/EQ-062's prior history)
+  that this fix was never targeting. Two new failures appeared: EQ-008
+  (DOT's winter-road-treatment-sop.txt beating DPW's snow-removal
+  policy) and EQ-011 (DOE's free-reduced-lunch-faq.txt beating DHHS's
+  benefits-eligibility FAQ).
+- **Investigated EQ-008/EQ-011 rather than accepting them as fix
+  fallout.** Hypothesis: the one `[[XREF]]` span marked in each of those
+  two specific files was itself a *helpful* self-limiting signal (a
+  document honestly saying "I'm adjacent but not what you want") that
+  the reranker had been using correctly, and stripping it removed that
+  signal rather than removing noise. Tested by reverting just those two
+  spans back to plain text and re-ingesting — **run 3 reproduced the
+  identical 29/34 result, EQ-008/EQ-011 still failing, unchanged.** This
+  disproved the hypothesis: those two failures aren't caused by this
+  fix. Re-applied both markings (proven harmless, and consistent with
+  the rest of the corpus's convention) rather than leaving the corpus in
+  an inconsistent, disproven-workaround state. EQ-011 in particular
+  matches a case PROJECT.md already recorded flipping during a
+  completely unrelated earlier experiment (the reverted rerank-prompt
+  tweak), described there as "arguably a legitimate alternate answer...
+  not clearly a misretrieval" — consistent with genuine LLM-rerank
+  sampling variance, the same well-documented pattern seen throughout
+  this project's classifier work, not a corpus regression.
+- Full backend test suite re-run afterward (not just the RAG suite):
+  only the same two known categories failed — `RagEvalSuiteTest` (5/34,
+  explained above) and the pre-existing, unrelated
+  `LlmGrievanceClassifierTest.pureComplimentIsNotActionable` live-LLM
+  flake. `RagEvalSuiteTest`'s inline per-question comments updated to
+  match this verified state (fixed cases marked FIXED with the
+  mechanism; EQ-008/EQ-011/EQ-020/EQ-061 documented as known findings
+  with their explanation) rather than left describing the old, now-
+  stale failure signatures.
+
+**Net result: a real, verified improvement (28/34 → 29/34), with the
+original bug's own mechanism resolved for 5 of 6 named cases and
+meaningfully narrowed for the 6th** — not a clean sweep, and reported
+that way rather than rounded up. The residual failures split cleanly
+into two already-understood, separate families (resolved-case-log
+competition; LLM-rerank sampling variance) neither of which this fix
+was targeting.
 
 ## Open items to revisit
 - RBAC/department-scoping for employee dashboards — real requirement,

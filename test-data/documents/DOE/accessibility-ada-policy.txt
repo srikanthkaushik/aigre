@@ -8,16 +8,16 @@ STATUS: CURRENT
 
 Governs complaints about physical accessibility barriers at DOE facilities
 for students, staff, or visitors with disabilities — ramps, accessible
-restrooms, elevators in multi-story school buildings. Distinct from a
+restrooms, elevators in multi-story school buildings. [[XREF]]Distinct from a
 special-education SERVICES/curriculum accommodation, which is governed by
 DOE Special Education Services FAQ under IDEA rather than physical ADA
-compliance.
+compliance.[[/XREF]]
 
 2. RESPONSE TIMELINE
 
   2.1  BROKEN ACCESSIBILITY EQUIPMENT (elevator, automatic door) AFFECTING
-       CURRENT ACCESS: HIGH priority, same standard as an elevator outage
-       in DHUD public housing — repair dispatched same day, alternate
+       CURRENT ACCESS: HIGH priority, [[XREF]]same standard as an elevator outage
+       in DHUD public housing[[/XREF]] — repair dispatched same day, alternate
        accommodation (temporary route, staff assistance) arranged
        immediately if repair will take longer than a school day.
 

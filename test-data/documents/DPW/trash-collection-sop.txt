@@ -7,11 +7,11 @@ STATUS: CURRENT
 1. PURPOSE
 
 Governs DPW's response to reports of missed scheduled trash or recycling
-collection. This SOP does NOT cover illegal dumping on public or private
+collection. [[XREF]]This SOP does NOT cover illegal dumping on public or private
 property (see DEP Illegal Dumping Enforcement Policy) — a missed
 collection is a scheduling/operations issue involving material the
 citizen properly set out for pickup; illegal dumping is unauthorized
-disposal by a third party.
+disposal by a third party.[[/XREF]]
 
 2. RESPONSE TIMELINE
 
@@ -29,11 +29,11 @@ disposal by a third party.
 
 3. DISTINGUISHING FROM ILLEGAL DUMPING
 
-If the citizen report describes debris, furniture, or material that was
+[[XREF]]If the citizen report describes debris, furniture, or material that was
 NOT properly set out on a scheduled collection day (e.g., dumped in an
 alley, vacant lot, or someone else's property), route to DEP under the
 Illegal Dumping Enforcement Policy instead of logging as a missed
-collection.
+collection.[[/XREF]]
 
 4. RELATED POLICIES
 

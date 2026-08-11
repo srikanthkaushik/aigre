@@ -13,10 +13,10 @@ or private property without authorization, in violation of City Code
 
 2. DISTINGUISHING FROM A MISSED TRASH COLLECTION
 
-  2.1  If the citizen's own household material was properly set out on a
+  2.1  [[XREF]]If the citizen's own household material was properly set out on a
        scheduled collection day and simply not picked up, that is a DPW
        matter under DPW Trash & Recycling Collection SOP — NOT illegal
-       dumping.
+       dumping.[[/XREF]]
 
   2.2  Illegal dumping involves material deposited by an unknown or
        unauthorized third party, in a location not designated for
@@ -35,8 +35,8 @@ or private property without authorization, in violation of City Code
 
 4. RELATED POLICIES
 
-See also DPW Trash & Recycling Collection SOP (the department to route
-to if the report is actually about a missed pickup) and Citywide
+See also [[XREF]]DPW Trash & Recycling Collection SOP (the department to route
+to if the report is actually about a missed pickup)[[/XREF]] and Citywide
 Escalation & Safety-Flag Policy.
 
 --------------------------------------------------------------------------

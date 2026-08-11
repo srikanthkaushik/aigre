@@ -23,8 +23,8 @@ a storm drain outfall.
 
 3. RELATED POLICIES
 
-See also DPW Storm Drain & Catch Basin Maintenance SOP (mechanical
-blockage/flooding, a different concern from contamination) and DEP
+See also [[XREF]]DPW Storm Drain & Catch Basin Maintenance SOP (mechanical
+blockage/flooding, a different concern from contamination)[[/XREF]] and DEP
 Construction Dust & Erosion Control SOP.
 
 --------------------------------------------------------------------------

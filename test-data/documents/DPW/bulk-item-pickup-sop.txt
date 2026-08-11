@@ -27,10 +27,10 @@ Dumping Enforcement Policy.
        with a standard MEDIUM-priority SLA — makeup pickup within 3
        business days.
 
-  2.4  ITEMS LEFT OUT WITHOUT A SCHEDULED PICKUP: Not a DPW bulk-pickup
+  2.4  [[XREF]]ITEMS LEFT OUT WITHOUT A SCHEDULED PICKUP: Not a DPW bulk-pickup
        matter — if left on someone else's property or a public space
        without authorization, this is a DEP illegal-dumping matter
-       instead.
+       instead.[[/XREF]]
 
 3. RELATED POLICIES
 

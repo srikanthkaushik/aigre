@@ -32,8 +32,16 @@ import java.util.regex.Pattern;
  * affected). Not fixed here because the real fix means either modifying the shared
  * JDK install (used by other projects on this machine) or switching JDK
  * distributions — an environment decision, not a code change. Reverted to the LLM
- * rerank (still carries the cross-reference-competition limitation) to keep the app
- * running. See PROJECT.md for the full diagnosis if revisiting this.
+ * rerank to keep the app running. See PROJECT.md for the full diagnosis if revisiting
+ * this.
+ *
+ * The cross-reference-competition finding itself now has a real fix: CorpusIngestionService
+ * strips deliberately-marked disambiguation spans ([[XREF]]...[[/XREF]] in the source .txt) out
+ * of both the embedded text AND a "rerank_text" metadata field, while keeping the full original
+ * prose in what's actually returned/shown. rerankScore() below reads "rerank_text" rather than
+ * the candidate's own returned text for exactly that reason — an earlier version of this fix only
+ * cleaned the embedded text and left rerank scoring untouched, which turned out to still be
+ * swayed by disambiguation content it could still see.
  */
 @Service
 public class RetrievalService {
@@ -77,10 +85,21 @@ public class RetrievalService {
                         match.embedded().text(),
                         match.embedded().metadata().toMap(),
                         match.score(),
-                        rerankScore(query, match.embedded().text())))
+                        rerankScore(query, rerankCandidateText(match.embedded()))))
                 .sorted(Comparator.comparingDouble(RetrievedSource::rerankScore).reversed())
                 .limit(rerankTo)
                 .toList();
+    }
+
+    /**
+     * "rerank_text" is set on every stored segment at ingestion time (CorpusIngestionService) --
+     * the same disambiguation-stripped text used for embedding, kept separately since the
+     * returned/answer-context text deliberately keeps the full original prose. Falls back to the
+     * segment's own text for anything ingested before that metadata field existed.
+     */
+    private static String rerankCandidateText(TextSegment segment) {
+        String cleaned = segment.metadata().getString("rerank_text");
+        return cleaned != null ? cleaned : segment.text();
     }
 
     /** Reason before verdict: the model explains itself, then emits SCORE: <n> on the final line. -1 if unparseable, never 0. */

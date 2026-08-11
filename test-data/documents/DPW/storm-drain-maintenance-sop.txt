@@ -20,10 +20,10 @@ Main Break Response SOP.
        MEDIUM priority, cleared within 5 business days as part of the
        routine maintenance sweep.
 
-  2.3  Reports of water quality concerns (discoloration, odor) at a storm
+  2.3  [[XREF]]Reports of water quality concerns (discoloration, odor) at a storm
        drain outfall are NOT covered by this SOP — route to DEP under the
        Wetlands & Stormwater Runoff Policy, since that concerns
-       contamination rather than a mechanical blockage.
+       contamination rather than a mechanical blockage.[[/XREF]]
 
 3. RELATED POLICIES
 

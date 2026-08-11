@@ -188,14 +188,34 @@ question" — a cross-encoder or LLM judging pass is required. This project uses
 judge (a dedicated cross-encoder was attempted and reverted — see
 [Known limitations](#known-limitations)).
 
-**A genuine, documented, unfixed retrieval weakness**: department policy documents
-deliberately contain disambiguating cross-references ("this is a DPW matter, not DEP's
-— see Policy 4.2"), per the corpus's own realism requirements. Those sentences contain
-the *other* department's keywords, so they sometimes outscore the actually-correct
-document. Confirmed reproducible across three separate eval runs as corpus size grew.
-One prompt-based fix was tried, measurably made things worse on net (fixed 3 cases,
-broke 5 others), and was reverted. This is left as a known, documented gap rather than
-papered over — see `PROJECT.md` for the full investigation.
+**Cross-reference-competition, fixed via corpus restructuring**: department policy
+documents deliberately contain disambiguating cross-references ("this is a DPW matter,
+not DEP's — see Policy 4.2"), per the corpus's own realism requirements. Those
+sentences contain the *other* department's keywords, so they sometimes outscored the
+actually-correct document — confirmed reproducible across three separate eval runs as
+corpus size grew, and two earlier fix attempts (an elaborate rerank prompt; a dedicated
+ONNX cross-encoder) were tried and reverted (see [Known limitations](#known-limitations)).
+
+Fixed at the corpus level instead: authors wrap a disambiguating clause inline in the
+source `.txt` with `[[XREF]]...[[/XREF]]`. `CorpusIngestionService` bypasses
+`EmbeddingStoreIngestor` (which embeds and stores the same string by construction, no
+interception point) for a manual split → strip → embed → store loop, giving each chunk
+up to **three** text representations: the *embedded* text and a `rerank_text` metadata
+field both have marked spans removed entirely (so neither the vector similarity nor
+`RetrievalService`'s LLM rerank score — which actually decides the final top-1 — can be
+swayed by them); the *stored/returned* text keeps the full original prose, so nothing
+is lost for the answering LLM or a citizen reading a citation. Verified via the same
+"diff the failure sets across full eval-suite runs" discipline used throughout this
+project: 5 of the 6 originally-named failures now pass outright, one narrowed (its
+named distractor no longer wins, though a separate, already-documented failure mode —
+concrete resolved-case narratives outranking abstract policy prose — still blocks it),
+net **28/34 → 29/34** on the eval suite. Two residual, unrelated failure families
+remain, deliberately left as known findings rather than chased or hidden: that
+resolved-case-log competition, and ordinary LLM-rerank sampling variance (the same
+pattern documented throughout this project's classifier work). Full investigation,
+including a real mid-implementation correction (an embed-only version of this fix
+proved insufficient — see the third bullet above about `rerank_text`) and the exact
+eval numbers per run, in `PROJECT.md`.
 
 ### 3. Agentic workflow with a human approval gate (`com.aigre.workflow`, LangGraph4j)
 
@@ -517,16 +537,14 @@ is a client-side-only stub (`localStorage`-persisted), explicitly not real RBAC.
 
 Full detail lives in `PROJECT.md`; the headline items:
 
-- **Retrieval cross-reference competition** — department policy docs' own
-  disambiguation sentences sometimes outrank the correct document (see §2 above).
-  Reproducible, documented, unfixed — needs either corpus restructuring or a dedicated
-  cross-encoder, not a prompt tweak (one was tried, made things worse net).
+- **Retrieval cross-reference competition** — mostly fixed via corpus restructuring
+  (see §2 above): 5 of 6 originally-named failures now pass, the 6th narrowed. Two
+  separate, unrelated failure families remain as known findings (resolved-case-log
+  competition; LLM-rerank sampling variance), not targeted by this fix.
 - **In-memory workflow checkpointing** — a paused human-review case is lost on
   application restart. `langgraph4j-postgres-saver` is the documented upgrade path.
   path.
 - **No real authentication/RBAC** — the department picker is a demo-only stub.
-- **Duplicate detection is unbuilt** — `find_duplicate_chain` can walk an existing
-  `duplicate_of_id` chain, but nothing yet *creates* that link from similarity.
 - **The workflow graph writes to Postgres directly** rather than calling the MCP tools
   from §4 as actual tool-use — the MCP server and the agent workflow are both built,
   but not yet wired to each other.

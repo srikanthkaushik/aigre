@@ -7,9 +7,9 @@ STATUS: CURRENT
 1. PURPOSE
 
 Governs DEP's investigation of citizen-reported drinking water QUALITY
-concerns — taste, odor, color, or suspected contamination — distinct from
+concerns — taste, odor, color, or suspected contamination [[XREF]]— distinct from
 a DPW Water Main Break, which concerns supply/pressure/infrastructure
-failure, not water quality itself. A citizen can have normal pressure and
+failure, not water quality itself[[/XREF]]. A citizen can have normal pressure and
 still have a legitimate quality complaint, or vice versa; the two SOPs
 address genuinely different problems even though both involve "the
 water."
@@ -26,15 +26,15 @@ water."
        to routine seasonal mineral variation or aging in-home plumbing,
        not a system-wide issue.
 
-  2.3  If DEP's testing indicates the issue originates at the water main
+  2.3  [[XREF]]If DEP's testing indicates the issue originates at the water main
        level (pressure/infrastructure) rather than water quality, the
-       case is referred to DPW under Water Main Break Response SOP.
+       case is referred to DPW under Water Main Break Response SOP.[[/XREF]]
 
 3. RELATED POLICIES
 
-See also DPW Water Main Break Response SOP (infrastructure/supply, not
+See also [[XREF]]DPW Water Main Break Response SOP (infrastructure/supply, not
 quality) and DHUD Tenant Utility Complaint Guide (in-unit utility outage,
-also a different concern from water quality).
+also a different concern from water quality)[[/XREF]].
 
 --------------------------------------------------------------------------
 Approved: DEP Water Quality Division
