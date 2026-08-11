@@ -1,6 +1,7 @@
 package com.aigre.workflow;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public record GrievanceWorkflowResponse(
@@ -13,5 +14,6 @@ public record GrievanceWorkflowResponse(
         double confidence,
         Instant slaDueAt,
         String reasoning,
-        String rawText) {
+        String rawText,
+        List<ClarificationEntry> clarifications) {
 }

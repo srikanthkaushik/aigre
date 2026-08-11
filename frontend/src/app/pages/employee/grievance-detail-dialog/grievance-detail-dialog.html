@@ -8,12 +8,24 @@
   }
 
   @if (detail(); as detail) {
-    @if (!detail.pendingReview) {
-      <div class="complaint">
-        <p class="hint">Citizen's complaint:</p>
-        <p class="complaint-text">{{ detail.rawText ?? '(no complaint text on file)' }}</p>
-      </div>
+    <div class="complaint">
+      <p class="hint">Citizen's original complaint:</p>
+      <p class="complaint-text">{{ detail.rawText ?? '(no complaint text on file)' }}</p>
+    </div>
 
+    @if (detail.clarifications.length) {
+      <div class="clarifications">
+        <p class="hint">Follow-up detail from citizen ({{ detail.clarifications.length }}):</p>
+        @for (c of detail.clarifications; track c.submittedAt) {
+          <div class="clarification-entry">
+            <p class="clarification-meta">{{ c.submittedAt | date: 'medium' }}</p>
+            <p class="clarification-text">{{ c.text }}</p>
+          </div>
+        }
+      </div>
+    }
+
+    @if (!detail.pendingReview) {
       <dl>
         <dt>Status</dt>
         <dd><mat-chip class="status-chip" [class]="'status-' + detail.status.toLowerCase()">{{ detail.status }}</mat-chip></dd>
@@ -36,11 +48,6 @@
         </p>
       }
     } @else {
-      <div class="complaint">
-        <p class="hint">Citizen's complaint:</p>
-        <p class="complaint-text">{{ detail.rawText }}</p>
-      </div>
-
       <div class="prediction">
         <p class="hint">LLM's assessment (confidence {{ detail.confidence | number: '1.0-2' }}):</p>
         <p class="reasoning">{{ detail.reasoning || '(no reasoning captured for this run)' }}</p>

@@ -908,6 +908,44 @@ tell us more?" → "Try adding a bit more detail"). Verified live with Playwrigh
 deliberately unhelpful first attempt kept it pending and correctly brought the form
 back for attempt 2; a real second attempt resolved it.
 
+## Employee dashboard: follow-up detail was invisible, not just unlabeled
+
+User report: "The employee dashboard view needs to be enhanced to show the follow
+up comments and not just the first query from the citizen." Root cause: `clarify()`
+was concatenating every follow-up straight into `grievances.raw_text`
+(`"...\n\nAdditional detail from citizen: ..."`), so the data was technically all
+there — but the dialog rendered it as one undifferentiated paragraph under a single
+"Citizen's complaint:" label, with no visual distinction between the original
+submission and anything added afterward.
+
+**Fix, not a display patch**: stopped mutating `raw_text` at all — it now always
+holds exactly what the citizen originally typed. Added a `grievance_clarifications`
+table (`grievance_id`, `additional_text`, `submitted_at`) with one row per
+`clarify()` call; `GrievanceWorkflowResponse` gained a `clarifications:
+List<ClarificationEntry>` field alongside `rawText`. Reclassification still sees the
+full picture — `clarify()` builds the combined text in-memory from the original plus
+every prior clarification plus the new one, same as before, just without persisting
+that concatenation back into the systems-of-record column. Avoided parsing the old
+concatenated string on the frontend (fragile, and wrong layer for it) in favor of
+fixing the actual data model.
+
+`GrievanceDetailDialog` now renders "Citizen's original complaint" and a
+"Follow-up detail from citizen (N)" section with each entry timestamped and visually
+set apart (tertiary-container card), in both the pending-review (editable) and
+read-only branches — deduplicated into one shared block above the branch instead of
+copy-pasted into both, since the content was previously identical in each.
+
+**Verified live**: `GrievanceWorkflowPauseResumeTest`'s two clarify tests updated to
+assert `rawText()` stays exactly the original and `clarifications()` carries the
+follow-up text — still passing (4/4). Backend restarted against the real Postgres
+instance (`CREATE TABLE IF NOT EXISTS` picked up the new table with no migration
+tooling needed); live `curl` through submit → clarify → status confirmed the exact
+shape. Playwright end-to-end through the real UI: a citizen submission + deliberately
+unhelpful follow-up, then opened in the employee dialog from both the Pending Review
+tab (still-editable form) and the Department Queue tab (read-only, on an earlier
+already-resolved clarified case) — both correctly show the original complaint and
+follow-up as distinct labeled blocks.
+
 ## First actual visual verification — and a real bug it caught
 
 Every frontend change all session had the same caveat: "no browser tool in this

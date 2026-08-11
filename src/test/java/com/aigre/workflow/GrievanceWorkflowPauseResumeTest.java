@@ -74,9 +74,10 @@ class GrievanceWorkflowPauseResumeTest {
         assertThat(clarified.priority()).isEqualTo("MEDIUM");
         assertThat(clarified.confidence()).isEqualTo(0.9);
         assertThat(clarified.reasoning()).isEqualTo("clearly a pothole on a city road now");
-        assertThat(clarified.rawText())
-                .contains("Things have been bad on my street lately.")
-                .contains("It's specifically a pothole on Elm Street near my house.");
+        assertThat(clarified.rawText()).isEqualTo("Things have been bad on my street lately.");
+        assertThat(clarified.clarifications()).hasSize(1);
+        assertThat(clarified.clarifications().get(0).text())
+                .isEqualTo("It's specifically a pothole on Elm Street near my house.");
     }
 
     @Test
@@ -92,7 +93,9 @@ class GrievanceWorkflowPauseResumeTest {
 
         assertThat(clarified.pendingReview()).isTrue();
         assertThat(clarified.status()).isEqualTo("NEW");
-        assertThat(clarified.rawText()).contains("It's just generally bad.");
+        assertThat(clarified.rawText()).isEqualTo("Things have been bad on my street lately.");
+        assertThat(clarified.clarifications()).hasSize(1);
+        assertThat(clarified.clarifications().get(0).text()).isEqualTo("It's just generally bad.");
     }
 
     @Test

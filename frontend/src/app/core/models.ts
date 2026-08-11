@@ -5,6 +5,13 @@ export interface GrievanceIntakeRequest {
   citizenPhone?: string | null;
 }
 
+// Mirrors com.aigre.workflow.ClarificationEntry exactly -- one citizen follow-up detail, kept
+// distinct from the original grievance.raw_text (see GrievanceWorkflowService.clarify()).
+export interface ClarificationEntry {
+  text: string;
+  submittedAt: string;
+}
+
 export interface GrievanceWorkflowResponse {
   grievanceId: string;
   status: string;
@@ -16,6 +23,7 @@ export interface GrievanceWorkflowResponse {
   slaDueAt: string | null;
   reasoning: string | null;
   rawText: string | null;
+  clarifications: ClarificationEntry[];
 }
 
 export interface GrievanceStatusResult {

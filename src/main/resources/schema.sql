@@ -59,6 +59,17 @@ CREATE TABLE IF NOT EXISTS grievances (
     submitted_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- One row per citizen clarify() call (com.aigre.workflow.GrievanceWorkflowService.clarify).
+-- grievances.raw_text is never mutated after the original submission -- this table is the sole
+-- source of follow-up detail, so the employee dashboard can render the original complaint and
+-- each follow-up as distinct entries instead of one concatenated blob.
+CREATE TABLE IF NOT EXISTS grievance_clarifications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    grievance_id UUID NOT NULL REFERENCES grievances (id),
+    additional_text TEXT NOT NULL,
+    submitted_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 CREATE TABLE IF NOT EXISTS status_history (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     grievance_id UUID NOT NULL REFERENCES grievances (id),

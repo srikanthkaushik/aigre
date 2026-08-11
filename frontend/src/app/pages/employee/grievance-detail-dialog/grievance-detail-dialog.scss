@@ -35,6 +35,35 @@
   }
 }
 
+.clarifications {
+  margin: 0.75rem 0 0;
+
+  .clarification-entry {
+    margin: 0.25rem 0 0;
+    padding: 0.6rem 0.8rem;
+    background: var(--mat-sys-tertiary-container);
+    border-radius: 8px;
+
+    & + .clarification-entry {
+      margin-top: 0.5rem;
+    }
+  }
+
+  .clarification-meta {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-tertiary-container);
+    opacity: 0.75;
+  }
+
+  .clarification-text {
+    margin: 0.15rem 0 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-tertiary-container);
+    white-space: pre-wrap;
+  }
+}
+
 .prediction {
   background: var(--mat-sys-surface-container-low);
   border-radius: 8px;

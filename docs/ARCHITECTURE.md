@@ -145,10 +145,13 @@ confusion. Ollama stays the default (offline, no per-call cost); Anthropic is a
 one-line config flip for when accuracy matters more than cost.
 
 **Citizen-driven reclassification** (`GrievanceWorkflowService.clarify()`): when a
-submission pauses for low confidence, the citizen gets one inline chance to add detail
-before it ever reaches a supervisor. The added text is appended to the original
-complaint and run back through the same classifier; if the combined text is now
-confident, the service auto-resumes the already-paused LangGraph4j workflow itself —
+submission pauses for low confidence, the citizen gets up to two inline chances to
+add detail before it ever reaches a supervisor. Each follow-up is stored as its own
+row (`grievance_clarifications`) rather than mutated into the original complaint
+text, so the employee dashboard can show them as distinct, timestamped entries; the
+original text plus every follow-up so far is combined in-memory and run back through
+the same classifier. If the combined text is now confident, the service auto-resumes
+the already-paused LangGraph4j workflow itself —
 reusing the exact same resume mechanism a supervisor's decision uses, just with the
 reclassification's own department/category/priority/confidence/reasoning standing in
 for a human's typed choices (`reviewedBy: "system:citizen-clarification"` in the audit

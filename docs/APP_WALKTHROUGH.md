@@ -162,11 +162,18 @@ what's undetermined).
 
 Clicking **Review** opens a dialog showing:
 
-- The citizen's actual complaint text.
+- The citizen's original complaint text.
+- Any follow-up detail the citizen added via the inline clarification form (see
+  above), rendered as its own timestamped section distinct from the original
+  complaint — not blended into one paragraph — since a supervisor needs to see at a
+  glance what was added and when, not just that more text exists somewhere in the
+  block.
 - The LLM's confidence score and its reasoning (why it didn't commit to a guess).
 - Editable Department / Category / Priority fields, each defaulting to "(keep as-is)"
   — a supervisor only needs to fill in what they're actually overriding.
 - A required review note and "Reviewed by" field.
+
+![Review dialog with a citizen follow-up shown as a distinct entry](images/13-employee-review-dialog-followups.png)
 
 Clicking **Confirm & Route** resumes the paused LangGraph4j workflow with the
 decision; the grievance moves to `TRIAGED` with `department_confirmed` now set

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -78,13 +80,16 @@ public class GrievanceWorkflowService {
 
     /**
      * The citizen-facing counterpart to resume(): instead of a supervisor's override decision,
-     * the citizen supplies more detail about their own complaint. Appends it to raw_text (so
-     * whoever eventually reviews this sees the fuller picture either way), reclassifies the
-     * combined text, and auto-resumes the paused workflow -- reusing the exact same resume
-     * mechanism the supervisor path uses, just with the reclassification's own values standing in
-     * for a human's typed decision -- only if the new classification is now actually confident.
-     * If it's still not, the case stays paused for a supervisor; nothing is force-committed on a
-     * guess just because the citizen tried once.
+     * the citizen supplies more detail about their own complaint. grievances.raw_text is never
+     * mutated -- the follow-up is stored as its own grievance_clarifications row instead, so the
+     * employee dashboard can render the original complaint and each follow-up as distinct,
+     * timestamped entries rather than one concatenated blob. Reclassification still runs against
+     * the full picture (original + every clarification so far, built in-memory), and auto-resumes
+     * the paused workflow -- reusing the exact same resume mechanism the supervisor path uses,
+     * just with the reclassification's own values standing in for a human's typed decision -- only
+     * if the new classification is now actually confident. If it's still not, the case stays
+     * paused for a supervisor; nothing is force-committed on a guess just because the citizen
+     * tried once.
      *
      * Scoped out of this pass: a reclassification that flips to not-actionable after
      * clarification doesn't auto-resolve as NOT_ACTIONABLE -- the graph's "actionable" state was
@@ -106,13 +111,26 @@ public class GrievanceWorkflowService {
                 "SELECT raw_text FROM grievances WHERE id = :id",
                 new MapSqlParameterSource("id", grievanceId),
                 String.class);
-        String combinedText = originalRawText + "\n\nAdditional detail from citizen: " + additionalText.trim();
+        String trimmedDetail = additionalText.trim();
+
+        StringBuilder combined = new StringBuilder(originalRawText);
+        for (ClarificationEntry prior : fetchClarifications(grievanceId)) {
+            combined.append("\n\nAdditional detail from citizen: ").append(prior.text());
+        }
+        combined.append("\n\nAdditional detail from citizen: ").append(trimmedDetail);
+
+        ClassificationResult result = classifier.classify(combined.toString());
 
         jdbc.update(
-                "UPDATE grievances SET raw_text = :rawText WHERE id = :id",
-                new MapSqlParameterSource().addValue("rawText", combinedText).addValue("id", grievanceId));
-
-        ClassificationResult result = classifier.classify(combinedText);
+                """
+                INSERT INTO grievance_clarifications (id, grievance_id, additional_text, submitted_at)
+                VALUES (:id, :grievanceId, :additionalText, :submittedAt)
+                """,
+                new MapSqlParameterSource()
+                        .addValue("id", UUID.randomUUID())
+                        .addValue("grievanceId", grievanceId)
+                        .addValue("additionalText", trimmedDetail)
+                        .addValue("submittedAt", toTimestamp(Instant.now())));
 
         if (result.isConfident()) {
             Map<String, Object> resumeInputs = new HashMap<>();
@@ -125,7 +143,7 @@ public class GrievanceWorkflowService {
             resumeInputs.put("reviewedBy", "system:citizen-clarification");
             graph.invoke(GraphInput.resume(resumeInputs), config);
         }
-        // else: still not confident -- stays paused. The updated raw_text is now visible to
+        // else: still not confident -- stays paused. The new clarification row is now visible to
         // whoever reviews it next, even though this attempt didn't resolve it.
 
         return buildResponse(grievanceId, config);
@@ -195,7 +213,23 @@ public class GrievanceWorkflowService {
                 confidence == null ? -1.0 : confidence,
                 slaDueAt,
                 reasoning,
-                (String) row.get("raw_text"));
+                (String) row.get("raw_text"),
+                fetchClarifications(grievanceId));
+    }
+
+    private List<ClarificationEntry> fetchClarifications(UUID grievanceId) {
+        List<Map<String, Object>> rows = jdbc.queryForList(
+                "SELECT additional_text, submitted_at FROM grievance_clarifications "
+                        + "WHERE grievance_id = :id ORDER BY submitted_at ASC",
+                new MapSqlParameterSource("id", grievanceId));
+
+        List<ClarificationEntry> entries = new ArrayList<>();
+        for (Map<String, Object> row : rows) {
+            entries.add(new ClarificationEntry(
+                    (String) row.get("additional_text"),
+                    ((Timestamp) row.get("submitted_at")).toInstant()));
+        }
+        return entries;
     }
 
     private UUID insertCitizenIfProvided(GrievanceIntakeRequest request) {
