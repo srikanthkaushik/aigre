@@ -1,0 +1,37 @@
+CITY DEPARTMENT OF TRANSPORTATION
+Railroad Crossing Safety Policy
+Document No. DOT-POL-023           Effective Date: January 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DOT's coordination role for citizen-reported hazards at
+at-grade railroad crossings within city limits. The crossing gates,
+signals, and track itself are owned and maintained by the railroad
+operator, not the city — DOT's role is limited to the adjacent roadway
+approach and coordinating hazard reports with the railroad's dispatch.
+
+2. RESPONSE STANDARDS
+
+  2.1  MALFUNCTIONING CROSSING GATE (stuck up, stuck down, no warning
+       lights): DOT immediately relays the report to the railroad
+       operator's emergency dispatch line (a CRITICAL-equivalent hazard
+       under the Citywide Escalation & Safety-Flag Policy) and posts a
+       temporary traffic officer at the crossing if the gate is stuck up
+       (unsafe) while awaiting the railroad's response — DOT does not
+       repair the gate itself.
+
+  2.2  ROADWAY APPROACH DEFECT (pothole, faded markings on the city side
+       of the crossing): Handled under standard DOT Road Maintenance SOP
+       v2 / Pavement Marking Program, as this portion is city-maintained.
+
+3. RELATED POLICIES
+
+See also Citywide Jurisdiction & Out-of-Scope Guide (the crossing
+equipment itself is not a city asset) and Citywide Escalation &
+Safety-Flag Policy.
+
+--------------------------------------------------------------------------
+Approved: DOT Office of Traffic Operations
+Page 1 of 1 — DOT-POL-023

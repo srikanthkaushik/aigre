@@ -1,0 +1,41 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <a routerLink="/" class="brand-link">
+    <svg class="brand-mark" viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true">
+      <path
+        d="M12 2 L20 5 V11 C20 16 16.5 20 12 22 C7.5 20 4 16 4 11 V5 Z"
+        fill="currentColor"
+        opacity="0.18"
+      />
+      <path
+        d="M12 2 L20 5 V11 C20 16 16.5 20 12 22 C7.5 20 4 16 4 11 V5 Z"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linejoin="round"
+      />
+      <path d="M8.5 12 L11 14.5 L16 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <span class="app-title">AIGRE</span>
+  </a>
+  <span class="spacer"></span>
+
+  <nav class="nav-links">
+    <a mat-button routerLink="/citizen" routerLinkActive="active-link">Citizen Portal</a>
+    <a mat-button routerLink="/employee" routerLinkActive="active-link">Employee Dashboard</a>
+  </nav>
+
+  <button mat-icon-button class="nav-menu-trigger" [matMenuTriggerFor]="navMenu" aria-label="Open navigation menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #navMenu="matMenu">
+    <a mat-menu-item routerLink="/citizen" routerLinkActive="active-link">Citizen Portal</a>
+    <a mat-menu-item routerLink="/employee" routerLinkActive="active-link">Employee Dashboard</a>
+  </mat-menu>
+</mat-toolbar>
+
+<router-outlet />
+
+<footer class="app-footer">
+  <span>AIGRE — AI Grievance Resolution Engine</span>
+  <span class="app-footer-sep">&middot;</span>
+  <span>A city services demonstration portal</span>
+</footer>

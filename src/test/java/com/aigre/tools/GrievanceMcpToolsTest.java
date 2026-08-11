@@ -1,0 +1,120 @@
+package com.aigre.tools;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+/**
+ * Calls GrievanceMcpTools directly (not through the MCP wire protocol) against the 5 deliberate
+ * edge cases seeded in test-data/sql/seed.sql -- this is the higher-signal test for the tools'
+ * actual logic; a separate live protocol-level probe confirms the MCP server wiring itself.
+ *
+ * Requires seed.sql to have been run against aigre-pg -- these are fixed UUIDs, not generated
+ * per-test-run.
+ */
+@SpringBootTest
+class GrievanceMcpToolsTest {
+
+    private static final String BAD_DEPARTMENT_CODE_ID = "af000000-0000-0000-0000-000000000001";
+    private static final String STALE_BREACH_ID = "af000000-0000-0000-0000-000000000002";
+    private static final String DUPLICATE_CHAIN_ORIGINAL_ID = "af000000-0000-0000-0000-000000000003";
+    private static final String DUPLICATE_CHAIN_TAIL_ID = "af000000-0000-0000-0000-000000000005";
+    private static final String ANONYMOUS_NO_CONTACT_ID = "af000000-0000-0000-0000-000000000006";
+    private static final String NEVER_CLASSIFIED_ID = "af000000-0000-0000-0000-000000000007";
+
+    @Autowired
+    private GrievanceMcpTools tools;
+
+    @Test
+    void badDepartmentCodeIsSurfacedNotHidden() {
+        GrievanceStatusResult result = tools.getGrievanceStatus(BAD_DEPARTMENT_CODE_ID);
+
+        assertThat(result.departmentPredicted()).isEqualTo("DMV");
+        assertThat(result.departmentValid())
+                .as("DMV is not a real department -- the tool should flag this, not silently accept it")
+                .isFalse();
+    }
+
+    @Test
+    void staleUnescalatedBreachIsDetected() {
+        SlaStatusResult result = tools.checkSlaStatus(STALE_BREACH_ID);
+
+        assertThat(result.status()).isEqualTo("IN_PROGRESS");
+        assertThat(result.breached()).isTrue();
+        assertThat(result.hoursUntilOrPastDue()).isNegative();
+    }
+
+    @Test
+    void duplicateChainResolvesTwoHopsToTrueOriginal() {
+        DuplicateChainResult result = tools.findDuplicateChain(DUPLICATE_CHAIN_TAIL_ID);
+
+        assertThat(result.trueOriginalId())
+                .as("must resolve through the full chain, not stop at the first hop")
+                .isEqualTo(DUPLICATE_CHAIN_ORIGINAL_ID);
+        assertThat(result.hopsToOriginal()).isEqualTo(2);
+        assertThat(result.chain()).containsExactly(
+                DUPLICATE_CHAIN_TAIL_ID, "af000000-0000-0000-0000-000000000004", DUPLICATE_CHAIN_ORIGINAL_ID);
+    }
+
+    @Test
+    void anonymousGrievanceHasNoContactInfoAvailable() {
+        GrievanceStatusResult result = tools.getGrievanceStatus(ANONYMOUS_NO_CONTACT_ID);
+
+        assertThat(result.citizenContactAvailable())
+                .as("no citizen record at all -- cannot notify")
+                .isFalse();
+    }
+
+    @Test
+    void neverClassifiedGrievanceReturnsNullsGracefully() {
+        GrievanceStatusResult result = tools.getGrievanceStatus(NEVER_CLASSIFIED_ID);
+
+        assertThat(result.status()).isEqualTo("NEW");
+        assertThat(result.departmentPredicted()).isNull();
+        assertThat(result.classificationConfidence()).isNull();
+    }
+
+    @Test
+    void unknownGrievanceIdProducesAClearError() {
+        assertThatThrownBy(() -> tools.getGrievanceStatus("00000000-0000-0000-0000-000000000000"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("No grievance found");
+    }
+
+    @Test
+    void malformedGrievanceIdProducesAClearError() {
+        assertThatThrownBy(() -> tools.getGrievanceStatus("not-a-uuid"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("not a valid grievance ID");
+    }
+
+    @Test
+    void updateStatusRejectsUnknownStatusWithoutWriting() {
+        UpdateStatusResult result = tools.updateGrievanceStatus(
+                BAD_DEPARTMENT_CODE_ID, "BOGUS_STATUS", "test", "test-harness");
+
+        assertThat(result.success()).isFalse();
+        assertThat(result.message()).contains("Invalid status");
+    }
+
+    @Test
+    void updateStatusRoundTripsThroughAuditHistory() {
+        GrievanceStatusResult before = tools.getGrievanceStatus(STALE_BREACH_ID);
+
+        UpdateStatusResult result = tools.updateGrievanceStatus(
+                STALE_BREACH_ID, "ESCALATED", "escalated during MCP tools testing", "test-harness");
+
+        assertThat(result.success()).isTrue();
+        assertThat(result.previousStatus()).isEqualTo(before.status());
+        assertThat(result.newStatus()).isEqualTo("ESCALATED");
+
+        GrievanceStatusResult after = tools.getGrievanceStatus(STALE_BREACH_ID);
+        assertThat(after.status()).isEqualTo("ESCALATED");
+
+        // Restore original status so this test is repeatable against the same seeded row.
+        tools.updateGrievanceStatus(STALE_BREACH_ID, before.status(), "test cleanup", "test-harness");
+    }
+}

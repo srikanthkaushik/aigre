@@ -1,0 +1,83 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .brand-mark {
+    flex-shrink: 0;
+  }
+
+  .app-title {
+    margin-left: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .nav-links {
+    display: flex;
+  }
+
+  .nav-menu-trigger {
+    display: none;
+  }
+
+  a[mat-button] {
+    position: relative;
+
+    &.active-link::after {
+      content: '';
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 6px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+    }
+  }
+}
+
+// Below this width the two nav labels ("Employee Dashboard" is the long
+// one) start crowding the brand mark -- collapse into a menu instead of
+// letting them wrap awkwardly inside the toolbar.
+@media (max-width: 700px) {
+  .app-toolbar {
+    .nav-links {
+      display: none;
+    }
+
+    .nav-menu-trigger {
+      display: inline-flex;
+    }
+  }
+}
+
+.app-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  margin-top: 2rem;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-low);
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.8rem;
+}
+
+.app-footer-sep {
+  opacity: 0.6;
+}

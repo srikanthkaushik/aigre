@@ -1,0 +1,57 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Jurisdiction & Out-of-Scope Guide
+Document No. CITY-POL-002          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Lists categories of citizen submissions that are outside city jurisdiction
+or outside the grievance portal's intended scope, so the system responds
+with an accurate "this isn't something we handle" answer rather than
+guessing at a department or fabricating a process.
+
+2. OUT OF CITY JURISDICTION (different level of government)
+
+  - Federal matters: tax refunds, Social Security, federal benefits,
+    immigration.
+  - State matters: state-administered benefits (SNAP, Medicaid, state
+    unemployment insurance), state highway maintenance, state court
+    matters.
+  - These should be acknowledged and, where possible, the citizen pointed
+    toward the correct agency, but no city department should be assigned.
+
+3. OUT OF PORTAL SCOPE (city matter, but not a "grievance")
+
+  - Parking ticket appeals: handled through the separate Parking
+    Violations Bureau process, not the grievance portal.
+  - General praise/compliments with no actionable issue: acknowledged but
+    not routed to any department queue.
+  - Job applications, procurement/vendor inquiries, public records
+    requests: each has its own dedicated city process outside this
+    system.
+
+4. PRIVATE CIVIL MATTERS
+
+  - Disputes between two private homeowners (property lines, shared
+    fences, private contract disputes) are civil matters between the
+    parties, not a city grievance, and are outside DHUD's or any city
+    department's jurisdiction to resolve directly.
+  - Landlord-tenant disputes in a MARKET-RATE (non-subsidized) unit are
+    generally outside DHUD's direct enforcement authority; see DHUD
+    Tenant Complaint & Code Enforcement Guide for the narrower set of
+    subsidized-housing matters DHUD does handle, and the separate Rental
+    Housing Mediation Program for market-rate disputes.
+
+5. WHAT "OUT OF SCOPE" DOES NOT MEAN
+
+A grievance about a topic the corpus doesn't have a specific SOP for is
+NOT automatically out of scope — e.g., a full highway repaving project
+is a legitimate DOT capital-projects question, just not one with an
+individually-tracked point-repair SLA. The system should distinguish "I
+don't have this specific information" from "this isn't something the
+city handles at all," and say so explicitly rather than guessing.
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-002

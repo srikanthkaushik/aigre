@@ -1,0 +1,52 @@
+CITY DEPARTMENT OF PUBLIC WORKS
+Water Main Break Response SOP
+Document No. DPW-SOP-021           Effective Date: May 1, 2023
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DPW's response to reports of city-owned water main breaks,
+distinct from in-building plumbing or utility issues within a private or
+publicly-subsidized rental unit (see DHUD Tenant Utility Complaint Guide
+for the latter — DPW does NOT dispatch for loss of water pressure inside
+an individual apartment unless a main break is independently confirmed to
+be the cause).
+
+2. SCOPE
+
+Applies to breaks, leaks, or pressure loss affecting a city water main
+under a public street or right-of-way. A single citizen report of "no
+water" in one building, absent corroborating reports from neighboring
+addresses, is treated as a potential in-building issue and referred per
+Section 4 rather than dispatched as a main-break case.
+
+3. RESPONSE TIMELINE
+
+  3.1  CONFIRMED ACTIVE BREAK (visible surface water, multiple
+       corroborating reports from a street segment): Emergency crew
+       dispatched within 1 hour. Initial containment (shutoff valve
+       isolation) target: 2 hours from confirmation. Full repair target:
+       24 hours from confirmation, per the Citywide SLA Policy Summary's
+       HIGH-priority resolve window.
+
+  3.2  SUSPECTED BREAK (single report, no visible surface water): Field
+       crew dispatched within 4 hours to confirm or rule out.
+
+4. REFERRAL FOR IN-UNIT ISSUES
+
+If a citizen reports loss of water pressure or hot water inside their own
+unit and DPW's street-level pressure readings are normal, the citizen is
+referred to DHUD's tenant complaint process (for subsidized/public
+housing) or advised that in-unit plumbing is the property owner's
+responsibility.
+
+5. RELATED POLICIES
+
+See also DHUD Tenant Utility Complaint Guide, and Citywide Escalation &
+Safety-Flag Policy for the hazard criteria that apply to any water main
+break located near an electrical hazard (e.g., a submerged live wire).
+
+--------------------------------------------------------------------------
+Approved: DPW Office of Water & Sewer Operations
+Page 1 of 1 — DPW-SOP-021

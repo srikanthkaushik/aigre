@@ -1,0 +1,109 @@
+<h2 mat-dialog-title>{{ detail()?.pendingReview ? 'Review Grievance' : 'Grievance Detail' }}</h2>
+
+<mat-dialog-content>
+  <p class="grievance-id"><code>{{ data.grievanceId }}</code></p>
+
+  @if (error() && !detail()) {
+    <p class="error-text">{{ error() }}</p>
+  }
+
+  @if (detail(); as detail) {
+    @if (!detail.pendingReview) {
+      <div class="complaint">
+        <p class="hint">Citizen's complaint:</p>
+        <p class="complaint-text">{{ detail.rawText ?? '(no complaint text on file)' }}</p>
+      </div>
+
+      <dl>
+        <dt>Status</dt>
+        <dd><mat-chip class="status-chip" [class]="'status-' + detail.status.toLowerCase()">{{ detail.status }}</mat-chip></dd>
+        <dt>Department</dt>
+        <dd>{{ detail.department | departmentName }}</dd>
+        <dt>Category</dt>
+        <dd>{{ detail.category ?? '—' }}</dd>
+        <dt>Priority</dt>
+        <dd>{{ detail.priority ?? '—' }}</dd>
+        @if (detail.slaDueAt) {
+          <dt>SLA due</dt>
+          <dd>{{ detail.slaDueAt | date: 'medium' }}</dd>
+        }
+      </dl>
+
+      @if (detail.status === 'NEW') {
+        <p class="hint">
+          Not part of an active review workflow (a seeded/demo record, or one submitted outside
+          the workflow endpoint) — nothing to approve here.
+        </p>
+      }
+    } @else {
+      <div class="complaint">
+        <p class="hint">Citizen's complaint:</p>
+        <p class="complaint-text">{{ detail.rawText }}</p>
+      </div>
+
+      <div class="prediction">
+        <p class="hint">LLM's assessment (confidence {{ detail.confidence | number: '1.0-2' }}):</p>
+        <p class="reasoning">{{ detail.reasoning || '(no reasoning captured for this run)' }}</p>
+      </div>
+
+      <div class="grid-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label>
+          <mat-select [(ngModel)]="reviewDepartment">
+            <mat-option value="">(keep as-is)</mat-option>
+            @for (d of data.departments; track d) {
+              <mat-option [value]="d">{{ d | departmentName }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <input matInput type="text" [(ngModel)]="reviewCategory" placeholder="(keep as-is)" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Priority</mat-label>
+          <mat-select [(ngModel)]="reviewPriority">
+            <mat-option value="">(keep as-is)</mat-option>
+            @for (p of data.priorities; track p) {
+              <mat-option [value]="p">{{ p }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Review note (required)</mat-label>
+        <textarea matInput rows="2" [(ngModel)]="reviewNote"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Reviewed by</mat-label>
+        <input matInput type="text" [(ngModel)]="reviewedBy" />
+      </mat-form-field>
+
+      @if (error()) {
+        <p class="error-text">{{ error() }}</p>
+      }
+    }
+  } @else if (!error()) {
+    <div class="loading">
+      <mat-progress-spinner diameter="32" mode="indeterminate" />
+      <p class="hint">Loading…</p>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  @if (detail()?.pendingReview) {
+    <button mat-button (click)="close()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="submitting() || !reviewNote.trim() || !reviewedBy.trim()"
+      (click)="submitReview()"
+    >
+      {{ submitting() ? 'Submitting…' : 'Confirm & Route' }}
+    </button>
+  } @else {
+    <button mat-flat-button color="primary" (click)="close()">Close</button>
+  }
+</mat-dialog-actions>

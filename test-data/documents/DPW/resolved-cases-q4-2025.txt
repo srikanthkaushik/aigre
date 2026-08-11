@@ -1,0 +1,38 @@
+DEPARTMENT OF PUBLIC WORKS
+Resolved Case Log — Q4 2025 (De-identified Excerpt)
+
+--------------------------------------------------------------------------
+CASE DPW-2025-00712
+Category: Urban forestry, diseased tree
+Summary: Citizen reported a right-of-way tree with visible cracking and
+leaning after a windstorm.
+Resolution: Arborist assessment within 6 business days confirmed
+structural risk; expedited removal scheduled and completed within 2
+weeks.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DPW-2025-00734
+Category: Storm drain, active flooding
+Summary: Citizen reported street flooding during heavy rain due to a
+visibly blocked catch basin.
+Resolution: Crew dispatched within 90 minutes, blockage cleared, flooding
+subsided within the hour.
+Outcome: RESOLVED within 2-hour HIGH-priority window.
+
+--------------------------------------------------------------------------
+CASE DPW-2025-00751
+Category: Bulk-item pickup, missed
+Summary: Citizen scheduled a bulk pickup, placed items curbside as
+instructed, but items were not collected on the scheduled date.
+Resolution: Makeup pickup completed within 2 business days.
+Outcome: RESOLVED within 3-day SLA.
+
+--------------------------------------------------------------------------
+CASE DPW-2025-00768
+Category: Graffiti, hate speech
+Summary: Citizen reported graffiti containing threatening language on a
+retaining wall near a community center.
+Resolution: Classified HIGH priority, removed within 14 hours,
+coordinated with police given the threatening content.
+Outcome: RESOLVED.

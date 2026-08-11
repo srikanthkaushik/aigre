@@ -1,0 +1,36 @@
+CITY DEPARTMENT OF PUBLIC WORKS
+Fleet & Equipment Maintenance Policy (Internal)
+Document No. DPW-INT-004           Effective Date: January 1, 2025
+STATUS: CURRENT — INTERNAL DOCUMENT, not citizen-facing
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Internal policy governing maintenance scheduling for DPW's vehicle fleet
+(plow trucks, sweepers, collection trucks) and field equipment. Referenced
+here because fleet downtime can affect citizen-facing SLAs (e.g., a
+sweeper truck out of service can delay a bike-lane debris response) and
+staff should be aware of the connection when explaining a delay to a
+citizen.
+
+2. MAINTENANCE SCHEDULE
+
+  2.1  Plow trucks undergo mandatory pre-season inspection each September;
+       any truck failing inspection is pulled from the winter rotation
+       until repaired, which can reduce available capacity during a
+       storm.
+
+  2.2  Routine fleet maintenance is scheduled to avoid overlapping with
+       peak-demand periods (leaf season for street sweepers, winter for
+       plows) wherever possible.
+
+3. CITIZEN-FACING NOTE
+
+If a citizen asks why a response is delayed, staff should NOT cite
+internal fleet issues as a blanket excuse without checking whether the
+delay genuinely falls outside the applicable SLA — most delays are still
+within SLA tolerances even during high-demand periods.
+
+--------------------------------------------------------------------------
+Approved: DPW Fleet Operations
+Page 1 of 1 — DPW-INT-004

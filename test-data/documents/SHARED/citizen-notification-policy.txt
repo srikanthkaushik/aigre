@@ -1,0 +1,39 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Citizen Notification & Communication Policy
+Document No. CITY-POL-009          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs when and how citizens are notified of status changes to their
+grievance, and how notification preferences (email vs. phone/SMS) are
+honored.
+
+2. NOTIFICATION TRIGGERS
+
+  2.1  Citizens are notified at: initial triage/classification, any
+       status change (ROUTED, IN_PROGRESS, ESCALATED, RESOLVED,
+       REOPENED), and if the case is auto-linked as a DUPLICATE (with a
+       plain-language explanation that it's linked to an already-open
+       case, not simply dismissed).
+
+  2.2  A grievance with no citizen contact information on file (an
+       anonymous or phone-line-captured submission with no usable
+       contact method) cannot receive proactive notifications — the
+       citizen must check status manually via the portal using their
+       case reference number.
+
+  2.3  Notification preference honors the citizen's `preferred_contact`
+       setting (email or phone); if neither is on file, no proactive
+       notification is attempted.
+
+3. RELATED POLICIES
+
+See also Citywide Privacy & PII Handling Notice (what CAN be included in
+a notification — high-level status only, no sensitive case detail for
+DHHS-category cases).
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-009

@@ -1,0 +1,43 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Grievance Appeals Process
+Document No. CITY-POL-005          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Describes how a citizen may dispute the outcome or classification of a
+resolved grievance, distinct from a benefits-specific appeal (see DHHS
+Benefits Eligibility & Appeals FAQ, which is a separate statutory process
+with its own timeline).
+
+2. WHEN AN APPEAL APPLIES
+
+  2.1  The citizen disagrees with a case being marked RESOLVED when the
+       underlying issue persists — this reopens the case per each
+       department's reopened-case handling (priority bumped one tier,
+       routed back to the original department, flagged for supervisor
+       review).
+
+  2.2  The citizen disagrees with the department or priority a case was
+       routed to — this may be raised through the portal and is reviewed
+       by a supervisor in the originally assigned department, who may
+       manually re-route the case (see DPW Resolved Case Log example of
+       a case re-classified from missed-collection to illegal dumping).
+
+3. TIMELINE
+
+Appeals of a resolved-case classification are reviewed within 10 business
+days of the appeal being filed. This is separate from, and does not use,
+the priority-tier SLA table in the Citywide SLA Policy Summary, since an
+appeal is a review of a closed case rather than a new incident requiring
+dispatch.
+
+4. RELATED POLICIES
+
+See also DHHS Benefits Eligibility & Appeals FAQ (a distinct,
+statutorily-timed appeals process) and Citywide SLA Policy Summary.
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-005

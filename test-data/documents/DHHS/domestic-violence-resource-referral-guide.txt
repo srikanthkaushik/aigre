@@ -1,0 +1,41 @@
+DEPARTMENT OF HEALTH AND HUMAN SERVICES
+Domestic Violence Resource Referral Guide
+Document No. DHHS-POL-015          Effective Date: March 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs how the grievance portal handles a submission indicating domestic
+violence — routing to confidential resources rather than standard
+grievance processing.
+
+2. HANDLING
+
+  2.1  A submission describing an active, in-progress domestic violence
+       incident should direct the citizen to call 911 immediately —
+       displayed prominently, not buried in standard portal text.
+
+  2.2  A non-emergency request for resources (shelter, legal advocacy,
+       restraining order information) is routed to DHHS's confidential
+       domestic violence resource line, which operates independently of
+       the standard grievance case-tracking system — no case status is
+       created in the citizen-visible portal dashboard for these
+       requests, per heightened confidentiality need beyond even the
+       standard Citywide Privacy & PII Handling Notice baseline.
+
+  2.3  If the request also involves emergency shelter need, DHHS
+       coordinates directly with DHUD's Homelessness Services intake
+       out-of-band (not through the standard dual-tag/notification
+       mechanism used for ordinary multi-department cases), to avoid
+       creating a discoverable case record.
+
+3. RELATED POLICIES
+
+See also Citywide Privacy & PII Handling Notice and DHUD Homelessness
+Services & Shelter Referral FAQ (referenced for coordination purposes
+only, not as a standard dual-tag scenario).
+
+--------------------------------------------------------------------------
+Approved: DHHS Behavioral Health Division
+Page 1 of 1 — DHHS-POL-015

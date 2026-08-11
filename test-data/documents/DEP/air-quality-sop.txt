@@ -1,0 +1,43 @@
+DEPARTMENT OF ENVIRONMENTAL PROTECTION
+Air Quality & Pollution Complaint SOP
+Document No. DEP-SOP-015           Effective Date: February 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DEP's investigation of citizen reports concerning outdoor/ambient
+air quality: industrial smoke, chemical odors, visible emissions from a
+facility, or open burning.
+
+2. SCOPE
+
+Applies to OUTDOOR, ambient-air conditions traceable to an identifiable
+or suspected source (a facility, vehicle, or open burning). Does NOT
+apply to indoor air quality within a single housing unit — see DHUD
+Public Housing Maintenance SOP for mold/air-quality complaints inside a
+public housing unit, which is an entirely different jurisdiction despite
+the shared topic of "air quality."
+
+3. RESPONSE TIMELINE
+
+  3.1  ACTIVE VISIBLE EMISSION OR STRONG CHEMICAL ODOR from an
+       identifiable facility: HIGH priority, field technician dispatched
+       within 4 hours to assess and, if warranted, take air-quality
+       readings.
+
+  3.2  INTERMITTENT OR MILD ODOR COMPLAINT: MEDIUM priority, logged and
+       investigated within 5 business days; multiple reports from the
+       same area within a short window may trigger an expedited
+       facility inspection.
+
+4. RELATED POLICIES
+
+See also DHUD Public Housing Maintenance SOP (in-unit air quality, a
+different scope) and Citywide Escalation & Safety-Flag Policy for hazard
+criteria that could indicate a chemical release requiring immediate
+CRITICAL classification.
+
+--------------------------------------------------------------------------
+Approved: DEP Air Quality Division
+Page 1 of 1 — DEP-SOP-015

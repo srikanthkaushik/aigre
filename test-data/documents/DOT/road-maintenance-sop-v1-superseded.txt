@@ -1,0 +1,56 @@
+CITY DEPARTMENT OF TRANSPORTATION
+Standard Operating Procedure — Road Surface Maintenance
+Document No. DOT-SOP-014          Effective Date: March 1, 2023
+STATUS: SUPERSEDED — replaced by DOT-SOP-014 Rev. B, effective January 15,
+2026. Retained for historical reference only. Complaints filed on or after
+January 15, 2026 are governed by the current revision.
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Pursuant to City Code §14-2 ("Maintenance of Public Roadways"), the
+Department of Transportation ("DOT") is responsible for the repair of
+road-surface defects on all city-maintained roadways, including but not
+limited to potholes, surface cracking, and pavement heaving.
+
+2. SCOPE
+
+This SOP applies to road-surface defects reported through the citizen
+grievance portal, by phone to the DOT Customer Service Line, or referred
+from another department. It does not apply to sidewalks (see DPW Sidewalk
+Maintenance Policy), state-maintained highways, or private roadways.
+
+3. RESPONSE TIMELINE
+
+  3.1  Upon receipt of a citizen-reported pothole, DOT shall dispatch a
+       field inspector within three (3) business days to confirm the
+       defect and assign a severity classification (Minor / Moderate /
+       Severe) per Table 1.
+
+  3.2  Repair of a confirmed pothole shall be completed within ten (10)
+       business days of the initial citizen report, regardless of
+       severity classification, subject to weather and material
+       availability exceptions under Section 4.
+
+Table 1 — Severity Classification (informational only; does not affect
+repair timeline under this revision)
+  Minor    | Surface depth < 2 in.  | Cosmetic / low traffic impact
+  Moderate | Surface depth 2-4 in.  | Vehicle damage risk
+  Severe   | Surface depth > 4 in.  | Immediate hazard, see escalation policy
+
+4. EXCEPTIONS
+
+Repair timelines under Section 3.2 may be extended in the event of (a)
+sustained sub-freezing temperatures preventing asphalt cure, (b) declared
+weather emergencies, or (c) supply chain disruption affecting patching
+material, each subject to supervisor sign-off and citizen notification.
+
+5. RELATED POLICIES
+
+  See also DOT Traffic Signal Repair & Timing Policy for signal-adjacent
+  road defects, and DPW Sidewalk Maintenance Policy (Policy 4.2) for
+  defects on pedestrian infrastructure.
+
+--------------------------------------------------------------------------
+Approved: DOT Office of Infrastructure Maintenance
+Page 1 of 1 — DOT-SOP-014 (superseded)

@@ -1,0 +1,37 @@
+CITY DEPARTMENT OF TRANSPORTATION
+Winter Road Treatment SOP
+Document No. DOT-SOP-022           Effective Date: October 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DOT's PROACTIVE road treatment program (salt brine pre-treatment
+ahead of forecast winter weather) — distinct from DPW's REACTIVE snow
+plowing/removal during and after a storm, covered separately under DPW
+Snow Removal Priority Routes Policy. DOT treats the road surface itself
+(chemical de-icing) before and during a storm; DPW physically clears
+accumulated snow. Both departments may be active on the same street during
+a single storm event, and citizen reports are routed based on the specific
+complaint (ice/slickness vs. unplowed snow accumulation).
+
+2. TREATMENT PRIORITY
+
+  2.1  Pre-treatment follows the same Tier 1/2/3 route priority as DPW's
+       snow removal tiers (Tier 1 = hospital/fire/bus routes, etc.), applied
+       12-24 hours ahead of a forecast winter storm where feasible.
+
+  2.2  BLACK ICE REPORT (no visible snow, but a citizen reports a
+       slippery/icy road surface): Treated as CRITICAL if on a Tier 1 or
+       Tier 2 route, HIGH if Tier 3 — dispatched for emergency spot
+       treatment regardless of the standing pre-treatment schedule.
+
+3. RELATED POLICIES
+
+See also DPW Snow Removal Priority Routes Policy (physical plowing, a
+separate but coordinated process) and Citywide Escalation & Safety-Flag
+Policy.
+
+--------------------------------------------------------------------------
+Approved: DOT Office of Street Operations
+Page 1 of 1 — DOT-SOP-022

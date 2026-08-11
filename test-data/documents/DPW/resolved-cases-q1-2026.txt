@@ -1,0 +1,52 @@
+DEPARTMENT OF PUBLIC WORKS
+Resolved Case Log — Q1 2026 (De-identified Excerpt)
+
+--------------------------------------------------------------------------
+CASE DPW-2026-00087
+Category: Sidewalk / trip hazard
+Summary: Citizen reported a heaved sidewalk panel with a 1.5-inch vertical
+displacement in front of a residence; citizen noted a family member
+nearly fell.
+Resolution: Inspected same day, temporary hazard paint applied within
+hours, permanent grinding repair completed in 9 business days (within
+the 15-day trip-hazard SLA).
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DPW-2026-00103
+Category: Water main break
+Summary: Multiple citizens on the same block reported visible water
+pooling on the street surface overnight.
+Resolution: Confirmed active break, shutoff valve isolated within 90
+minutes, full repair completed in 19 hours.
+Outcome: RESOLVED within HIGH-priority 24-hour window.
+
+--------------------------------------------------------------------------
+CASE DPW-2026-00119
+Category: Street lighting
+Summary: Citizen reported 4 consecutive dark streetlights on the same
+block.
+Resolution: Escalated to Electrical Operations as a suspected circuit
+fault; a damaged underground junction box was found and repaired in 4
+business days.
+Outcome: RESOLVED within multi-light 5-day SLA.
+
+--------------------------------------------------------------------------
+CASE DPW-2026-00134
+Category: Trash collection, referred to DEP
+Summary: Citizen reported "missed trash pickup" but description on
+follow-up indicated a large pile of construction debris left in a vacant
+lot next door, not material the citizen had set out.
+Resolution: Re-classified and routed to DEP as an illegal dumping
+complaint rather than logged as a missed collection.
+Outcome: TRANSFERRED to DEP (see DEP Illegal Dumping Enforcement Policy).
+
+--------------------------------------------------------------------------
+CASE DPW-2026-00151
+Category: Snow removal
+Summary: Citizen on a Tier 3 residential street reported no plowing 10
+hours after snowfall ended.
+Resolution: Reviewed against Tier 3's 24-hour window; street was plowed
+at hour 18. No escalation warranted; citizen notified of the applicable
+tier and timeline.
+Outcome: RESOLVED, no SLA breach.

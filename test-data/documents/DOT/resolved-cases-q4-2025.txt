@@ -1,0 +1,41 @@
+DEPARTMENT OF TRANSPORTATION
+Resolved Case Log — Q4 2025 (De-identified Excerpt)
+
+--------------------------------------------------------------------------
+CASE DOT-2025-00891
+Category: Bike lane / debris
+Summary: Citizen reported broken glass scattered across the bike lane on
+a commuter corridor during morning rush.
+Resolution: Sweep crew dispatched within 3 hours (reported before 2:00 PM
+cutoff), lane cleared same day.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DOT-2025-00907
+Category: Winter road treatment / black ice
+Summary: Citizen reported an icy patch with no visible snow on a Tier 2
+collector street after an overnight temperature drop.
+Resolution: Classified HIGH per black-ice protocol, emergency spot
+treatment dispatched within 90 minutes.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DOT-2025-00922
+Category: Railroad crossing
+Summary: Citizen reported a crossing gate stuck in the down position with
+no train present, backing up traffic for over 20 minutes.
+Resolution: Relayed to railroad operator's emergency dispatch within 5
+minutes; DOT posted a traffic officer to manage the backup while awaiting
+railroad response. Gate malfunction resolved by railroad crew in 40
+minutes.
+Outcome: RESOLVED (railroad-operated equipment; DOT coordinated only).
+
+--------------------------------------------------------------------------
+CASE DOT-2025-00940
+Category: Traffic calming request
+Summary: Residents petitioned for speed bumps on a residential street
+citing observed speeding.
+Resolution: Traffic study conducted over 8 weeks confirmed volume/speed
+thresholds were met; installation scheduled for the following quarter's
+capital calendar.
+Outcome: APPROVED (not a standard-SLA case; planning-process outcome).

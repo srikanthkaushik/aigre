@@ -1,0 +1,38 @@
+DEPARTMENT OF TRANSPORTATION
+Resolved Case Log — Q2 2026 (De-identified Excerpt)
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00204
+Category: School zone / flashing beacon
+Summary: Citizen reported a school-zone flashing beacon not activating
+during morning arrival, despite school being in session.
+Resolution: Treated under dark-signal protocol, repaired same day; found
+to be a failed timer relay.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00219
+Category: Pavement marking
+Summary: Citizen reported a faded school-zone crosswalk essentially
+invisible in daylight.
+Resolution: Qualified for the school-zone exception to the standard
+18-month survey cycle; repainted within 22 business days.
+Outcome: RESOLVED within the 30-day exception window.
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00231
+Category: Vehicle-for-hire licensing
+Summary: Citizen reported a vehicle operating as an unlicensed taxi near
+the transit center.
+Resolution: DOT Licensing Enforcement investigated within 8 business
+days, confirmed the violation, citation issued.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00247
+Category: Bike lane / bollard
+Summary: Citizen reported a protective bollard knocked down at a
+protected bike lane intersection.
+Resolution: Temporary barrier placed within 3 hours, permanent bollard
+reinstalled in 4 business days.
+Outcome: RESOLVED.

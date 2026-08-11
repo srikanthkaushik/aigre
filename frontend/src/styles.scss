@@ -1,0 +1,224 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin defines CSS variables used for styling Angular Material
+// components according to the Material 3 design spec, and is also used
+// directly by our own component styles via the --mat-sys-* tokens so
+// everything (Material and hand-written) shares one palette.
+//
+// The custom navy/amber palette in theme-colors.scss was generated via
+// `ng generate @angular/material:m3-theme --primary-color="#1B3A57"
+// --tertiary-color="#C17F2C"` (Material Color Utilities computes the full
+// tonal scale from those two seed colors) -- not hand-picked shades, so the
+// M3 contrast relationships between tones stay correct.
+@use '@angular/material' as mat;
+@use './theme-colors' as theme;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: theme.$primary-palette,
+        tertiary: theme.$tertiary-palette
+      ),
+      typography: 'Public Sans',
+      density: 0
+    )
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font: var(--mat-sys-body-medium);
+  background-color: var(--mat-sys-surface-container-lowest);
+  color: var(--mat-sys-on-surface);
+  // Light-only for now -- see PROJECT.md open items for dark-mode support.
+  color-scheme: light;
+}
+
+h1, h2, h3 {
+  font-family: var(--mat-sys-title-large-font);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+a {
+  color: var(--mat-sys-primary);
+}
+
+// Shared page-header pattern (title + subtitle) -- used identically on the
+// citizen and employee pages instead of ad hoc <h1> placement, so both
+// pages read as part of the same product.
+.page-header {
+  margin: 0.5rem 0 1.75rem;
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .page-subtitle {
+    margin: 0.35rem 0 0;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 1rem;
+  }
+}
+
+// Shared priority color-coding, used by both the citizen status page and the
+// employee dashboard -- kept as a plain class rather than per-page duplicated
+// styles since the same four values recur everywhere a grievance is shown.
+.priority-chip {
+  &.priority-critical {
+    --mdc-chip-label-text-color: var(--mat-sys-on-error-container);
+    --mdc-chip-elevated-container-color: var(--mat-sys-error-container);
+  }
+  &.priority-high {
+    --mdc-chip-label-text-color: #7a4100;
+    --mdc-chip-elevated-container-color: #ffedd5;
+  }
+  &.priority-medium, &.priority-low {
+    --mdc-chip-label-text-color: var(--mat-sys-on-tertiary-container);
+    --mdc-chip-elevated-container-color: var(--mat-sys-tertiary-container);
+  }
+}
+
+// Status color-coding -- mirrors the priority-chip pattern above so status
+// chips (NEW/TRIAGED/RESOLVED/...) aren't all the same flat neutral color.
+.status-chip {
+  &.status-new, &.status-needs_clarification {
+    --mdc-chip-label-text-color: var(--mat-sys-on-tertiary-container);
+    --mdc-chip-elevated-container-color: var(--mat-sys-tertiary-container);
+  }
+  &.status-triaged, &.status-routed, &.status-in_progress {
+    --mdc-chip-label-text-color: var(--mat-sys-on-primary-container);
+    --mdc-chip-elevated-container-color: var(--mat-sys-primary-container);
+  }
+  &.status-resolved, &.status-closed {
+    --mdc-chip-label-text-color: #0f5132;
+    --mdc-chip-elevated-container-color: #d1f2df;
+  }
+  &.status-escalated, &.status-reopened {
+    --mdc-chip-label-text-color: var(--mat-sys-on-error-container);
+    --mdc-chip-elevated-container-color: var(--mat-sys-error-container);
+  }
+  &.status-not_actionable, &.status-duplicate {
+    --mdc-chip-label-text-color: var(--mat-sys-on-surface-variant);
+    --mdc-chip-elevated-container-color: var(--mat-sys-surface-container-high);
+  }
+}
+
+.breach-flag {
+  margin-left: 0.4rem;
+  color: var(--mat-sys-error);
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.page-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+.hint {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2.5rem 1rem;
+  color: var(--mat-sys-on-surface-variant);
+  text-align: center;
+
+  mat-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.6;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.error-text {
+  color: var(--mat-sys-error);
+  font-size: 0.9rem;
+}
+
+.tab-panel {
+  padding: 1.25rem 0.25rem;
+}
+
+.loading-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.5rem 0.25rem;
+}
+
+// Shared stat-card row, used by the employee dashboard's summary stats and the Trends tab's SLA
+// snapshot -- same visual language, not two separate card styles for the same concept.
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  border-radius: 10px;
+  background: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline-variant);
+
+  &.alert {
+    background: var(--mat-sys-error-container);
+    border-color: transparent;
+
+    .stat-icon {
+      color: var(--mat-sys-on-error-container);
+    }
+
+    .stat-value, .stat-label {
+      color: var(--mat-sys-on-error-container);
+    }
+  }
+}
+
+.stat-icon {
+  color: var(--mat-sys-primary);
+  font-size: 1.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+@media (max-width: 600px) {
+  .stat-row {
+    grid-template-columns: 1fr;
+  }
+}

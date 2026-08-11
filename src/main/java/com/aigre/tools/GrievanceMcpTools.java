@@ -1,0 +1,222 @@
+package com.aigre.tools;
+
+import org.springframework.ai.mcp.annotation.McpTool;
+import org.springframework.ai.mcp.annotation.McpToolParam;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * MCP tools over the grievance systems-of-record (plan milestone 3), exposed via Spring AI's
+ * MCP server ({@code spring-ai-starter-mcp-server-webflux}) for a future agent (milestone 4) to
+ * call. Deliberately exercised against the 5 edge cases seeded in test-data/sql/seed.sql (bad
+ * department code, stale unescalated breach, 2-hop duplicate chain, anonymous no-contact
+ * citizen, never-classified row) -- see GrievanceMcpToolsTest.
+ *
+ * Error messages are written to teach the caller what to do next (plan's "tool design is
+ * engineering" rule), not just to report failure.
+ */
+@Component
+public class GrievanceMcpTools {
+
+    private static final Set<String> VALID_STATUSES = Set.of(
+            "NEW", "NEEDS_CLARIFICATION", "TRIAGED", "ROUTED", "IN_PROGRESS", "RESOLVED", "CLOSED", "ESCALATED",
+            "REOPENED", "NOT_ACTIONABLE", "DUPLICATE");
+
+    private static final Set<String> TERMINAL_STATUSES = Set.of("RESOLVED", "CLOSED", "NOT_ACTIONABLE");
+
+    private final NamedParameterJdbcTemplate jdbc;
+
+    public GrievanceMcpTools(NamedParameterJdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
+
+    @McpTool(
+            name = "get_grievance_status",
+            description = "Look up the current status, classification, and SLA due date for a grievance by its ID.")
+    public GrievanceStatusResult getGrievanceStatus(
+            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId) {
+        UUID id = parseId(grievanceId);
+        List<GrievanceStatusResult> rows = jdbc.query(
+                """
+                SELECT g.id, g.status, g.department_predicted, g.department_confirmed, g.category, g.priority,
+                       g.classification_confidence, g.sentiment_label, g.sla_due_at, g.submitted_at,
+                       g.resolved_at, g.resolution_notes,
+                       (d.id IS NOT NULL) AS department_valid,
+                       (g.citizen_id IS NOT NULL AND (c.email IS NOT NULL OR c.phone IS NOT NULL)) AS citizen_contact_available
+                FROM grievances g
+                LEFT JOIN departments d ON d.id = g.department_predicted
+                LEFT JOIN citizens c ON c.id = g.citizen_id
+                WHERE g.id = :id
+                """,
+                new MapSqlParameterSource("id", id),
+                (rs, rowNum) -> new GrievanceStatusResult(
+                        rs.getString("id"),
+                        rs.getString("status"),
+                        rs.getString("department_predicted"),
+                        rs.getString("department_confirmed"),
+                        rs.getBoolean("department_valid"),
+                        rs.getString("category"),
+                        rs.getString("priority"),
+                        rs.getObject("classification_confidence", Double.class),
+                        rs.getString("sentiment_label"),
+                        toInstant(rs.getTimestamp("sla_due_at")),
+                        toInstant(rs.getTimestamp("submitted_at")),
+                        toInstant(rs.getTimestamp("resolved_at")),
+                        rs.getString("resolution_notes"),
+                        rs.getBoolean("citizen_contact_available")));
+        return requireFound(rows, grievanceId);
+    }
+
+    @McpTool(
+            name = "check_sla_status",
+            description = "Check whether a grievance's SLA is breached, and how many hours remain or how many "
+                    + "hours overdue it is.")
+    public SlaStatusResult checkSlaStatus(
+            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId) {
+        UUID id = parseId(grievanceId);
+        List<SlaStatusResult> rows = jdbc.query(
+                """
+                SELECT id, status, priority, sla_due_at,
+                       (sla_due_at IS NOT NULL AND sla_due_at < now() AND status NOT IN ('RESOLVED','CLOSED','NOT_ACTIONABLE')) AS breached
+                FROM grievances WHERE id = :id
+                """,
+                new MapSqlParameterSource("id", id),
+                (rs, rowNum) -> {
+                    Instant slaDueAt = toInstant(rs.getTimestamp("sla_due_at"));
+                    Long hours = slaDueAt == null ? null : Duration.between(Instant.now(), slaDueAt).toHours();
+                    return new SlaStatusResult(
+                            rs.getString("id"), rs.getString("status"), rs.getString("priority"), slaDueAt,
+                            rs.getBoolean("breached"), hours);
+                });
+        return requireFound(rows, grievanceId);
+    }
+
+    @McpTool(
+            name = "find_duplicate_chain",
+            description = "Walk a grievance's duplicate-of chain to find the true original report, even if the "
+                    + "chain is several hops deep.")
+    public DuplicateChainResult findDuplicateChain(
+            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId) {
+        UUID id = parseId(grievanceId);
+        List<Object[]> hops = jdbc.query(
+                """
+                WITH RECURSIVE chain AS (
+                    SELECT id, duplicate_of_id, 0 AS hop FROM grievances WHERE id = :id
+                    UNION ALL
+                    SELECT g.id, g.duplicate_of_id, c.hop + 1
+                    FROM grievances g
+                    JOIN chain c ON g.id = c.duplicate_of_id
+                    WHERE c.hop < 20
+                )
+                SELECT id, hop FROM chain ORDER BY hop
+                """,
+                new MapSqlParameterSource("id", id),
+                (rs, rowNum) -> new Object[] {rs.getString("id"), rs.getInt("hop")});
+        if (hops.isEmpty()) {
+            throw notFound(grievanceId);
+        }
+        List<String> chain = new ArrayList<>();
+        for (Object[] hop : hops) {
+            chain.add((String) hop[0]);
+        }
+        String trueOriginal = chain.get(chain.size() - 1);
+        return new DuplicateChainResult(grievanceId, trueOriginal, chain.size() - 1, chain);
+    }
+
+    @McpTool(
+            name = "update_grievance_status",
+            description = "Update a grievance's status and record the change in its audit history. Valid "
+                    + "statuses: NEW, NEEDS_CLARIFICATION, TRIAGED, ROUTED, IN_PROGRESS, RESOLVED, CLOSED, "
+                    + "ESCALATED, REOPENED, NOT_ACTIONABLE, DUPLICATE.")
+    public UpdateStatusResult updateGrievanceStatus(
+            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId,
+            @McpToolParam(description = "The new status", required = true) String newStatus,
+            @McpToolParam(description = "Why the status is changing", required = true) String note,
+            @McpToolParam(description = "Who is making this change (employee ID or 'system:<source>')", required = true)
+                    String changedBy) {
+        UUID id = parseId(grievanceId);
+        String normalizedStatus = newStatus == null ? "" : newStatus.trim().toUpperCase();
+        if (!VALID_STATUSES.contains(normalizedStatus)) {
+            return new UpdateStatusResult(
+                    grievanceId, null, newStatus, false,
+                    "Invalid status '" + newStatus + "'. Valid values: " + String.join(", ", VALID_STATUSES));
+        }
+
+        List<String> currentStatusRows = jdbc.query(
+                "SELECT status FROM grievances WHERE id = :id",
+                new MapSqlParameterSource("id", id),
+                (rs, rowNum) -> rs.getString("status"));
+        if (currentStatusRows.isEmpty()) {
+            throw notFound(grievanceId);
+        }
+        String previousStatus = currentStatusRows.get(0);
+        Instant now = Instant.now();
+
+        jdbc.update(
+                """
+                UPDATE grievances
+                SET status = :newStatus,
+                    resolution_notes = :note,
+                    resolved_at = CASE WHEN :newStatus IN (:terminalStatuses) THEN :now ELSE resolved_at END
+                WHERE id = :id
+                """,
+                new MapSqlParameterSource()
+                        .addValue("id", id)
+                        .addValue("newStatus", normalizedStatus)
+                        .addValue("note", note)
+                        .addValue("terminalStatuses", TERMINAL_STATUSES)
+                        .addValue("now", Timestamp.from(now)));
+
+        jdbc.update(
+                """
+                INSERT INTO status_history (id, grievance_id, from_status, to_status, changed_by, changed_at, note)
+                VALUES (:historyId, :grievanceId, :fromStatus, :toStatus, :changedBy, :changedAt, :note)
+                """,
+                new MapSqlParameterSource()
+                        .addValue("historyId", UUID.randomUUID())
+                        .addValue("grievanceId", id)
+                        .addValue("fromStatus", previousStatus)
+                        .addValue("toStatus", normalizedStatus)
+                        .addValue("changedBy", changedBy)
+                        .addValue("changedAt", Timestamp.from(now))
+                        .addValue("note", note));
+
+        return new UpdateStatusResult(grievanceId, previousStatus, normalizedStatus, true, "Updated.");
+    }
+
+    private UUID parseId(String rawId) {
+        try {
+            return UUID.fromString(rawId);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(
+                    "'" + rawId + "' is not a valid grievance ID (expected a UUID like "
+                            + "123e4567-e89b-12d3-a456-426614174000).");
+        }
+    }
+
+    private <T> T requireFound(List<T> rows, String grievanceId) {
+        if (rows.isEmpty()) {
+            throw notFound(grievanceId);
+        }
+        return rows.get(0);
+    }
+
+    private IllegalArgumentException notFound(String grievanceId) {
+        return new IllegalArgumentException(
+                "No grievance found with ID " + grievanceId + ". Double-check the ID, or use a search/list tool "
+                        + "to find the correct one.");
+    }
+
+    private static Instant toInstant(Timestamp timestamp) {
+        return timestamp == null ? null : timestamp.toInstant();
+    }
+}

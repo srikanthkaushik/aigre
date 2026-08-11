@@ -1,0 +1,41 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Multi-Department Coordination Protocol
+Document No. CITY-POL-007          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Formalizes how two or more departments coordinate on a single grievance
+that genuinely spans jurisdiction — dual-tagging, referenced throughout
+department policies (e.g., DOE School Facilities Maintenance SOP Section
+4's playground-fence example, DHHS Homeless Outreach Coordination Guide's
+DHUD coordination, DPW/DEP's protected-tree review sequence).
+
+2. COORDINATION RULES
+
+  2.1  PARALLEL CASES: Both departments' portions run independently with
+       their own SLA clocks (e.g., DOE fencing repair and DOT/DPW
+       street-side traffic assessment) — one department's delay does not
+       pause the other's clock.
+
+  2.2  SEQUENTIAL CASES: One department's action is a precondition for the
+       other's (e.g., DPW's hazard assessment before DEP's protected-tree
+       removal approval) — the second department's SLA clock starts only
+       once the first department's output is available, and this is
+       disclosed to the citizen rather than presented as a single
+       combined timeline.
+
+  2.3  Every dual-tagged case is visible to both departments' queues;
+       neither department can silently drop its portion without a status
+       update.
+
+3. RELATED POLICIES
+
+Referenced by: Citywide Escalation & Safety-Flag Policy Section 4, DOE
+School Facilities Maintenance SOP, DHHS Homeless Outreach Coordination
+Guide, DPW Urban Forestry Policy, DEP Tree Preservation Ordinance Policy.
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-007

@@ -1,0 +1,34 @@
+DEPARTMENT OF HOUSING AND URBAN DEVELOPMENT
+Lead Paint Hazard Inspection SOP
+Document No. DHUD-SOP-013          Effective Date: May 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs inspection of suspected lead-paint hazards in city-subsidized
+housing units, particularly units built before 1978 (pre-lead-paint-ban
+construction).
+
+2. RESPONSE TIMELINE
+
+  2.1  REPORT INVOLVING A CHILD UNDER 6 WITH SUSPECTED LEAD EXPOSURE
+       (peeling/chipping paint, or an elevated blood-lead-level result
+       mentioned): HIGH priority per vulnerable-population impact,
+       inspection within 24 hours, cross-referenced with DHHS for any
+       medical follow-up needed (DHHS handles the health/testing side,
+       DHUD the housing-hazard remediation side).
+
+  2.2  GENERAL SUSPECTED LEAD HAZARD (older unit, visible deteriorated
+       paint, no specific child-exposure indication): MEDIUM priority,
+       inspection within 5 business days.
+
+3. RELATED POLICIES
+
+See also DHUD Public Housing Maintenance SOP (general in-unit hazards)
+and DHHS Mandatory Reporting & Escalation Guide (if the report also
+raises a broader neglect concern beyond the housing hazard itself).
+
+--------------------------------------------------------------------------
+Approved: DHUD Code Enforcement Division
+Page 1 of 1 — DHUD-SOP-013

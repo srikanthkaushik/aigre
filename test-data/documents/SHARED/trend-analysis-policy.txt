@@ -1,0 +1,44 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Trend Analysis & Recurring Issue Policy
+Document No. CITY-POL-008          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Describes how the system identifies recurring/systemic issues across
+individually-filed grievances — the basis for the citywide trend
+dashboard referenced in the program's business goals (identifying
+recurring problems, not just resolving one-off complaints).
+
+2. HOW A TREND IS IDENTIFIED
+
+  2.1  DUPLICATE CLUSTERING: Multiple reports of the same issue at the
+       same location (see the duplicate-detection scenario in the
+       routing model) feed a location-level recurrence count.
+
+  2.2  CATEGORY-LEVEL VOLUME: A rolling count of grievances per
+       category/department/zone is tracked; a statistically significant
+       spike relative to the trailing baseline flags the category for
+       supervisor review, independent of whether any single case
+       breached its SLA.
+
+  2.3  REOPENED-CASE RATE: A department or category with an elevated
+       reopened-case rate (see the reopened-complaint scenario) is a
+       distinct trend signal from raw volume — it indicates resolutions
+       aren't holding, not just that there's a lot of the same complaint.
+
+3. WHAT THIS POLICY DOES NOT COVER
+
+Trend analysis informs supervisor-level review and dashboard reporting;
+it does not change any individual case's priority or SLA — a case within
+a spiking category is still triaged on its own individual merits.
+
+4. RELATED POLICIES
+
+See also Citywide SLA Policy Summary (individual-case priority, distinct
+from trend-level signals).
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-008

@@ -1,0 +1,35 @@
+CITY DEPARTMENT OF PUBLIC WORKS
+Animal Control & Removal SOP
+Document No. DPW-SOP-035           Effective Date: April 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DPW's removal of deceased animals from public streets and
+right-of-way, and coordination with Animal Control for live-animal
+concerns (which are handled by a separate city Animal Control unit, not
+DPW directly).
+
+2. SCOPE
+
+  2.1  DECEASED ANIMAL ON A PUBLIC STREET: DPW dispatches for removal —
+       same-day if reported before noon, next business day otherwise.
+
+  2.2  DECEASED ANIMAL ON PRIVATE PROPERTY: Not a DPW responsibility; the
+       property owner is responsible for disposal.
+
+  2.3  LIVE ANIMAL CONCERNS (stray, injured, aggressive): Referred to
+       Animal Control, a separate city unit with its own dispatch line —
+       the grievance portal logs the report and forwards it, but Animal
+       Control's response timelines are not governed by this SOP or the
+       standard citywide SLA table.
+
+3. RELATED POLICIES
+
+See also DPW Trash & Recycling Collection SOP (unrelated process,
+sometimes confused since both involve "things on the street").
+
+--------------------------------------------------------------------------
+Approved: DPW Office of Solid Waste Operations
+Page 1 of 1 — DPW-SOP-035

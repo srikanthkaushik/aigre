@@ -1,0 +1,40 @@
+DEPARTMENT OF HEALTH AND HUMAN SERVICES
+Resolved Case Log — Q1 2026 (De-identified Excerpt)
+
+--------------------------------------------------------------------------
+CASE DHHS-2026-00044
+Category: Food safety
+Summary: Two unrelated citizens reported gastrointestinal illness after
+eating at the same restaurant within a 5-day window.
+Resolution: Unannounced inspection conducted within 18 hours; multiple
+temperature-control violations found and corrected under supervision.
+Outcome: RESOLVED within 24-hour outbreak-tier SLA.
+
+--------------------------------------------------------------------------
+CASE DHHS-2026-00061
+Category: Benefits appeal
+Summary: Citizen appealed a denial of emergency assistance, citing
+imminent loss of housing.
+Resolution: Expedited review granted; decision issued in 8 business days,
+appeal upheld and benefits approved retroactively.
+Outcome: RESOLVED within expedited 10-day window.
+
+--------------------------------------------------------------------------
+CASE DHHS-2026-00073
+Category: Elder welfare concern
+Summary: Neighbor reported an elderly resident hadn't been seen in
+several days and mail was piling up, no immediate-danger language used.
+Resolution: Classified HIGH priority; welfare check conducted within 20
+hours, resident found to be recovering from a minor illness and connected
+with a home health aide referral.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DHHS-2026-00088
+Category: Mandatory reporting, CRITICAL
+Summary: Citizen reported suspected child neglect at a specific address.
+Resolution: Auto-classified CRITICAL, intake unit acknowledged within 40
+minutes, in-person assessment conducted within 18 hours per state-mandated
+timeline.
+Outcome: RESOLVED (referred to ongoing casework, details confidential
+per Citywide Privacy & PII Handling Notice).

@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: aigre
+  datasource:
+    url: jdbc:postgresql://localhost:5434/aigre
+    username: aigre
+    password: aigre_dev
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+  ai:
+    mcp:
+      server:
+        name: aigre-grievance-tools
+        version: 0.1.0
+        protocol: STREAMABLE # uppercase -- SSE is deprecated
+        type: SYNC
+        annotation-scanner:
+          enabled: true
+
+server:
+  port: 8085
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+llm:
+  provider: ollama # anthropic | ollama
+
+ollama:
+  base-url: http://localhost:11434
+  chat-model: qwen2.5:7b
+  embedding-model: nomic-embed-text
+  timeout: 120s
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY:}
+  chat-model: claude-sonnet-5
+  timeout: 60s
+
+rag:
+  ingest:
+    corpus-path: test-data/documents
+  retrieval:
+    initial-k: 15
+    rerank-to: 5
+
+logging:
+  level:
+    com.aigre: INFO
+    dev.langchain4j: WARN

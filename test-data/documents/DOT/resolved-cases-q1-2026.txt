@@ -1,0 +1,56 @@
+DEPARTMENT OF TRANSPORTATION
+Resolved Case Log — Q1 2026 (De-identified Excerpt)
+Compiled for citizen-facing "how was this resolved" reference use.
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00142
+Category: Road surface / pothole
+Summary: Citizen reported a pothole at the intersection of 5th Ave and
+Birch St, approximately 3 inches deep, causing vehicles to swerve into
+the adjacent lane. Field inspector classified as Moderate severity.
+Resolution: Patched within 4 business days of report, within the 5-day
+SLA under DOT-SOP-014 Rev. B.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00158
+Category: Traffic signal / dark signal
+Summary: Citizen reported a completely unlit traffic signal at Oak St and
+2nd Ave during evening rush hour, creating a hazardous uncontrolled
+intersection.
+Resolution: Traffic officer posted within 45 minutes per the dark-signal
+protocol; underlying electrical fault repaired same day. Total signal
+downtime: 6 hours.
+Outcome: RESOLVED, ESCALATED per Citywide Escalation & Safety-Flag Policy
+(dark signal = hazard keyword).
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00171
+Category: Public transit / service reliability
+Summary: Citizen reported Route 22 bus skipping their stop on 4 separate
+mornings over a 3-week period.
+Resolution: AVL record review confirmed 4 of 4 reported skips. Route 22
+flagged for a formal service-reliability review; driver retraining
+completed by Transit Operations.
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00183
+Category: Street signage
+Summary: Citizen reported a stop sign knocked down (apparent vehicle
+strike) at a residential intersection near a school.
+Resolution: Temporary barricade and stop-sign placard installed within 2
+hours; permanent sign reinstalled within 3 business days (school-zone
+proximity did not change this SLA, as 2.1 already applies the fastest
+tier).
+Outcome: RESOLVED.
+
+--------------------------------------------------------------------------
+CASE DOT-2026-00196
+Category: Road surface / pothole, DUPLICATE
+Summary: Citizen reported a pothole on Main St that had already been
+reported and logged 2 days earlier by a different citizen at the same
+location.
+Resolution: Linked as a duplicate of the earlier report; no separate SLA
+clock opened. Repair completed under the original case's timeline.
+Outcome: RESOLVED (as duplicate).

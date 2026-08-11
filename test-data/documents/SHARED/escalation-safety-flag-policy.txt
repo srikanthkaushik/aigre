@@ -1,0 +1,55 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Escalation & Safety-Flag Policy
+Document No. CITY-POL-001          Effective Date: January 1, 2025
+STATUS: CURRENT — applies across all departments
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Establishes the citywide criteria under which an incoming grievance is
+automatically classified CRITICAL priority and routed ahead of the
+standard triage queue, regardless of which department ultimately handles
+it. This policy governs classification only; department-specific response
+procedures remain in each department's own SOP.
+
+2. HAZARD KEYWORD CRITERIA
+
+A grievance is auto-flagged CRITICAL if its text indicates any of the
+following, regardless of department:
+
+  - Active gas leak or gas odor
+  - Exposed or downed electrical wiring
+  - Structural collapse or imminent collapse risk
+  - Child endangerment or suspected abuse/neglect (see DHHS Mandatory
+    Reporting & Escalation Guide)
+  - Immediate risk of violence or a weapon
+  - Dark (unpowered) traffic signal at a high-traffic intersection
+  - Active water main break creating a road hazard
+
+3. WHAT DOES NOT TRIGGER AUTO-ESCALATION
+
+Strongly negative sentiment, profanity, or citizen frustration alone does
+NOT trigger CRITICAL classification. A repeat submission of an unresolved
+MEDIUM or LOW priority issue may justify a one-tier priority bump (see
+Citywide SLA Policy Summary), but this is distinct from the hazard-based
+CRITICAL classification governed by this policy, and the two should not
+be conflated.
+
+4. MULTI-DEPARTMENT CASES
+
+Where a hazard spans more than one department's typical jurisdiction
+(e.g., a downed wire over a sidewalk implicates both DOT/DPW right-of-way
+and possibly a utility provider), the case is dual-tagged and both
+departments are notified; CRITICAL classification applies regardless of
+how many departments are tagged.
+
+5. HUMAN REVIEW
+
+Any case where automatic classification confidence is below the
+configured threshold is held for human clarification rather than
+defaulting to either CRITICAL or a standard tier — see Milestone 4
+(agent workflow with human approval gate) for the review-gate mechanism.
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-001

@@ -1,0 +1,38 @@
+DEPARTMENT OF TRANSPORTATION
+Vehicle-for-Hire Complaint Guide
+Last updated: June 2025
+
+--------------------------------------------------------------------------
+Q: Can I file a complaint about a taxi or rideshare driver through the
+grievance portal?
+
+A: Mostly no. Rideshare companies (transportation network companies) are
+regulated primarily at the state level, and individual driver conduct is
+handled through the company's own support channel. The city's direct
+enforcement role is limited to: (a) verifying a vehicle-for-hire operating
+license is valid, and (b) investigating a specific licensing violation
+(e.g., an unlicensed vehicle operating as a taxi). A general service
+complaint — rude driver, bad drop-off location, fare dispute — is NOT
+something this portal routes to an investigation; see Citywide
+Jurisdiction & Out-of-Scope Guide for the general out-of-scope framing
+this guide follows.
+
+Q: What if I suspect a vehicle is operating as an unlicensed taxi?
+
+A: That is a legitimate DOT licensing-enforcement matter. Report the
+vehicle description, location, and circumstances through the portal under
+"DOT — Vehicle-for-Hire Licensing." DOT Licensing Enforcement reviews
+within 10 business days.
+
+Q: A rideshare vehicle nearly hit a pedestrian in a crosswalk. Is that a
+city matter?
+
+A: A specific traffic-safety incident (near-miss, collision) should be
+reported to police, not the grievance portal, regardless of the vehicle
+type involved. If the concern is really about crosswalk/signal
+infrastructure at that location, that is separately reportable under DOT
+Street Signage & Visibility Policy or DOT Traffic Signal Repair & Timing
+Policy.
+
+--------------------------------------------------------------------------
+DOT Licensing Enforcement

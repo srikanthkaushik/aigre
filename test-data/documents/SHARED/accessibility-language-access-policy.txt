@@ -1,0 +1,41 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Portal Accessibility & Language Access Policy
+Document No. CITY-POL-006          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Establishes accessibility (ADA/WCAG) and language-access requirements for
+the citizen grievance portal itself, distinct from department-level
+physical accessibility policies (e.g., DOE School Facilities
+Accessibility Policy, which covers school buildings, not the portal
+software).
+
+2. REQUIREMENTS
+
+  2.1  The portal and chatbot interface must meet WCAG 2.1 AA standards
+       for screen-reader compatibility, keyboard navigation, and color
+       contrast.
+
+  2.2  Complaint submission and status tracking must be available in the
+       city's top five most-spoken non-English languages, with
+       machine-translation fallback for others, clearly labeled as
+       machine-translated.
+
+  2.3  A citizen who cannot use the portal (no internet access, disability
+       preventing digital submission) may submit a grievance by phone
+       through the same intake pipeline — phone-submitted grievances
+       receive identical SLA treatment to portal submissions, not a
+       lesser standard.
+
+3. RELATED POLICIES
+
+See also DOE School Facilities Accessibility (ADA) Policy and DHUD
+Accessibility Modification Request Guide — both cover physical facility
+accessibility, a different scope from this policy's digital/portal
+accessibility focus.
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-006

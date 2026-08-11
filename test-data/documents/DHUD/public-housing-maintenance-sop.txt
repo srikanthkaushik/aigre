@@ -1,0 +1,41 @@
+DEPARTMENT OF HOUSING AND URBAN DEVELOPMENT
+Public Housing Maintenance SOP
+Document No. DHUD-SOP-009          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs maintenance of DHUD-owned and operated public housing complexes
+(as opposed to privately-owned, city-subsidized rentals — see DHUD Tenant
+Complaint & Code Enforcement Guide for that separate category).
+
+2. RESPONSE TIMELINE
+
+  2.1  ELEVATOR OUTAGE: HIGH priority given mobility-impact and
+       vulnerable-population considerations. Repair vendor dispatched
+       within 4 hours; if repair cannot be completed within 24 hours,
+       DHUD must arrange alternate accessibility accommodation (e.g.,
+       ground-floor unit transfer) for affected residents with mobility
+       needs.
+
+  2.2  MOLD / AIR QUALITY WITHIN A UNIT: MEDIUM priority by default,
+       escalated to HIGH if the household includes a child or resident
+       with a documented respiratory condition. Inspection within 5
+       business days. This is a DHUD in-unit matter — NOT a DEP matter,
+       since DEP's Air Quality & Pollution Complaint SOP covers outdoor/
+       ambient air, not conditions inside a single housing unit.
+
+  2.3  SIDEWALKS AND GROUNDS on public housing authority property are
+       maintained by DHUD directly rather than DPW, as an exception to
+       DPW's general sidewalk jurisdiction under Policy 4.2.
+
+3. RELATED POLICIES
+
+See also DHUD Tenant Complaint & Code Enforcement Guide, and DEP Air
+Quality & Pollution Complaint SOP (a different scope despite the topical
+overlap on "air quality").
+
+--------------------------------------------------------------------------
+Approved: DHUD Public Housing Operations
+Page 1 of 1 — DHUD-SOP-009

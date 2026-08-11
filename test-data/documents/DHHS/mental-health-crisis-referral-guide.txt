@@ -1,0 +1,42 @@
+DEPARTMENT OF HEALTH AND HUMAN SERVICES
+Mental Health Crisis Referral Guide
+Document No. DHHS-POL-011          Effective Date: October 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs how the grievance portal handles a submission indicating a
+mental health crisis — either the citizen's own or a third party's — and
+routes it to appropriate resources rather than treating it as a standard
+grievance.
+
+2. HANDLING
+
+  2.1  ACTIVE, IMMEDIATE CRISIS (indications of intent to self-harm or
+       harm others, in progress): The portal must NOT rely on standard
+       SLA timelines. Display crisis-line contact information immediately
+       and, if enough detail is provided, flag for CRITICAL-equivalent
+       human review per the Citywide Escalation & Safety-Flag Policy,
+       recognizing this is fundamentally different from a hazard-keyword
+       infrastructure case.
+
+  2.2  NON-EMERGENCY REQUEST FOR MENTAL HEALTH SERVICES REFERRAL: Routed
+       to DHHS Behavioral Health intake, MEDIUM priority, contact within
+       5 business days.
+
+  2.3  CONCERN ABOUT A THIRD PARTY (not the submitter) — for a minor, see
+       DHHS Mandatory Reporting & Escalation Guide; for an elderly or
+       dependent adult, see DHHS Elder & Adult Protective Services Guide;
+       this guide's own scope is primarily first-person requests and
+       general crisis-line routing.
+
+3. RELATED POLICIES
+
+See also Citywide Escalation & Safety-Flag Policy, DHHS Mandatory
+Reporting & Escalation Guide, and DHHS Elder & Adult Protective Services
+Guide.
+
+--------------------------------------------------------------------------
+Approved: DHHS Behavioral Health Division
+Page 1 of 1 — DHHS-POL-011

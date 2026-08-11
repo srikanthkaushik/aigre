@@ -1,0 +1,163 @@
+<div class="page-container employee-page">
+  <div class="page-header">
+    <h1>Employee Dashboard</h1>
+    <p class="page-subtitle">Review pending classifications and manage your department's queue.</p>
+  </div>
+
+  <div class="toolbar-row">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="dept-select">
+      <mat-label>Viewing as</mat-label>
+      <mat-select [ngModel]="department()" (ngModelChange)="onDepartmentChange($event)" panelWidth="auto">
+        @for (d of departments; track d) {
+          <mat-option [value]="d">{{ d | departmentName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <button mat-stroked-button (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+      Refresh
+    </button>
+    <p class="hint disclaimer">Demo-only department picker — no real authentication in this pass.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <mat-icon class="stat-icon">pending_actions</mat-icon>
+      <div>
+        <div class="stat-value">{{ pendingDataSource.data.length }}</div>
+        <div class="stat-label">Pending review</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <mat-icon class="stat-icon">inbox</mat-icon>
+      <div>
+        <div class="stat-value">{{ departmentDataSource.data.length }}</div>
+        <div class="stat-label">{{ department() | departmentName }} queue</div>
+      </div>
+    </div>
+    <div class="stat-card" [class.alert]="breachedCount() > 0">
+      <mat-icon class="stat-icon">warning</mat-icon>
+      <div>
+        <div class="stat-value">{{ breachedCount() }}</div>
+        <div class="stat-label">SLA breaches</div>
+      </div>
+    </div>
+  </div>
+
+  <mat-tab-group animationDuration="200ms">
+    <mat-tab [label]="'Pending Review (' + pendingDataSource.data.length + ')'">
+      <div class="tab-panel">
+        @if (loading()) {
+          <div class="loading-row">
+            <mat-progress-spinner diameter="22" mode="indeterminate" />
+            <span class="hint">Loading…</span>
+          </div>
+        } @else if (!pendingDataSource.data.length) {
+          <div class="empty-state">
+            <mat-icon>task_alt</mat-icon>
+            <p>Nothing awaiting review.</p>
+          </div>
+        }
+        <table mat-table [dataSource]="pendingDataSource" [class.hidden]="!pendingDataSource.data.length">
+          <ng-container matColumnDef="submittedAt">
+            <th mat-header-cell *matHeaderCellDef>Submitted</th>
+            <td mat-cell *matCellDef="let item">{{ item.submittedAt | date: 'short' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let item">
+              <mat-chip class="status-chip" [class]="'status-' + item.status.toLowerCase()">{{ item.status }}</mat-chip>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let item" class="actions-cell">
+              <button mat-stroked-button color="primary" (click)="openDetail(item.id)">Review</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="pendingColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: pendingColumns"></tr>
+        </table>
+        <mat-paginator
+          #pendingPaginator
+          [class.hidden]="!pendingDataSource.data.length"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 25, 50]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="(department() | departmentName) + ' Queue (' + departmentDataSource.data.length + ')'">
+      <div class="tab-panel">
+        @if (loading()) {
+          <div class="loading-row">
+            <mat-progress-spinner diameter="22" mode="indeterminate" />
+            <span class="hint">Loading…</span>
+          </div>
+        } @else if (!departmentDataSource.data.length) {
+          <div class="empty-state">
+            <mat-icon>inbox</mat-icon>
+            <p>No grievances in this department's queue.</p>
+          </div>
+        }
+        <table mat-table [dataSource]="departmentDataSource" [class.hidden]="!departmentDataSource.data.length">
+          <ng-container matColumnDef="submittedAt">
+            <th mat-header-cell *matHeaderCellDef>Submitted</th>
+            <td mat-cell *matCellDef="let item">{{ item.submittedAt | date: 'short' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let item">
+              <mat-chip class="status-chip" [class]="'status-' + item.status.toLowerCase()">{{ item.status }}</mat-chip>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let item">{{ item.category ?? '—' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef>Priority</th>
+            <td mat-cell *matCellDef="let item">
+              @if (item.priority) {
+                <mat-chip class="priority-chip" [class]="'priority-' + item.priority.toLowerCase()">
+                  {{ item.priority }}
+                </mat-chip>
+              }
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="slaDueAt">
+            <th mat-header-cell *matHeaderCellDef>SLA due</th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.slaDueAt ? (item.slaDueAt | date: 'short') : '—' }}
+              @if (item.breached) {
+                <span class="breach-flag">BREACHED</span>
+              }
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let item" class="actions-cell">
+              <button mat-stroked-button (click)="openDetail(item.id)">View</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="departmentColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: departmentColumns" [class.breached-row]="row.breached"></tr>
+        </table>
+        <mat-paginator
+          #departmentPaginator
+          [class.hidden]="!departmentDataSource.data.length"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 25, 50]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Trends">
+      <div class="tab-panel">
+        <app-trends [department]="department()" />
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

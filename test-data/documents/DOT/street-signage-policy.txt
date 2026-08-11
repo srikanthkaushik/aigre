@@ -1,0 +1,44 @@
+CITY DEPARTMENT OF TRANSPORTATION
+Street Signage & Visibility Policy
+Document No. DOT-POL-011           Effective Date: September 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DOT's response to citizen reports concerning non-signal traffic
+control devices: stop signs, yield signs, speed limit signs, and
+crosswalk pavement markings. This policy does not cover electronic
+traffic signals (see DOT Traffic Signal Repair & Timing Policy) or
+directional/wayfinding signage on state highways (not city jurisdiction —
+see Citywide Jurisdiction & Out-of-Scope Guide).
+
+2. RESPONSE STANDARDS
+
+  2.1  KNOCKED-DOWN OR MISSING STOP/YIELD SIGN: Treated as a critical
+       intersection-control failure. DOT dispatches a temporary sign or
+       barricade within 4 hours of report, with permanent replacement
+       within 5 business days.
+
+  2.2  OBSCURED SIGN (overgrown foliage, graffiti, faded reflectivity):
+       Logged for the next scheduled maintenance sweep of that zone,
+       target resolution within 20 business days. Reports involving a
+       school zone are prioritized to 10 business days.
+
+  2.3  CROSSWALK PAVEMENT MARKINGS (faded lines, missing markings): DOT
+       maintains a citywide repainting schedule based on wear surveys
+       conducted every 18 months. Individual citizen reports of faded
+       crosswalk markings are logged to inform the next survey cycle but
+       do NOT have an individually tracked SLA under this policy — see
+       Citywide Jurisdiction & Out-of-Scope Guide for how such requests
+       are communicated to citizens.
+
+3. RELATED POLICIES
+
+See also DOT Road Maintenance SOP v2 for pavement-surface defects
+(distinct from painted markings), and the Citywide Escalation &
+Safety-Flag Policy for hazard criteria.
+
+--------------------------------------------------------------------------
+Approved: DOT Office of Traffic Operations
+Page 1 of 1 — DOT-POL-011

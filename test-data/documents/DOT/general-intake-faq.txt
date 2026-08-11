@@ -1,0 +1,35 @@
+DEPARTMENT OF TRANSPORTATION
+General Citizen Intake FAQ
+Last updated: July 2026
+
+--------------------------------------------------------------------------
+Q: What kinds of issues does DOT handle?
+
+A: Road surface defects (potholes, pavement), traffic signals, street
+signage and pavement markings, public transit service, bike lanes, school
+zone traffic safety, and the roadway approach to railroad crossings. See
+the individual DOT policies for specific SLAs.
+
+Q: What does DOT NOT handle?
+
+A: Sidewalks (DPW), streetlights (DPW), parking ticket appeals (separate
+Parking Violations Bureau process), full road repaving/capital projects
+(DOT Capital Projects schedule, not the point-repair SOPs), and rideshare/
+taxi service complaints (mostly out of city jurisdiction — see DOT
+Vehicle-for-Hire Complaint Guide).
+
+Q: How do I know if my issue is urgent enough to be marked CRITICAL?
+
+A: You don't need to guess — the system automatically flags hazard
+conditions (dark signals at busy intersections, exposed wiring, active
+gas leaks) as CRITICAL per the Citywide Escalation & Safety-Flag Policy
+regardless of how you word your report.
+
+Q: Can I submit the same issue more than once if I don't hear back?
+
+A: You can, but duplicate reports of the same issue at the same location
+are automatically linked rather than opening a second, separate case with
+its own timeline — the original report's timeline still applies.
+
+--------------------------------------------------------------------------
+DOT Customer Service

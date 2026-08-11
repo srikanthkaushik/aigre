@@ -1,0 +1,39 @@
+CITY DEPARTMENT OF TRANSPORTATION
+School Zone Safety Program
+Document No. DOT-POL-018           Effective Date: August 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Describes DOT's school-zone-specific traffic infrastructure program:
+reduced speed limit signage, flashing beacon activation windows, and the
+annual school-zone safety audit conducted jointly with DOE.
+
+2. PROGRAM ELEMENTS
+
+  2.1  FLASHING BEACON MALFUNCTION: A school-zone flashing beacon that
+       fails to activate during posted school hours is treated under DOT
+       Traffic Signal Repair & Timing Policy's dark-signal protocol
+       (same-day response), since it is a safety-critical failure during
+       active dismissal/arrival windows.
+
+  2.2  ANNUAL AUDIT: Each school zone is audited jointly with DOE once per
+       year for sightline obstructions, signage condition, and crossing
+       guard post adequacy. Citizen reports outside the audit cycle are
+       still individually triaged, not deferred to the next audit.
+
+  2.3  NEW SCHOOL-ZONE DESIGNATION REQUESTS: A request to designate a new
+       street segment as a school zone (e.g., after a school relocation)
+       is a planning request, not a complaint, and is reviewed on DOT's
+       quarterly planning calendar rather than the standard SLA table.
+
+3. RELATED POLICIES
+
+See also DOT Traffic Signal Repair & Timing Policy Section 2.4 and DOE
+School Facilities Maintenance SOP Section 4 for the coordination protocol
+on street-adjacent hazards.
+
+--------------------------------------------------------------------------
+Approved: DOT Office of Traffic Operations
+Page 1 of 1 — DOT-POL-018

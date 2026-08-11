@@ -1,0 +1,47 @@
+DEPARTMENT OF HOUSING AND URBAN DEVELOPMENT
+Tenant Utility Complaint Guide
+Document No. DHUD-POL-005          Effective Date: May 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DHUD's response to a tenant-reported utility outage (heat, hot
+water, electricity, water pressure) WITHIN a city-subsidized rental unit,
+as distinct from a city-infrastructure failure affecting an entire street
+or neighborhood.
+
+2. HOW TO TELL THE DIFFERENCE FROM A DPW WATER MAIN ISSUE
+
+  2.1  If ONLY your unit or building is affected, and neighboring
+       addresses on the same street report normal service, this is a
+       DHUD tenant-utility matter — the landlord is responsible for
+       in-building systems (boiler, in-unit plumbing, electrical panel).
+
+  2.2  If MULTIPLE addresses across a street segment are affected
+       simultaneously, this may indicate a city water main issue — see
+       DPW Water Main Break Response SOP. DHUD intake staff cross-check
+       DPW's active-incident log before dispatching a code-enforcement
+       inspector, to avoid duplicate dispatch.
+
+3. RESPONSE TIMELINE
+
+  3.1  NO HEAT / NO HOT WATER (single unit or building): HIGH priority,
+       inspection within 24 hours, landlord correction order with 48-hour
+       compliance deadline (same standard as DHUD Tenant Complaint & Code
+       Enforcement Guide Section 3.1 — this guide provides the detailed
+       utility-specific procedure referenced there).
+
+  3.2  LOW WATER PRESSURE (not full outage): MEDIUM priority, inspection
+       within 5 business days, unless it coincides with a citywide DPW
+       advisory in which case it is treated as informational pending DPW
+       resolution.
+
+4. RELATED POLICIES
+
+See also DHUD Tenant Complaint & Code Enforcement Guide and DPW Water
+Main Break Response SOP.
+
+--------------------------------------------------------------------------
+Approved: DHUD Code Enforcement Division
+Page 1 of 1 — DHUD-POL-005

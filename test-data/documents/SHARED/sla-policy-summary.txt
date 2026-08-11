@@ -1,0 +1,54 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+SLA Policy Summary
+Document No. CITY-POL-003          Effective Date: January 1, 2025
+STATUS: CURRENT — human-readable mirror of the sla_policies table
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Summarizes the citywide priority tiers and their acknowledgment/resolution
+windows. This is the same rubric enforced programmatically by the SLA
+calculator against the sla_policies reference table — the two are
+intentionally kept in sync; if they ever diverge, the sla_policies table
+in the systems of record is authoritative for computed due dates, and
+this document should be corrected to match.
+
+2. PRIORITY TIERS
+
+  CRITICAL — Ack within 1 hour, resolve within 4 hours.
+    Triggered by hazard-keyword criteria (see Citywide Escalation &
+    Safety-Flag Policy) or state-mandated timelines (e.g., mandatory
+    reporting cases, which follow their own statutory clock but are
+    tracked as CRITICAL in the portal).
+
+  HIGH — Ack within 4 hours, resolve within 24 hours.
+    Service outages affecting many residents (water main breaks, multi-
+    light street outages) or vulnerable-population impact (no-heat
+    situations, elder welfare concerns, elevator outages affecting
+    mobility-impaired residents).
+
+  MEDIUM — Ack within 1 business day, resolve within 5 business days.
+    Individual service degradation, non-urgent code violations, most
+    department-level SOP defaults absent a hazard or vulnerable-
+    population factor.
+
+  LOW — Ack within 2 business days, resolve within 15 business days.
+    Cosmetic or administrative issues, non-urgent scheduling requests.
+
+3. PRIORITY BUMPS
+
+A confirmed repeat submission of the same unresolved issue, combined with
+negative sentiment, may justify a one-tier priority bump. Negative
+sentiment alone, without a repeat submission, does not change priority
+tier — see Citywide Escalation & Safety-Flag Policy Section 3.
+
+4. NOTE ON BUSINESS DAYS
+
+"Business days" and "business hours" in this table follow the standard
+city government calendar (weekdays, excluding published city holidays).
+CRITICAL and HIGH tiers use calendar hours, not business hours, given
+their urgency.
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-003

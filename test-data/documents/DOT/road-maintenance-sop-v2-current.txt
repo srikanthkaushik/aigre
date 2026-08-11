@@ -1,0 +1,65 @@
+CITY DEPARTMENT OF TRANSPORTATION
+Standard Operating Procedure — Road Surface Maintenance
+Document No. DOT-SOP-014 Rev. B    Effective Date: January 15, 2026
+STATUS: CURRENT. Supersedes DOT-SOP-014 (effective March 1, 2023).
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Pursuant to City Code §14-2 ("Maintenance of Public Roadways"), the
+Department of Transportation ("DOT") is responsible for the repair of
+road-surface defects on all city-maintained roadways, including but not
+limited to potholes, surface cracking, and pavement heaving. This revision
+shortens response timelines following the FY2025 Infrastructure
+Modernization Ordinance and adds severity-based prioritization.
+
+2. SCOPE
+
+This SOP applies to road-surface defects reported through the citizen
+grievance portal, by phone to the DOT Customer Service Line, or referred
+from another department. It does not apply to sidewalks (see DPW Sidewalk
+Maintenance Policy 4.2), state-maintained highways, or private roadways.
+Full road-repaving and resurfacing projects are governed by the DOT
+Capital Projects schedule, not this SOP — this SOP covers point-repair of
+individual defects only.
+
+3. RESPONSE TIMELINE
+
+  3.1  Upon receipt of a citizen-reported pothole, DOT shall dispatch a
+       field inspector within two (2) business days to confirm the defect
+       and assign a severity classification (Minor / Moderate / Severe)
+       per Table 1.
+
+  3.2  Repair of a confirmed pothole classified Minor or Moderate shall be
+       completed within five (5) business days of the initial citizen
+       report.
+
+  3.3  Repair of a confirmed pothole classified Severe, or any defect
+       meeting the hazard criteria in the Citywide Escalation &
+       Safety-Flag Policy, shall be prioritized ahead of the standing
+       repair queue and completed as soon as practicable, consistent with
+       CRITICAL-priority handling.
+
+Table 1 — Severity Classification
+  Minor    | Surface depth < 2 in.  | 5 business days
+  Moderate | Surface depth 2-4 in.  | 5 business days
+  Severe   | Surface depth > 4 in.  | Escalated, see 3.3
+
+4. EXCEPTIONS
+
+Repair timelines under Section 3.2 may be extended in the event of (a)
+sustained sub-freezing temperatures preventing asphalt cure, (b) declared
+weather emergencies, or (c) supply chain disruption affecting patching
+material, each subject to supervisor sign-off and citizen notification via
+the portal status page.
+
+5. RELATED POLICIES
+
+  See also DOT Traffic Signal Repair & Timing Policy for signal-adjacent
+  road defects, DPW Sidewalk Maintenance Policy (Policy 4.2) for defects
+  on pedestrian infrastructure, and the Citywide Escalation & Safety-Flag
+  Policy for hazard criteria that trigger priority handling.
+
+--------------------------------------------------------------------------
+Approved: DOT Office of Infrastructure Maintenance
+Page 1 of 1 — DOT-SOP-014 Rev. B (current)

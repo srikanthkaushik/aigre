@@ -1,0 +1,47 @@
+DEPARTMENT OF HOUSING AND URBAN DEVELOPMENT
+Resolved Case Log — Q1 2026 (De-identified Excerpt)
+
+--------------------------------------------------------------------------
+CASE DHUD-2026-00019
+Category: Tenant utility, no heat
+Summary: Tenant in a city-subsidized unit reported no heat for three days
+during heating season, temperatures below freezing overnight.
+Resolution: Classified HIGH priority. Inspection confirmed a failed
+boiler; correction order issued with 48-hour compliance deadline;
+landlord failed to comply, city arranged emergency temporary heaters
+billed to landlord.
+Outcome: RESOLVED, landlord non-compliance referred for further code
+enforcement action.
+
+--------------------------------------------------------------------------
+CASE DHUD-2026-00027
+Category: Tenant utility, cross-checked against DPW
+Summary: Tenant reported low water pressure; DHUD intake cross-checked
+DPW's active incident log and found a confirmed city water main repair
+already in progress on that street segment.
+Resolution: No DHUD inspection dispatched; tenant notified the issue was
+already being addressed by DPW with an expected resolution that day.
+Outcome: RESOLVED (deferred to DPW's existing case, avoided duplicate
+dispatch).
+
+--------------------------------------------------------------------------
+CASE DHUD-2026-00033
+Category: Public housing, elevator outage
+Summary: Elevator outage reported at a public housing high-rise; a
+resident with a mobility impairment was affected.
+Resolution: Vendor dispatched within 3 hours; repair required a part not
+in stock, completed in 30 hours. Ground-floor guest unit arranged for the
+affected resident in the interim per accessibility-accommodation
+requirement.
+Outcome: RESOLVED, with accommodation provided during the extended
+repair window.
+
+--------------------------------------------------------------------------
+CASE DHUD-2026-00041
+Category: Homelessness / emergency shelter referral
+Summary: Citizen reported an encampment on a city sidewalk near a
+business district.
+Resolution: Outreach team engaged within 6 hours, connected two
+individuals with shelter intake; site cleanup coordinated with DPW for
+public right-of-way debris.
+Outcome: RESOLVED (DHUD outreach); DPW cleanup tracked as a linked case.

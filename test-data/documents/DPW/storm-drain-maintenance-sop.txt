@@ -1,0 +1,35 @@
+CITY DEPARTMENT OF PUBLIC WORKS
+Storm Drain & Catch Basin Maintenance SOP
+Document No. DPW-SOP-037           Effective Date: September 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DPW's response to blocked or overflowing storm drains and catch
+basins, distinct from the sanitary sewer system covered under DPW Water
+Main Break Response SOP.
+
+2. RESPONSE TIMELINE
+
+  2.1  ACTIVE STREET FLOODING due to a blocked catch basin during or
+       immediately after rainfall: HIGH priority, crew dispatched within
+       2 hours to clear the blockage.
+
+  2.2  NON-EMERGENCY BLOCKED DRAIN (debris visible, no active flooding):
+       MEDIUM priority, cleared within 5 business days as part of the
+       routine maintenance sweep.
+
+  2.3  Reports of water quality concerns (discoloration, odor) at a storm
+       drain outfall are NOT covered by this SOP — route to DEP under the
+       Wetlands & Stormwater Runoff Policy, since that concerns
+       contamination rather than a mechanical blockage.
+
+3. RELATED POLICIES
+
+See also DPW Water Main Break Response SOP (sanitary/potable water, a
+different system) and DEP Wetlands & Stormwater Runoff Policy.
+
+--------------------------------------------------------------------------
+Approved: DPW Office of Water & Sewer Operations
+Page 1 of 1 — DPW-SOP-037

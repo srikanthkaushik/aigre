@@ -1,0 +1,44 @@
+CITY DEPARTMENT OF PUBLIC WORKS
+Street Lighting Maintenance Policy
+Policy 6.1                          Effective Date: November 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DPW's response to citizen reports of malfunctioning, dark, or
+damaged streetlights on public right-of-way. Does not cover traffic
+signal lighting (see DOT Traffic Signal Repair & Timing Policy) or
+lighting on private property.
+
+2. RESPONSE TIMELINE
+
+  2.1  SINGLE DARK STREETLIGHT: Logged and scheduled for the next
+       maintenance route pass, target repair within 10 business days.
+
+  2.2  MULTIPLE ADJACENT DARK STREETLIGHTS (3 or more on the same block,
+       suggesting a circuit-level fault): Escalated to Electrical
+       Operations for same-week investigation, target repair within 5
+       business days, because a multi-light outage indicates a shared
+       infrastructure fault rather than a single bulb failure.
+
+  2.3  DAMAGED POLE (leaning, exposed wiring, vehicle-strike damage):
+       Treated as a hazard under the Citywide Escalation & Safety-Flag
+       Policy. Emergency crew dispatched same day to secure the site;
+       full repair timeline assessed on-site.
+
+3. REPORTING NOTE
+
+A report of "it's dark on my street at night" without specifying a
+malfunctioning fixture is logged as a lighting-adequacy request (a
+separate, non-SLA planning process) rather than a maintenance repair
+under this policy.
+
+4. RELATED POLICIES
+
+See also DOT Traffic Signal Repair & Timing Policy, and Citywide
+Escalation & Safety-Flag Policy.
+
+--------------------------------------------------------------------------
+Approved: DPW Office of Electrical Operations
+Page 1 of 1 — Policy 6.1

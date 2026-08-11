@@ -1,0 +1,82 @@
+.employee-page {
+  max-width: 1000px;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin: 0 0 1.25rem;
+
+  button[mat-stroked-button] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+
+    mat-icon {
+      font-size: 1.1rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+}
+
+// Widened to fit the longest full department name ("Department of Housing and
+// Urban Development") on one line -- the select trigger and its overlay panel
+// both need the room, not just the closed field.
+.dept-select {
+  width: 400px;
+  flex: 0 0 auto;
+
+  ::ng-deep .mat-mdc-select-value-text,
+  ::ng-deep .mat-mdc-select-min-line {
+    white-space: nowrap;
+  }
+}
+
+.disclaimer {
+  margin: 0;
+  flex-basis: 100%;
+}
+
+.empty-state {
+  padding: 3rem 1rem;
+}
+
+table {
+  width: 100%;
+}
+
+tr.mat-mdc-row:hover {
+  background: var(--mat-sys-surface-container-low);
+}
+
+th.mat-mdc-header-cell {
+  position: sticky;
+  top: 0;
+  background: var(--mat-sys-surface);
+  z-index: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+.actions-cell {
+  text-align: right;
+}
+
+tr.breached-row {
+  background: color-mix(in srgb, var(--mat-sys-error-container) 40%, transparent);
+
+  &:hover {
+    background: color-mix(in srgb, var(--mat-sys-error-container) 55%, transparent);
+  }
+}
+
+@media (max-width: 700px) {
+  .dept-select {
+    width: 100%;
+  }
+}

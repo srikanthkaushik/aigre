@@ -1,0 +1,222 @@
+<div class="page-container citizen-page">
+  <div class="page-header">
+    <h1>Citizen Portal</h1>
+    <p class="page-subtitle">Submit a complaint, check its status, or ask about department policies.</p>
+  </div>
+
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" animationDuration="200ms">
+    <!-- SUBMIT -->
+    <mat-tab label="Submit a Complaint">
+      <div class="tab-panel submit-layout">
+        <mat-card appearance="outlined" class="tab-card submit-form">
+          <mat-card-content>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Describe the issue</mat-label>
+              <textarea
+                matInput
+                rows="4"
+                [(ngModel)]="rawText"
+                placeholder="e.g. There's a large pothole on Maple Street that's been there for two weeks..."
+              ></textarea>
+            </mat-form-field>
+
+            <div class="grid-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Name (optional)</mat-label>
+                <input matInput type="text" [(ngModel)]="citizenName" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Email (optional)</mat-label>
+                <input matInput type="email" [(ngModel)]="citizenEmail" />
+              </mat-form-field>
+            </div>
+
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="submitting() || !rawText.trim()"
+              (click)="submit()"
+            >
+              @if (submitting()) {
+                <mat-progress-spinner diameter="18" mode="indeterminate" />
+              }
+              {{ submitting() ? 'Submitting…' : 'Submit Complaint' }}
+            </button>
+
+            @if (submitError()) {
+              <p class="error-text">{{ submitError() }}</p>
+            }
+
+            @if (submitResult(); as result) {
+              <div class="result-banner"
+                [class.pending]="result.pendingReview"
+                [class.not-actionable]="!result.pendingReview && result.status === 'NOT_ACTIONABLE'"
+                [class.ok]="!result.pendingReview && result.status !== 'NOT_ACTIONABLE'"
+              >
+                <div class="result-icon">
+                  @if (result.pendingReview) {
+                    <mat-icon>hourglass_top</mat-icon>
+                  } @else if (result.status === 'NOT_ACTIONABLE') {
+                    <mat-icon>info</mat-icon>
+                  } @else {
+                    <mat-icon>check_circle</mat-icon>
+                  }
+                </div>
+                <div class="result-text">
+                  @if (result.pendingReview) {
+                    <h3>Needs a closer look</h3>
+                    <p>A supervisor will review your complaint before it's routed. Check back using your grievance ID.</p>
+                  } @else if (result.status === 'NOT_ACTIONABLE') {
+                    <h3>Not something this portal handles</h3>
+                    <p>{{ result.reasoning }}</p>
+                  } @else {
+                    <h3>Routed to {{ result.department | departmentName }}</h3>
+                    <p>
+                      Category: {{ result.category }} · Priority: <strong>{{ result.priority }}</strong>
+                      @if (result.slaDueAt) {
+                        <br />Expected resolution by {{ result.slaDueAt | date: 'medium' }}.
+                      }
+                    </p>
+                  }
+                  <p class="grievance-id">
+                    ID: <code>{{ result.grievanceId }}</code>
+                    <button mat-stroked-button class="btn-small" (click)="useSubmittedId()">Track this</button>
+                  </p>
+                </div>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="tab-card submit-aside">
+          <mat-card-content>
+            <h3>What happens next</h3>
+            <ol class="steps">
+              <li>
+                <mat-icon>psychology</mat-icon>
+                <span>An AI classifier reads your complaint and identifies the right department.</span>
+              </li>
+              <li>
+                <mat-icon>alt_route</mat-icon>
+                <span>Clear cases are routed immediately. Ambiguous ones pause for a supervisor to confirm.</span>
+              </li>
+              <li>
+                <mat-icon>timeline</mat-icon>
+                <span>Track progress anytime with your grievance ID on the Check Status tab.</span>
+              </li>
+            </ol>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- STATUS -->
+    <mat-tab label="Check Status">
+      <div class="tab-panel">
+        <mat-card appearance="outlined" class="tab-card">
+          <mat-card-content>
+            <div class="lookup-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Grievance ID</mat-label>
+                <input matInput type="text" [(ngModel)]="lookupId" placeholder="paste your grievance ID" />
+              </mat-form-field>
+              <button mat-flat-button color="primary" [disabled]="statusLoading() || !lookupId.trim()" (click)="lookupStatus()">
+                {{ statusLoading() ? 'Looking up…' : 'Check' }}
+              </button>
+            </div>
+
+            @if (statusError()) {
+              <p class="error-text">{{ statusError() }}</p>
+            }
+
+            @if (statusResult(); as s) {
+              <div class="receipt-card">
+                <mat-chip class="status-chip" [class]="'status-' + s.status.toLowerCase()">{{ s.status }}</mat-chip>
+                <dl>
+                  <dt>Department</dt>
+                  <dd>{{ (s.departmentConfirmed ?? s.departmentPredicted) | departmentName }}</dd>
+                  <dt>Category</dt>
+                  <dd>{{ s.category ?? '—' }}</dd>
+                  <dt>Priority</dt>
+                  <dd>{{ s.priority ?? '—' }}</dd>
+                  <dt>Submitted</dt>
+                  <dd>{{ s.submittedAt | date: 'medium' }}</dd>
+                  <dt>SLA due</dt>
+                  <dd>{{ s.slaDueAt ? (s.slaDueAt | date: 'medium') : '—' }}</dd>
+                  @if (s.resolutionNotes) {
+                    <dt>Notes</dt>
+                    <dd>{{ s.resolutionNotes }}</dd>
+                  }
+                </dl>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- CHAT -->
+    <mat-tab label="Ask a Question">
+      <div class="tab-panel">
+        <mat-card appearance="outlined" class="tab-card chat-card">
+          <mat-card-content class="chat-content">
+            <div class="messages">
+              @for (m of messages(); track $index) {
+                <div class="message-row" [class.user]="m.role === 'user'">
+                  <div class="avatar">
+                    <mat-icon>{{ m.role === 'user' ? 'person' : 'smart_toy' }}</mat-icon>
+                  </div>
+                  <div class="message" [class.user]="m.role === 'user'" [class.assistant]="m.role === 'assistant'">
+                    <p>{{ m.text }}@if (m.streaming) {<span class="cursor">▍</span>}</p>
+                    @if (m.sources && m.sources.length) {
+                      <div class="citations">
+                        @for (s of m.sources; track $index) {
+                          <div class="citation-card">
+                            <mat-icon>description</mat-icon>
+                            <span>{{ s.metadata['source'] ?? 'unknown source' }}</span>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+              @if (!messages().length) {
+                <div class="chat-empty">
+                  <mat-icon>chat_bubble_outline</mat-icon>
+                  <p>Ask about department policies, SLAs, or how something is handled.</p>
+                  <div class="example-chips">
+                    @for (q of exampleQuestions; track q) {
+                      <button class="example-chip" (click)="askExampleQuestion(q)">{{ q }}</button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+            <div class="chat-input">
+              <mat-form-field appearance="outline" class="full-width">
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="question"
+                  placeholder="Ask a question…"
+                  (keydown.enter)="askQuestion()"
+                  [disabled]="chatting()"
+                />
+              </mat-form-field>
+              <button
+                mat-icon-button
+                color="primary"
+                [disabled]="chatting() || !question.trim()"
+                (click)="askQuestion()"
+                aria-label="Send question"
+              >
+                <mat-icon>send</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

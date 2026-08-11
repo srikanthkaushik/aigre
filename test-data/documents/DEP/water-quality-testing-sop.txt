@@ -1,0 +1,41 @@
+DEPARTMENT OF ENVIRONMENTAL PROTECTION
+Water Quality Testing Complaint SOP
+Document No. DEP-SOP-019           Effective Date: June 1, 2024
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs DEP's investigation of citizen-reported drinking water QUALITY
+concerns — taste, odor, color, or suspected contamination — distinct from
+a DPW Water Main Break, which concerns supply/pressure/infrastructure
+failure, not water quality itself. A citizen can have normal pressure and
+still have a legitimate quality complaint, or vice versa; the two SOPs
+address genuinely different problems even though both involve "the
+water."
+
+2. RESPONSE TIMELINE
+
+  2.1  SUSPECTED CONTAMINATION (unusual color, chemical odor, multiple
+       reports from the same area): HIGH priority, DEP water quality
+       technician dispatched within 4 hours to sample and test.
+
+  2.2  TASTE/ODOR COMPLAINT WITHOUT CONTAMINATION INDICATORS (single
+       report, "tastes a bit off"): MEDIUM priority, sample kit provided
+       and results returned within 5 business days — often attributable
+       to routine seasonal mineral variation or aging in-home plumbing,
+       not a system-wide issue.
+
+  2.3  If DEP's testing indicates the issue originates at the water main
+       level (pressure/infrastructure) rather than water quality, the
+       case is referred to DPW under Water Main Break Response SOP.
+
+3. RELATED POLICIES
+
+See also DPW Water Main Break Response SOP (infrastructure/supply, not
+quality) and DHUD Tenant Utility Complaint Guide (in-unit utility outage,
+also a different concern from water quality).
+
+--------------------------------------------------------------------------
+Approved: DEP Water Quality Division
+Page 1 of 1 — DEP-SOP-019

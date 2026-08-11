@@ -1,0 +1,56 @@
+DEPARTMENT OF HEALTH AND HUMAN SERVICES
+Mandatory Reporting & Escalation Guide
+Document No. DHHS-POL-002          Effective Date: July 1, 2022
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+This guide governs the intake and escalation of citizen reports involving
+suspected child neglect or abuse, suspected elder/dependent adult abuse
+or self-neglect, and other conditions subject to mandatory reporting
+requirements under State Welfare & Institutions Code §15630 et seq.
+
+2. INTAKE VIA THE GRIEVANCE PORTAL
+
+  2.1  Reports submitted through the citizen grievance portal describing
+       suspected child neglect or abuse are automatically classified
+       CRITICAL priority and routed to the DHHS Child Protective Intake
+       Unit, bypassing the standard triage queue, per the Citywide
+       Escalation & Safety-Flag Policy.
+
+  2.2  The portal is NOT a substitute for calling 911 in the case of an
+       immediate, in-progress emergency. Portal guidance text displayed
+       to the citizen must make this explicit.
+
+  2.3  Reports are logged with the minimum information necessary to route
+       the case (location, nature of concern) and are NOT publicly
+       visible in any citizen-facing status dashboard, consistent with
+       the Citywide Privacy & PII Handling Notice.
+
+3. RESPONSE TIMELINE
+
+CRITICAL-classified mandatory-reporting cases receive an intake-unit
+acknowledgment within 1 hour and an in-person or phone follow-up
+assessment within 24 hours, consistent with state-mandated response
+windows, which supersede the standard citywide SLA table for this case
+type.
+
+4. ELDER / DEPENDENT ADULT CONCERNS
+
+See DHHS Elder & Adult Protective Services Guide for the parallel process
+covering suspected self-neglect or abuse involving an elderly or
+dependent adult, which follows a similar but distinct intake unit and
+timeline (HIGH rather than CRITICAL by default, escalating to CRITICAL if
+immediate danger is indicated).
+
+5. RELATED POLICIES
+
+See also Citywide Escalation & Safety-Flag Policy for the hazard-keyword
+criteria that trigger automatic CRITICAL classification, and DOE Student
+Safety & Anti-Bullying Policy for school-based concerns that may overlap
+with mandatory reporting obligations.
+
+--------------------------------------------------------------------------
+Approved: DHHS Office of Child & Family Services
+Page 1 of 1 — DHHS-POL-002

@@ -1,0 +1,48 @@
+CITYWIDE GRIEVANCE RESOLUTION ENGINE
+Privacy & PII Handling Notice
+Document No. CITY-POL-004          Effective Date: January 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Describes how personally identifiable information (PII) submitted through
+the grievance portal — by citizens describing their own situation or
+someone else's — is handled, and establishes the chatbot's obligations
+regarding PII.
+
+2. WHAT COUNTS AS PII IN A GRIEVANCE
+
+Social Security numbers, financial account or card numbers, personal
+email addresses and phone numbers distinct from the citizen's on-file
+contact information, and precise identifying details of a third party
+(e.g., a minor named in a mandatory-reporting case) submitted within the
+free-text description of a complaint.
+
+3. HANDLING REQUIREMENTS
+
+  3.1  PII embedded in a complaint's free text must be detected and
+       redacted before the raw text is stored long-term or forwarded to
+       any external LLM provider for classification, sentiment analysis,
+       or chatbot response generation.
+
+  3.2  The chatbot must never echo back a citizen's SSN, financial
+       account details, or another person's PII, even if directly asked
+       to "confirm what's on file." Requests of this nature should be
+       refused, with the citizen directed to an authenticated
+       account-status channel instead of the chatbot.
+
+  3.3  Case details in sensitive categories (mandatory reporting, elder
+       welfare, benefits eligibility) are not shown in any public-facing
+       or citizen-status-dashboard view beyond a high-level status label
+       (Received / Under Review / Resolved).
+
+4. RELATED POLICIES
+
+See also DHHS Mandatory Reporting & Escalation Guide and DHHS Benefits
+Eligibility & Appeals FAQ, both of which reference this notice for their
+confidentiality provisions.
+
+--------------------------------------------------------------------------
+Approved: City Grievance Resolution Program Office
+Page 1 of 1 — CITY-POL-004

@@ -1,0 +1,42 @@
+CITY DEPARTMENT OF PUBLIC WORKS
+Bulk-Item Pickup SOP
+Document No. DPW-SOP-033           Effective Date: February 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+Governs the scheduled bulk-item pickup program (furniture, appliances,
+mattresses) — a citizen-requested SCHEDULING process, distinct from
+routine weekly trash/recycling collection under DPW Trash & Recycling
+Collection SOP, and distinct from unauthorized dumping under DEP Illegal
+Dumping Enforcement Policy.
+
+2. PROCESS
+
+  2.1  Citizens request a pickup date through the portal, at least 5
+       business days in advance. This is a scheduling request, not a
+       complaint — it has no SLA in the sense of "time to resolve a
+       problem," only a minimum lead time.
+
+  2.2  Up to 3 bulk items per scheduled pickup, placed curbside the night
+       before the scheduled date.
+
+  2.3  MISSED SCHEDULED BULK PICKUP (citizen scheduled correctly, items
+       were out, but not collected): This IS a service-failure complaint
+       with a standard MEDIUM-priority SLA — makeup pickup within 3
+       business days.
+
+  2.4  ITEMS LEFT OUT WITHOUT A SCHEDULED PICKUP: Not a DPW bulk-pickup
+       matter — if left on someone else's property or a public space
+       without authorization, this is a DEP illegal-dumping matter
+       instead.
+
+3. RELATED POLICIES
+
+See also DPW Trash & Recycling Collection SOP and DEP Illegal Dumping
+Enforcement Policy.
+
+--------------------------------------------------------------------------
+Approved: DPW Office of Solid Waste Operations
+Page 1 of 1 — DPW-SOP-033

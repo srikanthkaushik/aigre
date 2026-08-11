@@ -1,0 +1,57 @@
+CITY DEPARTMENT OF TRANSPORTATION
+Traffic Signal Repair & Timing Policy
+Document No. DOT-POL-009           Effective Date: June 1, 2025
+STATUS: CURRENT
+
+--------------------------------------------------------------------------
+1. PURPOSE
+
+This policy governs DOT's response to citizen-reported traffic signal
+malfunctions, including signals stuck on a single color, dark (unpowered)
+signals, and mistimed pedestrian crossing signals. It also covers
+staffing of school-zone crossing guard posts, which DOT co-administers
+with the school district under Interagency Agreement IA-2021-07.
+
+2. CLASSIFICATION AND RESPONSE
+
+  2.1  DARK SIGNAL (no power / completely unlit): Treated as an
+       intersection-control failure. Dispatch within 1 hour. If DOT crews
+       cannot restore power within 2 hours, temporary stop-sign control
+       and/or a traffic officer will be posted per the Citywide
+       Escalation & Safety-Flag Policy.
+
+  2.2  STUCK SIGNAL (fixed on red, green, or flashing improperly):
+       Dispatch within 4 hours during business hours; next business day
+       if reported after 6:00 PM.
+
+  2.3  MISTIMED PEDESTRIAN SIGNAL (walk cycle too short, doesn't trigger
+       on button press): Logged for the next scheduled signal-timing
+       review, target resolution within 15 business days, unless the
+       location is adjacent to a school (see 2.4).
+
+  2.4  SCHOOL-ZONE SIGNALS AND CROSSING GUARDS: Malfunctions or staffing
+       gaps at signals within 500 feet of a K-8 school are prioritized to
+       the same-day response window whenever reported before 2:00 PM on a
+       school day. Crossing-guard staffing gaps are logged and referred
+       to the DOT School Safety Liaison; DOT does not employ crossing
+       guards directly — staffing is coordinated with DOE (see DOE
+       Student Safety & Anti-Bullying Policy for related school-zone
+       safety provisions) but DOT retains responsibility for the physical
+       signal equipment.
+
+3. REPORTING CHANNELS
+
+Citizens may report signal issues through the grievance portal, the DOT
+24-hour signal hotline, or via referral from police dispatch for
+signal-related incidents.
+
+4. RELATED POLICIES
+
+See also DOT Road Maintenance SOP v2 for road-surface defects near
+signalized intersections, and DOT Street Signage & Visibility Policy for
+non-signal traffic control devices (stop signs, yield signs, crosswalk
+markings).
+
+--------------------------------------------------------------------------
+Approved: DOT Office of Traffic Operations
+Page 1 of 1 — DOT-POL-009
