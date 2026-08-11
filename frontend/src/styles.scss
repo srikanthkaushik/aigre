@@ -68,9 +68,29 @@ a {
   }
 }
 
-// Shared priority color-coding, used by both the citizen status page and the
-// employee dashboard -- kept as a plain class rather than per-page duplicated
-// styles since the same four values recur everywhere a grievance is shown.
+// Shared priority/status color-coding, used by both the citizen status page and the
+// employee dashboard -- kept as a plain class rather than per-page duplicated styles
+// since the same values recur everywhere a grievance is shown.
+//
+// A plain <mat-chip> renders M3's "assist chip" style, which is outlined/transparent
+// by design -- `--mdc-chip-elevated-container-color` is a real token but is never
+// actually read by that chip's rendered surface (confirmed by inspecting the live
+// DOM: the token resolved correctly to the intended color, but the element that
+// visually paints the chip -- .mdc-evolution-chip__cell -- stayed transparent
+// regardless). Rather than fight Material's internal wiring, the two rules below
+// paint the actual surface/text elements directly, reusing the same custom
+// properties the modifier classes below already set (so the color values themselves
+// only live in one place).
+.priority-chip, .status-chip {
+  .mdc-evolution-chip__cell {
+    background-color: var(--mdc-chip-elevated-container-color);
+    border-color: transparent;
+  }
+  .mdc-evolution-chip__text-label {
+    color: var(--mdc-chip-label-text-color);
+  }
+}
+
 .priority-chip {
   &.priority-critical {
     --mdc-chip-label-text-color: var(--mat-sys-on-error-container);

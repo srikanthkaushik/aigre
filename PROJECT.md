@@ -854,6 +854,36 @@ serve.** This matters more here than for any earlier frontend change this
 session, precisely because the deliverable *is* the visual result. Check in
 the browser before treating this as done.
 
+## First actual visual verification — and a real bug it caught
+
+Every frontend change all session had the same caveat: "no browser tool in this
+environment, structurally verified only." That changed once real screenshots were
+needed for `docs/APP_WALKTHROUGH.md` — Playwright (with a headless Chromium) was
+installed into the scratchpad directory (not the project, to keep it out of the
+pushed repo) and used to actually drive the running app and capture it.
+
+**This caught a real, session-long visual bug that had shipped invisibly through
+the entire Material redesign and Trends work**: every `.status-chip` and
+`.priority-chip` (NEW/TRIAGED/MEDIUM/etc., used on the citizen status page, both
+employee dashboard tables, and the review dialog) was rendering as a plain outlined
+chip with **no color fill at all** — the CSS was setting
+`--mdc-chip-elevated-container-color`, which turned out to be a real Material
+token that's simply never read by a bare `<mat-chip>`'s actual rendered surface
+(that chip style is M3's "assist chip," outlined/transparent by design). Confirmed
+by live DOM inspection through the same headless browser, not guessed: the custom
+property resolved to the correct intended color, but the element that actually
+paints the visible surface (`.mdc-evolution-chip__cell`) stayed transparent
+regardless — and a direct `background-color` override on that element painted
+cleanly with nothing else contesting it. Fixed in `styles.scss` by having
+`.status-chip`/`.priority-chip` paint `.mdc-evolution-chip__cell` and
+`.mdc-evolution-chip__text-label` directly, reusing the same custom properties
+(so the actual color values still only live in one place per status/priority).
+
+Screenshots verified everything else was already working as designed —
+citizen submit/status/chat, the review dialog, department queue, and Trends charts
+all rendered correctly on the first real look. `docs/images/*.png` (10 screenshots,
+~860KB total) are committed alongside `docs/APP_WALKTHROUGH.md`.
+
 ## Complaint Trends dashboard
 
 Delivers "trend/sentiment analytics" from the original kickoff brief and

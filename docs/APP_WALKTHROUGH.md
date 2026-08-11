@@ -17,6 +17,8 @@ classification, and routing") and two cards — **Citizen Portal** and **Employe
 Dashboard**. The AIGRE mark and title in the top toolbar are clickable from anywhere in
 the app and return here.
 
+![Landing page](images/01-landing.png)
+
 ---
 
 ## Citizen Portal (`/citizen`)
@@ -31,6 +33,8 @@ classifies → clear cases route immediately, ambiguous ones pause for a supervi
 track anytime with your ID) — set up before the citizen even submits, so the possible
 "needs a closer look" outcome isn't a surprise.
 
+![Submit a Complaint form](images/02-citizen-submit-form.png)
+
 **Example 1 — a clear, confident case:**
 
 > *"There's a large pothole on Maple Street in front of 214 that's been there for two
@@ -44,6 +48,8 @@ Result banner (green, `check_circle` icon):
 
 The grievance ID is shown with a **Track this** button that jumps straight to the
 Check Status tab with the ID pre-filled.
+
+![Submit result — routed to DOT](images/03-citizen-submit-result.png)
 
 **Example 2 — a vague case that needs a human:**
 
@@ -74,12 +80,16 @@ any. Works for *any* grievance ID — one submitted through the workflow, one su
 through the older plain-intake path, or a seeded demo row — since it reads directly
 from the systems-of-record table rather than depending on workflow state.
 
+![Check Status result](images/04-citizen-status.png)
+
 ### Ask a Question
 
 A chat interface backed by the RAG pipeline over the department policy corpus. Empty
 state offers three clickable example questions. Answers stream in token-by-token and
 end with citation cards (document filename + department) for whatever was actually
 retrieved and used.
+
+![Chat empty state with example questions](images/05-citizen-chat-empty.png)
 
 **Example — verified live:**
 
@@ -90,6 +100,8 @@ retrieved and used.
 
 Citation: `road-maintenance-sop-v2-current.txt` (DOT) — correctly the *current* SOP,
 not the superseded v1 that also exists in the corpus specifically to test this.
+
+![Chat answer with citation cards](images/06-citizen-chat-answer.png)
 
 **Example — a broader question, multiple sources:**
 
@@ -123,7 +135,11 @@ red if non-zero).
 
 A paginated table of every grievance currently paused at the human-review gate,
 regardless of department (there's no department to filter by yet — that's exactly
-what's undetermined). Clicking **Review** opens a dialog showing:
+what's undetermined).
+
+![Pending Review queue](images/07-employee-pending-review.png)
+
+Clicking **Review** opens a dialog showing:
 
 - The citizen's actual complaint text.
 - The LLM's confidence score and its reasoning (why it didn't commit to a guess).
@@ -136,6 +152,8 @@ decision; the grievance moves to `TRIAGED` with `department_confirmed` now set
 (distinct from `department_predicted`, which still shows what the AI originally
 guessed).
 
+![Review dialog — citizen text, LLM reasoning, editable decision form](images/08-employee-review-dialog.png)
+
 Opening the same dialog for a grievance that was *never* part of an active workflow
 (a seeded demo row, for instance) shows a read-only detail view instead of an editable
 form — there's nothing to approve for a case that never paused.
@@ -146,6 +164,8 @@ A paginated table scoped to the selected department, any status: submitted date,
 status, category, priority (color-coded chip), SLA due date, with a red row highlight
 and **BREACHED** flag for anything past due and still open. **View** opens the same
 detail dialog in its read-only mode.
+
+![Department Queue, scoped to DOT](images/09-employee-department-queue.png)
 
 ### Trends tab
 
@@ -162,6 +182,8 @@ day** window. Four charts plus an SLA snapshot:
 - **SLA snapshot** — three stat cards: *Resolved on time*, *Resolved late*, *Currently
   breached (open)*. Deliberately three numbers, not one "compliance %" — a closed-late
   case and a still-open breach are different problems worth seeing separately.
+
+![Trends tab — volume, sentiment, category, priority charts + SLA snapshot](images/10-employee-trends.png)
 
 ---
 
