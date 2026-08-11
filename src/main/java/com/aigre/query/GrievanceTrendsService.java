@@ -68,9 +68,19 @@ public class GrievanceTrendsService {
                 params,
                 (rs, rowNum) -> new PriorityCount(rs.getString("priority"), rs.getInt("cnt")));
 
-        List<DailySentiment> sentimentByDay = jdbc.query(
+        params.addValue("b1", SentimentLevel.LOW_CONFIDENCE.lowerBound);
+        params.addValue("b2", SentimentLevel.NEUTRAL.lowerBound);
+        params.addValue("b3", SentimentLevel.MODERATE_CONFIDENCE.lowerBound);
+        params.addValue("b4", SentimentLevel.HIGH_CONFIDENCE.lowerBound);
+
+        List<DailySentimentLevels> sentimentByDay = jdbc.query(
                 """
-                SELECT date_trunc('day', submitted_at)::date AS day, avg(sentiment_score) AS avg_sentiment
+                SELECT date_trunc('day', submitted_at)::date AS day,
+                    count(*) FILTER (WHERE sentiment_score < :b1) AS no_confidence,
+                    count(*) FILTER (WHERE sentiment_score >= :b1 AND sentiment_score < :b2) AS low_confidence,
+                    count(*) FILTER (WHERE sentiment_score >= :b2 AND sentiment_score < :b3) AS neutral,
+                    count(*) FILTER (WHERE sentiment_score >= :b3 AND sentiment_score < :b4) AS moderate_confidence,
+                    count(*) FILTER (WHERE sentiment_score >= :b4) AS high_confidence
                 FROM grievances
                 WHERE submitted_at >= now() - (:days || ' days')::interval AND sentiment_score IS NOT NULL
                 """ + deptClause + """
@@ -78,7 +88,13 @@ public class GrievanceTrendsService {
                 GROUP BY day ORDER BY day
                 """,
                 params,
-                (rs, rowNum) -> new DailySentiment(rs.getDate("day").toLocalDate(), rs.getDouble("avg_sentiment")));
+                (rs, rowNum) -> new DailySentimentLevels(
+                        rs.getDate("day").toLocalDate(),
+                        rs.getInt("no_confidence"),
+                        rs.getInt("low_confidence"),
+                        rs.getInt("neutral"),
+                        rs.getInt("moderate_confidence"),
+                        rs.getInt("high_confidence")));
 
         SlaSnapshot slaSnapshot = jdbc.queryForObject(
                 """

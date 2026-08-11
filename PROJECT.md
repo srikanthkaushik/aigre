@@ -1471,6 +1471,45 @@ from 81): only the already-documented `RagEvalSuiteTest` findings (5/34,
 unrelated to this change) — no new regressions from wiring Spring Security
 into an app that previously had none.
 
+## Sentiment trend chart: numeric average → 5-level confidence scale
+The Trends tab's sentiment chart originally plotted `AVG(sentiment_score)`
+per day as a line on a fixed -1..1 axis — a single averaged number that
+couldn't show same-day spread (100 grievances split evenly across the
+range looks identical to 100 all landing in the middle). Replaced with a
+5-band ordinal scale — No Confidence / Low Confidence / Neutral / Moderate
+Confidence / High Confidence, splitting -1..1 into five even 0.4-wide bands
+— rendered as a stacked bar chart, one bar per day, segment height = count
+of grievances in that band that day.
+
+New `com.aigre.query.SentimentLevel` enum is the single source of truth for
+the band boundaries (mirrors the existing `Priority` enum pattern), so the
+boundary numbers exist in exactly one place rather than being duplicated
+between Java and SQL. `DailySentiment(date, avgSentiment)` was replaced
+outright by `DailySentimentLevels(date, noConfidence, lowConfidence,
+neutral, moderateConfidence, highConfidence)` — its sole consumer
+(`TrendsResponse.sentimentByDay`) was confirmed before deleting the old
+record. `GrievanceTrendsService`'s new query reuses the `COUNT(*) FILTER
+(WHERE ...)` pattern already established in the same file for
+`SlaSnapshot`, rather than introducing a new query style.
+
+Frontend: `sentimentChartData` is now a `ChartConfiguration<'bar'>` with 5
+datasets (`stacked: true` on both axes), a 5-color diverging palette
+(red→amber→grey→green→dark-green), and a bottom legend — the other 3
+Trends charts hide their legend since they're single-series, this one
+needs the key.
+
+**Verified**: `GrievanceTrendsServiceTest`'s fixtures extended to cover all
+5 bands (added a No-Confidence and a High-Confidence row; the existing
+-0.2 fixture sits exactly on the Low/Neutral boundary, confirmed
+intentional — bands are `[lower, upper)` so it lands in Neutral, not Low).
+Live curl of `GET /grievances/trends` against the real seeded DOT data
+confirmed the new response shape. Playwright screenshot of the live chart
+confirmed the stacked bars, legend, and colors render correctly against
+real data (thin slivers for Moderate/High Confidence are expected — most
+seeded complaint text skews negative-to-neutral sentiment). Full backend
+suite re-run clean (only the pre-existing `RagEvalSuiteTest` LLM-rerank
+variance, unrelated).
+
 ## Open items to revisit
 - Dark mode — explicitly deferred in the redesign pass above; the token
   system (`--mat-sys-*` throughout, no hardcoded colors outside the

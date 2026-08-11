@@ -44,6 +44,8 @@ class GrievanceTrendsServiceTest {
         insertGrievance("pothole", "HIGH", -0.2, now, now.plusSeconds(432000), now.plusSeconds(7200), "RESOLVED"); // late
         insertGrievance("noise", "LOW", 0.3, now, null, now.minusSeconds(3600), "TRIAGED"); // currently breached, open
         insertGrievance("pothole", "MEDIUM", null, now, null, null, "NEW"); // no SLA clock at all
+        insertGrievance("streetlight", "CRITICAL", -0.9, now, null, null, "NEW"); // No Confidence band
+        insertGrievance("graffiti", "HIGH", 0.9, now, null, null, "NEW"); // High Confidence band
     }
 
     @AfterEach
@@ -56,16 +58,26 @@ class GrievanceTrendsServiceTest {
         TrendsResponse trends = service.trends(DEPT, 30);
 
         assertThat(trends.volumeByDay()).hasSize(1);
-        assertThat(trends.volumeByDay().get(0).count()).isEqualTo(4);
+        assertThat(trends.volumeByDay().get(0).count()).isEqualTo(6);
 
         Map<String, Integer> categoryCounts = toMap(trends.byCategory(), CategoryCount::category, CategoryCount::count);
-        assertThat(categoryCounts).containsEntry("pothole", 3).containsEntry("noise", 1);
+        assertThat(categoryCounts).containsEntry("pothole", 3).containsEntry("noise", 1)
+                .containsEntry("streetlight", 1).containsEntry("graffiti", 1);
 
         Map<String, Integer> priorityCounts = toMap(trends.byPriority(), PriorityCount::priority, PriorityCount::count);
-        assertThat(priorityCounts).containsEntry("HIGH", 2).containsEntry("LOW", 1).containsEntry("MEDIUM", 1);
+        assertThat(priorityCounts).containsEntry("HIGH", 3).containsEntry("LOW", 1)
+                .containsEntry("MEDIUM", 1).containsEntry("CRITICAL", 1);
 
+        // Bands: -0.9 -> No Confidence, -0.5 -> Low Confidence, -0.2 -> Neutral (band lower
+        // bounds are inclusive, so -0.2 lands in NEUTRAL not LOW_CONFIDENCE), 0.3 -> Moderate
+        // Confidence, 0.9 -> High Confidence. The null-sentiment fixture row is excluded entirely.
         assertThat(trends.sentimentByDay()).hasSize(1);
-        assertThat(trends.sentimentByDay().get(0).avgSentiment()).isCloseTo(-0.1333, org.assertj.core.data.Offset.offset(0.001));
+        DailySentimentLevels levels = trends.sentimentByDay().get(0);
+        assertThat(levels.noConfidence()).isEqualTo(1);
+        assertThat(levels.lowConfidence()).isEqualTo(1);
+        assertThat(levels.neutral()).isEqualTo(1);
+        assertThat(levels.moderateConfidence()).isEqualTo(1);
+        assertThat(levels.highConfidence()).isEqualTo(1);
 
         assertThat(trends.slaSnapshot().resolvedOnTime()).isEqualTo(1);
         assertThat(trends.slaSnapshot().resolvedLate()).isEqualTo(1);

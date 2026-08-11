@@ -6,6 +6,6 @@ public record TrendsResponse(
         List<DailyCount> volumeByDay,
         List<CategoryCount> byCategory,
         List<PriorityCount> byPriority,
-        List<DailySentiment> sentimentByDay,
+        List<DailySentimentLevels> sentimentByDay,
         SlaSnapshot slaSnapshot) {
 }

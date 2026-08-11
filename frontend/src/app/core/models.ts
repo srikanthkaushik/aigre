@@ -131,9 +131,13 @@ export interface DailyCount {
   count: number;
 }
 
-export interface DailySentiment {
+export interface DailySentimentLevels {
   date: string;
-  avgSentiment: number;
+  noConfidence: number;
+  lowConfidence: number;
+  neutral: number;
+  moderateConfidence: number;
+  highConfidence: number;
 }
 
 export interface CategoryCount {
@@ -156,6 +160,6 @@ export interface TrendsResponse {
   volumeByDay: DailyCount[];
   byCategory: CategoryCount[];
   byPriority: PriorityCount[];
-  sentimentByDay: DailySentiment[];
+  sentimentByDay: DailySentimentLevels[];
   slaSnapshot: SlaSnapshot;
 }

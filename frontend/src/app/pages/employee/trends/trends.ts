@@ -6,7 +6,7 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
 import { ChartConfiguration } from 'chart.js';
 import { ApiService } from '../../../core/api.service';
 import { DepartmentNamePipe } from '../../../core/department-name.pipe';
-import { TrendsResponse } from '../../../core/models';
+import { DailySentimentLevels, TrendsResponse } from '../../../core/models';
 
 type Scope = 'department' | 'all';
 type WindowDays = 7 | 30 | 90;
@@ -16,14 +16,22 @@ type WindowDays = 7 | 30 | 90;
 // these are hardcoded to match rather than left to Chart.js's default palette.
 const PRIMARY = '#446180'; // primary tone 40
 const PRIMARY_LIGHT = 'rgba(68, 97, 128, 0.15)';
-const TERTIARY = '#885200'; // tertiary tone 40
-const TERTIARY_LIGHT = 'rgba(136, 82, 0, 0.15)';
 const PRIORITY_COLORS: Record<string, string> = {
   CRITICAL: '#ba1a1a',
   HIGH: '#c5822f',
   MEDIUM: '#446180',
   LOW: '#7693b5'
 };
+
+// Diverging red -> amber -> grey -> green -> dark green, echoing the CRITICAL/HIGH tones above
+// at the low-confidence end so "No Confidence" reads as alarm-colored consistently across charts.
+const SENTIMENT_LEVELS: { key: keyof Omit<DailySentimentLevels, 'date'>; label: string; color: string }[] = [
+  { key: 'noConfidence', label: 'No Confidence', color: '#ba1a1a' },
+  { key: 'lowConfidence', label: 'Low Confidence', color: '#c5822f' },
+  { key: 'neutral', label: 'Neutral', color: '#8c8c8c' },
+  { key: 'moderateConfidence', label: 'Moderate Confidence', color: '#6b9c5e' },
+  { key: 'highConfidence', label: 'High Confidence', color: '#3f7d3f' }
+];
 
 @Component({
   selector: 'app-trends',
@@ -83,20 +91,16 @@ export class Trends {
     };
   });
 
-  readonly sentimentChartData = computed<ChartConfiguration<'line'>['data']>(() => {
+  readonly sentimentChartData = computed<ChartConfiguration<'bar'>['data']>(() => {
     const t = this.trends();
+    const days = t?.sentimentByDay ?? [];
     return {
-      labels: t?.sentimentByDay.map((d) => d.date) ?? [],
-      datasets: [
-        {
-          data: t?.sentimentByDay.map((d) => Number(d.avgSentiment.toFixed(2))) ?? [],
-          label: 'Avg. sentiment',
-          borderColor: TERTIARY,
-          backgroundColor: TERTIARY_LIGHT,
-          fill: true,
-          tension: 0.3
-        }
-      ]
+      labels: days.map((d) => d.date),
+      datasets: SENTIMENT_LEVELS.map((level) => ({
+        data: days.map((d) => d[level.key]),
+        label: level.label,
+        backgroundColor: level.color
+      }))
     };
   });
 
@@ -113,11 +117,14 @@ export class Trends {
     plugins: { legend: { display: false } }
   };
 
-  readonly sentimentOptions: ChartConfiguration<'line'>['options'] = {
+  readonly sentimentOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: { y: { min: -1, max: 1 } }
+    plugins: { legend: { display: true, position: 'bottom' } },
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true, beginAtZero: true, ticks: { precision: 0 } }
+    }
   };
 
   constructor(private readonly api: ApiService) {
