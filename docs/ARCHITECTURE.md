@@ -12,7 +12,7 @@ bolt-on feature.
 - [System overview](#system-overview)
 - [Where AI is used](#where-ai-is-used-the-core-of-this-doc)
 - [Backend components](#backend-components)
-- [Data flow: three key journeys](#data-flow-three-key-journeys)
+- [Data flow: key journeys](#data-flow-key-journeys)
 - [Data model](#data-model)
 - [Frontend architecture](#frontend-architecture)
 - [Key design decisions](#key-design-decisions)
@@ -35,6 +35,7 @@ bolt-on feature.
 | Frontend framework | Angular 21 (standalone components, signals) |
 | Frontend UI kit | Angular Material 21 (Material 3 / M3 theming) |
 | Charts | Chart.js 4.5.1 via ng2-charts 10.0.0 |
+| Email ingestion | Jakarta Mail (IMAP) via `spring-boot-starter-mail`, polled on a schedule |
 | Build tools | Maven (backend), Angular CLI / esbuild (frontend) |
 
 ---
@@ -47,8 +48,11 @@ flowchart TB
         FE["Angular 21 SPA<br/>(Citizen Portal / Employee Dashboard)"]
     end
 
+    Mailbox[("Monitored IMAP mailbox<br/>(citizen-facing email address)")]
+
     subgraph Backend["Spring Boot 4 (WebFlux) — port 8085"]
         Intake["Intake<br/>(com.aigre.intake)"]
+        Email["Email Poller<br/>(com.aigre.email — @Scheduled)"]
         Workflow["Agent Workflow<br/>(com.aigre.workflow — LangGraph4j)"]
         Classify["Classifier<br/>(com.aigre.classification)"]
         RAG["Retrieval / Chat<br/>(com.aigre.retrieval, com.aigre.chat)"]
@@ -70,6 +74,8 @@ flowchart TB
     FE -- "REST" --> Workflow
     FE -- "SSE (streaming)" --> RAG
     FE -- "REST" --> Query
+    Mailbox -- "IMAP poll (unread mail)" --> Email
+    Email -- "start(request, EMAIL)" --> Workflow
 
     Intake --> Classify
     Workflow --> Classify
@@ -89,6 +95,14 @@ boundary between intake, classification, RAG, and the agent workflow — they're
 distinct packages under `com.aigre.*`, not distinct deployables. The frontend is a
 separate Angular SPA that talks to the backend over plain REST (JSON) and one
 Server-Sent-Events stream (chat).
+
+Two channels feed grievances into the same downstream pipeline: the portal (via the
+browser, `Intake`/`Workflow`) and email (`com.aigre.email.EmailGrievancePoller`, a
+scheduled IMAP poller — off by default, see `RUNNING.md` "Email ingestion"). Both
+ultimately call `GrievanceWorkflowService.start()`, so classification, duplicate
+detection, human-review pause, and SLA computation behave identically regardless of
+which channel a complaint arrived through — the only difference recorded is
+`grievances.channel` (`PORTAL` vs `EMAIL`).
 
 ---
 
@@ -371,6 +385,7 @@ of which exists in this repo).
 | Package | Responsibility |
 |---|---|
 | `com.aigre.intake` | Plain complaint intake (`POST /grievances`) — the pre-agentic-workflow path; still used, sets `NEEDS_CLARIFICATION` on low confidence rather than pausing for a human |
+| `com.aigre.email` | `EmailGrievancePoller` — scheduled IMAP polling of a monitored mailbox, the second inbound channel; feeds `GrievanceWorkflowService.start()`, same as the portal |
 | `com.aigre.classification` | `LlmGrievanceClassifier`, `ClassificationResult` — the classification LLM call and its parsing |
 | `com.aigre.workflow` | The LangGraph4j agent graph, its Spring Boot wiring, and the pause/resume REST endpoints |
 | `com.aigre.retrieval` | Hybrid retrieval + LLM rerank over the pgvector policy corpus |
@@ -384,7 +399,7 @@ of which exists in this repo).
 
 ---
 
-## Data flow: three key journeys
+## Data flow: key journeys
 
 **Citizen submits a grievance (agentic path, what the frontend actually uses):**
 
@@ -410,6 +425,37 @@ sequenceDiagram
     end
     W-->>C: {pendingReview, department, priority, reasoning, ...}
 ```
+
+**Citizen emails a grievance (second inbound channel):**
+
+```mermaid
+sequenceDiagram
+    participant C as Citizen (email client)
+    participant M as Monitored IMAP mailbox
+    participant P as EmailGrievancePoller
+    participant Pii as PiiRedactor
+    participant W as GrievanceWorkflowService
+    participant G as LangGraph4j graph
+
+    C->>M: sends an email
+    loop every poll-interval-ms
+        P->>M: search unseen messages
+        M-->>P: unread message(s)
+        P->>Pii: redact(subject + body)
+        Pii-->>P: redacted text
+        P->>W: start(request, "EMAIL")
+        W->>G: invoke(...) (same graph as the portal path)
+        G-->>W: committed or paused at human_review
+        P->>M: mark message SEEN
+    end
+```
+
+Deliberately the *same* `start()` call the portal uses (just with `channel = "EMAIL"`),
+so everything downstream — classification, duplicate detection, the human-review
+pause, SLA computation — is identical regardless of channel. The IMAP SEEN flag is the
+idempotency mechanism (no separate cursor table); a message that fails to ingest is
+moved to a `Failed` folder rather than retried forever on every poll. Off by default
+(`email.enabled: false`) — see `RUNNING.md` for how to point it at a real mailbox.
 
 **Supervisor resolves a paused review:**
 

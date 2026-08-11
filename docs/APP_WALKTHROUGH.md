@@ -237,9 +237,11 @@ Two independent toggles: **This Department / All Departments**, and a **7 / 30 /
 day** window. Four charts plus an SLA snapshot:
 
 - **Volume over time** — daily complaint count, line chart.
-- **Sentiment trend** — average sentiment score per day (-1 to 1); days with no
-  sentiment-bearing complaints are omitted from the series rather than plotted as a
-  misleading 0.
+- **Sentiment trend** — stacked bar chart, one bar per day, split into 5 named
+  confidence bands (No Confidence / Low Confidence / Neutral / Moderate Confidence /
+  High Confidence) rather than a single averaged number, so a day where sentiment was
+  genuinely mixed looks different from a day where everyone landed in the same band —
+  something one averaged line couldn't show.
 - **Top categories** — bar chart, top 8 in the selected scope.
 - **By priority** — bar chart, CRITICAL/HIGH/MEDIUM/LOW, color-matched to the same
   priority-chip colors used everywhere else in the app.
