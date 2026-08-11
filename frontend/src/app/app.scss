@@ -22,6 +22,17 @@
     letter-spacing: 0.02em;
   }
 
+  .app-tagline {
+    margin-left: 0.6rem;
+    padding-left: 0.6rem;
+    border-left: 1px solid currentColor;
+    opacity: 0.75;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
   .spacer {
     flex: 1 1 auto;
   }
@@ -47,6 +58,14 @@
       background: currentColor;
       border-radius: 1px;
     }
+  }
+}
+
+// The full-name tagline is the first thing to go on a shrinking toolbar --
+// it's a nice-to-have next to the "AIGRE" mark, not load-bearing navigation.
+@media (max-width: 860px) {
+  .app-toolbar .app-tagline {
+    display: none;
   }
 }
 
