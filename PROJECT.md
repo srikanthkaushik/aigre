@@ -13,8 +13,8 @@ approved Milestone-0 plan (see `kickoff.md` for the original brief).
 - **Provider default: Ollama** (`qwen2.5:7b` + `nomic-embed-text`), Anthropic
   wired as the switchable alternative per the canonical dual-provider
   requirement.
-- **Channel scope:** portal only for now. Email ingestion is an explicit,
-  separately-scoped later milestone — not part of day-one intake.
+- **Channel scope:** portal was day-one; email ingestion (IMAP polling) was
+  the deferred second channel and has since been **built, see below**.
 - **Two ingestion pipelines, kept separate:** RAG knowledge-corpus ingestion
   (policy/SOP docs → pgvector) vs. complaint intake (`POST /grievances` →
   Postgres systems-of-record). Not the same pipeline.
@@ -1509,6 +1509,73 @@ real data (thin slivers for Moderate/High Confidence are expected — most
 seeded complaint text skews negative-to-neutral sentiment). Full backend
 suite re-run clean (only the pre-existing `RagEvalSuiteTest` LLM-rerank
 variance, unrelated).
+
+## Email ingestion: second inbound channel via IMAP polling
+`com.aigre.email.EmailGrievancePoller` polls a monitored IMAP mailbox on a
+schedule (`@Scheduled`, off by default via `email.enabled: false`) and
+feeds each unread message through the *exact same*
+`GrievanceWorkflowService.start(request, channel)` entry point the citizen
+portal uses — same classification, duplicate detection, human-review
+pause, SLA computation. `GrievanceWorkflowService.start(request)` (the
+portal's call) now delegates to a channel-aware overload with `"PORTAL"`;
+the poller calls the same overload with `"EMAIL"`. The `grievances.channel`
+CHECK constraint already allowed `'EMAIL'` since Milestone 0 — only the two
+`INSERT` literals needed to stop hardcoding `'PORTAL'`.
+
+**Chose IMAP polling over an inbound-webhook provider (SendGrid/Mailgun)
+or a self-hosted SMTP receiver** — this project runs fully offline-capable
+against local infra with no cloud account dependencies; a webhook needs a
+public HTTPS endpoint and a third-party account, a self-hosted SMTP
+receiver needs MX/DNS/firewall setup. IMAP polling needs neither: a
+scheduled job, mailbox credentials, and (for tests) an embedded fake mail
+server.
+
+**A gap caught before it shipped**: `PiiRedactor` was only wired in via
+`PiiRedactionWebFilter`, a WebFlux filter that redacts PII out of the HTTP
+request body before any controller sees it. The email poller never goes
+through HTTP — it calls `GrievanceWorkflowService` directly from a
+scheduled job — so without an explicit call, an emailed complaint would
+skip redaction entirely and silently break parity with the portal path.
+Fixed by having the poller call `PiiRedactor.redact(...)` itself before
+building the `GrievanceIntakeRequest`.
+
+Idempotency comes from the IMAP SEEN flag (no separate cursor table): only
+unseen messages are fetched, and a message is marked SEEN only after
+`start()` succeeds. A message that fails to ingest is moved to a `Failed`
+IMAP folder instead of retrying forever on every poll.
+
+**Two real bugs caught during verification, not assumed away**:
+1. The poller hardcoded the `imaps` (implicit TLS) protocol, but
+   GreenMail's test IMAP server is plain `imap` — the test failed with an
+   SSL handshake error. Fixed by making the protocol configurable
+   (`email.imap.protocol`, defaults to `imaps` for real mailboxes, since
+   most providers require it).
+2. A concurrency race only visible in the *full* suite run, not in
+   isolation: with the Spring context alive for the suite's ~500s runtime,
+   the app's own real `@Scheduled` trigger (default 60s) fired in the
+   background against the same live context and raced the test's manual
+   `poll()` calls, double-ingesting a message before either call could mark
+   it SEEN. Fixed by pushing the test's `email.poll-interval-ms` out to an
+   hour via `@DynamicPropertySource`, comfortably longer than any suite
+   run, so only the test's own manual calls ever fire.
+
+Also found and fixed a pre-existing-pattern test-hygiene bug of my own
+making: the idempotency test matched grievances by a fixed literal body
+string (`LIKE '%Broken streetlight%'`), which accumulated false matches
+across repeated runs against the same persistent dev Postgres instance.
+Fixed by switching to a unique per-run marker — the same convention
+`GrievanceWorkflowPauseResumeTest` already uses (random category per run)
+instead of adding cleanup machinery this test suite doesn't otherwise use.
+
+**Verified**: `EmailGrievancePollerTest` (2 cases, embedded GreenMail
+fake mailbox — no real SMTP/IMAP infra needed) green in isolation and
+within the full suite. Regression run of every test touching
+`GrievanceWorkflowService.start()` (`GrievanceWorkflowServiceTest`,
+`GrievanceWorkflowPauseResumeTest`, `GrievanceWorkflowDuplicateTest`,
+`GrievanceIntakeDuplicateTest`, `GrievanceMcpToolsTest`) confirmed the
+channel-aware overload didn't change portal behavior. Live curl of
+`POST /grievances/workflow` against the restarted backend confirmed the
+portal path still works end-to-end post-change.
 
 ## Open items to revisit
 - Dark mode — explicitly deferred in the redesign pass above; the token

@@ -56,6 +56,19 @@ rag:
 grievances:
   duplicate-window-days: 7
 
+email:
+  # Off by default -- no mailbox configured out of the box. See docs/RUNNING.md "Email
+  # ingestion" for how to point this at a real or local test mailbox.
+  enabled: false
+  imap:
+    host:
+    port: 993
+    protocol: imaps # imaps (implicit TLS, most providers) or imap (plaintext -- local/test only)
+    username:
+    password:
+    folder: INBOX
+  poll-interval-ms: 60000
+
 security:
   jwt:
     # Demo-only: a fixed configured secret, not per-restart-random (that would log every

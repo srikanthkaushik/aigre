@@ -44,10 +44,20 @@ public class GrievanceWorkflowService {
     }
 
     public GrievanceWorkflowResponse start(GrievanceIntakeRequest request) {
+        return start(request, "PORTAL");
+    }
+
+    /**
+     * Channel-aware entry point -- the portal's {@link #start(GrievanceIntakeRequest)} delegates
+     * here with "PORTAL"; com.aigre.email.EmailGrievancePoller calls this directly with "EMAIL" so
+     * an emailed complaint runs through the identical classify/human-review/commit graph, not a
+     * parallel path.
+     */
+    public GrievanceWorkflowResponse start(GrievanceIntakeRequest request, String channel) {
         UUID citizenId = insertCitizenIfProvided(request);
         UUID grievanceId = UUID.randomUUID();
         Instant submittedAt = Instant.now();
-        insertNewGrievance(grievanceId, citizenId, request.rawText(), submittedAt);
+        insertNewGrievance(grievanceId, citizenId, request.rawText(), submittedAt, channel);
         insertStatusHistory(grievanceId, null, "NEW", submittedAt, "system:workflow", null);
 
         RunnableConfig config = RunnableConfig.builder().threadId(grievanceId.toString()).build();
@@ -253,14 +263,16 @@ public class GrievanceWorkflowService {
         return citizenId;
     }
 
-    private void insertNewGrievance(UUID grievanceId, UUID citizenId, String rawText, Instant submittedAt) {
+    private void insertNewGrievance(
+            UUID grievanceId, UUID citizenId, String rawText, Instant submittedAt, String channel) {
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, citizen_id, raw_text, status, submitted_at)
-                VALUES (:id, 'PORTAL', :citizenId, :rawText, 'NEW', :submittedAt)
+                VALUES (:id, :channel, :citizenId, :rawText, 'NEW', :submittedAt)
                 """,
                 new MapSqlParameterSource()
                         .addValue("id", grievanceId)
+                        .addValue("channel", channel)
                         .addValue("citizenId", citizenId)
                         .addValue("rawText", rawText)
                         .addValue("submittedAt", toTimestamp(submittedAt)));

@@ -138,6 +138,43 @@ a browser.
 
 ---
 
+## Email ingestion (optional)
+
+A second inbound channel alongside the portal: `com.aigre.email.EmailGrievancePoller`
+polls a monitored IMAP mailbox on a schedule and feeds each unread message through the
+exact same `GrievanceWorkflowService.start(...)` entry point the portal uses -- same
+classification, duplicate detection, human-review pause, and SLA computation. Off by
+default (`email.enabled: false`) -- the app runs fine with nothing configured here.
+
+To try it against a real mailbox (e.g. a Gmail account with an
+[app password](https://myaccount.google.com/apppasswords), since Google no longer
+accepts your regular password for IMAP), set in `application.yml` or via environment
+overrides:
+
+```yaml
+email:
+  enabled: true
+  imap:
+    host: imap.gmail.com
+    port: 993
+    protocol: imaps
+    username: your-address@gmail.com
+    password: ${EMAIL_APP_PASSWORD}
+  poll-interval-ms: 60000
+```
+
+Send a plain-text email to that address; within one poll interval it appears as a new
+grievance with `channel = EMAIL`, visible on the employee dashboard the same way a
+portal submission is -- including landing in Pending Review if the classifier isn't
+confident. A message that fails to ingest is moved to a `Failed` IMAP folder rather than
+retried forever on every poll.
+
+No local test infra is needed to exercise this in code: `EmailGrievancePollerTest`
+(`src/test/java/com/aigre/email/`) uses an embedded fake mailbox
+([GreenMail](https://greenmail-mail-test.github.io/greenmail/)), not a real IMAP server.
+
+---
+
 ## Switching providers
 
 Default is Ollama (offline, no API key, no per-call cost). To use Anthropic instead:
