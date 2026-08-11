@@ -258,6 +258,38 @@ property (`llm.provider: ollama | anthropic`, `LlmProviderConfig`). Same prompts
 code paths, different model underneath — this is what made the head-to-head accuracy
 comparison in §1 a one-line config change rather than a parallel implementation.
 
+### Cross-cutting: guardrails (`com.aigre.guardrail`)
+
+Citizens type free text into a public portal, and free text sometimes contains PII
+that was never meant to be typed into it — a phone number, an SSN, a card number
+volunteered while explaining an unrelated complaint. `PiiRedactionWebFilter`
+intercepts the 3 POST endpoints that carry citizen free text
+(`/grievances`, `/grievances/workflow`, `/grievances/{id}/workflow/clarify`),
+buffers and rewrites the request body before it reaches any controller, and
+replaces SSN/credit-card/phone/email matches with a `[REDACTED-*]` marker via
+`PiiRedactor` (regex-based, deliberately narrow patterns — false negatives on
+unusual formats are an accepted tradeoff for zero false positives on ordinary
+complaint text like a street address). A `WebFilter`, not a `HandlerInterceptor`:
+this app is WebFlux end to end, and `HandlerInterceptor` is Spring MVC-only.
+
+Scoped to exactly the free-text fields (`rawText`, `additionalText`) — the
+structured `citizenEmail`/`citizenPhone` contact fields are untouched, since
+they're legitimate contact info, not incidental PII. Redaction happens before
+storage *and* before the text reaches the classifier/LLM.
+
+Verified against the ground truth already named in the domain plan (eval
+question #13): `test-data/grievances/eval-complaints.jsonl` has 4 PII-laced
+complaints (GRV-074..077, `expected_redaction: true`) covering all 4 patterns.
+`PiiRedactorTest` asserts the regex logic directly against those literal
+strings; `PiiRedactionWebFilterTest` posts through a real embedded HTTP server
+(`WebTestClient` against `@LocalServerPort`, classifier mocked) and queries
+Postgres afterward to confirm the *stored* `raw_text` is redacted — a
+service-layer test can't verify this, since the filter only runs on the actual
+HTTP path. One limitation worth naming: `ComplaintEvalHarnessTest` (the
+department-accuracy eval) calls `GrievanceIntakeService.submit()` directly and
+so never exercises this filter — its 4 PII-laced rows pass through unredacted
+in that harness even though the same rows are redacted for real over HTTP.
+
 ### Cross-cutting: observability
 
 Every LLM call is wrapped in `LlmCallTimer`, tagged by call type

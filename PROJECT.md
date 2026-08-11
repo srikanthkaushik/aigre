@@ -56,7 +56,11 @@ approved Milestone-0 plan (see `kickoff.md` for the original brief).
       `interruptBefore`/resume, verified live pause/resume cycle). See below.
 - [x] Milestone 5 — Angular frontend (citizen portal + employee dashboard),
       built and serving; **not visually verified in a browser** — see below.
-- [ ] Milestone 6 — hardening (evals, guardrails, observability)
+- [~] Milestone 6 — hardening: PII redaction guardrail done (see below);
+      observability (per-call-type LLM timers, Actuator/Micrometer) was
+      already in place since milestone 1; eval suite expansion beyond the
+      current 108 docs/62 questions/91 complaints not pursued further this
+      pass
 
 ## Local environment
 - **App port: 8085**, not 8080 — 8080 and 8090 are already taken by an
@@ -1038,6 +1042,60 @@ aggregates. `ng build` clean, dev server rebuilds clean, unit test passes.
 **Same stated limitation as the redesign pass**: no browser tool in this
 environment — whether the charts actually render and look right needs the
 user to check in-browser.
+
+## Milestone 6: PII redaction guardrail
+
+Named in the Milestone-0 plan (eval question #13, and 4 labeled fixtures --
+GRV-074..077 in `eval-complaints.jsonl`, `expected_redaction: true`) but
+never built until now: no guardrail/PII code existed anywhere in the
+codebase before this pass.
+
+**`PiiRedactionWebFilter`** (`com.aigre.guardrail`) intercepts the 3 POST
+endpoints carrying citizen free text (`/grievances`, `/grievances/workflow`,
+`/grievances/{id}/workflow/clarify`), buffers and rewrites the JSON request
+body, and replaces SSN/credit-card/phone/email matches (via `PiiRedactor`,
+narrow literal regexes) with `[REDACTED-*]` markers before the text reaches
+storage or the classifier. A `WebFilter`, per CLAUDE.md's own gotcha table --
+this app is WebFlux end to end, `HandlerInterceptor` doesn't apply. Only the
+free-text fields (`rawText`/`additionalText`) are touched; the structured
+`citizenEmail`/`citizenPhone` contact fields are untouched (legitimate
+contact info, not incidental PII).
+
+**A real gap in how to test it, worked around deliberately**: the existing
+`ComplaintEvalHarnessTest` calls `GrievanceIntakeService.submit()` directly
+(service layer) to avoid HTTP overhead across 91 complaints — but that means
+it never exercises a `WebFilter`, which only runs on the real HTTP path. Its
+4 PII-laced rows would pass through unredacted if this were the only test.
+Fixed with two tests instead of one: `PiiRedactorTest` (pure unit test
+against the 4 literal eval fixtures) plus `PiiRedactionWebFilterTest`, a real
+HTTP-level test (`WebTestClient` against a `@LocalServerPort`-random-port
+embedded server, classifier mocked) that posts through the actual filter
+chain and queries Postgres afterward to confirm the *stored* `raw_text` came
+out redacted.
+
+**A real Spring Boot 4 gotcha found while building the HTTP-level test**:
+`@Autowired WebTestClient` on a plain `@SpringBootTest(webEnvironment =
+RANDOM_PORT)` throws `NoSuchBeanDefinitionException` -- the context-customizer
+class that auto-registers that bean (`WebTestClientContextCustomizerFactory`,
+lived in `spring-boot-test` in Boot 3.x) isn't present anywhere in Boot
+4.0.6's jars, including the new `spring-boot-starter-webflux-test` starter
+(that one only restores `@WebFluxTest`-slice support, e.g.
+`WebFluxTypeExcludeFilter`). Fix: build `WebTestClient` manually in
+`@BeforeEach` via `WebTestClient.bindToServer().baseUrl("http://localhost:" +
+port).build()` against `@LocalServerPort` (which does still exist, just moved
+to `org.springframework.boot.test.web.server.LocalServerPort`) instead of
+relying on autoconfiguration.
+
+**Verified three ways**: `PiiRedactorTest` (6/6) and `PiiRedactionWebFilterTest`
+(2/2) pass; full suite re-run afterward shows no new regressions (only the
+pre-existing, documented `RagEvalSuiteTest` corpus-pollution failures from
+`RetrievalEvalTest` sharing a suite run, unrelated to this change -- corpus
+re-seeded via `POST /ingest/reset` afterward as usual). Live end-to-end
+against the real running app and real Postgres instance: posted the exact
+GRV-074 SSN text to `/grievances`, queried the DB directly, got back `"My SSN
+is [REDACTED-SSN] and I want to know why..."`; same live check repeated
+against `/grievances/{id}/workflow/clarify` with an embedded email, redacted
+correctly there too.
 
 ## Open items to revisit
 - RBAC/department-scoping for employee dashboards — real requirement,
