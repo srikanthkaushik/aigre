@@ -58,13 +58,31 @@ Check Status tab with the ID pre-filled.
 Result banner (amber, `hourglass_top` icon):
 
 > **Needs a closer look**
-> A supervisor will review your complaint before it's routed. Check back using your
-> grievance ID.
+> A supervisor will review your complaint before it's routed. If you can add a bit
+> more detail below, we may be able to route it right away instead.
 
 Nothing is guessed here — no department, no priority. This is the human-approval-gate
 workflow described in `ARCHITECTURE.md`; the citizen sees the honest "pending" state,
 and the case shows up in a supervisor's Pending Review queue on the Employee
 Dashboard.
+
+Unlike the plain pause, though, the citizen gets one inline chance to resolve it
+themselves first — a small "Can you tell us more?" form appears right in the banner:
+
+![Pending review with the inline clarification form](images/11-clarify-pending-with-form.png)
+
+**Example — verified live:** adding *"Specifically there is a large pothole on Elm
+Street that has damaged two of my tires this month."* reclassifies the **combined**
+text (not just the new sentence) and, since it's now confident, auto-resumes the same
+paused workflow — no supervisor needed after all:
+
+![Result after clarification — now routed](images/12-clarify-result.png)
+
+If the added detail *still* isn't enough to classify confidently, the case stays
+parked for a supervisor exactly as before — but the fuller text is saved either way,
+so whoever reviews it next sees the citizen's complete context, not just the original
+vague sentence. The form only appears once per submission; there's no open-ended
+back-and-forth.
 
 **Example 3 — out of scope:**
 

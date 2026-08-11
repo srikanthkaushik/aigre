@@ -137,6 +137,16 @@
   font-size: 0.72rem;
 }
 
+.clarification-form {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  .full-width {
+    width: 100%;
+  }
+}
+
 // -- status tab --
 
 .receipt-card {

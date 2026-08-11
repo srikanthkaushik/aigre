@@ -39,6 +39,12 @@ export class ApiService {
     return this.http.get<GrievanceWorkflowResponse>(`${API_BASE}/grievances/${grievanceId}/workflow`);
   }
 
+  clarify(grievanceId: string, additionalText: string): Observable<GrievanceWorkflowResponse> {
+    return this.http.post<GrievanceWorkflowResponse>(`${API_BASE}/grievances/${grievanceId}/workflow/clarify`, {
+      additionalText
+    });
+  }
+
   getStatus(grievanceId: string): Observable<GrievanceStatusResult> {
     return this.http.get<GrievanceStatusResult>(`${API_BASE}/grievances/${grievanceId}`);
   }

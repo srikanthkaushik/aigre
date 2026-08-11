@@ -83,6 +83,19 @@ public class GrievanceWorkflowState extends AgentState {
         return value("reviewedPriority");
     }
 
+    /**
+     * Only supplied by the citizen-clarification auto-resume path (GrievanceWorkflowService
+     * .clarify()) -- a supervisor's own review decision doesn't include a re-typed confidence
+     * score, so this stays empty on the plain human-review resume path.
+     */
+    public Optional<Double> reviewedConfidence() {
+        return value("reviewedConfidence");
+    }
+
+    public Optional<String> reviewedReasoning() {
+        return value("reviewedReasoning");
+    }
+
     public Optional<String> reviewNote() {
         return value("reviewNote");
     }

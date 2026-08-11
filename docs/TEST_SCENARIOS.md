@@ -33,7 +33,7 @@ mvn test -Dtest=ClassName
 | `SlaCalculatorTest` | Pure unit | SLA due-date arithmetic — no LLM, no DB, deterministic |
 | `GrievanceMcpToolsTest` | Integration (real Postgres) | All 4 MCP tools against 5 deliberately-seeded edge cases (bad department code, stale unescalated breach, 2-hop duplicate chain, anonymous no-contact citizen, never-classified row) plus not-found/malformed-ID error paths |
 | `GrievanceWorkflowServiceTest` | Integration (real Postgres + live Ollama) | The auto-commit (high-confidence) path through the LangGraph4j workflow, end to end |
-| `GrievanceWorkflowPauseResumeTest` | Integration (real Postgres, **mocked** classifier) | The interrupt/resume *mechanics* deterministically — pause on low confidence, resume with a supervisor decision, skip-review on not-actionable. Mocked deliberately so this test isn't flaky for reasons unrelated to graph wiring (see note below) |
+| `GrievanceWorkflowPauseResumeTest` | Integration (real Postgres, **mocked** classifier) | The interrupt/resume *mechanics* deterministically — pause on low confidence, resume with a supervisor decision, skip-review on not-actionable, and the citizen-clarification path (`clarify()`) both when it resolves the pause and when it doesn't. Mocked deliberately so this test isn't flaky for reasons unrelated to graph wiring (see note below) |
 | `GrievanceTrendsServiceTest` | Integration (real Postgres) | The 5 trend aggregation queries against isolated fixture data (a dedicated `ZZTEST` department code, cleaned up after) — exact expected counts/averages |
 | `LlmGrievanceClassifierTest` | Integration (live Ollama) | Fast structural smoke test — a handful of unambiguous cases (confident pothole, critical gas leak, vague/unconfident, non-actionable compliment). Not the accuracy measurement |
 | `ComplaintEvalHarnessTest` | Integration (live Ollama, slow) | **The accuracy measurement** — all 91 labeled complaints in `test-data/grievances/eval-complaints.jsonl` run through the real classification pipeline, department-match accuracy reported. See variance note below |
@@ -124,7 +124,12 @@ exercise the running app by hand after any frontend change. Requires both server
 - [ ] Submit a clear complaint (try the scenario 1 example above) → routes
       immediately, shows department/category/priority/SLA date.
 - [ ] Submit a vague complaint (scenario 4 example) → shows "needs a closer look",
-      *not* a forced department.
+      *not* a forced department, with an inline "Can you tell us more?" form.
+- [ ] Add real detail in that form → reclassifies the combined text and, if now
+      confident, auto-routes without a supervisor (banner flips to the normal "Routed
+      to ..." state). The form does not reappear.
+- [ ] Add vague/unhelpful detail instead → stays in "needs a closer look" state with
+      an updated message ("this still needs a supervisor's review"); the form is gone.
 - [ ] Submit a pure compliment (scenario 9 example) → "not something this portal
       handles".
 - [ ] Click **Track this** on a fresh submission → jumps to Check Status with the ID

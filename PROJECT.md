@@ -854,6 +854,43 @@ serve.** This matters more here than for any earlier frontend change this
 session, precisely because the deliverable *is* the visual result. Check in
 the browser before treating this as done.
 
+## Citizen-driven clarification (closes an open thread from earlier this session)
+
+Milestone-0's plan named this behavior for scenario 4 ("portal/chatbot prompts
+citizen for more detail instead of guessing") but it was never actually built —
+low confidence only ever routed to a *supervisor*, never back to the citizen. Built
+now: `GrievanceWorkflowService.clarify()` + `POST /grievances/{id}/workflow/clarify`.
+
+**Design**: when a submission pauses (`pendingReview: true`), the citizen gets one
+inline "Can you tell us more?" prompt right in the result banner — no new page. If
+they add detail, the *combined* text (original + addition) is reclassified; if now
+confident, the service auto-resumes the already-paused LangGraph4j workflow itself,
+reusing the exact same `GraphInput.resume()` mechanism the supervisor path uses —
+just with the reclassification's own values standing in for a human's typed decision
+(`reviewedBy: "system:citizen-clarification"` in the audit trail, so it's
+distinguishable from a real human review). If still not confident, nothing is
+force-committed — it stays paused for a supervisor, but with the fuller text now
+saved either way. The form only ever appears once per submission (no open-ended
+back-and-forth loop).
+
+**A real gap found and fixed while building this**: the first working version
+correctly reclassified department/category/priority on auto-resume, but the
+*displayed* confidence and reasoning stayed stuck at the original low values — because
+`human_review`'s resume map only ever overrode department/category/priority, never
+confidence/reasoning (there was previously no path that needed to). Added
+`reviewedConfidence`/`reviewedReasoning` as the same kind of optional override,
+supplied only by `clarify()` (a supervisor's decision still doesn't retype a
+confidence score, so that path is unaffected). Verified via a live before/after curl
+comparison — confidence went from a stale `0.2` to the actual reclassification's `0.8`.
+
+**Verified two ways**: `GrievanceWorkflowPauseResumeTest` gained 2 new deterministic
+cases (mocked classifier — resolves-on-clarify and still-pending-after-clarify), and
+— now that Playwright exists in this project's toolkit — an actual end-to-end
+Playwright run through the real UI against the real backend, screenshotted
+(`docs/images/11-clarify-pending-with-form.png`,
+`docs/images/12-clarify-result.png`) and embedded in `docs/APP_WALKTHROUGH.md`.
+Worked correctly on the first real run once the confidence/reasoning fix landed.
+
 ## First actual visual verification — and a real bug it caught
 
 Every frontend change all session had the same caveat: "no browser tool in this

@@ -1,5 +1,7 @@
 package com.aigre.workflow;
 
+import com.aigre.classification.ClassificationResult;
+import com.aigre.classification.LlmGrievanceClassifier;
 import com.aigre.intake.GrievanceIntakeRequest;
 import org.bsc.langgraph4j.CompiledGraph;
 import org.bsc.langgraph4j.GraphInput;
@@ -28,10 +30,15 @@ public class GrievanceWorkflowService {
 
     private final NamedParameterJdbcTemplate jdbc;
     private final CompiledGraph<GrievanceWorkflowState> graph;
+    private final LlmGrievanceClassifier classifier;
 
-    public GrievanceWorkflowService(NamedParameterJdbcTemplate jdbc, CompiledGraph<GrievanceWorkflowState> grievanceWorkflowGraph) {
+    public GrievanceWorkflowService(
+            NamedParameterJdbcTemplate jdbc,
+            CompiledGraph<GrievanceWorkflowState> grievanceWorkflowGraph,
+            LlmGrievanceClassifier classifier) {
         this.jdbc = jdbc;
         this.graph = grievanceWorkflowGraph;
+        this.classifier = classifier;
     }
 
     public GrievanceWorkflowResponse start(GrievanceIntakeRequest request) {
@@ -65,6 +72,61 @@ public class GrievanceWorkflowService {
         resumeInputs.put("reviewedBy", decision.reviewedBy());
 
         graph.invoke(GraphInput.resume(resumeInputs), config);
+
+        return buildResponse(grievanceId, config);
+    }
+
+    /**
+     * The citizen-facing counterpart to resume(): instead of a supervisor's override decision,
+     * the citizen supplies more detail about their own complaint. Appends it to raw_text (so
+     * whoever eventually reviews this sees the fuller picture either way), reclassifies the
+     * combined text, and auto-resumes the paused workflow -- reusing the exact same resume
+     * mechanism the supervisor path uses, just with the reclassification's own values standing in
+     * for a human's typed decision -- only if the new classification is now actually confident.
+     * If it's still not, the case stays paused for a supervisor; nothing is force-committed on a
+     * guess just because the citizen tried once.
+     *
+     * Scoped out of this pass: a reclassification that flips to not-actionable after
+     * clarification doesn't auto-resolve as NOT_ACTIONABLE -- the graph's "actionable" state was
+     * fixed by the original classify() call and human_review's resume map doesn't currently
+     * override it. Rare in practice (a citizen clarifying a vague complaint into "never mind,
+     * that's not really an issue" is an edge case); left for a supervisor to close out via the
+     * existing update_grievance_status tool rather than adding that plumbing now.
+     */
+    public GrievanceWorkflowResponse clarify(UUID grievanceId, String additionalText) {
+        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId.toString()).build();
+        ensureResumable(grievanceId, config);
+        if (!HUMAN_REVIEW_NODE.equals(graph.getState(config).next())) {
+            throw new IllegalStateException(
+                    "Grievance " + grievanceId + " is no longer awaiting review -- it may already have "
+                            + "been routed or resolved.");
+        }
+
+        String originalRawText = jdbc.queryForObject(
+                "SELECT raw_text FROM grievances WHERE id = :id",
+                new MapSqlParameterSource("id", grievanceId),
+                String.class);
+        String combinedText = originalRawText + "\n\nAdditional detail from citizen: " + additionalText.trim();
+
+        jdbc.update(
+                "UPDATE grievances SET raw_text = :rawText WHERE id = :id",
+                new MapSqlParameterSource().addValue("rawText", combinedText).addValue("id", grievanceId));
+
+        ClassificationResult result = classifier.classify(combinedText);
+
+        if (result.isConfident()) {
+            Map<String, Object> resumeInputs = new HashMap<>();
+            resumeInputs.put("reviewedDepartment", result.department());
+            resumeInputs.put("reviewedCategory", result.category());
+            resumeInputs.put("reviewedPriority", result.priority());
+            resumeInputs.put("reviewedConfidence", result.confidence());
+            resumeInputs.put("reviewedReasoning", result.reasoning());
+            resumeInputs.put("reviewNote", "Reclassified automatically after the citizen provided additional detail.");
+            resumeInputs.put("reviewedBy", "system:citizen-clarification");
+            graph.invoke(GraphInput.resume(resumeInputs), config);
+        }
+        // else: still not confident -- stays paused. The updated raw_text is now visible to
+        // whoever reviews it next, even though this attempt didn't resolve it.
 
         return buildResponse(grievanceId, config);
     }

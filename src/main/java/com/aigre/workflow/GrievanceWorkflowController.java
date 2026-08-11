@@ -46,4 +46,11 @@ public class GrievanceWorkflowController {
         return Mono.fromCallable(() -> service.resume(id, decision))
                 .subscribeOn(Schedulers.boundedElastic());
     }
+
+    @PostMapping("/{id}/workflow/clarify")
+    public Mono<GrievanceWorkflowResponse> clarify(
+            @PathVariable UUID id, @Valid @RequestBody ClarificationRequest request) {
+        return Mono.fromCallable(() -> service.clarify(id, request.additionalText()))
+                .subscribeOn(Schedulers.boundedElastic());
+    }
 }

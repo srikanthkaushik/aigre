@@ -103,6 +103,11 @@ public class GrievanceWorkflowGraphConfig {
         state.reviewedDepartment().ifPresent(d -> update.put("finalDepartment", d));
         state.reviewedCategory().ifPresent(c -> update.put("finalCategory", c));
         state.reviewedPriority().ifPresent(p -> update.put("finalPriority", p));
+        // Only ever present on the citizen-clarification auto-resume path -- a supervisor's
+        // decision doesn't re-type a confidence score or reasoning, so these stay as the
+        // original classify() output on that path, same as before.
+        state.reviewedConfidence().ifPresent(c -> update.put("confidence", c));
+        state.reviewedReasoning().ifPresent(r -> update.put("reasoning", r));
         return update;
     }
 

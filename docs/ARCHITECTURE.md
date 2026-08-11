@@ -144,6 +144,18 @@ genuinely-ambiguous cases; Ollama's included systematic department-boundary
 confusion. Ollama stays the default (offline, no per-call cost); Anthropic is a
 one-line config flip for when accuracy matters more than cost.
 
+**Citizen-driven reclassification** (`GrievanceWorkflowService.clarify()`): when a
+submission pauses for low confidence, the citizen gets one inline chance to add detail
+before it ever reaches a supervisor. The added text is appended to the original
+complaint and run back through the same classifier; if the combined text is now
+confident, the service auto-resumes the already-paused LangGraph4j workflow itself —
+reusing the exact same resume mechanism a supervisor's decision uses, just with the
+reclassification's own department/category/priority/confidence/reasoning standing in
+for a human's typed choices (`reviewedBy: "system:citizen-clarification"` in the audit
+trail, so it's distinguishable from an actual human review). If it's still not
+confident, nothing is force-committed — it stays paused for a supervisor, but with the
+fuller text now saved so they see the citizen's complete context either way.
+
 ### 2. Retrieval-augmented chat (`RetrievalService`, `ChatController`)
 
 **What it does**: answers citizen policy questions ("How long does DOT have to fix a

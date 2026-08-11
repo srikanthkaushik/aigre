@@ -65,7 +65,17 @@
                 <div class="result-text">
                   @if (result.pendingReview) {
                     <h3>Needs a closer look</h3>
-                    <p>A supervisor will review your complaint before it's routed. Check back using your grievance ID.</p>
+                    @if (clarificationAttempted()) {
+                      <p>
+                        Thanks for the extra detail — this still needs a supervisor's review.
+                        Check back using your grievance ID below.
+                      </p>
+                    } @else {
+                      <p>
+                        A supervisor will review your complaint before it's routed. If you can add
+                        a bit more detail below, we may be able to route it right away instead.
+                      </p>
+                    }
                   } @else if (result.status === 'NOT_ACTIONABLE') {
                     <h3>Not something this portal handles</h3>
                     <p>{{ result.reasoning }}</p>
@@ -82,6 +92,31 @@
                     ID: <code>{{ result.grievanceId }}</code>
                     <button mat-stroked-button class="btn-small" (click)="useSubmittedId()">Track this</button>
                   </p>
+
+                  @if (result.pendingReview && !clarificationAttempted()) {
+                    <div class="clarification-form">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Can you tell us more?</mat-label>
+                        <textarea
+                          matInput
+                          rows="2"
+                          [(ngModel)]="clarificationText"
+                          placeholder="e.g. the exact address, or what specifically is wrong"
+                        ></textarea>
+                      </mat-form-field>
+                      @if (clarificationError()) {
+                        <p class="error-text">{{ clarificationError() }}</p>
+                      }
+                      <button
+                        mat-stroked-button
+                        color="primary"
+                        [disabled]="clarifying() || !clarificationText.trim()"
+                        (click)="submitClarification()"
+                      >
+                        {{ clarifying() ? 'Checking…' : 'Add Detail' }}
+                      </button>
+                    </div>
+                  }
                 </div>
               </div>
             }

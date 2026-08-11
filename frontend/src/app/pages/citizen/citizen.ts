@@ -49,6 +49,12 @@ export class Citizen {
   readonly submitResult = signal<GrievanceWorkflowResponse | null>(null);
   readonly submitError = signal<string | null>(null);
 
+  // -- inline clarification, offered once when a submission comes back pendingReview --
+  clarificationText = '';
+  readonly clarifying = signal(false);
+  readonly clarificationAttempted = signal(false);
+  readonly clarificationError = signal<string | null>(null);
+
   // -- status tab --
   lookupId = '';
   readonly statusLoading = signal(false);
@@ -72,6 +78,10 @@ export class Citizen {
     this.submitting.set(true);
     this.submitError.set(null);
     this.submitResult.set(null);
+    this.clarificationText = '';
+    this.clarifying.set(false);
+    this.clarificationAttempted.set(false);
+    this.clarificationError.set(null);
 
     this.api
       .submitGrievance({
@@ -90,6 +100,32 @@ export class Citizen {
           this.submitting.set(false);
         }
       });
+  }
+
+  /**
+   * Offered once, inline, right after a submission comes back pendingReview -- the citizen gets
+   * one chance to add detail that might resolve the ambiguity themselves before it falls back to
+   * a supervisor. Whatever happens (resolves or still needs a human), the form doesn't reappear
+   * for this submission -- avoids an open-ended back-and-forth loop.
+   */
+  submitClarification(): void {
+    const id = this.submitResult()?.grievanceId;
+    if (!id || !this.clarificationText.trim()) return;
+
+    this.clarifying.set(true);
+    this.clarificationError.set(null);
+
+    this.api.clarify(id, this.clarificationText).subscribe({
+      next: (result) => {
+        this.submitResult.set(result);
+        this.clarifying.set(false);
+        this.clarificationAttempted.set(true);
+      },
+      error: (err) => {
+        this.clarificationError.set(err?.error?.message ?? 'Could not submit your additional detail. Please try again.');
+        this.clarifying.set(false);
+      }
+    });
   }
 
   lookupStatus(): void {
