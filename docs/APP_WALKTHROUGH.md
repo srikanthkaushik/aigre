@@ -103,6 +103,18 @@ from the systems-of-record table rather than depending on workflow state.
 
 ![Check Status result](images/04-citizen-status.png)
 
+If a submission turns out to match an existing open report in the same
+department and category, its status is **DUPLICATE** rather than a routed
+priority — it doesn't open a second SLA clock, since the original report
+already has one.
+
+If a grievance is **CLOSED**, the card offers a **Reopen this complaint**
+button — a short reason, and the case comes back with its priority bumped one
+tier (capped at CRITICAL) and a fresh SLA due date, routed back to the same
+department for another look.
+
+![Reopened complaint — priority bumped, fresh SLA, confirmation shown](images/14-citizen-reopen-success.png)
+
 ### Ask a Question
 
 A chat interface backed by the RAG pipeline over the department policy corpus. Empty
@@ -184,7 +196,12 @@ guessed).
 
 Opening the same dialog for a grievance that was *never* part of an active workflow
 (a seeded demo row, for instance) shows a read-only detail view instead of an editable
-form — there's nothing to approve for a case that never paused.
+form — there's nothing to approve for a case that never paused. For any grievance
+that isn't already closed out, this read-only view also offers **Mark Resolved**
+and **Mark Closed** — a resolution note and a name/ID, and the status updates
+immediately, with the queue table reflecting it on refresh.
+
+![Department Queue after Mark Resolved](images/15-employee-mark-resolved.png)
 
 ### {Department} Queue tab
 
@@ -224,8 +241,8 @@ project:
   LangGraph4j pause/resume workflow, the MCP tool server, the database and its
   aggregation queries. These all run against a live Ollama instance and a live
   Postgres instance — nothing in the walkthrough above is mocked.
-- **Demo-only**: the department picker (no real login), and the later status
-  transitions (`ROUTED`/`IN_PROGRESS`/`RESOLVED`/`CLOSED`) which exist in the schema
-  and the MCP tool's validation but have no dashboard UI yet — a real deployment would
-  need a caseworker view for actually working a ticket after it's routed, not just
-  approving its classification.
+- **Demo-only**: the department picker (no real login). `RESOLVED`/`CLOSED` now have
+  a real dashboard action (Mark Resolved/Mark Closed), and `REOPENED` a real
+  citizen-facing action too — but `ROUTED`/`IN_PROGRESS` still have no dashboard UI;
+  a real deployment would need a caseworker view for actually working a ticket after
+  it's routed, not just approving its classification and closing it out.

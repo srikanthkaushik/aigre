@@ -10,5 +10,6 @@ public record GrievanceIntakeResponse(
         String category,
         double classificationConfidence,
         String priority,
-        Instant slaDueAt) {
+        Instant slaDueAt,
+        UUID duplicateOfId) {
 }

@@ -93,6 +93,17 @@ dl {
   }
 }
 
+.lifecycle-action {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  .lifecycle-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
 .grid-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

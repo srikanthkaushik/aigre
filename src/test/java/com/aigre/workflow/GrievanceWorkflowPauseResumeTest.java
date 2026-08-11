@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -16,6 +18,12 @@ import static org.mockito.Mockito.when;
  * Tests the interrupt/resume graph mechanics deterministically -- mocks LlmGrievanceClassifier
  * instead of depending on live low-confidence output, since classification confidence has
  * documented LLM sampling variance (see GrievanceWorkflowServiceTest's javadoc).
+ *
+ * Tests that resolve to a real department+category use a fresh random category per run (not a
+ * fixed string like "general-complaint") -- duplicate detection (DuplicateDetectionService) is
+ * department+category-based, so a repeated `mvn test` run would otherwise match the previous
+ * run's still-open leftover row (these tests don't clean up after themselves) and land on
+ * DUPLICATE instead of the TRIAGED this class is actually testing for.
  */
 @SpringBootTest
 class GrievanceWorkflowPauseResumeTest {
@@ -28,6 +36,7 @@ class GrievanceWorkflowPauseResumeTest {
 
     @Test
     void lowConfidenceClassificationPausesForReviewThenCommitsOnResume() {
+        String category = "test-cat-" + UUID.randomUUID();
         when(classifier.classify(anyString())).thenReturn(new ClassificationResult(
                 null, null, null, 0.3, "NEUTRAL", 0.0, true,
                 "too vague to identify a specific issue or department"));
@@ -42,22 +51,23 @@ class GrievanceWorkflowPauseResumeTest {
         GrievanceWorkflowResponse resumed = service.resume(
                 started.grievanceId(),
                 new GrievanceReviewDecision(
-                        "DPW", "general-complaint", "LOW", "reviewed: vague, default triage to DPW", "supervisor-1"));
+                        "DPW", category, "LOW", "reviewed: vague, default triage to DPW", "supervisor-1"));
 
         assertThat(resumed.pendingReview()).isFalse();
         assertThat(resumed.status()).isEqualTo("TRIAGED");
         assertThat(resumed.department()).isEqualTo("DPW");
-        assertThat(resumed.category()).isEqualTo("general-complaint");
+        assertThat(resumed.category()).isEqualTo(category);
         assertThat(resumed.priority()).isEqualTo("LOW");
         assertThat(resumed.slaDueAt()).isNotNull();
     }
 
     @Test
     void clarifyReclassifiesAndAutoResumesWhenNowConfident() {
+        String category = "test-cat-" + UUID.randomUUID();
         ClassificationResult vague = new ClassificationResult(
                 null, null, null, 0.3, "NEUTRAL", 0.0, true, "too vague to identify a specific issue or department");
         ClassificationResult confidentAfterDetail = new ClassificationResult(
-                "DOT", "road-surface", "MEDIUM", 0.9, "NEGATIVE", -0.3, true, "clearly a pothole on a city road now");
+                "DOT", category, "MEDIUM", 0.9, "NEGATIVE", -0.3, true, "clearly a pothole on a city road now");
         when(classifier.classify(anyString())).thenReturn(vague, confidentAfterDetail);
 
         GrievanceWorkflowResponse started = service.start(
@@ -70,7 +80,7 @@ class GrievanceWorkflowPauseResumeTest {
         assertThat(clarified.pendingReview()).isFalse();
         assertThat(clarified.status()).isEqualTo("TRIAGED");
         assertThat(clarified.department()).isEqualTo("DOT");
-        assertThat(clarified.category()).isEqualTo("road-surface");
+        assertThat(clarified.category()).isEqualTo(category);
         assertThat(clarified.priority()).isEqualTo("MEDIUM");
         assertThat(clarified.confidence()).isEqualTo(0.9);
         assertThat(clarified.reasoning()).isEqualTo("clearly a pothole on a city road now");

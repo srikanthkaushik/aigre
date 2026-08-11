@@ -1,5 +1,7 @@
 package com.aigre.tools;
 
+import com.aigre.sla.Priority;
+import com.aigre.sla.SlaCalculator;
 import org.springframework.ai.mcp.annotation.McpTool;
 import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,6 +13,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -34,9 +37,11 @@ public class GrievanceMcpTools {
     private static final Set<String> TERMINAL_STATUSES = Set.of("RESOLVED", "CLOSED", "NOT_ACTIONABLE");
 
     private final NamedParameterJdbcTemplate jdbc;
+    private final SlaCalculator slaCalculator;
 
-    public GrievanceMcpTools(NamedParameterJdbcTemplate jdbc) {
+    public GrievanceMcpTools(NamedParameterJdbcTemplate jdbc, SlaCalculator slaCalculator) {
         this.jdbc = jdbc;
+        this.slaCalculator = slaCalculator;
     }
 
     @McpTool(
@@ -49,7 +54,7 @@ public class GrievanceMcpTools {
                 """
                 SELECT g.id, g.status, g.department_predicted, g.department_confirmed, g.category, g.priority,
                        g.classification_confidence, g.sentiment_label, g.sla_due_at, g.submitted_at,
-                       g.resolved_at, g.resolution_notes,
+                       g.resolved_at, g.resolution_notes, g.duplicate_of_id,
                        (d.id IS NOT NULL) AS department_valid,
                        (g.citizen_id IS NOT NULL AND (c.email IS NOT NULL OR c.phone IS NOT NULL)) AS citizen_contact_available
                 FROM grievances g
@@ -72,7 +77,8 @@ public class GrievanceMcpTools {
                         toInstant(rs.getTimestamp("submitted_at")),
                         toInstant(rs.getTimestamp("resolved_at")),
                         rs.getString("resolution_notes"),
-                        rs.getBoolean("citizen_contact_available")));
+                        rs.getBoolean("citizen_contact_available"),
+                        rs.getString("duplicate_of_id")));
         return requireFound(rows, grievanceId);
     }
 
@@ -191,6 +197,70 @@ public class GrievanceMcpTools {
                         .addValue("note", note));
 
         return new UpdateStatusResult(grievanceId, previousStatus, normalizedStatus, true, "Updated.");
+    }
+
+    @McpTool(
+            name = "reopen_grievance",
+            description = "Reopen a CLOSED grievance (plan.md scenario 7): bumps its priority one tier, clears "
+                    + "its resolution, recomputes a fresh SLA due date, and routes it back to its confirmed "
+                    + "department for another look. Only works on grievances currently in CLOSED status.")
+    public ReopenResult reopenGrievance(
+            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId,
+            @McpToolParam(description = "Why the grievance is being reopened", required = true) String reason,
+            @McpToolParam(
+                            description = "Who is reopening it (citizen ID/contact, or 'system:<source>')",
+                            required = true)
+                    String reopenedBy) {
+        UUID id = parseId(grievanceId);
+        List<Map<String, Object>> rows = jdbc.queryForList(
+                "SELECT status, priority FROM grievances WHERE id = :id", new MapSqlParameterSource("id", id));
+        if (rows.isEmpty()) {
+            throw notFound(grievanceId);
+        }
+        String currentStatus = (String) rows.get(0).get("status");
+        if (!"CLOSED".equals(currentStatus)) {
+            return new ReopenResult(
+                    grievanceId, currentStatus, null, null, null, null, false,
+                    "Only CLOSED grievances can be reopened; this grievance is currently " + currentStatus + ".");
+        }
+
+        String currentPriorityRaw = (String) rows.get(0).get("priority");
+        Priority currentPriority = currentPriorityRaw == null ? Priority.MEDIUM : Priority.valueOf(currentPriorityRaw);
+        Priority bumpedPriority = currentPriority.oneTierUp();
+        Instant now = Instant.now();
+        Instant newSlaDueAt = slaCalculator.resolveDueAt(bumpedPriority, now);
+
+        jdbc.update(
+                """
+                UPDATE grievances
+                SET status = 'REOPENED',
+                    priority = :priority,
+                    resolved_at = NULL,
+                    sla_due_at = :slaDueAt,
+                    resolution_notes = :note
+                WHERE id = :id
+                """,
+                new MapSqlParameterSource()
+                        .addValue("id", id)
+                        .addValue("priority", bumpedPriority.name())
+                        .addValue("slaDueAt", Timestamp.from(newSlaDueAt))
+                        .addValue("note", reason));
+
+        jdbc.update(
+                """
+                INSERT INTO status_history (id, grievance_id, from_status, to_status, changed_by, changed_at, note)
+                VALUES (:id, :grievanceId, 'CLOSED', 'REOPENED', :changedBy, :changedAt, :note)
+                """,
+                new MapSqlParameterSource()
+                        .addValue("id", UUID.randomUUID())
+                        .addValue("grievanceId", id)
+                        .addValue("changedBy", reopenedBy)
+                        .addValue("changedAt", Timestamp.from(now))
+                        .addValue("note", reason));
+
+        return new ReopenResult(
+                grievanceId, "CLOSED", "REOPENED", currentPriority.name(), bumpedPriority.name(), newSlaDueAt, true,
+                "Reopened.");
     }
 
     private UUID parseId(String rawId) {

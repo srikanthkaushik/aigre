@@ -16,5 +16,6 @@ public record GrievanceStatusResult(
         Instant submittedAt,
         Instant resolvedAt,
         String resolutionNotes,
-        boolean citizenContactAvailable) {
+        boolean citizenContactAvailable,
+        String duplicateOfId) {
 }

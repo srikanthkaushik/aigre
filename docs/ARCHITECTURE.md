@@ -237,10 +237,11 @@ saver` exists upstream if this becomes a real requirement).
 
 ### 4. MCP tools (`com.aigre.tools.GrievanceMcpTools`)
 
-**What it does**: exposes 4 grievance operations (`get_grievance_status`,
-`check_sla_status`, `find_duplicate_chain`, `update_grievance_status`) as MCP
-(Model Context Protocol) tools via Spring AI's MCP server (Streamable HTTP transport),
-so an external agent could call them the same way a human uses the REST API.
+**What it does**: exposes 5 grievance operations (`get_grievance_status`,
+`check_sla_status`, `find_duplicate_chain`, `update_grievance_status`,
+`reopen_grievance`) as MCP (Model Context Protocol) tools via Spring AI's MCP
+server (Streamable HTTP transport), so an external agent could call them the
+same way a human uses the REST API.
 
 This is the **tool-exposure layer for a future AI agent**, not the workflow's own data
 access (the workflow graph currently writes to Postgres directly, matching the plain
@@ -249,6 +250,25 @@ direct JDBC is a documented follow-up, not yet done). Each tool's error messages
 written to teach the caller what to do next (e.g. "Double-check the ID, or use a
 search/list tool") rather than just reporting failure — tool quality is answer
 quality, especially for a caller that might itself be an LLM.
+
+`find_duplicate_chain` only ever *walked* an existing `duplicate_of_id` chain;
+what actually *creates* that link is `DuplicateDetectionService`
+(`com.aigre.duplicate`), a plain SQL match on department+category within a
+recent window (no structured location field exists in the schema — free-text
+`raw_text` only — so that's the narrowest usable signal), wired into both
+commit paths (plain intake and the workflow's `commit()` node) right before
+each one writes its final row. A match sets status to `DUPLICATE` and skips
+assigning an SLA due date, since a duplicate doesn't open a second clock.
+`reopen_grievance` only succeeds from `CLOSED`, bumps priority one tier
+(`Priority.oneTierUp()`, capped at `CRITICAL`), explicitly clears
+`resolved_at` (a real gap in `update_grievance_status`, whose `resolved_at`
+CASE expression only ever sets that column, never nulls it — a naive reopen
+through that tool alone would leave a stale resolution timestamp on an active
+case), and recomputes a fresh SLA due date. Both are exposed over plain HTTP
+too (`POST /grievances/{id}/reopen`, citizen-facing; `POST
+/grievances/{id}/status`, the employee dashboard's "Mark Resolved"/"Mark
+Closed" action) via `GrievanceQueryController`, alongside its existing
+read-only endpoints.
 
 ### Cross-cutting: dual-provider architecture
 

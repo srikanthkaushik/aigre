@@ -185,6 +185,34 @@
                     <dd>{{ s.resolutionNotes }}</dd>
                   }
                 </dl>
+
+                @if (s.status === 'CLOSED' || reopenSuccess()) {
+                  <div class="reopen-section">
+                    @if (reopenSuccess()) {
+                      <p class="reopen-success">
+                        <mat-icon>check_circle</mat-icon>
+                        Reopened — a supervisor will take another look.
+                      </p>
+                    } @else {
+                      <p class="hint">Still an issue? You can reopen this complaint.</p>
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Why are you reopening this?</mat-label>
+                        <textarea matInput rows="2" [(ngModel)]="reopenReason"></textarea>
+                      </mat-form-field>
+                      @if (reopenError()) {
+                        <p class="error-text">{{ reopenError() }}</p>
+                      }
+                      <button
+                        mat-stroked-button
+                        color="primary"
+                        [disabled]="reopening() || !reopenReason.trim()"
+                        (click)="reopenGrievance()"
+                      >
+                        {{ reopening() ? 'Reopening…' : 'Reopen this complaint' }}
+                      </button>
+                    }
+                  </div>
+                }
               </div>
             }
           </mat-card-content>

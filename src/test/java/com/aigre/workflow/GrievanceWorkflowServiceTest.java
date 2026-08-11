@@ -29,10 +29,19 @@ class GrievanceWorkflowServiceTest {
                 null, null, null));
 
         assertThat(response.pendingReview()).isFalse();
-        assertThat(response.status()).isEqualTo("TRIAGED");
+        // TRIAGED on a fresh submission; DUPLICATE if an earlier run of this same test already
+        // reported the same DOT/road-surface issue within the duplicate-detection window (real
+        // LLM output here, not mocked, so the category can't be made artificially unique per run
+        // the way the mocked-classifier tests are) -- both are valid "committed without pausing
+        // for review" outcomes for what this test actually checks.
+        assertThat(response.status()).isIn("TRIAGED", "DUPLICATE");
         assertThat(response.department()).isEqualTo("DOT");
         assertThat(response.priority()).isNotNull();
-        assertThat(response.slaDueAt()).isNotNull();
+        if ("TRIAGED".equals(response.status())) {
+            assertThat(response.slaDueAt()).isNotNull();
+        } else {
+            assertThat(response.duplicateOfId()).isNotNull();
+        }
     }
 
 }

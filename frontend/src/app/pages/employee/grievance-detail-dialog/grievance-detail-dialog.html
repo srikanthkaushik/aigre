@@ -29,6 +29,10 @@
       <dl>
         <dt>Status</dt>
         <dd><mat-chip class="status-chip" [class]="'status-' + detail.status.toLowerCase()">{{ detail.status }}</mat-chip></dd>
+        @if (detail.duplicateOfId) {
+          <dt>Duplicate of</dt>
+          <dd><code>{{ detail.duplicateOfId }}</code></dd>
+        }
         <dt>Department</dt>
         <dd>{{ detail.department | departmentName }}</dd>
         <dt>Category</dt>
@@ -46,6 +50,40 @@
           Not part of an active review workflow (a seeded/demo record, or one submitted outside
           the workflow endpoint) — nothing to approve here.
         </p>
+      }
+
+      @if (!['CLOSED', 'NOT_ACTIONABLE', 'DUPLICATE'].includes(detail.status)) {
+        <div class="lifecycle-action">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Resolution note (required to mark resolved/closed)</mat-label>
+            <textarea matInput rows="2" [(ngModel)]="resolveNote"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Your name/ID</mat-label>
+            <input matInput type="text" [(ngModel)]="reviewedBy" />
+          </mat-form-field>
+          <div class="lifecycle-buttons">
+            <button
+              mat-stroked-button
+              color="primary"
+              [disabled]="markingStatus() || !resolveNote.trim() || !reviewedBy.trim()"
+              (click)="markStatus('RESOLVED')"
+            >
+              {{ markingStatus() ? 'Updating…' : 'Mark Resolved' }}
+            </button>
+            <button
+              mat-stroked-button
+              [disabled]="markingStatus() || !resolveNote.trim() || !reviewedBy.trim()"
+              (click)="markStatus('CLOSED')"
+            >
+              {{ markingStatus() ? 'Updating…' : 'Mark Closed' }}
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (error()) {
+        <p class="error-text">{{ error() }}</p>
       }
     } @else {
       <div class="prediction">

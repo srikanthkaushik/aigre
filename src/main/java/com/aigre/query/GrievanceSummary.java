@@ -12,5 +12,6 @@ public record GrievanceSummary(
         Instant slaDueAt,
         Instant submittedAt,
         String resolutionNotes,
-        boolean breached) {
+        boolean breached,
+        String duplicateOfId) {
 }

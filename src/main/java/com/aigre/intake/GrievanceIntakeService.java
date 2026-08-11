@@ -2,6 +2,7 @@ package com.aigre.intake;
 
 import com.aigre.classification.ClassificationResult;
 import com.aigre.classification.LlmGrievanceClassifier;
+import com.aigre.duplicate.DuplicateDetectionService;
 import com.aigre.sla.Priority;
 import com.aigre.sla.SlaCalculator;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -23,12 +24,17 @@ public class GrievanceIntakeService {
     private final NamedParameterJdbcTemplate jdbc;
     private final LlmGrievanceClassifier classifier;
     private final SlaCalculator slaCalculator;
+    private final DuplicateDetectionService duplicateDetectionService;
 
     public GrievanceIntakeService(
-            NamedParameterJdbcTemplate jdbc, LlmGrievanceClassifier classifier, SlaCalculator slaCalculator) {
+            NamedParameterJdbcTemplate jdbc,
+            LlmGrievanceClassifier classifier,
+            SlaCalculator slaCalculator,
+            DuplicateDetectionService duplicateDetectionService) {
         this.jdbc = jdbc;
         this.classifier = classifier;
         this.slaCalculator = slaCalculator;
+        this.duplicateDetectionService = duplicateDetectionService;
     }
 
     public GrievanceIntakeResponse submit(GrievanceIntakeRequest request) {
@@ -38,11 +44,25 @@ public class GrievanceIntakeService {
         String status = resolveStatus(classification);
         Priority priority = "TRIAGED".equals(status) ? resolvePriority(classification) : null;
         Instant submittedAt = Instant.now();
-        Instant slaDueAt = priority == null ? null : slaCalculator.resolveDueAt(priority, submittedAt);
-
         UUID grievanceId = UUID.randomUUID();
-        insertGrievance(grievanceId, citizenId, request.rawText(), classification, status, priority, slaDueAt, submittedAt);
-        insertStatusHistory(grievanceId, status, submittedAt);
+
+        UUID duplicateOfId = "TRIAGED".equals(status)
+                ? duplicateDetectionService
+                        .findOpenDuplicate(classification.department(), classification.category(), grievanceId, submittedAt)
+                        .orElse(null)
+                : null;
+        if (duplicateOfId != null) {
+            status = "DUPLICATE";
+        }
+        // Scenario 5: a duplicate doesn't open a second SLA clock -- only the original carries one.
+        Instant slaDueAt = (priority == null || duplicateOfId != null)
+                ? null
+                : slaCalculator.resolveDueAt(priority, submittedAt);
+
+        insertGrievance(
+                grievanceId, citizenId, request.rawText(), classification, status, priority, slaDueAt, submittedAt,
+                duplicateOfId);
+        insertStatusHistory(grievanceId, status, submittedAt, duplicateOfId);
 
         return new GrievanceIntakeResponse(
                 grievanceId,
@@ -51,7 +71,8 @@ public class GrievanceIntakeService {
                 classification.category(),
                 classification.confidence(),
                 priority == null ? null : priority.name(),
-                slaDueAt);
+                slaDueAt,
+                duplicateOfId);
     }
 
     private String resolveStatus(ClassificationResult classification) {
@@ -97,14 +118,16 @@ public class GrievanceIntakeService {
             String status,
             Priority priority,
             Instant slaDueAt,
-            Instant submittedAt) {
+            Instant submittedAt,
+            UUID duplicateOfId) {
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, citizen_id, raw_text, department_predicted, category,
                     priority, classification_confidence, sentiment_label, sentiment_score, status, sla_due_at,
-                    submitted_at)
+                    duplicate_of_id, submitted_at)
                 VALUES (:id, 'PORTAL', :citizenId, :rawText, :department, :category,
-                    :priority, :confidence, :sentimentLabel, :sentimentScore, :status, :slaDueAt, :submittedAt)
+                    :priority, :confidence, :sentimentLabel, :sentimentScore, :status, :slaDueAt,
+                    :duplicateOfId, :submittedAt)
                 """,
                 new MapSqlParameterSource()
                         .addValue("id", grievanceId)
@@ -118,20 +141,23 @@ public class GrievanceIntakeService {
                         .addValue("sentimentScore", classification.sentimentScore())
                         .addValue("status", status)
                         .addValue("slaDueAt", toTimestamp(slaDueAt))
+                        .addValue("duplicateOfId", duplicateOfId)
                         .addValue("submittedAt", toTimestamp(submittedAt)));
     }
 
-    private void insertStatusHistory(UUID grievanceId, String status, Instant changedAt) {
+    private void insertStatusHistory(UUID grievanceId, String status, Instant changedAt, UUID duplicateOfId) {
+        String note = duplicateOfId == null ? null : "Automatically linked as a duplicate of " + duplicateOfId;
         jdbc.update(
                 """
-                INSERT INTO status_history (id, grievance_id, from_status, to_status, changed_by, changed_at)
-                VALUES (:id, :grievanceId, NULL, :status, 'system:intake', :changedAt)
+                INSERT INTO status_history (id, grievance_id, from_status, to_status, changed_by, changed_at, note)
+                VALUES (:id, :grievanceId, NULL, :status, 'system:intake', :changedAt, :note)
                 """,
                 new MapSqlParameterSource()
                         .addValue("id", UUID.randomUUID())
                         .addValue("grievanceId", grievanceId)
                         .addValue("status", status)
-                        .addValue("changedAt", toTimestamp(changedAt)));
+                        .addValue("changedAt", toTimestamp(changedAt))
+                        .addValue("note", note));
     }
 
     // pgjdbc can't infer the SQL type for a bare java.time.Instant via addValue(); java.sql.Timestamp works directly.

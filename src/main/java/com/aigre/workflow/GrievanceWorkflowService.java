@@ -192,7 +192,7 @@ public class GrievanceWorkflowService {
         Map<String, Object> row = jdbc.queryForMap(
                 """
                 SELECT status, department_predicted, department_confirmed, category, priority,
-                       classification_confidence, sla_due_at, raw_text
+                       classification_confidence, sla_due_at, raw_text, duplicate_of_id
                 FROM grievances WHERE id = :id
                 """,
                 new MapSqlParameterSource("id", grievanceId));
@@ -202,6 +202,7 @@ public class GrievanceWorkflowService {
                 : (String) row.get("department_predicted");
         Double confidence = (Double) row.get("classification_confidence");
         Instant slaDueAt = row.get("sla_due_at") instanceof Timestamp ts ? ts.toInstant() : null;
+        UUID duplicateOfId = row.get("duplicate_of_id") instanceof UUID u ? u : null;
 
         return new GrievanceWorkflowResponse(
                 grievanceId,
@@ -214,7 +215,8 @@ public class GrievanceWorkflowService {
                 slaDueAt,
                 reasoning,
                 (String) row.get("raw_text"),
-                fetchClarifications(grievanceId));
+                fetchClarifications(grievanceId),
+                duplicateOfId);
     }
 
     private List<ClarificationEntry> fetchClarifications(UUID grievanceId) {

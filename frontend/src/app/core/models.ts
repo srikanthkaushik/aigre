@@ -24,6 +24,7 @@ export interface GrievanceWorkflowResponse {
   reasoning: string | null;
   rawText: string | null;
   clarifications: ClarificationEntry[];
+  duplicateOfId: string | null;
 }
 
 export interface GrievanceStatusResult {
@@ -41,6 +42,7 @@ export interface GrievanceStatusResult {
   resolvedAt: string | null;
   resolutionNotes: string | null;
   citizenContactAvailable: boolean;
+  duplicateOfId: string | null;
 }
 
 export interface GrievanceSummary {
@@ -54,6 +56,7 @@ export interface GrievanceSummary {
   submittedAt: string;
   resolutionNotes: string | null;
   breached: boolean;
+  duplicateOfId: string | null;
 }
 
 export interface GrievanceReviewDecision {
@@ -62,6 +65,36 @@ export interface GrievanceReviewDecision {
   priority?: string | null;
   note: string;
   reviewedBy: string;
+}
+
+export interface UpdateStatusRequest {
+  newStatus: string;
+  note: string;
+  changedBy: string;
+}
+
+export interface UpdateStatusResult {
+  grievanceId: string;
+  previousStatus: string | null;
+  newStatus: string;
+  success: boolean;
+  message: string;
+}
+
+export interface ReopenRequest {
+  reason: string;
+  reopenedBy: string;
+}
+
+export interface ReopenResult {
+  grievanceId: string;
+  previousStatus: string | null;
+  newStatus: string | null;
+  previousPriority: string | null;
+  newPriority: string | null;
+  newSlaDueAt: string | null;
+  success: boolean;
+  message: string;
 }
 
 // Mirrors com.aigre.retrieval.RetrievedSource exactly -- text/metadata/vectorScore/rerankScore,

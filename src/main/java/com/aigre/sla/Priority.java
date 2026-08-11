@@ -16,4 +16,10 @@ public enum Priority {
         this.ackHours = ackHours;
         this.resolveHours = resolveHours;
     }
+
+    /** One tier more severe (LOW->MEDIUM->HIGH->CRITICAL); CRITICAL has no tier above it and stays CRITICAL. */
+    public Priority oneTierUp() {
+        int idx = ordinal();
+        return idx == 0 ? this : values()[idx - 1];
+    }
 }

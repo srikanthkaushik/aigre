@@ -49,6 +49,9 @@ export class GrievanceDetailDialog implements OnInit {
   reviewNote = '';
   reviewedBy: string;
 
+  readonly markingStatus = signal(false);
+  resolveNote = '';
+
   constructor(
     private readonly api: ApiService,
     private readonly dialogRef: MatDialogRef<GrievanceDetailDialog, boolean>,
@@ -87,6 +90,24 @@ export class GrievanceDetailDialog implements OnInit {
           this.submitting.set(false);
         }
       });
+  }
+
+  /** Employee-facing lifecycle action -- "Mark Resolved"/"Mark Closed", a thin wrapper around the update_grievance_status MCP tool over HTTP. */
+  markStatus(newStatus: 'RESOLVED' | 'CLOSED'): void {
+    if (!this.resolveNote.trim() || !this.reviewedBy.trim()) return;
+    this.markingStatus.set(true);
+    this.error.set(null);
+
+    this.api.updateStatus(this.data.grievanceId, newStatus, this.resolveNote, this.reviewedBy).subscribe({
+      next: () => {
+        this.markingStatus.set(false);
+        this.dialogRef.close(true);
+      },
+      error: (err) => {
+        this.error.set(err?.error?.message ?? 'Failed to update status.');
+        this.markingStatus.set(false);
+      }
+    });
   }
 
   close(): void {

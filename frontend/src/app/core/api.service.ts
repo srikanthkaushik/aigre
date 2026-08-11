@@ -7,8 +7,10 @@ import {
   GrievanceStatusResult,
   GrievanceSummary,
   GrievanceWorkflowResponse,
+  ReopenResult,
   RetrievedSource,
-  TrendsResponse
+  TrendsResponse,
+  UpdateStatusResult
 } from './models';
 
 const API_BASE = 'http://localhost:8085';
@@ -55,6 +57,18 @@ export class ApiService {
     if (status) params.push(`status=${encodeURIComponent(status)}`);
     const query = params.length ? `?${params.join('&')}` : '';
     return this.http.get<GrievanceSummary[]>(`${API_BASE}/grievances${query}`);
+  }
+
+  updateStatus(grievanceId: string, newStatus: string, note: string, changedBy: string): Observable<UpdateStatusResult> {
+    return this.http.post<UpdateStatusResult>(`${API_BASE}/grievances/${grievanceId}/status`, {
+      newStatus,
+      note,
+      changedBy
+    });
+  }
+
+  reopen(grievanceId: string, reason: string, reopenedBy: string): Observable<ReopenResult> {
+    return this.http.post<ReopenResult>(`${API_BASE}/grievances/${grievanceId}/reopen`, { reason, reopenedBy });
   }
 
   getTrends(department: string | null, days: number): Observable<TrendsResponse> {

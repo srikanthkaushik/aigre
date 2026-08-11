@@ -2,6 +2,7 @@ package com.aigre.workflow;
 
 import com.aigre.classification.ClassificationResult;
 import com.aigre.classification.LlmGrievanceClassifier;
+import com.aigre.duplicate.DuplicateDetectionService;
 import com.aigre.sla.Priority;
 import com.aigre.sla.SlaCalculator;
 import org.bsc.langgraph4j.CompileConfig;
@@ -46,12 +47,17 @@ public class GrievanceWorkflowGraphConfig {
     private final LlmGrievanceClassifier classifier;
     private final SlaCalculator slaCalculator;
     private final NamedParameterJdbcTemplate jdbc;
+    private final DuplicateDetectionService duplicateDetectionService;
 
     public GrievanceWorkflowGraphConfig(
-            LlmGrievanceClassifier classifier, SlaCalculator slaCalculator, NamedParameterJdbcTemplate jdbc) {
+            LlmGrievanceClassifier classifier,
+            SlaCalculator slaCalculator,
+            NamedParameterJdbcTemplate jdbc,
+            DuplicateDetectionService duplicateDetectionService) {
         this.classifier = classifier;
         this.slaCalculator = slaCalculator;
         this.jdbc = jdbc;
+        this.duplicateDetectionService = duplicateDetectionService;
     }
 
     @Bean
@@ -116,10 +122,24 @@ public class GrievanceWorkflowGraphConfig {
         String status = state.actionable() ? "TRIAGED" : "NOT_ACTIONABLE";
         Priority priority = resolvePriority(state.finalPriority().orElse(null));
         Instant now = Instant.now();
+        String departmentConfirmed = state.humanReviewed() ? state.finalDepartment().orElse(null) : null;
+        String category = state.finalCategory().orElse(null);
+        String effectiveDepartment =
+                departmentConfirmed != null ? departmentConfirmed : state.predictedDepartment().orElse(null);
+
+        UUID duplicateOfId = "TRIAGED".equals(status)
+                ? duplicateDetectionService.findOpenDuplicate(effectiveDepartment, category, grievanceId, now).orElse(null)
+                : null;
+        if (duplicateOfId != null) {
+            status = "DUPLICATE";
+        }
+        // Scenario 5: a duplicate doesn't open a second SLA clock -- only the original carries one.
         Instant slaDueAt = ("TRIAGED".equals(status) && priority != null)
                 ? slaCalculator.resolveDueAt(priority, now)
                 : null;
-        String departmentConfirmed = state.humanReviewed() ? state.finalDepartment().orElse(null) : null;
+        String resolutionNotes = duplicateOfId != null
+                ? "Automatically linked as a duplicate of " + duplicateOfId
+                : state.reviewNote().orElse(null);
 
         String previousStatus = jdbc.queryForObject(
                 "SELECT status FROM grievances WHERE id = :id",
@@ -138,6 +158,7 @@ public class GrievanceWorkflowGraphConfig {
                     sentiment_score = :sentimentScore,
                     status = :status,
                     sla_due_at = :slaDueAt,
+                    duplicate_of_id = :duplicateOfId,
                     resolution_notes = :resolutionNotes
                 WHERE id = :id
                 """,
@@ -145,14 +166,15 @@ public class GrievanceWorkflowGraphConfig {
                         .addValue("id", grievanceId)
                         .addValue("departmentPredicted", state.predictedDepartment().orElse(null))
                         .addValue("departmentConfirmed", departmentConfirmed)
-                        .addValue("category", state.finalCategory().orElse(null))
+                        .addValue("category", category)
                         .addValue("priority", priority == null ? null : priority.name())
                         .addValue("confidence", state.confidence())
                         .addValue("sentimentLabel", state.sentimentLabel().orElse(null))
                         .addValue("sentimentScore", state.sentimentScore())
                         .addValue("status", status)
                         .addValue("slaDueAt", toTimestamp(slaDueAt))
-                        .addValue("resolutionNotes", state.reviewNote().orElse(null)));
+                        .addValue("duplicateOfId", duplicateOfId)
+                        .addValue("resolutionNotes", resolutionNotes));
 
         jdbc.update(
                 """
@@ -166,7 +188,7 @@ public class GrievanceWorkflowGraphConfig {
                         .addValue("toStatus", status)
                         .addValue("changedBy", state.humanReviewed() ? state.reviewedBy().orElse("supervisor") : "system:workflow")
                         .addValue("changedAt", toTimestamp(now))
-                        .addValue("note", state.reviewNote().orElse(null)));
+                        .addValue("note", resolutionNotes));
 
         Map<String, Object> update = new HashMap<>();
         update.put("committedStatus", status);

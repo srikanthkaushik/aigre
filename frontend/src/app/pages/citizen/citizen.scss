@@ -172,6 +172,24 @@ dl {
   }
 }
 
+.reopen-section {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+.reopen-success {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--mat-sys-on-tertiary-container);
+  margin: 0;
+}
+
 // -- chat tab --
 
 .chat-card {

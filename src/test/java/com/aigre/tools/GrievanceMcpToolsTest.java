@@ -3,6 +3,10 @@ package com.aigre.tools;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,6 +31,9 @@ class GrievanceMcpToolsTest {
 
     @Autowired
     private GrievanceMcpTools tools;
+
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
 
     @Test
     void badDepartmentCodeIsSurfacedNotHidden() {
@@ -116,5 +123,58 @@ class GrievanceMcpToolsTest {
 
         // Restore original status so this test is repeatable against the same seeded row.
         tools.updateGrievanceStatus(STALE_BREACH_ID, before.status(), "test cleanup", "test-harness");
+    }
+
+    @Test
+    void reopenRejectsAGrievanceThatIsNotClosed() {
+        ReopenResult result = tools.reopenGrievance(STALE_BREACH_ID, "wants another look", "test-harness");
+
+        assertThat(result.success()).isFalse();
+        assertThat(result.message()).contains("CLOSED").contains("IN_PROGRESS");
+    }
+
+    @Test
+    void reopenBumpsPriorityClearsResolutionAndRecomputesSla() {
+        UUID id = insertClosedFixture("MEDIUM");
+
+        ReopenResult result = tools.reopenGrievance(id.toString(), "issue recurred", "citizen-contact");
+
+        assertThat(result.success()).isTrue();
+        assertThat(result.previousStatus()).isEqualTo("CLOSED");
+        assertThat(result.newStatus()).isEqualTo("REOPENED");
+        assertThat(result.previousPriority()).isEqualTo("MEDIUM");
+        assertThat(result.newPriority()).isEqualTo("HIGH");
+        assertThat(result.newSlaDueAt()).isNotNull();
+
+        GrievanceStatusResult after = tools.getGrievanceStatus(id.toString());
+        assertThat(after.status()).isEqualTo("REOPENED");
+        assertThat(after.priority()).isEqualTo("HIGH");
+        assertThat(after.resolvedAt())
+                .as("reopening must clear the old resolution -- update_grievance_status never nulls this")
+                .isNull();
+        assertThat(after.resolutionNotes()).isEqualTo("issue recurred");
+    }
+
+    @Test
+    void reopenAtCriticalPriorityStaysCriticalInsteadOfCrashing() {
+        UUID id = insertClosedFixture("CRITICAL");
+
+        ReopenResult result = tools.reopenGrievance(id.toString(), "still broken", "citizen-contact");
+
+        assertThat(result.previousPriority()).isEqualTo("CRITICAL");
+        assertThat(result.newPriority()).isEqualTo("CRITICAL");
+    }
+
+    private UUID insertClosedFixture(String priority) {
+        UUID id = UUID.randomUUID();
+        jdbc.update(
+                """
+                INSERT INTO grievances (id, channel, raw_text, department_predicted, department_confirmed,
+                    category, priority, status, resolved_at, resolution_notes, submitted_at)
+                VALUES (:id, 'PORTAL', 'reopen-test fixture', 'DOT', 'DOT', 'road-surface',
+                    :priority, 'CLOSED', now() - interval '5 days', 'closed originally', now() - interval '20 days')
+                """,
+                new MapSqlParameterSource().addValue("id", id).addValue("priority", priority));
+        return id;
     }
 }

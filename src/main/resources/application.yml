@@ -53,6 +53,9 @@ rag:
     initial-k: 15
     rerank-to: 5
 
+grievances:
+  duplicate-window-days: 7
+
 logging:
   level:
     com.aigre: INFO

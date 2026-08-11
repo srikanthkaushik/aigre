@@ -67,6 +67,12 @@ export class Citizen {
   readonly statusResult = signal<GrievanceStatusResult | null>(null);
   readonly statusError = signal<string | null>(null);
 
+  // -- reopen, offered only when a looked-up grievance is CLOSED (plan.md scenario 7) --
+  reopenReason = '';
+  readonly reopening = signal(false);
+  readonly reopenError = signal<string | null>(null);
+  readonly reopenSuccess = signal(false);
+
   // -- chat tab --
   question = '';
   readonly chatting = signal(false);
@@ -145,6 +151,9 @@ export class Citizen {
     this.statusLoading.set(true);
     this.statusError.set(null);
     this.statusResult.set(null);
+    this.reopenReason = '';
+    this.reopenError.set(null);
+    this.reopenSuccess.set(false);
 
     this.api.getStatus(this.lookupId.trim()).subscribe({
       next: (result) => {
@@ -154,6 +163,30 @@ export class Citizen {
       error: () => {
         this.statusError.set('No grievance found with that ID. Double-check the ID and try again.');
         this.statusLoading.set(false);
+      }
+    });
+  }
+
+  /**
+   * Refetches status directly (not via lookupStatus(), which resets reopenSuccess -- that would
+   * immediately hide the confirmation this method is trying to show).
+   */
+  reopenGrievance(): void {
+    const id = this.statusResult()?.id;
+    if (!id || !this.reopenReason.trim()) return;
+    this.reopening.set(true);
+    this.reopenError.set(null);
+
+    this.api.reopen(id, this.reopenReason.trim(), 'citizen-portal').subscribe({
+      next: () => {
+        this.reopening.set(false);
+        this.reopenSuccess.set(true);
+        this.reopenReason = '';
+        this.api.getStatus(id).subscribe((result) => this.statusResult.set(result));
+      },
+      error: (err) => {
+        this.reopenError.set(err?.error?.message ?? 'Could not reopen this complaint. Please try again.');
+        this.reopening.set(false);
       }
     });
   }

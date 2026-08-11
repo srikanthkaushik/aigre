@@ -15,5 +15,6 @@ public record GrievanceWorkflowResponse(
         Instant slaDueAt,
         String reasoning,
         String rawText,
-        List<ClarificationEntry> clarifications) {
+        List<ClarificationEntry> clarifications,
+        UUID duplicateOfId) {
 }

@@ -1149,6 +1149,102 @@ live-LLM sampling variance as every other `qwen2.5:7b` flake in this
 project); corpus re-seeded via `POST /ingest/reset` after the run wiped it
 again, same as every prior full-suite run.
 
+## Duplicate detection (scenario 5) and reopened-case handling (scenario 7)
+
+Both named in the Milestone-0 plan and both genuinely unbuilt until now (confirmed
+via investigation before writing any code: `find_duplicate_chain` only ever
+*read* `duplicate_of_id`, seeded by SQL, never written by the app; no priority-
+tier-bump logic existed anywhere).
+
+**Decisions confirmed with the user before starting**: (1) duplicate matching is
+SQL-based (same department + category, recent window), not embedding
+similarity — no structured location field exists in the schema (`raw_text` is
+free text only), so "same category + location window" from the plan narrows to
+department+category+time, the only structured signals actually available; (2)
+scope is backend + minimal UI (an employee "Mark Resolved/Closed" action and a
+citizen "Reopen" button), not a full lifecycle UI — the dashboard had no path
+to `CLOSED` status at all before this pass, only the MCP tool could set it.
+
+**Duplicate detection** (`DuplicateDetectionService`, new `com.aigre.duplicate`
+package): `findOpenDuplicate(department, category, excludeId, asOf)` finds the
+earliest still-open grievance (excludes RESOLVED/CLOSED/NOT_ACTIONABLE/
+**DUPLICATE** itself) in the same department+category within a 7-day window
+(`grievances.duplicate-window-days`, configurable). Excluding DUPLICATE-status
+rows from candidacy was the key design choice: it means a freshly-created
+duplicate always resolves in one hop to the true original rather than growing a
+chain — the next report in the window matches the *original*, not the
+duplicate, since the duplicate's own status is no longer a matchable candidate.
+Confirmed live: two submissions matched a single pre-existing seeded row, not
+each other.
+
+Wired into **both** commit paths independently (they don't share code, see
+milestone-4 entries above) — `GrievanceIntakeService.submit()` right before its
+INSERT, and `GrievanceWorkflowGraphConfig.commit()` right before its UPDATE.
+Both only check when the outcome is about to be TRIAGED (department+category
+are only known/confident by then); a match flips status to DUPLICATE and skips
+assigning an SLA due date, per the plan ("does not open a second SLA clock").
+
+**Reopen** (`GrievanceMcpTools.reopenGrievance`, a 5th MCP tool, consistent
+with that file already owning all grievance lifecycle mutations): only
+succeeds from CLOSED status. Bumps priority one tier via a new
+`Priority.oneTierUp()` (LOW→MEDIUM→HIGH→CRITICAL, capped — CRITICAL has no
+tier above it), explicitly nulls `resolved_at` (a real gap found in
+`update_grievance_status`: its CASE expression only ever *sets*
+`resolved_at`, never clears it, so a naive reopen via that existing tool would
+leave a stale resolution timestamp on an active case), recomputes
+`sla_due_at` from the bumped priority and the reopen timestamp, and sets
+status to `REOPENED`. Exposed over HTTP as `POST /grievances/{id}/reopen`
+(citizen-facing) and a sibling generic `POST /grievances/{id}/status`
+(employee "Mark Resolved"/"Mark Closed", a thin wrapper around the existing
+`update_grievance_status` tool — no new backend logic needed for that half).
+
+**A real regression this caused, caught by re-running the full suite twice in
+a row**: `GrievanceWorkflowPauseResumeTest` and `GrievanceWorkflowServiceTest`
+started failing — not from a logic bug, but because those tests (and my own
+new ones, before I fixed them) reused fixed, realistic category strings
+("general-complaint", "road-surface") and don't clean up their rows after
+running. Once duplicate detection went live, a second run of the same test
+matched the *first* run's still-open leftover row from the database and
+landed on DUPLICATE instead of the TRIAGED the assertions expected — the
+department+category-based design working exactly as intended, just against
+test hygiene that was never exercised this way before. Fixed by giving the
+mocked-classifier tests fresh random categories per run (same fix already
+applied to my own new tests) and, for the one test that hits the *real* LLM
+(`GrievanceWorkflowServiceTest`, where the category can't be made artificially
+unique), loosening the assertion to accept either TRIAGED or DUPLICATE as a
+valid "committed without pausing for review" outcome — which is what that
+test actually checks. Verified by running the full suite twice consecutively
+afterward with zero flip-flopping.
+
+**Verified four ways**: `DuplicateDetectionServiceTest` (6 cases: matches,
+category mismatch, outside window, terminal/duplicate statuses excluded,
+self-exclusion, earliest-wins) against a real Postgres instance with random
+per-test categories to avoid colliding with the real seeded demo data (a
+first draft using realistic categories like "road-surface" collided with real
+seed.sql rows on the very first run — confirmed the detection logic works
+against real data, but the wrong thing for an isolated test). Two end-to-end
+tests (`GrievanceIntakeDuplicateTest`, `GrievanceWorkflowDuplicateTest`) through
+each commit path with a mocked classifier. `GrievanceMcpToolsTest` gained 3
+reopen cases (rejects non-CLOSED, bumps priority + clears resolution + new
+SLA, CRITICAL stays capped) against throwaway inserted fixtures. Live curl
+end-to-end: two workflow submissions correctly converged on one existing open
+duplicate; a full resolve→close→reopen cycle correctly bumped HIGH→CRITICAL,
+cleared `resolved_at`, and assigned a fresh SLA date. Playwright end-to-end
+through the real UI: employee "Mark Resolved" on a real TRIAGED row (table
+correctly showed RESOLVED after refresh), and citizen "Reopen" on a CLOSED
+lookup — caught and fixed a real UI bug in the same pass: the reopen-success
+message was gated on `status === 'CLOSED'`, which becomes false the instant
+reopen succeeds (status flips to REOPENED), so the confirmation could never
+actually render; fixed by widening the gate to `status === 'CLOSED' ||
+reopenSuccess()`.
+
+Not built, by the explicit scope decision above: no "resolve/close" action
+existed anywhere before this pass, and full lifecycle UI (routing a REOPENED
+case back through a review gate, notifying the original department) is still
+out of scope — the plan's "flagged for supervisor review" is satisfied by the
+REOPENED status itself being visible in the department queue with its own
+chip color (already existed, unused until now), not a new approval gate.
+
 ## Open items to revisit
 - RBAC/department-scoping for employee dashboards — real requirement,
   deferred to milestone 5.
@@ -1162,15 +1258,10 @@ again, same as every prior full-suite run.
 - Attachment/photo evidence (e.g. pothole photos) — out of scope for
   text-only NLP in this pass.
 - Duplicate detection (scenario 5) and reopened-case handling (scenario 7) —
-  `find_duplicate_chain` (milestone 3) can walk a chain once a
-  `duplicate_of_id` link already exists, but nothing yet *creates* that
-  link — detecting that a newly-submitted grievance is a duplicate of an
-  existing one (e.g. via embedding similarity against recent same-category/
-  same-location grievances) is still unbuilt. Reopened-case handling (an
-  employee or citizen reopening a `CLOSED` grievance) is also still
-  unbuilt — `update_grievance_status` can perform the status transition
-  but doesn't yet apply the "bump priority one tier on reopen" rule from
-  plan §1.4 scenario 7.
+  **built, see below** (was previously an open item: `find_duplicate_chain`
+  could walk a chain once a `duplicate_of_id` link existed, but nothing
+  created that link, and `update_grievance_status` didn't apply the
+  priority-bump-on-reopen rule).
 - Postgres-backed LangGraph4j checkpointing — milestone 4 uses the in-memory
   `MemorySaver`, so a paused (pending-review) workflow does not survive an
   app restart. `langgraph4j-postgres-saver` exists upstream if this becomes

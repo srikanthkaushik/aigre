@@ -2,6 +2,8 @@ package com.aigre.query;
 
 import com.aigre.tools.GrievanceMcpTools;
 import com.aigre.tools.GrievanceStatusResult;
+import com.aigre.tools.ReopenResult;
+import com.aigre.tools.UpdateStatusResult;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class GrievanceQueryService {
         StringBuilder sql = new StringBuilder(
                 """
                 SELECT id, status, department_predicted, department_confirmed, category, priority,
-                       classification_confidence, sla_due_at, submitted_at, resolution_notes,
+                       classification_confidence, sla_due_at, submitted_at, resolution_notes, duplicate_of_id,
                        (sla_due_at IS NOT NULL AND sla_due_at < now()
                             AND status NOT IN ('RESOLVED','CLOSED','NOT_ACTIONABLE')) AS breached
                 FROM grievances
@@ -68,7 +70,16 @@ public class GrievanceQueryService {
                 toInstant(rs.getTimestamp("sla_due_at")),
                 toInstant(rs.getTimestamp("submitted_at")),
                 rs.getString("resolution_notes"),
-                rs.getBoolean("breached")));
+                rs.getBoolean("breached"),
+                rs.getString("duplicate_of_id")));
+    }
+
+    public UpdateStatusResult updateStatus(String grievanceId, String newStatus, String note, String changedBy) {
+        return mcpTools.updateGrievanceStatus(grievanceId, newStatus, note, changedBy);
+    }
+
+    public ReopenResult reopen(String grievanceId, String reason, String reopenedBy) {
+        return mcpTools.reopenGrievance(grievanceId, reason, reopenedBy);
     }
 
     private static Instant toInstant(Timestamp timestamp) {
