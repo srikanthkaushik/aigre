@@ -1738,9 +1738,27 @@ Origin) that never triggers the checks a real remote browser triggers.
   demo-grade gaps: all 12 seeded accounts share one password, the JWT
   signing secret is a fixed `application.yml` value rather than a secrets
   manager, no refresh-token flow (8-hour token, then re-login).
-- Frontend `API_BASE` is a hardcoded `http://localhost:8085` constant in
-  `frontend/src/app/core/api.service.ts` — fine for local dev, would need an
-  environment-file/build-config split before any real deployment.
+- Frontend `API_BASE` hardcoded `http://localhost:8085` — **fixed, see
+  "Single-origin static hosting + Cloudflare Tunnel" below**: both
+  `api.service.ts` and `auth.service.ts` now use a relative empty string,
+  proxied in dev (`proxy.conf.json`) and same-origin when the backend serves
+  the built frontend directly.
+- **A paused (human-review) grievance is invisible in every department's
+  queue until it commits.** `department_predicted` stays `NULL` in the DB
+  from the moment a low-confidence submission pauses until the `commit`
+  LangGraph4j node actually runs post-review — but `GrievanceQueryService.list()`
+  filters `WHERE COALESCE(department_confirmed, department_predicted) =
+  :department`, so a `NULL` never matches any department filter, and even a
+  direct-by-ID lookup 403s (`DepartmentAccess.requireOwnDepartment` also
+  rejects a `null` grievance department against any principal — ADMIN's
+  bypass doesn't help here since the row fails the query filter before
+  reaching that check). Found while generating walkthrough screenshots;
+  worked around there via a manual SQL `UPDATE` on specific test rows, never
+  fixed in application code. A real fix likely means giving pending-review
+  rows a `pending_review` visibility path independent of department
+  matching (e.g. a dedicated "unrouted" queue any employee can see), since
+  the whole point of human review is deciding the department in the first
+  place — filtering by a department that hasn't been decided yet is circular.
 - The milestone-4 workflow's own MCP-tool consumption — the graph currently
   writes to Postgres directly from the `commit` node (matching
   `GrievanceIntakeService`'s pattern) rather than calling
