@@ -94,8 +94,14 @@ export class GrievanceDetailDialog implements OnInit {
       });
   }
 
-  /** Employee-facing lifecycle action -- "Mark Resolved"/"Mark Closed", a thin wrapper around the update_grievance_status MCP tool over HTTP. */
-  markStatus(newStatus: 'RESOLVED' | 'CLOSED'): void {
+  /**
+   * Employee-facing lifecycle action -- "Start Work"/"Mark In Progress"/"Mark Resolved"/
+   * "Mark Closed", all thin wrappers around the same update_grievance_status MCP tool over
+   * HTTP (POST /grievances/{id}/status already accepts any of these; nothing new needed
+   * backend-side). ROUTED/IN_PROGRESS previously had no dashboard action at all -- a
+   * committed case could only ever jump straight to Resolved/Closed.
+   */
+  markStatus(newStatus: 'ROUTED' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED'): void {
     if (!this.resolveNote.trim() || !this.reviewedBy.trim()) return;
     this.markingStatus.set(true);
     this.error.set(null);

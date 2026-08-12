@@ -55,7 +55,7 @@
       @if (auth.isSupervisor() && !['CLOSED', 'NOT_ACTIONABLE', 'DUPLICATE'].includes(detail.status)) {
         <div class="lifecycle-action">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Resolution note (required to mark resolved/closed)</mat-label>
+            <mat-label>Note (required for any status change)</mat-label>
             <textarea matInput rows="2" [(ngModel)]="resolveNote"></textarea>
           </mat-form-field>
           <mat-form-field appearance="outline" class="full-width">
@@ -63,9 +63,29 @@
             <input matInput type="text" [(ngModel)]="reviewedBy" />
           </mat-form-field>
           <div class="lifecycle-buttons">
+            @if (detail.status === 'TRIAGED') {
+              <button
+                mat-stroked-button
+                color="primary"
+                [disabled]="markingStatus() || !resolveNote.trim() || !reviewedBy.trim()"
+                (click)="markStatus('ROUTED')"
+              >
+                {{ markingStatus() ? 'Updating…' : 'Start Work' }}
+              </button>
+            }
+            @if (detail.status === 'ROUTED') {
+              <button
+                mat-stroked-button
+                color="primary"
+                [disabled]="markingStatus() || !resolveNote.trim() || !reviewedBy.trim()"
+                (click)="markStatus('IN_PROGRESS')"
+              >
+                {{ markingStatus() ? 'Updating…' : 'Mark In Progress' }}
+              </button>
+            }
             <button
               mat-stroked-button
-              color="primary"
+              [color]="detail.status === 'IN_PROGRESS' ? 'primary' : undefined"
               [disabled]="markingStatus() || !resolveNote.trim() || !reviewedBy.trim()"
               (click)="markStatus('RESOLVED')"
             >
