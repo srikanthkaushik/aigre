@@ -42,6 +42,7 @@ public class GrievanceQueryService {
                 """
                 SELECT id, status, department_predicted, department_confirmed, category, priority,
                        classification_confidence, sla_due_at, submitted_at, resolution_notes, duplicate_of_id,
+                       channel,
                        (sla_due_at IS NOT NULL AND sla_due_at < now()
                             AND status NOT IN ('RESOLVED','CLOSED','NOT_ACTIONABLE')) AS breached
                 FROM grievances
@@ -71,7 +72,8 @@ public class GrievanceQueryService {
                 toInstant(rs.getTimestamp("submitted_at")),
                 rs.getString("resolution_notes"),
                 rs.getBoolean("breached"),
-                rs.getString("duplicate_of_id")));
+                rs.getString("duplicate_of_id"),
+                rs.getString("channel")));
     }
 
     public UpdateStatusResult updateStatus(String grievanceId, String newStatus, String note, String changedBy) {

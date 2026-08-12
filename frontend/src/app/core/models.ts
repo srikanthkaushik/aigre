@@ -57,6 +57,7 @@ export interface GrievanceSummary {
   resolutionNotes: string | null;
   breached: boolean;
   duplicateOfId: string | null;
+  channel: 'PORTAL' | 'EMAIL';
 }
 
 export interface GrievanceReviewDecision {

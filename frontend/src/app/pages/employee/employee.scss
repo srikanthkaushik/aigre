@@ -26,6 +26,14 @@
   width: 12rem;
 }
 
+.channel-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--mat-sys-on-surface-variant);
+  vertical-align: middle;
+}
+
 .session-badge {
   display: flex;
   align-items: center;

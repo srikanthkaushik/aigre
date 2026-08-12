@@ -59,14 +59,14 @@ export class Employee implements OnInit, AfterViewInit {
   // by definition.
   get pendingColumns(): string[] {
     return this.auth.isAdmin() && !this.departmentFilter()
-      ? ['submittedAt', 'department', 'status', 'actions']
-      : ['submittedAt', 'status', 'actions'];
+      ? ['submittedAt', 'department', 'channel', 'status', 'actions']
+      : ['submittedAt', 'channel', 'status', 'actions'];
   }
 
   get departmentColumns(): string[] {
     return this.auth.isAdmin() && !this.departmentFilter()
-      ? ['submittedAt', 'department', 'status', 'category', 'priority', 'slaDueAt', 'actions']
-      : ['submittedAt', 'status', 'category', 'priority', 'slaDueAt', 'actions'];
+      ? ['submittedAt', 'department', 'channel', 'status', 'category', 'priority', 'slaDueAt', 'actions']
+      : ['submittedAt', 'channel', 'status', 'category', 'priority', 'slaDueAt', 'actions'];
   }
 
   @ViewChild('pendingPaginator') private pendingPaginator!: MatPaginator;

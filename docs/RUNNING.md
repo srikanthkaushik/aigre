@@ -199,19 +199,26 @@ default (`email.enabled: false`) -- the app runs fine with nothing configured he
 
 To try it against a real mailbox (e.g. a Gmail account with an
 [app password](https://myaccount.google.com/apppasswords), since Google no longer
-accepts your regular password for IMAP), set in `application.yml` or via environment
-overrides:
+accepts your regular password for IMAP), set every `email.*` property via environment
+variables (Spring's relaxed binding: `email.imap.host` → `EMAIL_IMAP_HOST`, etc.) rather
+than editing `application.yml` directly — that keeps a real mailbox's address and
+password out of git entirely, since `application.yml` is checked in and its committed
+defaults (`email.enabled: false`, everything blank) should stay inert for anyone else
+who clones the repo:
 
-```yaml
-email:
-  enabled: true
-  imap:
-    host: imap.gmail.com
-    port: 993
-    protocol: imaps
-    username: your-address@gmail.com
-    password: ${EMAIL_APP_PASSWORD}
-  poll-interval-ms: 60000
+```
+setx EMAIL_APP_PASSWORD "your-16-char-app-password"
+```
+(a **persistent** env var, in your own shell, never pasted into a chat/AI session —
+`setx` needs a new terminal to take effect; already-running shells/processes won't see
+it). Then launch the backend with the rest set for that process only:
+
+```
+set EMAIL_ENABLED=true
+set EMAIL_IMAP_HOST=imap.gmail.com
+set EMAIL_IMAP_USERNAME=your-address@gmail.com
+set EMAIL_IMAP_PASSWORD=%EMAIL_APP_PASSWORD%
+mvn spring-boot:run
 ```
 
 Send a plain-text email to that address; within one poll interval it appears as a new

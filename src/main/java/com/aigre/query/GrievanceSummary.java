@@ -13,5 +13,6 @@ public record GrievanceSummary(
         Instant submittedAt,
         String resolutionNotes,
         boolean breached,
-        String duplicateOfId) {
+        String duplicateOfId,
+        String channel) {
 }

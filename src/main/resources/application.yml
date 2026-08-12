@@ -58,7 +58,9 @@ grievances:
 
 email:
   # Off by default -- no mailbox configured out of the box. See docs/RUNNING.md "Email
-  # ingestion" for how to point this at a real or local test mailbox.
+  # ingestion" for how to point this at a real or local test mailbox. Every field below is
+  # overridable via env vars (Spring relaxed binding: email.imap.host -> EMAIL_IMAP_HOST, etc.)
+  # rather than edited here directly -- keeps a real mailbox's address/credentials out of git.
   enabled: false
   imap:
     host:
