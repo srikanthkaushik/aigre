@@ -1,12 +1,19 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { ApiService } from '../../../core/api.service';
+import { AuthService } from '../../../core/auth.service';
 import { DepartmentNamePipe } from '../../../core/department-name.pipe';
-import { DailySentimentLevels, TrendsResponse } from '../../../core/models';
+import { DailySentimentLevels, DEPARTMENTS, TrendsResponse } from '../../../core/models';
+import { GrievanceDetailDialog } from '../grievance-detail-dialog/grievance-detail-dialog';
 
 type Scope = 'department' | 'all';
 type WindowDays = 7 | 30 | 90;
@@ -35,7 +42,18 @@ const SENTIMENT_LEVELS: { key: keyof Omit<DailySentimentLevels, 'date'>; label: 
 
 @Component({
   selector: 'app-trends',
-  imports: [MatButtonToggleModule, MatIconModule, MatProgressSpinnerModule, BaseChartDirective, DepartmentNamePipe],
+  imports: [
+    DatePipe,
+    MatButtonToggleModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatDialogModule,
+    BaseChartDirective,
+    DepartmentNamePipe
+  ],
   // Chart.js (~170kB) is only needed here -- scoping the provider to this lazily-loaded
   // component (not app.config.ts) keeps it out of every other route's bundle.
   providers: [provideCharts(withDefaultRegisterables())],
@@ -49,6 +67,14 @@ export class Trends {
   readonly windowDays = signal<WindowDays>(30);
   readonly loading = signal(false);
   readonly trends = signal<TrendsResponse | null>(null);
+
+  // Department column only earns its place when scope is 'all' -- a single-department view
+  // already says which department it is via the toggle label above.
+  get recurringIssuesColumns(): string[] {
+    return this.scope() === 'all'
+      ? ['category', 'department', 'firstReported', 'repeatCount', 'actions']
+      : ['category', 'firstReported', 'repeatCount', 'actions'];
+  }
 
   readonly volumeChartData = computed<ChartConfiguration<'line'>['data']>(() => {
     const t = this.trends();
@@ -127,7 +153,11 @@ export class Trends {
     }
   };
 
-  constructor(private readonly api: ApiService) {
+  constructor(
+    private readonly api: ApiService,
+    private readonly dialog: MatDialog,
+    private readonly auth: AuthService
+  ) {
     effect(() => {
       const dept = this.scope() === 'all' ? null : this.department();
       const days = this.windowDays();
@@ -142,6 +172,18 @@ export class Trends {
           this.loading.set(false);
         }
       });
+    });
+  }
+
+  openDetail(id: string): void {
+    const session = this.auth.session();
+    this.dialog.open(GrievanceDetailDialog, {
+      data: {
+        grievanceId: id,
+        departments: DEPARTMENTS,
+        priorities: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
+        defaultReviewedBy: session?.name ?? session?.departmentId ?? 'employee'
+      }
     });
   }
 }

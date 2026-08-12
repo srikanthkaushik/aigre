@@ -40,12 +40,12 @@ class GrievanceTrendsServiceTest {
     @BeforeEach
     void seedFixtures() {
         Instant now = Instant.now();
-        insertGrievance("pothole", "HIGH", -0.5, now, now.plusSeconds(3600), now.plusSeconds(7200), "RESOLVED"); // on-time
-        insertGrievance("pothole", "HIGH", -0.2, now, now.plusSeconds(432000), now.plusSeconds(7200), "RESOLVED"); // late
-        insertGrievance("noise", "LOW", 0.3, now, null, now.minusSeconds(3600), "TRIAGED"); // currently breached, open
-        insertGrievance("pothole", "MEDIUM", null, now, null, null, "NEW"); // no SLA clock at all
-        insertGrievance("streetlight", "CRITICAL", -0.9, now, null, null, "NEW"); // No Confidence band
-        insertGrievance("graffiti", "HIGH", 0.9, now, null, null, "NEW"); // High Confidence band
+        insertGrievance("pothole", "HIGH", -0.5, now, now.plusSeconds(3600), now.plusSeconds(7200), "RESOLVED", null); // on-time
+        insertGrievance("pothole", "HIGH", -0.2, now, now.plusSeconds(432000), now.plusSeconds(7200), "RESOLVED", null); // late
+        insertGrievance("noise", "LOW", 0.3, now, null, now.minusSeconds(3600), "TRIAGED", null); // currently breached, open
+        insertGrievance("pothole", "MEDIUM", null, now, null, null, "NEW", null); // no SLA clock at all
+        insertGrievance("streetlight", "CRITICAL", -0.9, now, null, null, "NEW", null); // No Confidence band
+        insertGrievance("graffiti", "HIGH", 0.9, now, null, null, "NEW", null); // High Confidence band
     }
 
     @AfterEach
@@ -82,6 +82,8 @@ class GrievanceTrendsServiceTest {
         assertThat(trends.slaSnapshot().resolvedOnTime()).isEqualTo(1);
         assertThat(trends.slaSnapshot().resolvedLate()).isEqualTo(1);
         assertThat(trends.slaSnapshot().currentlyBreachedOpen()).isEqualTo(1);
+
+        assertThat(trends.recurringIssues()).isEmpty();
     }
 
     @Test
@@ -93,24 +95,70 @@ class GrievanceTrendsServiceTest {
         assertThat(trends.slaSnapshot().resolvedOnTime()).isZero();
         assertThat(trends.slaSnapshot().resolvedLate()).isZero();
         assertThat(trends.slaSnapshot().currentlyBreachedOpen()).isZero();
+        assertThat(trends.recurringIssues()).isEmpty();
+    }
+
+    @Test
+    void recurringIssueSurfacedWhenThreeOrMoreReportsShareARoot() {
+        Instant now = Instant.now();
+        UUID root = insertGrievance("pothole", "MEDIUM", null, now, null, null, "TRIAGED", null);
+        insertGrievance("pothole", "MEDIUM", null, now, null, null, "DUPLICATE", root);
+        insertGrievance("pothole", "MEDIUM", null, now, null, null, "DUPLICATE", root);
+
+        TrendsResponse trends = service.trends(DEPT, 30);
+
+        assertThat(trends.recurringIssues()).hasSize(1);
+        RecurringIssue issue = trends.recurringIssues().get(0);
+        assertThat(issue.grievanceId()).isEqualTo(root.toString());
+        assertThat(issue.repeatCount()).isEqualTo(2);
+        assertThat(issue.category()).isEqualTo("pothole");
+        assertThat(issue.department()).isEqualTo(DEPT);
+    }
+
+    /** Proves the recursive walk resolves a multi-hop chain to the true root, not the intermediate. */
+    @Test
+    void multiHopChainResolvesToTheTrueRootNotAnIntermediateDuplicate() {
+        Instant now = Instant.now();
+        UUID a = insertGrievance("noise", "LOW", null, now, null, null, "TRIAGED", null);
+        UUID b = insertGrievance("noise", "LOW", null, now, null, null, "DUPLICATE", a);
+        insertGrievance("noise", "LOW", null, now, null, null, "DUPLICATE", b);
+
+        TrendsResponse trends = service.trends(DEPT, 30);
+
+        assertThat(trends.recurringIssues()).hasSize(1);
+        RecurringIssue issue = trends.recurringIssues().get(0);
+        assertThat(issue.grievanceId()).isEqualTo(a.toString());
+        assertThat(issue.repeatCount()).isEqualTo(2);
+    }
+
+    @Test
+    void onlyTwoTotalReportsStaysBelowTheRecurringThreshold() {
+        Instant now = Instant.now();
+        UUID root = insertGrievance("graffiti", "LOW", null, now, null, null, "TRIAGED", null);
+        insertGrievance("graffiti", "LOW", null, now, null, null, "DUPLICATE", root);
+
+        TrendsResponse trends = service.trends(DEPT, 30);
+
+        assertThat(trends.recurringIssues()).isEmpty();
     }
 
     private <T, K, V> Map<K, V> toMap(List<T> list, Function<T, K> keyFn, Function<T, V> valueFn) {
         return list.stream().collect(Collectors.toMap(keyFn, valueFn));
     }
 
-    private void insertGrievance(
+    private UUID insertGrievance(
             String category, String priority, Double sentimentScore,
-            Instant submittedAt, Instant resolvedAt, Instant slaDueAt, String status) {
+            Instant submittedAt, Instant resolvedAt, Instant slaDueAt, String status, UUID duplicateOfId) {
+        UUID id = UUID.randomUUID();
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, raw_text, department_predicted, category, priority,
-                    sentiment_score, status, sla_due_at, resolved_at, submitted_at)
+                    sentiment_score, status, sla_due_at, resolved_at, submitted_at, duplicate_of_id)
                 VALUES (:id, 'PORTAL', 'fixture row', :dept, :category, :priority,
-                    :sentimentScore, :status, :slaDueAt, :resolvedAt, :submittedAt)
+                    :sentimentScore, :status, :slaDueAt, :resolvedAt, :submittedAt, :duplicateOfId)
                 """,
                 new MapSqlParameterSource()
-                        .addValue("id", UUID.randomUUID())
+                        .addValue("id", id)
                         .addValue("dept", DEPT)
                         .addValue("category", category)
                         .addValue("priority", priority)
@@ -118,7 +166,9 @@ class GrievanceTrendsServiceTest {
                         .addValue("status", status)
                         .addValue("slaDueAt", toTimestamp(slaDueAt))
                         .addValue("resolvedAt", toTimestamp(resolvedAt))
-                        .addValue("submittedAt", toTimestamp(submittedAt)));
+                        .addValue("submittedAt", toTimestamp(submittedAt))
+                        .addValue("duplicateOfId", duplicateOfId));
+        return id;
     }
 
     private static Timestamp toTimestamp(Instant instant) {

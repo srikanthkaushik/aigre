@@ -109,6 +109,56 @@ public class GrievanceTrendsService {
                 params,
                 (rs, rowNum) -> new SlaSnapshot(rs.getInt("on_time"), rs.getInt("late"), rs.getInt("breached_open")));
 
-        return new TrendsResponse(volumeByDay, byCategory, byPriority, sentimentByDay, slaSnapshot);
+        // Resolves every duplicate_of_id chain to its true root (a recursive walk-forward, same
+        // 20-hop-capped pattern as GrievanceMcpTools.findDuplicateChain, just for every row at
+        // once instead of one id at a time) and surfaces roots with 3+ total reports (root + 2
+        // repeats) -- "the same issue reported again" using a signal that already exists, not a
+        // new one. Seeded from the whole table (unfiltered) so a chain resolves correctly
+        // regardless of an individual duplicate's own submission date; the days/department filter
+        // only applies to the root's own columns in the final SELECT.
+        String deptClauseAliased = "";
+        if (department != null && !department.isBlank()) {
+            deptClauseAliased = " AND COALESCE(o.department_confirmed, o.department_predicted) = :department";
+        }
+
+        List<RecurringIssue> recurringIssues = jdbc.query(
+                """
+                WITH RECURSIVE chain AS (
+                    SELECT id AS origin_id, id AS current_id, duplicate_of_id, 0 AS hop
+                    FROM grievances
+                    UNION ALL
+                    SELECT c.origin_id, g.id, g.duplicate_of_id, c.hop + 1
+                    FROM chain c
+                    JOIN grievances g ON g.id = c.duplicate_of_id
+                    WHERE c.hop < 20
+                ),
+                roots AS (
+                    SELECT DISTINCT ON (origin_id) origin_id, current_id AS root_id
+                    FROM chain
+                    ORDER BY origin_id, hop DESC
+                )
+                SELECT o.id, o.category, COALESCE(o.department_confirmed, o.department_predicted) AS department,
+                       left(o.raw_text, 140) AS snippet, o.submitted_at,
+                       count(*) FILTER (WHERE r.origin_id <> r.root_id) AS repeat_count
+                FROM roots r
+                JOIN grievances o ON o.id = r.root_id
+                WHERE o.submitted_at >= now() - (:days || ' days')::interval
+                """ + deptClauseAliased + """
+
+                GROUP BY o.id, o.category, department, o.raw_text, o.submitted_at
+                HAVING count(*) FILTER (WHERE r.origin_id <> r.root_id) >= 2
+                ORDER BY repeat_count DESC
+                LIMIT 10
+                """,
+                params,
+                (rs, rowNum) -> new RecurringIssue(
+                        rs.getString("id"),
+                        rs.getString("department"),
+                        rs.getString("category"),
+                        rs.getString("snippet"),
+                        rs.getTimestamp("submitted_at").toInstant(),
+                        rs.getInt("repeat_count")));
+
+        return new TrendsResponse(volumeByDay, byCategory, byPriority, sentimentByDay, slaSnapshot, recurringIssues);
     }
 }

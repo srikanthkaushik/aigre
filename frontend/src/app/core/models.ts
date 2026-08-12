@@ -157,10 +157,22 @@ export interface SlaSnapshot {
   currentlyBreachedOpen: number;
 }
 
+// A grievance whose duplicate_of_id chain (resolved to its true root) has 3+ total reports --
+// the system's own existing definition of "the same issue reported again."
+export interface RecurringIssue {
+  grievanceId: string;
+  department: string;
+  category: string;
+  rawTextSnippet: string;
+  firstReported: string;
+  repeatCount: number;
+}
+
 export interface TrendsResponse {
   volumeByDay: DailyCount[];
   byCategory: CategoryCount[];
   byPriority: PriorityCount[];
   sentimentByDay: DailySentimentLevels[];
   slaSnapshot: SlaSnapshot;
+  recurringIssues: RecurringIssue[];
 }

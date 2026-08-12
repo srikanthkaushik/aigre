@@ -30,6 +30,18 @@
   height: 260px;
 }
 
+.recurring-issues-card {
+  margin-bottom: 1.25rem;
+
+  table {
+    width: 100%;
+  }
+
+  .actions-cell {
+    text-align: right;
+  }
+}
+
 @media (max-width: 800px) {
   .chart-grid {
     grid-template-columns: 1fr;
