@@ -1715,6 +1715,59 @@ Origin) that never triggers the checks a real remote browser triggers.
    the whole `frontend/src` for the literal string after fixing this one
    to confirm no third copy exists.
 
+## Paused-review visibility bug: fixed
+
+The gap logged above (a low-confidence submission was invisible in every
+department's Pending Review queue, and even 403'd on direct-by-ID access,
+for the entire time it sat paused) is now fixed.
+
+Root cause confirmed via `Explore` agent research before touching any code:
+`GrievanceWorkflowGraphConfig`'s `classify` node computes the LLM's guess
+(`predictedDepartment`/`finalCategory`/`finalPriority`/`confidence`/
+`sentimentLabel`/`sentimentScore`) entirely in LangGraph4j's in-memory state
+and never writes it to Postgres — the *only* node that touches the
+`grievances` table at all is `commit`, which doesn't run until after a
+human resumes a paused review (`interruptBefore(HUMAN_REVIEW_NODE)` pauses
+execution before `human_review`, and `commit` only follows that). So
+`department_predicted` stayed `NULL` in the DB for the entire pause window,
+even though the classifier's real guess already existed — it just hadn't
+been persisted yet.
+
+**Fix**: `GrievanceWorkflowGraphConfig.persistPredictedClassification()`, a
+new small `UPDATE` fired from inside `classify()` itself (so it runs
+regardless of which branch — straight to `commit` or via `human_review` —
+the graph takes next), writing `department_predicted`/`category`/
+`priority`/`classification_confidence`/`sentiment_label`/`sentiment_score`
+immediately. Deliberately does **not** touch `department_confirmed` or
+`status` — those stay `commit`'s responsibility alone, preserving the
+AI-guess-vs-human-confirmed audit distinction the schema was already built
+around. `priority` goes through the same `resolvePriority()` defensive
+fallback `commit()` uses, since the column has a `CHECK` constraint and a
+raw unvalidated LLM string could violate it.
+
+**Verified**:
+- New regression test,
+  `GrievanceWorkflowPauseResumeTest.pausedGrievanceWithADepartmentGuessIsVisibleInThatDepartmentsQueueBeforeAnyResume`
+  — mocks the classifier to return a real department at low confidence
+  (live LLM sampling can't reliably reproduce "has a guess, but under the
+  confidence threshold" on demand for a manual test, confirmed by trying
+  twice against the running app and getting a fully-null guess both times),
+  asserts `pendingReview` is true immediately after `service.start()`, then
+  asserts `GrievanceQueryService.list("DOT", null)` — the exact query the
+  bug report named — already contains the row, with no resume having
+  happened yet.
+- Live, via the actual running app: submitted through `POST
+  /grievances/workflow`, confirmed `classification_confidence`/
+  `sentiment_label` land in the DB immediately post-classify (proving the
+  new write fires); then, since that particular live text happened to get a
+  fully-null department guess from the classifier (not a bug — matches the
+  regression test's own note above), patched `department_predicted` on that
+  row via SQL to simulate a real "has a guess, low confidence" case and
+  confirmed both halves of the original bug report are gone: `GET
+  /grievances/{id}/workflow` as a DOT supervisor now returns 200 (was 403),
+  and the row appears in `GET /grievances?status=NEW` for that department.
+- Full backend suite re-run clean after the change.
+
 ## Open items to revisit
 - Dark mode — explicitly deferred in the redesign pass above; the token
   system (`--mat-sys-*` throughout, no hardcoded colors outside the
@@ -1743,22 +1796,9 @@ Origin) that never triggers the checks a real remote browser triggers.
   `api.service.ts` and `auth.service.ts` now use a relative empty string,
   proxied in dev (`proxy.conf.json`) and same-origin when the backend serves
   the built frontend directly.
-- **A paused (human-review) grievance is invisible in every department's
-  queue until it commits.** `department_predicted` stays `NULL` in the DB
-  from the moment a low-confidence submission pauses until the `commit`
-  LangGraph4j node actually runs post-review — but `GrievanceQueryService.list()`
-  filters `WHERE COALESCE(department_confirmed, department_predicted) =
-  :department`, so a `NULL` never matches any department filter, and even a
-  direct-by-ID lookup 403s (`DepartmentAccess.requireOwnDepartment` also
-  rejects a `null` grievance department against any principal — ADMIN's
-  bypass doesn't help here since the row fails the query filter before
-  reaching that check). Found while generating walkthrough screenshots;
-  worked around there via a manual SQL `UPDATE` on specific test rows, never
-  fixed in application code. A real fix likely means giving pending-review
-  rows a `pending_review` visibility path independent of department
-  matching (e.g. a dedicated "unrouted" queue any employee can see), since
-  the whole point of human review is deciding the department in the first
-  place — filtering by a department that hasn't been decided yet is circular.
+- A paused (human-review) grievance was invisible in every department's
+  queue until it committed — **fixed, see "Paused-review visibility bug:
+  fixed" below**.
 - The milestone-4 workflow's own MCP-tool consumption — the graph currently
   writes to Postgres directly from the `commit` node (matching
   `GrievanceIntakeService`'s pattern) rather than calling

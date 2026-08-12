@@ -3,11 +3,14 @@ package com.aigre.workflow;
 import com.aigre.classification.ClassificationResult;
 import com.aigre.classification.LlmGrievanceClassifier;
 import com.aigre.intake.GrievanceIntakeRequest;
+import com.aigre.query.GrievanceQueryService;
+import com.aigre.query.GrievanceSummary;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,6 +33,9 @@ class GrievanceWorkflowPauseResumeTest {
 
     @Autowired
     private GrievanceWorkflowService service;
+
+    @Autowired
+    private GrievanceQueryService queryService;
 
     @MockitoBean
     private LlmGrievanceClassifier classifier;
@@ -59,6 +65,32 @@ class GrievanceWorkflowPauseResumeTest {
         assertThat(resumed.category()).isEqualTo(category);
         assertThat(resumed.priority()).isEqualTo("LOW");
         assertThat(resumed.slaDueAt()).isNotNull();
+    }
+
+    /**
+     * Regression test for a real bug: department_predicted used to stay NULL for the entire time
+     * a low-confidence case sat paused (only commit() wrote it, and commit() doesn't run until
+     * after a human resumes) -- so GrievanceQueryService.list()'s WHERE department = :department
+     * filter never matched, making a paused case invisible in every department-scoped employee's
+     * Pending Review queue, even when the LLM's own guess (just not confident enough to
+     * auto-route) already pointed at a real department. Fixed by GrievanceWorkflowGraphConfig
+     * .persistPredictedClassification(), called from classify() before the graph ever reaches the
+     * interrupt point.
+     */
+    @Test
+    void pausedGrievanceWithADepartmentGuessIsVisibleInThatDepartmentsQueueBeforeAnyResume() {
+        String category = "test-cat-" + UUID.randomUUID();
+        when(classifier.classify(anyString())).thenReturn(new ClassificationResult(
+                "DOT", category, "MEDIUM", 0.3, "NEUTRAL", 0.0, true,
+                "leans DOT but not confident enough to auto-route"));
+
+        GrievanceWorkflowResponse started = service.start(
+                new GrievanceIntakeRequest("Something about a road maybe, not entirely sure.", null, null, null));
+
+        assertThat(started.pendingReview()).isTrue();
+
+        List<GrievanceSummary> dotQueue = queryService.list("DOT", null);
+        assertThat(dotQueue).extracting(GrievanceSummary::id).contains(started.grievanceId().toString());
     }
 
     @Test

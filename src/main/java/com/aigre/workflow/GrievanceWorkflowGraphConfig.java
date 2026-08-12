@@ -84,6 +84,8 @@ public class GrievanceWorkflowGraphConfig {
         ClassificationResult result = classifier.classify(state.rawText());
         boolean routeToReview = result.actionable() && !result.isConfident();
 
+        persistPredictedClassification(state.grievanceId(), result);
+
         Map<String, Object> update = new HashMap<>();
         update.put("predictedDepartment", result.department());
         update.put("finalDepartment", result.department());
@@ -96,6 +98,41 @@ public class GrievanceWorkflowGraphConfig {
         update.put("reasoning", result.reasoning());
         update.put("route", routeToReview ? HUMAN_REVIEW_NODE : "commit");
         return update;
+    }
+
+    /**
+     * Writes the LLM's tentative guess to the row the moment classify() produces it, regardless
+     * of whether the graph then pauses at HUMAN_REVIEW_NODE or proceeds straight to commit().
+     * Without this, department_predicted stayed NULL for the entire time a low-confidence case
+     * sat paused -- GrievanceQueryService.list() filters WHERE department = :department, and NULL
+     * never matches, so the case was invisible in every department-scoped employee's Pending
+     * Review query, and even a direct-by-ID lookup 403'd (DepartmentAccess.requireOwnDepartment
+     * rejects a null grievance department for anyone but ADMIN). department_confirmed and status
+     * are deliberately untouched here -- only commit() sets those, and only department_confirmed
+     * once a human has actually reviewed the case, preserving the AI-guess-vs-human-confirmed
+     * audit distinction commit() already relies on.
+     */
+    private void persistPredictedClassification(String grievanceId, ClassificationResult result) {
+        Priority priority = resolvePriority(result.priority());
+        jdbc.update(
+                """
+                UPDATE grievances
+                SET department_predicted = :department,
+                    category = :category,
+                    priority = :priority,
+                    classification_confidence = :confidence,
+                    sentiment_label = :sentimentLabel,
+                    sentiment_score = :sentimentScore
+                WHERE id = :id
+                """,
+                new MapSqlParameterSource()
+                        .addValue("id", UUID.fromString(grievanceId))
+                        .addValue("department", result.department())
+                        .addValue("category", result.category())
+                        .addValue("priority", priority == null ? null : priority.name())
+                        .addValue("confidence", result.confidence())
+                        .addValue("sentimentLabel", result.sentimentLabel())
+                        .addValue("sentimentScore", result.sentimentScore()));
     }
 
     /**
