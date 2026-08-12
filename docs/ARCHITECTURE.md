@@ -231,6 +231,56 @@ including a real mid-implementation correction (an embed-only version of this fi
 proved insufficient — see the third bullet above about `rerank_text`) and the exact
 eval numbers per run, in `PROJECT.md`.
 
+### Why pgvector (not Qdrant/Chroma/FAISS)
+
+**Coupling is deliberately shallow**: exactly one file,
+`com.aigre.config.RagConfig` (~46 lines, ~12 of them actual pgvector API calls —
+`.table(...)`, `.dimension(...)`, `.createTable(true)`,
+`.searchMode(PgVectorEmbeddingStore.SearchMode.HYBRID)`, `.rrfK(60)`), touches
+`PgVectorEmbeddingStore` directly. `CorpusIngestionService` and `RetrievalService`
+consume the store purely through LangChain4j's generic `EmbeddingStore<TextSegment>`
+interface — no raw SQL against `rag_documents` exists anywhere outside `RagConfig`,
+and that table is created and owned entirely by the store itself
+(`createTable(true)`), not `schema.sql`. A mechanical swap to a different
+LangChain4j-supported store would be genuinely small: one dependency, one config
+class, one new `application.yml` block, zero changes to ingestion or retrieval code.
+
+What isn't small is what a swap would cost, not what it would touch:
+
+- **`SearchMode.HYBRID` has no generic equivalent.** It's a pgvector-specific
+  builder option, not part of LangChain4j's `EmbeddingStore` interface — and it's
+  load-bearing, not incidental: it's what the cross-reference-competition fix above
+  and the current 29/34 eval baseline were tuned against. Losing it isn't a
+  configuration detail, it's a retrieval-quality regression risk.
+- **pgvector piggybacks on the app's one existing Postgres container.** Every
+  external vector DB (Qdrant, Chroma, Weaviate, ...) means standing up a genuinely
+  new service — its own container, port, health check, and connection config —
+  where today there is none.
+
+**The three named alternatives, weighed**:
+
+| | FAISS | Chroma | Qdrant |
+|---|---|---|---|
+| LangChain4j Java integration | **None exists** — no official Java client; would mean a custom `EmbeddingStore` implementation or a sidecar service, not a "swap" | `langchain4j-chroma` (BOM-managed) | `langchain4j-qdrant` (BOM-managed) |
+| Deployment | N/A | Separate server (Docker, HTTP) | Separate server (Docker, gRPC) |
+| Hybrid (vector + keyword) search | N/A | Not supported by the integration — a certain accuracy regression, not a risked one | Qdrant supports hybrid dense+sparse natively at the platform level, but whether this LangChain4j version's integration exposes that through the generic search API is unverified without a hands-on spike |
+
+FAISS is ruled out outright — there's no way to use it from this stack without
+abandoning the "everything through LangChain4j's generic interface" property that
+currently makes the ingestion/retrieval code portable at all. Between Chroma and
+Qdrant, Qdrant is the closer fit *if* its hybrid support turns out to reach this
+codebase through the generic API — a single ~1 hour spike (seed two documents that
+only differ in a way keyword search would catch, see if ranking changes) would
+answer that empirically. Rough sizing: 0.5–1 day for the mechanical swap either way;
+best case ~1–2 days total if Qdrant's hybrid support comes through cleanly; up to
+~1–2 weeks if it doesn't and the eval suite needs real re-tuning or a hand-rolled
+hybrid fallback.
+
+**pgvector was kept** because it already satisfies what this project actually
+needs — offline-capable, one datastore instead of two, and a hybrid search mode
+that's proven against a labeled eval suite rather than assumed — not because the
+alternatives went unexamined.
+
 ### 3. Agentic workflow with a human approval gate (`com.aigre.workflow`, LangGraph4j)
 
 **What it does**: routes a submitted grievance through a small state graph —
