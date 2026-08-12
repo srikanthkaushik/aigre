@@ -275,11 +275,11 @@ project:
   department-scoped, role-gated — the department picker is gone, replaced by real
   login). These all run against a live Ollama instance and a live Postgres instance —
   nothing in the walkthrough above is mocked.
-- **Demo-grade, not production-grade**: all 12 seeded employee accounts share one
+- **Demo-grade, not production-grade**: all seeded employee accounts share one
   password, and the Trends tab's "All Departments" toggle is deliberately *not*
   department-restricted (aggregate/statistical, not case-level data — a narrower
   reading of "own department only" than the case-management views). `RESOLVED`/
-  `CLOSED` now have a real dashboard action (Mark Resolved/Mark Closed), and
-  `REOPENED` a real citizen-facing action too — but `ROUTED`/`IN_PROGRESS` still have
-  no dashboard UI; a real deployment would need a caseworker view for actually working
-  a ticket after it's routed, not just approving its classification and closing it out.
+  `CLOSED`, `ROUTED`/`IN_PROGRESS` ("Start Work"/"Mark In Progress"), and `REOPENED`
+  (citizen-facing) all have real dashboard actions now — a supervisor can move a
+  triaged case through the full working lifecycle, not just approve its
+  classification and close it out.

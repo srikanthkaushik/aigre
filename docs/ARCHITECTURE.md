@@ -519,11 +519,17 @@ NEW → NEEDS_CLARIFICATION → TRIAGED → ROUTED → IN_PROGRESS → RESOLVED 
                 REOPENED (from CLOSED)   NOT_ACTIONABLE (terminal)   DUPLICATE (terminal)
 ```
 
-Only `NEW`, `NOT_ACTIONABLE`, `NEEDS_CLARIFICATION`, and `TRIAGED` are currently set by
-live application logic (classification + the workflow graph). The rest
-(`ROUTED`/`IN_PROGRESS`/`RESOLVED`/`CLOSED`/`ESCALATED`/`REOPENED`/`DUPLICATE`) are
-valid, audited transitions via `update_grievance_status`, meant to be driven by a
-caseworker actually working the ticket — there's no UI for those transitions yet.
+`NEW`, `NOT_ACTIONABLE`, `NEEDS_CLARIFICATION`, `TRIAGED`, and `DUPLICATE` are set by
+live application logic (classification, the workflow graph, and
+`DuplicateDetectionService` respectively). `ROUTED`/`IN_PROGRESS`/`RESOLVED`/`CLOSED`
+are caseworker-driven, audited transitions via `update_grievance_status` — the
+employee dashboard's grievance detail dialog now exposes all four as explicit actions
+("Start Work", "Mark In Progress", "Mark Resolved", "Mark Closed"), shown only for the
+status they apply to, so a triaged case can be moved through the full working
+lifecycle from the UI. `ESCALATED` and `REOPENED` (the latter citizen-facing, via
+`POST /grievances/{id}/reopen`) remain reachable only via direct API/tool calls, not
+a dashboard button — `ESCALATED` in particular has no dashboard entry point at all
+yet.
 
 ---
 
