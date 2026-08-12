@@ -12,10 +12,11 @@ See `RUNNING.md` to get both running locally.
 
 ## Landing page (`/`)
 
-The entry point: a short hero ("Grievance Resolution Portal — AI-assisted intake,
-classification, and routing") and two cards — **Citizen Portal** and **Employee
-Dashboard**. The AIGRE mark and title in the top toolbar are clickable from anywhere in
-the app and return here.
+The entry point: a short hero (the full "AI Grievance Resolution Engine" name, with a
+one-line description of what the system does) and two cards — **Citizen Portal** and
+**Employee Dashboard**. The AIGRE mark and title in the top toolbar — which now also
+carries the full name as a tagline — are clickable from anywhere in the app and return
+here.
 
 ![Landing page](images/01-landing.png)
 
@@ -128,11 +129,21 @@ retrieved and used.
 
 > *"How long does DOT have to repair a reported pothole once it's submitted?"*
 
-> DOT has 5 business days to repair a reported pothole once it's submitted, per city
-> code 14-2.
+> According to the context provided, for a confirmed pothole classified as Minor or
+> Moderate, DOT has to complete the repair within five (5) business days of the
+> initial citizen report. For potholes regardless of severity classification, the
+> repair should be completed within ten (10) business days of the initial citizen
+> report, subject to exceptions under Section 4 due to weather and material
+> availability.
 
-Citation: `road-maintenance-sop-v2-current.txt` (DOT) — correctly the *current* SOP,
-not the superseded v1 that also exists in the corpus specifically to test this.
+Citations here include both `road-maintenance-sop-v2-current.txt` (the current SOP,
+which has the answer) and `road-maintenance-sop-v1-superseded.txt` — the corpus's own
+deliberate current-vs-superseded distractor, added specifically to test whether
+retrieval prefers the current document. The cross-reference-competition fix
+(`PROJECT.md`) narrowed this failure mode but didn't eliminate it outright: LLM-rerank
+sampling variance means the superseded doc still wins a seat among the top-5 some
+runs, as it did for this capture — a known, already-documented finding, not something
+hidden here.
 
 ![Chat answer with citation cards](images/06-citizen-chat-answer.png)
 
