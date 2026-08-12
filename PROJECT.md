@@ -1577,6 +1577,66 @@ channel-aware overload didn't change portal behavior. Live curl of
 `POST /grievances/workflow` against the restarted backend confirmed the
 portal path still works end-to-end post-change.
 
+## ADMIN role: cross-department oversight
+Every seeded employee (AGENT/SUPERVISOR) was strictly single-department by
+design — `department_employees.department_id` a required-in-practice FK,
+enforced server-side by `DepartmentAccess.requireOwnDepartment` and by
+`GrievanceQueryController` deriving its department filter from the
+authenticated principal, never a client-supplied value. There was no
+account that could browse or act on grievances across departments. Added
+a third role, ADMIN, for exactly that: a `department_employees` row with
+`department_id = NULL`.
+
+**Two pieces had to agree, only one needed an actual code change.**
+`GrievanceQueryService.list()` already built its `WHERE` clause
+conditionally — a `null`/blank department meant "no filter," entirely by
+coincidence of how the department-scoping feature was written, not
+because anyone anticipated an admin role. So once `SecurityConfig` allows
+the ADMIN role through at all, its queue/pending-review listings are
+already correct for free. The one genuine gap: `DepartmentAccess.
+requireOwnDepartment` rejects *any* principal whose `departmentId` doesn't
+equal the grievance's department — including a `null` one — so ADMIN
+needed an explicit bypass (`if (principal.isAdmin()) return;`) at the top
+of that method, or a cross-department admin couldn't act on anything
+either. `SecurityConfig`'s `hasRole("SUPERVISOR")` on the two mutation
+endpoints (resume, mark resolved/closed) became `hasAnyRole("SUPERVISOR",
+"ADMIN")`. `EmployeePrincipal.isSupervisor()` now also returns true for
+ADMIN, since it's used purely for UI-gating which action buttons render —
+the real enforcement is the `hasAnyRole` rule, not this method.
+
+**Schema**: `department_employees.department_id` was already nullable
+(no `NOT NULL` in the original `CREATE TABLE`) — only the `role` CHECK
+constraint needed widening to admit `'ADMIN'`, via the same
+`ALTER TABLE ... DROP CONSTRAINT IF EXISTS / ADD CONSTRAINT` pattern this
+project already uses for schema changes against an existing `aigre-pg`
+database (no migration tool here — `schema.sql`'s `CREATE TABLE IF NOT
+EXISTS` is a no-op against a table that already exists).
+
+**Frontend**: `EmployeeSession.departmentId` widened to `string | null`,
+`role` widened to include `'ADMIN'`. A new `auth.isAdmin()` computed
+signal drives one UI difference beyond the shared `isSupervisor()` action
+gating: the Pending Review and department-queue tables gain a
+`department` column, shown only for ADMIN, since that's the only role
+whose queue can span more than one department at a time and rows would
+otherwise be indistinguishable. The dashboard header/tab labels show "All
+Departments" instead of piping a `null` department through
+`DepartmentNamePipe` (which would otherwise render "—").
+
+**Seeded as** `ops.admin` / `Demo1234!` (same shared demo password as
+every other seeded account) — see `RUNNING.md`'s credentials table.
+
+**Verified**: two new `SecurityIntegrationTest` cases — login returns
+`departmentId: null` and `role: "ADMIN"`; ADMIN can act on a DPW
+grievance via `POST /grievances/{id}/status` that the existing
+`supervisorCannotActOnAnotherDepartmentsGrievance()` test proves a DOT
+supervisor is forbidden from (same grievance ID, opposite expected
+status code) — the two tests are a direct before/after pair. Live
+Playwright pass confirmed the dashboard shows "All Departments" framing,
+lists rows spanning multiple departments with a visible department
+column, and that opening a grievance detail dialog shows the same
+Mark Resolved/Mark Closed controls a SUPERVISOR gets. Full backend suite
+re-run clean.
+
 ## Open items to revisit
 - Dark mode — explicitly deferred in the redesign pass above; the token
   system (`--mat-sys-*` throughout, no hardcoded colors outside the

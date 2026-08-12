@@ -96,10 +96,11 @@ the corpus changes, but don't run it against a database you don't want reset.
 > `@BeforeEach` that wipes `rag_documents` down to 2 hardcoded fixture rows. If you run
 > that test, re-run step 4b afterward to restore the full corpus.
 
-**c) Employee login credentials** — step 4a's seed also creates 12 employee accounts
-(2 per department, 1 AGENT + 1 SUPERVISOR), all sharing the same demo password. A real
-deployment would never share one password across accounts; fine here since the point is
-exercising real Spring Security + JWT auth, not credential hygiene.
+**c) Employee login credentials** — step 4a's seed also creates 13 employee accounts
+(2 per department, 1 AGENT + 1 SUPERVISOR, plus 1 cross-department ADMIN), all sharing
+the same demo password. A real deployment would never share one password across
+accounts; fine here since the point is exercising real Spring Security + JWT auth, not
+credential hygiene.
 
 | Username | Name | Department | Role |
 |---|---|---|---|
@@ -109,13 +110,17 @@ exercising real Spring Security + JWT auth, not credential hygiene.
 | `kayla.simmons` / `dennis.choi` | Kayla Simmons / Dennis Choi | DOE | AGENT / SUPERVISOR |
 | `priscilla.adeyemi` / `tom.reilly` | Priscilla Adeyemi / Tom Reilly | DHUD | AGENT / SUPERVISOR |
 | `nora.fitzgerald` / `sam.alvarez` | Nora Fitzgerald / Sam Alvarez | DEP | AGENT / SUPERVISOR |
+| `ops.admin` | Ops Admin | *(none — all departments)* | ADMIN |
 
 Password for all: `Demo1234!`
 
 AGENT can view their department's queue read-only; SUPERVISOR can additionally resume
 a paused review and mark grievances resolved/closed. Dashboard access is scoped
 strictly to the logged-in employee's own department — there's no picker to switch
-departments anymore (see `ARCHITECTURE.md`).
+departments anymore (see `ARCHITECTURE.md`). ADMIN is the one exception: no
+`department_id` of its own, so every dashboard tab (Pending Review, the queue, Trends)
+shows every department at once, and it can act on any department's grievance the same
+way a SUPERVISOR can within its own.
 
 ## 5. Run the frontend
 

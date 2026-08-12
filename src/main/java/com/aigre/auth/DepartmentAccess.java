@@ -11,6 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
  * `GrievanceQueryController.list()`/the pending/department-queue tables don't need this: they
  * already derive their department filter from the principal directly rather than trusting a
  * client-supplied value, so there's nothing to compare against.
+ *
+ * ADMIN (null departmentId, cross-department oversight) bypasses this check entirely -- it's the
+ * one role allowed to act on any department's grievance.
  */
 public final class DepartmentAccess {
 
@@ -18,6 +21,9 @@ public final class DepartmentAccess {
     }
 
     public static void requireOwnDepartment(EmployeePrincipal principal, String grievanceDepartment) {
+        if (principal.isAdmin()) {
+            return;
+        }
         if (grievanceDepartment == null || !grievanceDepartment.equals(principal.departmentId())) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN, "This grievance belongs to a different department.");

@@ -25,6 +25,14 @@ CREATE TABLE IF NOT EXISTS department_employees (
 ALTER TABLE department_employees ADD COLUMN IF NOT EXISTS username VARCHAR(60) UNIQUE;
 ALTER TABLE department_employees ADD COLUMN IF NOT EXISTS password_hash VARCHAR(100);
 
+-- ADMIN: a cross-department oversight role, added after AGENT/SUPERVISOR. department_id is
+-- already nullable (see the column above) -- an ADMIN's row simply has no department_id, which
+-- com.aigre.auth.DepartmentAccess and GrievanceQueryService.list() both already treat as
+-- "no department filter" once the CHECK constraint allows the value through.
+ALTER TABLE department_employees DROP CONSTRAINT IF EXISTS department_employees_role_check;
+ALTER TABLE department_employees ADD CONSTRAINT department_employees_role_check
+    CHECK (role IN ('AGENT', 'SUPERVISOR', 'ADMIN'));
+
 CREATE TABLE IF NOT EXISTS citizens (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(120),

@@ -116,6 +116,34 @@ class SecurityIntegrationTest {
     }
 
     @Test
+    void adminLoginReturnsNoDepartmentAndAdminRole() {
+        LoginResponse response = client().post().uri("/auth/login")
+                .bodyValue(Map.of("username", "ops.admin", "password", "Demo1234!"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(LoginResponse.class)
+                .returnResult()
+                .getResponseBody();
+
+        assertThat(response).isNotNull();
+        assertThat(response.departmentId()).isNull();
+        assertThat(response.role()).isEqualTo("ADMIN");
+    }
+
+    @Test
+    void adminCanActOnAnyDepartmentsGrievanceThatAnOrdinarySupervisorCannot() {
+        // Same DPW grievance supervisorCannotActOnAnotherDepartmentsGrievance() proves a DOT
+        // supervisor is forbidden from -- ADMIN must succeed where that one is rejected.
+        String adminToken = login("ops.admin");
+
+        client().post().uri("/grievances/a0000000-0000-0000-0000-000000000003/status")
+                .header("Authorization", "Bearer " + adminToken)
+                .bodyValue(Map.of("newStatus", "IN_PROGRESS", "note", "admin cross-department action", "changedBy", "ops.admin"))
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
     void trendsEndpointIsNotAccidentallyPublicViaTheGrievanceIdPattern() {
         // Regression guard: pathMatchers(GET, "/grievances/{id}") is permitAll for the citizen
         // status lookup, and "{id}" matches any single path segment -- including the literal

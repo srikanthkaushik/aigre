@@ -10,6 +10,11 @@ import java.util.UUID;
 public record EmployeePrincipal(UUID id, String username, String name, String departmentId, String role) {
 
     public boolean isSupervisor() {
-        return "SUPERVISOR".equals(role);
+        return "SUPERVISOR".equals(role) || isAdmin();
+    }
+
+    /** ADMIN has no departmentId -- see schema.sql's comment on department_employees. */
+    public boolean isAdmin() {
+        return "ADMIN".equals(role);
     }
 }

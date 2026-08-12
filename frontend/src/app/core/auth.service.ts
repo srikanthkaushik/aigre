@@ -6,8 +6,10 @@ export interface EmployeeSession {
   token: string;
   employeeId: string;
   name: string;
-  departmentId: string;
-  role: 'AGENT' | 'SUPERVISOR';
+  // ADMIN (cross-department oversight) has no department -- see schema.sql's comment on
+  // department_employees.department_id.
+  departmentId: string | null;
+  role: 'AGENT' | 'SUPERVISOR' | 'ADMIN';
 }
 
 const API_BASE = 'http://localhost:8085';
@@ -21,7 +23,14 @@ export class AuthService {
   private readonly _session = signal<EmployeeSession | null>(loadStoredSession());
   readonly session = this._session.asReadonly();
   readonly isAuthenticated = computed(() => this._session() !== null);
-  readonly isSupervisor = computed(() => this._session()?.role === 'SUPERVISOR');
+  // ADMIN can do everything a SUPERVISOR can (and across every department, not just its own) --
+  // the actual enforcement is server-side (SecurityConfig.hasAnyRole("SUPERVISOR", "ADMIN"));
+  // this just decides which action buttons the UI offers.
+  readonly isSupervisor = computed(() => {
+    const role = this._session()?.role;
+    return role === 'SUPERVISOR' || role === 'ADMIN';
+  });
+  readonly isAdmin = computed(() => this._session()?.role === 'ADMIN');
 
   constructor(private readonly http: HttpClient) {}
 

@@ -574,9 +574,23 @@ additionally compare the grievance's own department against the principal's
 (`DepartmentAccess.requireOwnDepartment`) before allowing the action, since role-based
 route rules alone don't stop an authenticated employee from reaching another
 department's grievance by ID. AGENT can view; SUPERVISOR can additionally resume a
-review or mark a grievance resolved/closed (`hasRole("SUPERVISOR")` in
+review or mark a grievance resolved/closed (`hasAnyRole("SUPERVISOR", "ADMIN")` in
 `SecurityConfig`, mirrored in the frontend for UX — the backend check is the actual
 enforcement).
+
+**ADMIN is a third role for cross-department oversight** — a `department_employees` row
+with `department_id = NULL` and `role = 'ADMIN'`. Two things had to agree for this to
+work rather than just widening a role check:
+`GrievanceQueryService.list()` already treated a `null`/blank department as "no
+filter" (it builds the `WHERE` clause conditionally), so an ADMIN's token — whose
+`department` JWT claim is `null` — gets an unfiltered result set for free once the role
+is allowed through `SecurityConfig`'s `.hasAnyRole(...)` at all. The one piece that
+genuinely needed a change was `DepartmentAccess.requireOwnDepartment`, which otherwise
+rejects *any* principal whose `departmentId` doesn't equal the grievance's — including a
+`null` one — so it gets an explicit `if (principal.isAdmin()) return;` bypass at the
+top. The frontend adds a `department` column to the Pending Review/queue tables only
+when `auth.isAdmin()`, since that's the only role whose queue can span more than one
+department at a time.
 
 Citizen-facing endpoints (submit, status lookup, clarify, reopen) and the chat endpoint
 stay fully public — citizens never log in. A real gap caught and fixed while building

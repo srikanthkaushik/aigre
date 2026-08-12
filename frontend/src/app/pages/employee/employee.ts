@@ -45,8 +45,19 @@ export class Employee implements OnInit, AfterViewInit {
   readonly pendingDataSource = new MatTableDataSource<GrievanceSummary>([]);
   readonly departmentDataSource = new MatTableDataSource<GrievanceSummary>([]);
 
-  readonly pendingColumns = ['submittedAt', 'status', 'actions'];
-  readonly departmentColumns = ['submittedAt', 'status', 'category', 'priority', 'slaDueAt', 'actions'];
+  // ADMIN's queue spans every department, so a department column is the only way to tell rows
+  // apart -- AGENT/SUPERVISOR don't need it, their queue is a single department by definition.
+  get pendingColumns(): string[] {
+    return this.auth.isAdmin()
+      ? ['submittedAt', 'department', 'status', 'actions']
+      : ['submittedAt', 'status', 'actions'];
+  }
+
+  get departmentColumns(): string[] {
+    return this.auth.isAdmin()
+      ? ['submittedAt', 'department', 'status', 'category', 'priority', 'slaDueAt', 'actions']
+      : ['submittedAt', 'status', 'category', 'priority', 'slaDueAt', 'actions'];
+  }
 
   @ViewChild('pendingPaginator') private pendingPaginator!: MatPaginator;
   @ViewChild('departmentPaginator') private departmentPaginator!: MatPaginator;
@@ -67,8 +78,14 @@ export class Employee implements OnInit, AfterViewInit {
     this.departmentDataSource.paginator = this.departmentPaginator;
   }
 
+  // Empty string, not null -- passed straight through to ApiService.getTrends()/the Trends
+  // component, whose "all departments" handling already treats a blank department as no filter.
   get department(): string {
     return this.auth.session()?.departmentId ?? '';
+  }
+
+  get departmentLabel(): string {
+    return this.auth.isAdmin() ? 'All Departments' : this.department;
   }
 
   logout(): void {

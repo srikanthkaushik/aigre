@@ -20,8 +20,11 @@ import java.util.List;
  * department picker -- see PROJECT.md. Citizen-facing endpoints (submit/status/clarify/reopen,
  * chat) stay public: citizens never log in. Everything under the employee dashboard requires a
  * valid employee bearer token; the two mutation endpoints (resume a paused review, mark
- * resolved/closed) additionally require the SUPERVISOR role -- an AGENT can view their
- * department's queue but not act on it.
+ * resolved/closed) additionally require the SUPERVISOR or ADMIN role -- an AGENT can view their
+ * department's queue but not act on it. ADMIN is a cross-department oversight role (null
+ * departmentId): DepartmentAccess.requireOwnDepartment bypasses its own-department check for it,
+ * and GrievanceQueryService.list() already treats a null department as "no filter" -- so ADMIN
+ * needs no new pathMatchers rules beyond being included here, alongside SUPERVISOR.
  */
 @Configuration
 @EnableWebFluxSecurity
@@ -57,7 +60,7 @@ public class SecurityConfig {
                         .pathMatchers("/ingest/**").permitAll()
                         .pathMatchers("/mcp/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/grievances/{id}/workflow/resume", "/grievances/{id}/status")
-                        .hasRole("SUPERVISOR")
+                        .hasAnyRole("SUPERVISOR", "ADMIN")
                         .anyExchange().authenticated())
                 .addFilterAt(new JwtAuthenticationWebFilter(jwtService), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();

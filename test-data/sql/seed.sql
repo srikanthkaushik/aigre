@@ -32,7 +32,11 @@ INSERT INTO department_employees (id, department_id, name, role, username, passw
     ('ee000000-0000-0000-0000-000000000009', 'DHUD', 'Priscilla Adeyemi', 'AGENT', 'priscilla.adeyemi', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
     ('ee000000-0000-0000-0000-000000000010', 'DHUD', 'Tom Reilly', 'SUPERVISOR', 'tom.reilly', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
     ('ee000000-0000-0000-0000-000000000011', 'DEP', 'Nora Fitzgerald', 'AGENT', 'nora.fitzgerald', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
-    ('ee000000-0000-0000-0000-000000000012', 'DEP', 'Sam Alvarez', 'SUPERVISOR', 'sam.alvarez', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm')
+    ('ee000000-0000-0000-0000-000000000012', 'DEP', 'Sam Alvarez', 'SUPERVISOR', 'sam.alvarez', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm'),
+    -- Cross-department oversight account -- department_id NULL, role ADMIN. See
+    -- com.aigre.auth.DepartmentAccess and GrievanceQueryService.list() for how a null
+    -- department is treated as "no filter" rather than "no access."
+    ('ee000000-0000-0000-0000-000000000013', NULL, 'Ops Admin', 'ADMIN', 'ops.admin', '$2a$10$jrCFQDXyDPNMB1IA3URfZOECM.Vl.CN91kOQ/Zr8.Fzgcjgx3vikm')
 ON CONFLICT (id) DO UPDATE SET username = EXCLUDED.username, password_hash = EXCLUDED.password_hash;
 
 --------------------------------------------------------------------------
