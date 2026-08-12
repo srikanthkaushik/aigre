@@ -12,6 +12,17 @@
         <div class="session-meta">{{ departmentLabel | departmentName }} &middot; {{ auth.session()?.role }}</div>
       </div>
     </div>
+    @if (auth.isAdmin()) {
+      <mat-form-field appearance="outline" class="department-filter" subscriptSizing="dynamic">
+        <mat-label>Department</mat-label>
+        <mat-select [value]="departmentFilter()" (selectionChange)="onDepartmentFilterChange($event.value)">
+          <mat-option value="">All Departments</mat-option>
+          @for (dept of departmentOptions; track dept) {
+            <mat-option [value]="dept">{{ dept | departmentName }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
     <button mat-stroked-button (click)="refresh()">
       <mat-icon>refresh</mat-icon>
       Refresh

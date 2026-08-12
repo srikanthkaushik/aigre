@@ -43,12 +43,18 @@ public class GrievanceQueryController {
      * Employee-facing (both the Pending Review and department-queue tables) -- department is
      * always derived from the authenticated employee, never a client-supplied value, which is
      * what actually makes this "strictly own department" rather than just "logged in": a
-     * DOT employee's token can't be used to request ?department=DPW.
+     * DOT employee's token can't be used to request ?department=DPW. The one exception is
+     * ADMIN, which has no department of its own (see EmployeePrincipal.isAdmin()) -- for that
+     * role only, an explicit ?department= is honored as a client-side filter narrowing its
+     * already-cross-department view; omitted/blank still means "all departments."
      */
     @GetMapping
     public Flux<GrievanceSummary> list(
-            @RequestParam(required = false) String status, @AuthenticationPrincipal EmployeePrincipal principal) {
-        return Mono.fromCallable(() -> service.list(principal.departmentId(), status))
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String department,
+            @AuthenticationPrincipal EmployeePrincipal principal) {
+        String effectiveDepartment = principal.isAdmin() ? department : principal.departmentId();
+        return Mono.fromCallable(() -> service.list(effectiveDepartment, status))
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMapMany(Flux::fromIterable);
     }

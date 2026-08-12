@@ -9,6 +9,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
 import { DEPARTMENTS, GrievanceSummary } from '../../core/models';
@@ -30,6 +32,8 @@ const PAGE_SIZE = 10;
     MatIconModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
     DepartmentNamePipe,
     Trends
   ],
@@ -42,19 +46,25 @@ export class Employee implements OnInit, AfterViewInit {
   readonly loading = signal(false);
   readonly breachedCount = signal(0);
 
+  // ADMIN-only: '' means "all departments" (its default cross-department view); a specific code
+  // narrows both tables to that one department, same as a non-admin employee already sees.
+  readonly departmentFilter = signal('');
+  readonly departmentOptions = DEPARTMENTS;
+
   readonly pendingDataSource = new MatTableDataSource<GrievanceSummary>([]);
   readonly departmentDataSource = new MatTableDataSource<GrievanceSummary>([]);
 
-  // ADMIN's queue spans every department, so a department column is the only way to tell rows
-  // apart -- AGENT/SUPERVISOR don't need it, their queue is a single department by definition.
+  // ADMIN's queue can span every department, so the department column is only needed while it's
+  // not filtered down to one -- AGENT/SUPERVISOR never need it, their queue is single-department
+  // by definition.
   get pendingColumns(): string[] {
-    return this.auth.isAdmin()
+    return this.auth.isAdmin() && !this.departmentFilter()
       ? ['submittedAt', 'department', 'status', 'actions']
       : ['submittedAt', 'status', 'actions'];
   }
 
   get departmentColumns(): string[] {
-    return this.auth.isAdmin()
+    return this.auth.isAdmin() && !this.departmentFilter()
       ? ['submittedAt', 'department', 'status', 'category', 'priority', 'slaDueAt', 'actions']
       : ['submittedAt', 'status', 'category', 'priority', 'slaDueAt', 'actions'];
   }
@@ -80,12 +90,20 @@ export class Employee implements OnInit, AfterViewInit {
 
   // Empty string, not null -- passed straight through to ApiService.getTrends()/the Trends
   // component, whose "all departments" handling already treats a blank department as no filter.
+  // For ADMIN (no department of its own) this tracks the dashboard's department filter instead,
+  // so the Trends tab's own "department" toggle stays meaningful rather than always blank.
   get department(): string {
-    return this.auth.session()?.departmentId ?? '';
+    return this.auth.isAdmin() ? this.departmentFilter() : (this.auth.session()?.departmentId ?? '');
   }
 
   get departmentLabel(): string {
-    return this.auth.isAdmin() ? 'All Departments' : this.department;
+    if (!this.auth.isAdmin()) return this.department;
+    return this.departmentFilter() || 'All Departments';
+  }
+
+  onDepartmentFilterChange(department: string): void {
+    this.departmentFilter.set(department);
+    this.refresh();
   }
 
   logout(): void {
@@ -95,14 +113,16 @@ export class Employee implements OnInit, AfterViewInit {
 
   refresh(): void {
     this.loading.set(true);
-    // Both tabs are now department-scoped server-side (SecurityConfig/GrievanceQueryController
-    // derive the department from the logged-in employee's token, not a client-supplied value) --
-    // they differ only by status filter, not by department anymore.
-    this.api.listGrievances('NEW').subscribe({
+    // Both tabs are department-scoped server-side (GrievanceQueryController derives the
+    // department from the logged-in employee's token for AGENT/SUPERVISOR). ADMIN has no token
+    // department, so its optional filter is sent explicitly -- the backend only honors it for
+    // that role (see GrievanceQueryController.list's javadoc).
+    const department = this.auth.isAdmin() ? this.departmentFilter() : undefined;
+    this.api.listGrievances('NEW', department).subscribe({
       next: (items) => (this.pendingDataSource.data = items),
       error: () => (this.pendingDataSource.data = [])
     });
-    this.api.listGrievances().subscribe({
+    this.api.listGrievances(undefined, department).subscribe({
       next: (items) => {
         this.departmentDataSource.data = items;
         this.breachedCount.set(items.filter((i) => i.breached).length);

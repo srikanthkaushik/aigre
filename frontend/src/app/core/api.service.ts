@@ -51,9 +51,16 @@ export class ApiService {
     return this.http.get<GrievanceStatusResult>(`${API_BASE}/grievances/${grievanceId}`);
   }
 
-  /** Department is never client-supplied -- SecurityConfig/GrievanceQueryController derive it from the authenticated employee's own token. */
-  listGrievances(status?: string | null): Observable<GrievanceSummary[]> {
-    const query = status ? `?status=${encodeURIComponent(status)}` : '';
+  /**
+   * Department is normally never client-supplied -- GrievanceQueryController derives it from the
+   * authenticated employee's own token. The `department` param here is only honored server-side
+   * for the ADMIN role (its cross-department filter); for any other role the backend ignores it.
+   */
+  listGrievances(status?: string | null, department?: string | null): Observable<GrievanceSummary[]> {
+    const params: string[] = [];
+    if (status) params.push(`status=${encodeURIComponent(status)}`);
+    if (department) params.push(`department=${encodeURIComponent(department)}`);
+    const query = params.length ? `?${params.join('&')}` : '';
     return this.http.get<GrievanceSummary[]>(`${API_BASE}/grievances${query}`);
   }
 
