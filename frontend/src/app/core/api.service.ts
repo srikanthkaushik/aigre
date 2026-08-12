@@ -13,7 +13,11 @@ import {
   UpdateStatusResult
 } from './models';
 
-const API_BASE = 'http://localhost:8085';
+// Relative, not absolute -- lets the same build work whether the browser reaches this app via
+// localhost:4200 (ng serve, proxied to the backend by proxy.conf.json) or via the backend itself
+// serving the built frontend as static content on a single origin (see SpaWebFluxConfig), which
+// is also what makes tunneling just one port (the backend's) enough to expose the whole app.
+const API_BASE = '';
 
 export interface ChatStreamCallbacks {
   onToken: (token: string) => void;

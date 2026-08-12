@@ -1637,6 +1637,48 @@ column, and that opening a grievance detail dialog shows the same
 Mark Resolved/Mark Closed controls a SUPERVISOR gets. Full backend suite
 re-run clean.
 
+## Single-origin static hosting + Cloudflare Tunnel (internet access, dev machine stays local)
+
+Goal: let the user reach the app from outside their own network while it keeps
+running only on their PC, without deploying anywhere. Decided on a Cloudflare
+quick tunnel over ngrok/port-forwarding — no router/firewall changes, no
+exposed home IP, free, and (unlike ngrok's free tier) not time-boxed per
+session; the tradeoff is the quick-tunnel URL is random and changes every
+`cloudflared` restart, which the user explicitly accepted over the
+account+domain-required "named tunnel" alternative for a stable URL.
+
+This surfaced a real architecture gap first: `api.service.ts` hardcoded
+`API_BASE = 'http://localhost:8085'`, so tunneling the frontend alone would've
+had every remote visitor's browser try to hit *their own* localhost:8085.
+Fixed by making `API_BASE` a relative empty string and serving the built
+Angular app from the Spring Boot backend itself (`com.aigre.config.SpaWebFluxConfig`,
+a `WebFluxConfigurer` resource handler on `/**` with an `index.html` fallback for
+any path that isn't a literal static file — needed so a direct load or refresh
+on `/employee`/`/citizen/xyz` doesn't 404, since those are Angular client-side
+routes, not server resources). `SecurityConfig` permits GET on the app shell's
+own paths (`/`, `/login`, `/citizen/**`, `/employee/**`, static asset
+extensions) alongside the existing API rules — this has no bearing on employee
+auth, which is still enforced by the API calls those pages make, not by the
+page load itself.
+
+For `ng serve` to keep working in dev with a relative `API_BASE`,
+`frontend/proxy.conf.json` (wired into `angular.json`'s
+`serve.options.proxyConfig`) proxies `/grievances`, `/auth`, `/chat`,
+`/ingest`, `/mcp`, `/actuator` to `localhost:8085` server-side — the browser
+never sees a cross-origin request either way, dev or single-origin-prod.
+
+Process now: `ng build` → copy `dist/frontend/browser/*` into
+`src/main/resources/static/` → restart the backend → the whole app is
+reachable at `localhost:8085` alone → `cloudflared tunnel --url
+http://localhost:8085` exposes it. Verified live: login, a direct deep-link
+load of `/employee` (simulating a refresh), and an API call (`/auth/login`)
+all returned 200 through the actual `https://*.trycloudflare.com` URL, not
+just localhost.
+
+The static copy is a snapshot, not a live rebuild — RUNNING.md's new
+"Exposing the app to the internet" section notes it needs re-running after
+any frontend change.
+
 ## Open items to revisit
 - Dark mode — explicitly deferred in the redesign pass above; the token
   system (`--mat-sys-*` throughout, no hardcoded colors outside the

@@ -137,9 +137,55 @@ another Angular project on the same machine), specify one explicitly:
 npx ng serve --port 4300
 ```
 
-Backend CORS (`com.aigre.auth.SecurityConfig`) is configured for `http://localhost:*`,
-so any local port works without a config change. Open whichever port you served on in
-a browser.
+API calls (`frontend/src/app/core/api.service.ts`) are relative URLs, proxied to the
+backend by `frontend/proxy.conf.json` (wired into `ng serve` via `angular.json`'s
+`serve.options.proxyConfig`) — so from the browser's point of view every request stays
+on whichever port you served the frontend on; no CORS round-trip is actually involved
+during normal `ng serve` development. Backend CORS (`com.aigre.auth.SecurityConfig`) is
+still configured for `http://localhost:*` as a fallback for any other local port.
+
+---
+
+## Exposing the app to the internet (optional)
+
+The frontend and backend can be served from **one origin** — useful for tunneling the
+app out to the internet without exposing two ports, and it's how a real deployment would
+ship anyway.
+
+**a) Build the frontend and copy it into the backend's static resources:**
+
+```
+cd frontend
+npx ng build
+cd ..
+rm -rf src/main/resources/static/*
+cp -r frontend/dist/frontend/browser/* src/main/resources/static/
+```
+
+`com.aigre.config.SpaWebFluxConfig` serves these files and falls back to `index.html`
+for any path that isn't a real static file (e.g. `/employee`, `/citizen/xyz`), so a
+direct load or a browser refresh on an Angular client-side route works instead of
+404ing. Restart the backend (`mvn spring-boot:run`) to pick up the new files — the whole
+app is now reachable at **http://localhost:8085** alone; the separate `ng serve` step is
+no longer needed for this.
+
+> Re-run step (a) after any frontend change — the static copy is a snapshot, not live.
+
+**b) Tunnel port 8085 out with Cloudflare Tunnel** (`cloudflared`, free, no port
+forwarding or router changes, automatic HTTPS):
+
+```
+winget install --id Cloudflare.cloudflared -e
+cloudflared tunnel --url http://localhost:8085
+```
+
+This prints a random `https://<random-words>.trycloudflare.com` URL — the whole app
+(citizen portal, employee dashboard, chat) is reachable there, with the tunnel making
+only outbound connections from your machine (nothing to open in a firewall/router). It's
+an anonymous "quick tunnel": no Cloudflare account needed, but the URL changes every
+time you restart `cloudflared`. For a stable URL on your own domain, use a
+[named tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps)
+instead, which requires a free Cloudflare account with that domain's nameservers.
 
 ---
 

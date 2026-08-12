@@ -25,6 +25,11 @@ import java.util.List;
  * departmentId): DepartmentAccess.requireOwnDepartment bypasses its own-department check for it,
  * and GrievanceQueryService.list() already treats a null department as "no filter" -- so ADMIN
  * needs no new pathMatchers rules beyond being included here, alongside SUPERVISOR.
+ *
+ * <p>The built Angular app is also served from this backend (SpaWebFluxConfig) so the whole app
+ * is one origin/port -- its static assets and client-side route shells are permitted below
+ * alongside the API rules; this has no bearing on employee auth, which is still enforced by the
+ * API calls those pages make, not by the page load itself.
  */
 @Configuration
 @EnableWebFluxSecurity
@@ -61,6 +66,22 @@ public class SecurityConfig {
                         .pathMatchers("/mcp/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/grievances/{id}/workflow/resume", "/grievances/{id}/status")
                         .hasAnyRole("SUPERVISOR", "ADMIN")
+                        // The built Angular app (see SpaWebFluxConfig), served from this same
+                        // origin/port -- static assets plus its client-side routes. Everything an
+                        // employee actually sees still requires its own JWT, checked client-side
+                        // by auth.guard.ts and re-checked server-side by every /grievances,
+                        // /auth call above; this just lets the page shell itself load.
+                        .pathMatchers(
+                                HttpMethod.GET,
+                                "/",
+                                "/login",
+                                "/citizen/**",
+                                "/employee/**",
+                                "/*.js",
+                                "/*.css",
+                                "/favicon.ico",
+                                "/assets/**")
+                        .permitAll()
                         .anyExchange().authenticated())
                 .addFilterAt(new JwtAuthenticationWebFilter(jwtService), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();

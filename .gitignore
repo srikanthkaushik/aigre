@@ -2,6 +2,9 @@
 target/
 frontend/dist/
 frontend/.angular/
+# The frontend's build output, copied here for single-origin serving (see RUNNING.md's
+# "Exposing the app to the internet" section) -- a snapshot, not source, regenerate as needed.
+src/main/resources/static/
 
 # Dependencies
 frontend/node_modules/
