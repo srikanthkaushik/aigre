@@ -581,6 +581,64 @@ lifecycle from the UI. `ESCALATED` and `REOPENED` (the latter citizen-facing, vi
 a dashboard button — `ESCALATED` in particular has no dashboard entry point at all
 yet.
 
+### Why no graph database (Neo4j/Memgraph/KuzuDB/HugeGraph)
+
+Unlike the pgvector question above, this isn't a migration-cost question — there is
+no existing graph subsystem to weigh a replacement against. It's a "does the domain
+actually have a graph-shaped problem" question, and checked against the actual code
+rather than assumed, the answer is mostly no:
+
+- **Duplicate chains** (`grievances.duplicate_of_id`, a self-referencing FK) are the
+  one genuinely graph-shaped structure in the schema — but `DuplicateDetectionService`
+  deliberately keeps chains from growing past one hop going forward (it excludes
+  already-`DUPLICATE` rows from matching, so a new duplicate always resolves straight
+  to the true original), and `GrievanceMcpTools.findDuplicateChain` already walks the
+  existing chain correctly with a plain Postgres recursive CTE
+  (`WITH RECURSIVE chain AS (...)`, capped at 20 hops). A strict linked list, not a
+  network — no branching, no merging, no cycles by construction. A graph database
+  would be solving a problem SQL's own recursive-query primitive already handles
+  natively at this data's actual scale.
+- **Everything else that *sounds* graph-like in this project's own docs has zero
+  backing data structure.** Department "topic overlap" (DOT/DPW, DHHS/DOE, etc.)
+  exists only as disambiguation prose inside the classifier's LLM prompt — no table,
+  no adjacency structure, nothing queryable. Policy-document cross-references
+  (`[[XREF]]...[[/XREF]]`, see above) are a retrieval-scoring fix, not relationship
+  data — there's no "document A references document B" record anywhere, only free
+  text naming another document's title inside a chunk. Citizen relationships and
+  employee/department hierarchy are equally flat: every submission creates a brand-new
+  `citizens` row with no dedup lookup, and `department_employees` has no
+  manager/reporting structure at all.
+
+So introducing a graph database today would mean *inventing* graph-shaped data from
+scratch — actually modeling department overlap or document cross-references as
+queryable relationships — not migrating an existing relational pain point into a
+better-suited engine. No graph database was ever previously evaluated or rejected for
+this project; this is a fresh assessment, not a revisited decision.
+
+**The four commonly-named options, weighed anyway**:
+
+| | Neo4j Community | Memgraph | KuzuDB | HugeGraph |
+|---|---|---|---|---|
+| License | GPLv3 | BSL 1.1 — source-available, converts to Apache 2.0 ~4 years after each release | MIT | Apache 2.0 |
+| Deployment | Separate server, single-instance only in Community edition (no clustering/HA — a non-issue at this project's scale regardless) | Separate server, whole graph in RAM | **Embedded, in-process** — no separate server at all | Separate server **plus** a storage backend (RocksDB minimum; HBase/Cassandra for real scale) |
+| LangChain4j integration | **Yes** — `Neo4jEmbeddingStore` and `Neo4jText2CypherRetriever` (text-to-Cypher GraphRAG), maintained | None found | None found | None found |
+| Adoption risk | Low, mature | License terms worth knowing precisely, not a blocker | **High** — archived October 2025 after an Apple acquisition of the company behind it, now community-forked with no clear governance | Built for 100B+-entity graphs — significant operational overkill for a demo-scale dataset (a handful of departments, a few hundred grievances) |
+
+KuzuDB was architecturally the best fit on paper — embedded, permissive license, no
+new server to run, the same "minimal new infrastructure" property that made pgvector
+attractive in the first place — but is now an orphaned project with no credible
+forward governance for new adoption. HugeGraph solves a scale problem this project
+doesn't have. Neo4j Community is the only one of the four with an actual maintained
+LangChain4j integration (GraphRAG text-to-Cypher), meaningful only once there's real
+relationship data worth querying that way — which, per the finding above, there
+currently isn't.
+
+**If a genuine graph-shaped feature ever emerges** (an actual department
+routing/escalation network, or citizen-complaint-pattern detection across repeat
+submissions), Neo4j Community would be the most defensible starting point of the
+four specifically because of that existing LangChain4j tie-in — everything else here
+would need to be wired by hand.
+
 ---
 
 ## Frontend architecture
