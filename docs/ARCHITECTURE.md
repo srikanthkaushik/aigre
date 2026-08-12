@@ -281,6 +281,34 @@ needs — offline-capable, one datastore instead of two, and a hybrid search mod
 that's proven against a labeled eval suite rather than assumed — not because the
 alternatives went unexamined.
 
+### Where LlamaIndex would fit (it wouldn't — but its ideas are worth weighing)
+
+LlamaIndex can't actually be adopted here: it's a Python-first framework, its
+TypeScript port is archived/deprecated, and there is no Java/JVM implementation at
+all. Bringing it in would mean introducing a Python service into a Java-only stack,
+which conflicts directly with this project's own canonical-stack rule. Worth
+assessing anyway as a conceptual question — does LlamaIndex's approach to RAG
+suggest anything the current LangChain4j pipeline is missing, implementable natively
+in Java rather than by adopting the library:
+
+| LlamaIndex concept | AIGRE's current equivalent |
+|---|---|
+| Hybrid retrieval, LLM/cross-encoder reranking | Already built — pgvector `HYBRID` search + LLM rerank, measured against a labeled eval suite, not assumed |
+| Auto-merging/hierarchical retrieval (small chunks merged into parent context when several from the same section hit) | Partially — the `[[XREF]]` strip above solves a related problem (retrieval-time text noise) differently: embed/rerank against text with disambiguating spans removed, but return the full original text to the answering LLM/citizen |
+| Router query engine (pick a retrieval strategy per question) | Doesn't exist — every chat question goes through one fixed pipeline; not currently a documented pain point (single flat policy corpus, no multi-source routing need) |
+| Sub-question decomposition (split a compound question, answer each, synthesize) | Doesn't exist — chat is single-turn Q&A; would matter only if citizens started asking compound questions, which isn't a case in the eval suite today |
+| Built-in eval harness (faithfulness/relevancy scoring) | Bespoke instead — `RagEvalSuiteTest`/`ComplaintEvalHarnessTest` against hand-labeled ground truth, same goal, project-specific implementation |
+| Graph index (lightweight LLM-extracted relationships) | Ties directly to the "why no graph database" finding under [Data model](#data-model) — LlamaIndex's version doesn't require standing up a graph database, but per that finding AIGRE doesn't have structured relationship data to index yet regardless |
+
+**Bottom line**: AIGRE's hand-built pipeline already does what LlamaIndex's headline
+retrieval features are *for* — hybrid search and reranking, tuned and measured
+against real labeled data rather than taken on faith. The two ideas actually worth
+considering as native LangChain4j additions, if a real need shows up, are
+auto-merging/hierarchical retrieval (if chunk-boundary issues ever surface in the
+eval suite) and query routing (if chat ever needs to handle genuinely compound
+questions) — neither requires LlamaIndex; both are implementable directly against
+the existing `RetrievalService`/`CorpusIngestionService`.
+
 ### 3. Agentic workflow with a human approval gate (`com.aigre.workflow`, LangGraph4j)
 
 **What it does**: routes a submitted grievance through a small state graph —
