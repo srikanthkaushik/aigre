@@ -8,6 +8,7 @@ bolt-on feature.
 
 ## Contents
 
+- [Deliberately not adopted (read first)](#deliberately-not-adopted-read-first)
 - [Tech stack](#tech-stack)
 - [System overview](#system-overview)
 - [Where AI is used](#where-ai-is-used-the-core-of-this-doc)
@@ -17,6 +18,152 @@ bolt-on feature.
 - [Frontend architecture](#frontend-architecture)
 - [Key design decisions](#key-design-decisions)
 - [Known limitations](#known-limitations)
+
+---
+
+## Deliberately not adopted (read first)
+
+Three technology choices this project deliberately didn't make, with the reasoning
+— surfaced up front as caveats before the rest of this document, which describes
+what *was* built, on the assumption that knowing what was weighed and set aside is
+as useful as knowing what's live.
+
+### Why pgvector (not Qdrant/Chroma/FAISS)
+
+**Coupling is deliberately shallow**: exactly one file,
+`com.aigre.config.RagConfig` (~46 lines, ~12 of them actual pgvector API calls —
+`.table(...)`, `.dimension(...)`, `.createTable(true)`,
+`.searchMode(PgVectorEmbeddingStore.SearchMode.HYBRID)`, `.rrfK(60)`), touches
+`PgVectorEmbeddingStore` directly. `CorpusIngestionService` and `RetrievalService`
+consume the store purely through LangChain4j's generic `EmbeddingStore<TextSegment>`
+interface — no raw SQL against `rag_documents` exists anywhere outside `RagConfig`,
+and that table is created and owned entirely by the store itself
+(`createTable(true)`), not `schema.sql`. A mechanical swap to a different
+LangChain4j-supported store would be genuinely small: one dependency, one config
+class, one new `application.yml` block, zero changes to ingestion or retrieval code.
+
+What isn't small is what a swap would cost, not what it would touch:
+
+- **`SearchMode.HYBRID` has no generic equivalent.** It's a pgvector-specific
+  builder option, not part of LangChain4j's `EmbeddingStore` interface — and it's
+  load-bearing, not incidental: it's what the cross-reference-competition fix
+  (documented below, under [Retrieval-augmented chat](#where-ai-is-used-the-core-of-this-doc))
+  and the current 29/34 eval baseline were tuned against. Losing it isn't a
+  configuration detail, it's a retrieval-quality regression risk.
+- **pgvector piggybacks on the app's one existing Postgres container.** Every
+  external vector DB (Qdrant, Chroma, Weaviate, ...) means standing up a genuinely
+  new service — its own container, port, health check, and connection config —
+  where today there is none.
+
+**The three named alternatives, weighed**:
+
+| | FAISS | Chroma | Qdrant |
+|---|---|---|---|
+| LangChain4j Java integration | **None exists** — no official Java client; would mean a custom `EmbeddingStore` implementation or a sidecar service, not a "swap" | `langchain4j-chroma` (BOM-managed) | `langchain4j-qdrant` (BOM-managed) |
+| Deployment | N/A | Separate server (Docker, HTTP) | Separate server (Docker, gRPC) |
+| Hybrid (vector + keyword) search | N/A | Not supported by the integration — a certain accuracy regression, not a risked one | Qdrant supports hybrid dense+sparse natively at the platform level, but whether this LangChain4j version's integration exposes that through the generic search API is unverified without a hands-on spike |
+
+FAISS is ruled out outright — there's no way to use it from this stack without
+abandoning the "everything through LangChain4j's generic interface" property that
+currently makes the ingestion/retrieval code portable at all. Between Chroma and
+Qdrant, Qdrant is the closer fit *if* its hybrid support turns out to reach this
+codebase through the generic API — a single ~1 hour spike (seed two documents that
+only differ in a way keyword search would catch, see if ranking changes) would
+answer that empirically. Rough sizing: 0.5–1 day for the mechanical swap either way;
+best case ~1–2 days total if Qdrant's hybrid support comes through cleanly; up to
+~1–2 weeks if it doesn't and the eval suite needs real re-tuning or a hand-rolled
+hybrid fallback.
+
+**pgvector was kept** because it already satisfies what this project actually
+needs — offline-capable, one datastore instead of two, and a hybrid search mode
+that's proven against a labeled eval suite rather than assumed — not because the
+alternatives went unexamined.
+
+### Where LlamaIndex would fit (it wouldn't — but its ideas are worth weighing)
+
+LlamaIndex can't actually be adopted here: it's a Python-first framework, its
+TypeScript port is archived/deprecated, and there is no Java/JVM implementation at
+all. Bringing it in would mean introducing a Python service into a Java-only stack,
+which conflicts directly with this project's own canonical-stack rule. Worth
+assessing anyway as a conceptual question — does LlamaIndex's approach to RAG
+suggest anything the current LangChain4j pipeline is missing, implementable natively
+in Java rather than by adopting the library:
+
+| LlamaIndex concept | AIGRE's current equivalent |
+|---|---|
+| Hybrid retrieval, LLM/cross-encoder reranking | Already built — pgvector `HYBRID` search + LLM rerank, measured against a labeled eval suite, not assumed |
+| Auto-merging/hierarchical retrieval (small chunks merged into parent context when several from the same section hit) | Partially — the `[[XREF]]` strip (described below, under Retrieval-augmented chat) solves a related problem (retrieval-time text noise) differently: embed/rerank against text with disambiguating spans removed, but return the full original text to the answering LLM/citizen |
+| Router query engine (pick a retrieval strategy per question) | Doesn't exist — every chat question goes through one fixed pipeline; not currently a documented pain point (single flat policy corpus, no multi-source routing need) |
+| Sub-question decomposition (split a compound question, answer each, synthesize) | Doesn't exist — chat is single-turn Q&A; would matter only if citizens started asking compound questions, which isn't a case in the eval suite today |
+| Built-in eval harness (faithfulness/relevancy scoring) | Bespoke instead — `RagEvalSuiteTest`/`ComplaintEvalHarnessTest` against hand-labeled ground truth, same goal, project-specific implementation |
+| Graph index (lightweight LLM-extracted relationships) | Ties directly to the "why no graph database" section directly below — LlamaIndex's version doesn't require standing up a graph database, but per that finding AIGRE doesn't have structured relationship data to index yet regardless |
+
+**Bottom line**: AIGRE's hand-built pipeline already does what LlamaIndex's headline
+retrieval features are *for* — hybrid search and reranking, tuned and measured
+against real labeled data rather than taken on faith. The two ideas actually worth
+considering as native LangChain4j additions, if a real need shows up, are
+auto-merging/hierarchical retrieval (if chunk-boundary issues ever surface in the
+eval suite) and query routing (if chat ever needs to handle genuinely compound
+questions) — neither requires LlamaIndex; both are implementable directly against
+the existing `RetrievalService`/`CorpusIngestionService`.
+
+### Why no graph database (Neo4j/Memgraph/KuzuDB/HugeGraph)
+
+Unlike the pgvector question above, this isn't a migration-cost question — there is
+no existing graph subsystem to weigh a replacement against. It's a "does the domain
+actually have a graph-shaped problem" question, and checked against the actual code
+rather than assumed, the answer is mostly no:
+
+- **Duplicate chains** (`grievances.duplicate_of_id`, a self-referencing FK) are the
+  one genuinely graph-shaped structure in the schema — but `DuplicateDetectionService`
+  deliberately keeps chains from growing past one hop going forward (it excludes
+  already-`DUPLICATE` rows from matching, so a new duplicate always resolves straight
+  to the true original), and `GrievanceMcpTools.findDuplicateChain` already walks the
+  existing chain correctly with a plain Postgres recursive CTE
+  (`WITH RECURSIVE chain AS (...)`, capped at 20 hops). A strict linked list, not a
+  network — no branching, no merging, no cycles by construction. A graph database
+  would be solving a problem SQL's own recursive-query primitive already handles
+  natively at this data's actual scale.
+- **Everything else that *sounds* graph-like in this project's own docs has zero
+  backing data structure.** Department "topic overlap" (DOT/DPW, DHHS/DOE, etc.)
+  exists only as disambiguation prose inside the classifier's LLM prompt — no table,
+  no adjacency structure, nothing queryable. Policy-document cross-references
+  (`[[XREF]]...[[/XREF]]`, described below under Retrieval-augmented chat) are a
+  retrieval-scoring fix, not relationship data — there's no "document A references
+  document B" record anywhere, only free text naming another document's title inside
+  a chunk. Citizen relationships and employee/department hierarchy are equally flat:
+  every submission creates a brand-new `citizens` row with no dedup lookup, and
+  `department_employees` has no manager/reporting structure at all.
+
+So introducing a graph database today would mean *inventing* graph-shaped data from
+scratch — actually modeling department overlap or document cross-references as
+queryable relationships — not migrating an existing relational pain point into a
+better-suited engine. No graph database was ever previously evaluated or rejected for
+this project; this is a fresh assessment, not a revisited decision.
+
+**The four commonly-named options, weighed anyway**:
+
+| | Neo4j Community | Memgraph | KuzuDB | HugeGraph |
+|---|---|---|---|---|
+| License | GPLv3 | BSL 1.1 — source-available, converts to Apache 2.0 ~4 years after each release | MIT | Apache 2.0 |
+| Deployment | Separate server, single-instance only in Community edition (no clustering/HA — a non-issue at this project's scale regardless) | Separate server, whole graph in RAM | **Embedded, in-process** — no separate server at all | Separate server **plus** a storage backend (RocksDB minimum; HBase/Cassandra for real scale) |
+| LangChain4j integration | **Yes** — `Neo4jEmbeddingStore` and `Neo4jText2CypherRetriever` (text-to-Cypher GraphRAG), maintained | None found | None found | None found |
+| Adoption risk | Low, mature | License terms worth knowing precisely, not a blocker | **High** — archived October 2025 after an Apple acquisition of the company behind it, now community-forked with no clear governance | Built for 100B+-entity graphs — significant operational overkill for a demo-scale dataset (a handful of departments, a few hundred grievances) |
+
+KuzuDB was architecturally the best fit on paper — embedded, permissive license, no
+new server to run, the same "minimal new infrastructure" property that made pgvector
+attractive in the first place — but is now an orphaned project with no credible
+forward governance for new adoption. HugeGraph solves a scale problem this project
+doesn't have. Neo4j Community is the only one of the four with an actual maintained
+LangChain4j integration (GraphRAG text-to-Cypher), meaningful only once there's real
+relationship data worth querying that way — which, per the finding above, there
+currently isn't.
+
+**If a genuine graph-shaped feature ever emerges** (an actual department
+routing/escalation network, or citizen-complaint-pattern detection across repeat
+submissions), Neo4j Community would be the most defensible starting point of the
+four specifically because of that existing LangChain4j tie-in — everything else here
+would need to be wired by hand.
 
 ---
 
@@ -230,84 +377,6 @@ pattern documented throughout this project's classifier work). Full investigatio
 including a real mid-implementation correction (an embed-only version of this fix
 proved insufficient — see the third bullet above about `rerank_text`) and the exact
 eval numbers per run, in `PROJECT.md`.
-
-### Why pgvector (not Qdrant/Chroma/FAISS)
-
-**Coupling is deliberately shallow**: exactly one file,
-`com.aigre.config.RagConfig` (~46 lines, ~12 of them actual pgvector API calls —
-`.table(...)`, `.dimension(...)`, `.createTable(true)`,
-`.searchMode(PgVectorEmbeddingStore.SearchMode.HYBRID)`, `.rrfK(60)`), touches
-`PgVectorEmbeddingStore` directly. `CorpusIngestionService` and `RetrievalService`
-consume the store purely through LangChain4j's generic `EmbeddingStore<TextSegment>`
-interface — no raw SQL against `rag_documents` exists anywhere outside `RagConfig`,
-and that table is created and owned entirely by the store itself
-(`createTable(true)`), not `schema.sql`. A mechanical swap to a different
-LangChain4j-supported store would be genuinely small: one dependency, one config
-class, one new `application.yml` block, zero changes to ingestion or retrieval code.
-
-What isn't small is what a swap would cost, not what it would touch:
-
-- **`SearchMode.HYBRID` has no generic equivalent.** It's a pgvector-specific
-  builder option, not part of LangChain4j's `EmbeddingStore` interface — and it's
-  load-bearing, not incidental: it's what the cross-reference-competition fix above
-  and the current 29/34 eval baseline were tuned against. Losing it isn't a
-  configuration detail, it's a retrieval-quality regression risk.
-- **pgvector piggybacks on the app's one existing Postgres container.** Every
-  external vector DB (Qdrant, Chroma, Weaviate, ...) means standing up a genuinely
-  new service — its own container, port, health check, and connection config —
-  where today there is none.
-
-**The three named alternatives, weighed**:
-
-| | FAISS | Chroma | Qdrant |
-|---|---|---|---|
-| LangChain4j Java integration | **None exists** — no official Java client; would mean a custom `EmbeddingStore` implementation or a sidecar service, not a "swap" | `langchain4j-chroma` (BOM-managed) | `langchain4j-qdrant` (BOM-managed) |
-| Deployment | N/A | Separate server (Docker, HTTP) | Separate server (Docker, gRPC) |
-| Hybrid (vector + keyword) search | N/A | Not supported by the integration — a certain accuracy regression, not a risked one | Qdrant supports hybrid dense+sparse natively at the platform level, but whether this LangChain4j version's integration exposes that through the generic search API is unverified without a hands-on spike |
-
-FAISS is ruled out outright — there's no way to use it from this stack without
-abandoning the "everything through LangChain4j's generic interface" property that
-currently makes the ingestion/retrieval code portable at all. Between Chroma and
-Qdrant, Qdrant is the closer fit *if* its hybrid support turns out to reach this
-codebase through the generic API — a single ~1 hour spike (seed two documents that
-only differ in a way keyword search would catch, see if ranking changes) would
-answer that empirically. Rough sizing: 0.5–1 day for the mechanical swap either way;
-best case ~1–2 days total if Qdrant's hybrid support comes through cleanly; up to
-~1–2 weeks if it doesn't and the eval suite needs real re-tuning or a hand-rolled
-hybrid fallback.
-
-**pgvector was kept** because it already satisfies what this project actually
-needs — offline-capable, one datastore instead of two, and a hybrid search mode
-that's proven against a labeled eval suite rather than assumed — not because the
-alternatives went unexamined.
-
-### Where LlamaIndex would fit (it wouldn't — but its ideas are worth weighing)
-
-LlamaIndex can't actually be adopted here: it's a Python-first framework, its
-TypeScript port is archived/deprecated, and there is no Java/JVM implementation at
-all. Bringing it in would mean introducing a Python service into a Java-only stack,
-which conflicts directly with this project's own canonical-stack rule. Worth
-assessing anyway as a conceptual question — does LlamaIndex's approach to RAG
-suggest anything the current LangChain4j pipeline is missing, implementable natively
-in Java rather than by adopting the library:
-
-| LlamaIndex concept | AIGRE's current equivalent |
-|---|---|
-| Hybrid retrieval, LLM/cross-encoder reranking | Already built — pgvector `HYBRID` search + LLM rerank, measured against a labeled eval suite, not assumed |
-| Auto-merging/hierarchical retrieval (small chunks merged into parent context when several from the same section hit) | Partially — the `[[XREF]]` strip above solves a related problem (retrieval-time text noise) differently: embed/rerank against text with disambiguating spans removed, but return the full original text to the answering LLM/citizen |
-| Router query engine (pick a retrieval strategy per question) | Doesn't exist — every chat question goes through one fixed pipeline; not currently a documented pain point (single flat policy corpus, no multi-source routing need) |
-| Sub-question decomposition (split a compound question, answer each, synthesize) | Doesn't exist — chat is single-turn Q&A; would matter only if citizens started asking compound questions, which isn't a case in the eval suite today |
-| Built-in eval harness (faithfulness/relevancy scoring) | Bespoke instead — `RagEvalSuiteTest`/`ComplaintEvalHarnessTest` against hand-labeled ground truth, same goal, project-specific implementation |
-| Graph index (lightweight LLM-extracted relationships) | Ties directly to the "why no graph database" finding under [Data model](#data-model) — LlamaIndex's version doesn't require standing up a graph database, but per that finding AIGRE doesn't have structured relationship data to index yet regardless |
-
-**Bottom line**: AIGRE's hand-built pipeline already does what LlamaIndex's headline
-retrieval features are *for* — hybrid search and reranking, tuned and measured
-against real labeled data rather than taken on faith. The two ideas actually worth
-considering as native LangChain4j additions, if a real need shows up, are
-auto-merging/hierarchical retrieval (if chunk-boundary issues ever surface in the
-eval suite) and query routing (if chat ever needs to handle genuinely compound
-questions) — neither requires LlamaIndex; both are implementable directly against
-the existing `RetrievalService`/`CorpusIngestionService`.
 
 ### 3. Agentic workflow with a human approval gate (`com.aigre.workflow`, LangGraph4j)
 
@@ -608,64 +677,6 @@ lifecycle from the UI. `ESCALATED` and `REOPENED` (the latter citizen-facing, vi
 `POST /grievances/{id}/reopen`) remain reachable only via direct API/tool calls, not
 a dashboard button — `ESCALATED` in particular has no dashboard entry point at all
 yet.
-
-### Why no graph database (Neo4j/Memgraph/KuzuDB/HugeGraph)
-
-Unlike the pgvector question above, this isn't a migration-cost question — there is
-no existing graph subsystem to weigh a replacement against. It's a "does the domain
-actually have a graph-shaped problem" question, and checked against the actual code
-rather than assumed, the answer is mostly no:
-
-- **Duplicate chains** (`grievances.duplicate_of_id`, a self-referencing FK) are the
-  one genuinely graph-shaped structure in the schema — but `DuplicateDetectionService`
-  deliberately keeps chains from growing past one hop going forward (it excludes
-  already-`DUPLICATE` rows from matching, so a new duplicate always resolves straight
-  to the true original), and `GrievanceMcpTools.findDuplicateChain` already walks the
-  existing chain correctly with a plain Postgres recursive CTE
-  (`WITH RECURSIVE chain AS (...)`, capped at 20 hops). A strict linked list, not a
-  network — no branching, no merging, no cycles by construction. A graph database
-  would be solving a problem SQL's own recursive-query primitive already handles
-  natively at this data's actual scale.
-- **Everything else that *sounds* graph-like in this project's own docs has zero
-  backing data structure.** Department "topic overlap" (DOT/DPW, DHHS/DOE, etc.)
-  exists only as disambiguation prose inside the classifier's LLM prompt — no table,
-  no adjacency structure, nothing queryable. Policy-document cross-references
-  (`[[XREF]]...[[/XREF]]`, see above) are a retrieval-scoring fix, not relationship
-  data — there's no "document A references document B" record anywhere, only free
-  text naming another document's title inside a chunk. Citizen relationships and
-  employee/department hierarchy are equally flat: every submission creates a brand-new
-  `citizens` row with no dedup lookup, and `department_employees` has no
-  manager/reporting structure at all.
-
-So introducing a graph database today would mean *inventing* graph-shaped data from
-scratch — actually modeling department overlap or document cross-references as
-queryable relationships — not migrating an existing relational pain point into a
-better-suited engine. No graph database was ever previously evaluated or rejected for
-this project; this is a fresh assessment, not a revisited decision.
-
-**The four commonly-named options, weighed anyway**:
-
-| | Neo4j Community | Memgraph | KuzuDB | HugeGraph |
-|---|---|---|---|---|
-| License | GPLv3 | BSL 1.1 — source-available, converts to Apache 2.0 ~4 years after each release | MIT | Apache 2.0 |
-| Deployment | Separate server, single-instance only in Community edition (no clustering/HA — a non-issue at this project's scale regardless) | Separate server, whole graph in RAM | **Embedded, in-process** — no separate server at all | Separate server **plus** a storage backend (RocksDB minimum; HBase/Cassandra for real scale) |
-| LangChain4j integration | **Yes** — `Neo4jEmbeddingStore` and `Neo4jText2CypherRetriever` (text-to-Cypher GraphRAG), maintained | None found | None found | None found |
-| Adoption risk | Low, mature | License terms worth knowing precisely, not a blocker | **High** — archived October 2025 after an Apple acquisition of the company behind it, now community-forked with no clear governance | Built for 100B+-entity graphs — significant operational overkill for a demo-scale dataset (a handful of departments, a few hundred grievances) |
-
-KuzuDB was architecturally the best fit on paper — embedded, permissive license, no
-new server to run, the same "minimal new infrastructure" property that made pgvector
-attractive in the first place — but is now an orphaned project with no credible
-forward governance for new adoption. HugeGraph solves a scale problem this project
-doesn't have. Neo4j Community is the only one of the four with an actual maintained
-LangChain4j integration (GraphRAG text-to-Cypher), meaningful only once there's real
-relationship data worth querying that way — which, per the finding above, there
-currently isn't.
-
-**If a genuine graph-shaped feature ever emerges** (an actual department
-routing/escalation network, or citizen-complaint-pattern detection across repeat
-submissions), Neo4j Community would be the most defensible starting point of the
-four specifically because of that existing LangChain4j tie-in — everything else here
-would need to be wired by hand.
 
 ---
 
