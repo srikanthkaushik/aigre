@@ -99,11 +99,20 @@ public class SecurityConfig {
      * preflight request that Security has already rejected. Allows any localhost port (not just
      * one hardcoded port) since `ng serve` falls back to the next free port when its default is
      * already taken by an unrelated project on this machine.
+     *
+     * <p>Also allows any *.trycloudflare.com origin -- browsers fetch `<script type="module">`
+     * (what the Angular build emits) in CORS mode, sending an Origin header even for genuinely
+     * same-origin requests. Spring's CorsProcessor 403s outright (empty body, before the request
+     * even reaches the permitAll rules below) if that Origin isn't in this list, which is exactly
+     * what broke every JS asset when the app was reached through a Cloudflare quick tunnel instead
+     * of localhost -- the random *.trycloudflare.com subdomain wasn't allowed. The subdomain
+     * changes every `cloudflared` restart but the trycloudflare.com suffix doesn't, so a wildcard
+     * pattern here doesn't need updating each time.
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:*"));
+        config.setAllowedOriginPatterns(List.of("http://localhost:*", "https://*.trycloudflare.com"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

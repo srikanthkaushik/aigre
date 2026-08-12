@@ -1679,6 +1679,42 @@ The static copy is a snapshot, not a live rebuild — RUNNING.md's new
 "Exposing the app to the internet" section notes it needs re-running after
 any frontend change.
 
+### Follow-up: two real bugs only surfaced by testing from an actual second machine
+
+All of the above passed local verification (curl, Playwright against
+`localhost:8085`) but the app was still blank/broken for the user
+accessing the live `*.trycloudflare.com` URL from another PC — a good
+reminder that `localhost` testing can't exercise cross-origin behavior at
+all, since every request made *from* localhost carries an Origin (or no
+Origin) that never triggers the checks a real remote browser triggers.
+
+1. **CORS rejected every JS asset.** Browsers fetch `<script
+   type="module">` (what the Angular build emits) in CORS mode, sending an
+   `Origin` header even for a same-origin load. `SecurityConfig`'s
+   `corsConfigurationSource()` only allowed `http://localhost:*` — so
+   through the tunnel, every `chunk-*.js`/`main-*.js` request got an empty
+   403 straight from Spring's `CorsProcessor`, before even reaching the
+   permitAll rules, and the page rendered blank with no visible network
+   error explaining why (curl doesn't send an Origin header, which is why
+   this passed every curl-based check). Root-caused from the response
+   headers alone: `Vary: Origin, Access-Control-Request-Method, ...` and
+   `content-length: 0` are Spring's CORS-rejection signature, not
+   Cloudflare's. Fixed by adding `https://*.trycloudflare.com` to the
+   allowed origin patterns — the random subdomain changes every
+   `cloudflared` restart but the suffix doesn't, so this doesn't need
+   updating per-session. Reproduced and confirmed fixed with Playwright
+   driving a real browser against the actual tunnel URL (not localhost) —
+   the only way this class of bug shows up at all.
+2. **`auth.service.ts` had its own separate hardcoded `API_BASE`.** The
+   single-origin fix above only touched `api.service.ts`'s constant;
+   `auth.service.ts` predates sharing an HTTP concern between the two
+   files and never got the same edit, so `login()` kept POSTing to
+   `http://localhost:8085/auth/login` literally — which resolved to the
+   *visiting browser's own machine*, not the tunnel host, and failed with
+   a CORS/loopback-address-space error specific to that mismatch. Grepped
+   the whole `frontend/src` for the literal string after fixing this one
+   to confirm no third copy exists.
+
 ## Open items to revisit
 - Dark mode — explicitly deferred in the redesign pass above; the token
   system (`--mat-sys-*` throughout, no hardcoded colors outside the

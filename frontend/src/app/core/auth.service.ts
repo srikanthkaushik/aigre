@@ -12,7 +12,10 @@ export interface EmployeeSession {
   role: 'AGENT' | 'SUPERVISOR' | 'ADMIN';
 }
 
-const API_BASE = 'http://localhost:8085';
+// Relative, not absolute -- see the matching note in api.service.ts. This file has its own
+// separate constant rather than importing api.service.ts's, since login predates having a
+// shared HTTP concern between the two and splitting it out wasn't worth it for one constant.
+const API_BASE = '';
 // sessionStorage, not localStorage -- cleared when the tab closes rather than persisting
 // indefinitely. Storing a JWT in web storage at all carries the usual XSS-exfiltration caveat;
 // accepted here for a demo app with no third-party scripts.
