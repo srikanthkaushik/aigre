@@ -1,9 +1,19 @@
 package com.aigre.email;
 
+import java.io.IOException;
+import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
 import com.aigre.guardrail.PiiRedactor;
 import com.aigre.intake.GrievanceIntakeRequest;
 import com.aigre.workflow.GrievanceWorkflowResponse;
 import com.aigre.workflow.GrievanceWorkflowService;
+
 import jakarta.mail.Address;
 import jakarta.mail.BodyPart;
 import jakarta.mail.Flags;
@@ -16,14 +26,6 @@ import jakarta.mail.Session;
 import jakarta.mail.Store;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.search.FlagTerm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Second inbound channel for citizen grievances, alongside the web portal. Polls a monitored
@@ -90,7 +92,9 @@ public class EmailGrievancePoller {
             inbox.open(Folder.READ_WRITE);
             try {
                 Message[] unseen = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
-                log.info("Email poll: {} unseen message(s) in {}", unseen.length, folderName);
+                if (unseen.length > 0) {
+                    log.info("Email poll: {} unseen message(s) in {}", unseen.length, folderName);
+                }
                 for (Message message : unseen) {
                     processMessage(store, inbox, message);
                 }
