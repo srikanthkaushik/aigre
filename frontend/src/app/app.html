@@ -31,6 +31,29 @@
     <a mat-menu-item routerLink="/citizen" routerLinkActive="active-link">Citizen Portal</a>
     <a mat-menu-item routerLink="/employee" routerLinkActive="active-link">Employee Dashboard</a>
   </mat-menu>
+
+  <button
+    mat-icon-button
+    class="theme-trigger"
+    [matMenuTriggerFor]="themeMenu"
+    [attr.aria-label]="'Color theme: ' + theme.preference()"
+  >
+    <mat-icon>{{ themeIcon() }}</mat-icon>
+  </button>
+  <mat-menu #themeMenu="matMenu">
+    <button mat-menu-item (click)="theme.setPreference('light')">
+      <mat-icon>light_mode</mat-icon>
+      <span>Light</span>
+    </button>
+    <button mat-menu-item (click)="theme.setPreference('dark')">
+      <mat-icon>dark_mode</mat-icon>
+      <span>Dark</span>
+    </button>
+    <button mat-menu-item (click)="theme.setPreference('system')">
+      <mat-icon>brightness_auto</mat-icon>
+      <span>System</span>
+    </button>
+  </mat-menu>
 </mat-toolbar>
 
 <router-outlet />

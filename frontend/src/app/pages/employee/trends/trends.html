@@ -86,28 +86,28 @@
     <div class="chart-card">
       <h3>Volume over time</h3>
       <div class="chart-container">
-        <canvas baseChart [type]="'line'" [data]="volumeChartData()" [options]="lineOptions"></canvas>
+        <canvas baseChart [type]="'line'" [data]="volumeChartData()" [options]="lineOptions()"></canvas>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>Sentiment trend</h3>
       <div class="chart-container">
-        <canvas baseChart [type]="'bar'" [data]="sentimentChartData()" [options]="sentimentOptions"></canvas>
+        <canvas baseChart [type]="'bar'" [data]="sentimentChartData()" [options]="sentimentOptions()"></canvas>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>Top categories</h3>
       <div class="chart-container">
-        <canvas baseChart [type]="'bar'" [data]="categoryChartData()" [options]="barOptions"></canvas>
+        <canvas baseChart [type]="'bar'" [data]="categoryChartData()" [options]="barOptions()"></canvas>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>By priority</h3>
       <div class="chart-container">
-        <canvas baseChart [type]="'bar'" [data]="priorityChartData()" [options]="barOptions"></canvas>
+        <canvas baseChart [type]="'bar'" [data]="priorityChartData()" [options]="barOptions()"></canvas>
       </div>
     </div>
   </div>

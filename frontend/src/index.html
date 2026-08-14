@@ -6,6 +6,19 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Must run before any stylesheet paints. Reads the same key ThemeService writes. -->
+    <script>
+      (function () {
+        var pref = localStorage.getItem('aigre.theme');
+        var mode =
+          pref === 'light' || pref === 'dark'
+            ? pref
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        document.documentElement.style.setProperty('color-scheme', mode);
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

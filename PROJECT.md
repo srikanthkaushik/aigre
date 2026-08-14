@@ -1857,11 +1857,105 @@ LangGraph4j feature (checkpoint rollback, time-travel, branching) is ever wanted
 it wouldn't work correctly against this saver version until upstream populates
 that column.
 
+## Dark mode
+
+Picked up the open item below. Confirmed the redesign pass's own prediction before
+writing any code, per this project's habit of verifying rather than assuming:
+compiled `styles.scss` directly (`sass --load-path=node_modules`) and grepped the
+output — Angular Material 21's `mat.theme()` mixin was **already** emitting every
+`--mat-sys-*` custom property wrapped in the CSS `light-dark()` function (e.g.
+`--mat-sys-background: light-dark(#faf9fc, #121316)`), entirely dormant behind one
+hardcoded `color-scheme: light;` line on `body`. So ~95% of the app needed zero new
+theming work — the actual scope was: that one line, 4 hand-picked chip hex colors
+outside the token system, one hardcoded toolbar shadow, and Chart.js's color
+config in Trends (the one place that can't consume CSS custom properties at all,
+since it renders to canvas, not through the cascade).
+
+**Decisions confirmed with the user before building**: a three-way light/dark/system
+toggle (not a plain two-state flip), as an always-visible toolbar icon+menu.
+
+**`ThemeService`** (`frontend/src/app/core/theme.service.ts`, new): signal-based,
+mirrors `auth.service.ts`'s only existing storage precedent (namespaced key,
+module-level `loadStored...()` helper) but `localStorage` instead of
+`sessionStorage` — a display preference should survive a restart, unlike a login
+session. A `resolvedMode` computed collapses `'system'` down to the OS's live
+preference via `matchMedia('(prefers-color-scheme: dark)')` (with a `change`
+listener, so it updates without a reload if the OS setting flips while the tab is
+open); an `effect()` — the right tool specifically because this is synchronizing
+with the DOM, not Angular state — sets `document.documentElement.style
+.setProperty('color-scheme', ...)` whenever the resolved mode changes.
+
+**FOUC prevention**: a small inline script in `index.html`'s `<head>`, before any
+stylesheet paints, reading the same `localStorage` key and setting `color-scheme`
+synchronously. Since this is a pure client SPA the CSS-only default (no explicit
+`color-scheme`) already follows the OS setting with zero JS — the gap this actually
+closes is narrower: once someone has explicitly overridden their OS setting, only
+`ThemeService`'s constructor can apply that (needs the bundle parsed/DI
+bootstrapped/first CD cycle run), long enough to flash light-then-dark on every
+reload without this. Same minimal pattern GitHub/Docusaurus/VitePress use.
+
+**The two hardcoded chip pairs** (`.priority-high`, `.status-resolved`/
+`.status-closed` in `styles.scss` — a documented earlier fix for `<mat-chip>` not
+reading `--mdc-chip-elevated-container-color` on its own rendered surface) got
+wrapped in `light-dark()` in place, anchored to real generated M3 tones rather than
+guessed: `--mat-sys-tertiary-container` itself compiles to
+`light-dark(#ffddbb, #673d00)` (tone 90→30), already used by `priority-medium`/
+`priority-low`; the light-mode "high" pair deliberately used paler/darker custom
+values than that standard container to stay visually distinct from medium/low
+despite sharing the amber family, so the dark values are one tone-step off the
+standard flip in the same direction, preserving that relationship. The green
+status pair has no M3 seed to anchor to (this project's palette has no green) — both
+light and dark values there are hand-picked, chosen for comparable contrast.
+
+**Chart.js recoloring** (`trends.ts`) was the biggest piece, not gold-plating: the
+old module-level color constants became two frozen palettes (`LIGHT_PALETTE`/
+`DARK_PALETTE`) plus a `computed()` picker keyed off `ThemeService`. The
+`primary`/`CRITICAL`/`HIGH`/tick-text dark values aren't invented — they're the
+actual compiled dark-mode values of `--mat-sys-primary`/`--mat-sys-error`/
+`--mat-sys-tertiary`/`--mat-sys-on-surface-variant`, i.e. exactly what the rest of
+the app already uses for the equivalent role. `LOW` was dropped one tone (60→50)
+rather than reused as-is, since `MEDIUM` jumps to a much brighter tone-80 in dark
+mode and keeping `LOW` at its old tone would leave too little contrast between the
+two. Verified `ng2-charts`' actual source before assuming live repaint would work:
+`[data]`/`[options]` are plain `@Input()`s consumed via `ngOnChanges`, which takes
+an `Object.assign(...) + chart.update()` path (not a full destroy/recreate) as long
+as `type` doesn't change — so making the color constants and `barOptions`/
+`lineOptions`/`sentimentOptions` themselves `computed()`s was sufficient for charts
+to repaint live on toggle, no manual `.update()` call or `@if`-keying trick needed;
+this rides the exact mechanism already making the charts update live when trends
+data loads. Also fixed a **pre-existing light-mode gap**, not just a dark-mode one,
+in passing: `barOptions`/`lineOptions` set no explicit tick/legend/gridline color
+before this, silently falling back to Chart.js's own default — both palettes now
+set one explicitly.
+
+**Verified as not needed, not just assumed**: CDK overlay scoping (`mat-menu`,
+`mat-dialog`) — grepped CDK's overlay source directly, the overlay container
+attaches to `document.body`, a descendant of `<html>`, and both `--mat-sys-*` and
+`color-scheme` are inherited CSS properties, so dynamically-appended overlays
+inherit them with zero extra work; confirmed via a full `src` grep for
+`cdk-overlay` that no pre-existing custom overlay styling exists that could create
+a gap.
+
+**Verified live**, not just via `ng build`: Playwright against `ng serve`, covering
+landing, citizen portal + chat, employee dashboard (pending review, department
+queue with priority/status chips, the grievance detail dialog), and all 4 Trends
+charts. Confirmed: the toggle actually changes `color-scheme` and body background;
+a real chip's resolved background color changes; **charts repaint live while
+Trends stays open** (toggled dark→light in place, no reload, screenshotted
+before/after — both render correctly with no stale-color artifacts); the
+preference survives a reload (`localStorage`, not `sessionStorage`); "system" mode
+follows an emulated OS dark-mode change. Screenshots of the dashboard, the
+recurring-issues chip badges, the grievance detail dialog, and all 4 charts in dark
+mode all read as a polished, intentional dark theme on inspection — proper
+contrast throughout, no illegible text, no leftover light-mode artifacts.
+`ng build` clean (no new type errors from the `computed()` conversions).
+
 ## Open items to revisit
-- Dark mode — explicitly deferred in the redesign pass above; the token
-  system (`--mat-sys-*` throughout, no hardcoded colors outside the
-  priority/status chip maps) should make a dark variant a fast follow
-  rather than a rewrite.
+- Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
+  rewrite" prediction from the redesign pass held up: verified by direct
+  `sass` compilation that Angular Material's `mat.theme()` was already
+  emitting every `--mat-sys-*` token wrapped in the CSS `light-dark()`
+  function, dormant behind one hardcoded `color-scheme: light;` line.
 - Business-hours-aware SLA calendar vs. flat calendar days — currently flat
   calendar-hour arithmetic in `SlaCalculator`; revisit before this becomes
   the source of truth for real SLA breach reporting.

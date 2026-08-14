@@ -36,8 +36,6 @@ body {
   font: var(--mat-sys-body-medium);
   background-color: var(--mat-sys-surface-container-lowest);
   color: var(--mat-sys-on-surface);
-  // Light-only for now -- see PROJECT.md open items for dark-mode support.
-  color-scheme: light;
 }
 
 h1, h2, h3 {
@@ -97,8 +95,8 @@ a {
     --mdc-chip-elevated-container-color: var(--mat-sys-error-container);
   }
   &.priority-high {
-    --mdc-chip-label-text-color: #7a4100;
-    --mdc-chip-elevated-container-color: #ffedd5;
+    --mdc-chip-label-text-color: light-dark(#7a4100, #ffeedf);
+    --mdc-chip-elevated-container-color: light-dark(#ffedd5, #573300);
   }
   &.priority-medium, &.priority-low {
     --mdc-chip-label-text-color: var(--mat-sys-on-tertiary-container);
@@ -118,8 +116,8 @@ a {
     --mdc-chip-elevated-container-color: var(--mat-sys-primary-container);
   }
   &.status-resolved, &.status-closed {
-    --mdc-chip-label-text-color: #0f5132;
-    --mdc-chip-elevated-container-color: #d1f2df;
+    --mdc-chip-label-text-color: light-dark(#0f5132, #a6e9c4);
+    --mdc-chip-elevated-container-color: light-dark(#d1f2df, #0f3d28);
   }
   &.status-escalated, &.status-reopened {
     --mdc-chip-label-text-color: var(--mat-sys-on-error-container);
