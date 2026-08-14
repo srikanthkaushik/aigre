@@ -1,0 +1,211 @@
+<title>AIGRE System Architecture</title>
+<style>
+  :root {
+    --paper: #F5F1E7;
+    --paper-line: #E4DCC8;
+    --navy-900: #14243A;
+    --navy-700: #1B3A57;
+    --navy-500: #3F5A78;
+    --navy-300: #7C90A5;
+    --amber-600: #C17F2C;
+    --amber-100: #F1DDB8;
+    --white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #2A2620;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    min-height: 100vh;
+  }
+
+  .slide-wrap {
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  .slide {
+    width: 100%;
+    aspect-ratio: 1600 / 940;
+    background: var(--paper);
+    border-radius: 6px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.55);
+    overflow: hidden;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-family: "Segoe UI", ui-sans-serif, system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .mono {
+    font-family: ui-monospace, "Cascadia Code", "Consolas", "SFMono-Regular", monospace;
+  }
+
+  figcaption {
+    text-align: center;
+    color: #A69C86;
+    font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+    font-size: 13px;
+    margin-top: 14px;
+    letter-spacing: 0.2px;
+  }
+</style>
+
+<div class="slide-wrap">
+  <figure style="margin:0;">
+    <div class="slide">
+      <svg viewBox="0 0 1600 940" role="img" aria-label="AIGRE system architecture: citizen portal, employee dashboard, and a monitored email inbox feed into a single Spring Boot backend with four capabilities — intake and duplicate detection, AI classification with a human-review workflow, retrieval-augmented chat, and dashboard queries with MCP tools. The AI classification stage pauses and hands off to the dashboard for human review when confidence is low, and resumes only when a supervisor decides. The backend reads and writes PostgreSQL with pgvector, and calls either a local Ollama model or Anthropic's Claude as a swappable LLM provider.">
+
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--navy-500)"></path>
+          </marker>
+          <marker id="arrowAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="var(--amber-600)"></path>
+          </marker>
+        </defs>
+
+        <rect x="0" y="0" width="1600" height="940" fill="var(--paper)"></rect>
+
+        <!-- Header -->
+        <g>
+          <path d="M60,14 L82,22 L82,40 Q82,56 60,62 Q38,56 38,40 L38,22 Z"
+                fill="none" stroke="var(--navy-700)" stroke-width="3"></path>
+          <polyline points="49,38 57,46 73,28" fill="none" stroke="var(--amber-600)" stroke-width="3.5"
+                    stroke-linecap="round" stroke-linejoin="round"></polyline>
+          <text x="96" y="40" font-size="27" font-weight="800" fill="var(--navy-900)">AIGRE</text>
+          <text x="96" y="58" font-size="11" font-weight="700" letter-spacing="1.6" fill="var(--amber-600)">AI GRIEVANCE RESOLUTION ENGINE</text>
+
+          <text x="1540" y="42" text-anchor="end" font-size="32" font-weight="800" fill="var(--navy-900)">System Architecture</text>
+          <text x="1540" y="66" text-anchor="end" font-size="14.5" fill="var(--navy-500)">One Spring Boot application — intake through a human-approved decision</text>
+        </g>
+
+        <line x1="60" y1="86" x2="1540" y2="86" stroke="var(--navy-300)" stroke-width="1" opacity="0.5"></line>
+
+        <!-- Column A: Client + Mailbox -->
+        <g>
+          <rect x="60" y="180" width="220" height="270" rx="10" fill="var(--white)" stroke="var(--navy-700)" stroke-width="2"></rect>
+          <text x="170" y="222" text-anchor="middle" font-size="17" font-weight="700" fill="var(--navy-900)">Angular SPA</text>
+          <text x="170" y="246" text-anchor="middle" font-size="12.5" fill="var(--navy-500)">Citizen Portal</text>
+          <text x="170" y="264" text-anchor="middle" font-size="12.5" fill="var(--navy-500)">&amp;</text>
+          <text x="170" y="282" text-anchor="middle" font-size="12.5" fill="var(--navy-500)">Employee Dashboard</text>
+          <line x1="100" y1="304" x2="240" y2="304" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <text x="170" y="326" text-anchor="middle" font-size="11" fill="var(--navy-300)">submit · track · ask · manage</text>
+
+          <rect x="60" y="480" width="220" height="170" rx="10" fill="var(--white)" stroke="var(--navy-500)" stroke-width="2" stroke-dasharray="3 4"></rect>
+          <text x="170" y="522" text-anchor="middle" font-size="17" font-weight="700" fill="var(--navy-900)">Monitored Inbox</text>
+          <text x="170" y="546" text-anchor="middle" font-size="12.5" fill="var(--navy-500)">Scheduled poll</text>
+          <text x="170" y="576" text-anchor="middle" font-size="12" class="mono" fill="var(--navy-300)">IMAP · unread only</text>
+        </g>
+
+        <!-- Backend panel -->
+        <g>
+          <rect x="320" y="150" width="860" height="620" rx="12" fill="none" stroke="var(--navy-700)" stroke-width="2.5"></rect>
+          <text x="344" y="184" font-size="14.5" font-weight="700" fill="var(--navy-700)">AIGRE BACKEND</text>
+          <text x="344" y="202" font-size="12" fill="var(--navy-500)">Spring Boot (WebFlux) — one application, four capabilities</text>
+          <line x1="344" y1="214" x2="1156" y2="214" stroke="var(--paper-line)" stroke-width="1.5"></line>
+
+          <!-- Intake -->
+          <rect x="345" y="232" width="390" height="220" rx="8" fill="var(--white)" stroke="var(--navy-500)" stroke-width="1.5"></rect>
+          <text x="365" y="264" font-size="16" font-weight="700" fill="var(--navy-900)">Intake</text>
+          <text x="365" y="286" font-size="12" fill="var(--navy-500)">Duplicate check · SLA due-date</text>
+
+          <!-- Workflow (accent) -->
+          <rect x="765" y="232" width="380" height="220" rx="8" fill="var(--amber-100)" stroke="var(--amber-600)" stroke-width="2"></rect>
+          <text x="785" y="264" font-size="16" font-weight="700" fill="var(--navy-900)">AI Classification</text>
+          <text x="785" y="284" font-size="16" font-weight="700" fill="var(--navy-900)">&amp; Human Review</text>
+          <text x="785" y="306" font-size="12" fill="var(--navy-700)">Pauses when confidence is low</text>
+
+          <!-- RAG Chat -->
+          <rect x="345" y="472" width="390" height="220" rx="8" fill="var(--white)" stroke="var(--navy-500)" stroke-width="1.5"></rect>
+          <text x="365" y="504" font-size="16" font-weight="700" fill="var(--navy-900)">Retrieval-Augmented Chat</text>
+          <text x="365" y="526" font-size="12" fill="var(--navy-500)">Hybrid search + rerank, cited answers</text>
+
+          <!-- Dashboard/MCP -->
+          <rect x="765" y="472" width="380" height="220" rx="8" fill="var(--white)" stroke="var(--navy-500)" stroke-width="1.5"></rect>
+          <text x="785" y="504" font-size="16" font-weight="700" fill="var(--navy-900)">Dashboard Queries</text>
+          <text x="785" y="524" font-size="16" font-weight="700" fill="var(--navy-900)">&amp; MCP Tools</text>
+          <text x="785" y="546" font-size="12" fill="var(--navy-500)">Queues, Trends, status API</text>
+
+          <!-- Intake -> Workflow: routed through the panel's own header strip (above both
+               boxes) so the label never sits on a box border. -->
+          <path d="M735,232 L735,221 L765,221 L765,232" fill="none" stroke="var(--navy-500)" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="750" y="216" text-anchor="middle" font-size="10" fill="var(--navy-500)">classify</text>
+
+          <!-- Workflow <-> Dashboard: the human-review loop -->
+          <line x1="945" y1="452" x2="945" y2="470" stroke="var(--amber-600)" stroke-width="2.25" marker-end="url(#arrowAmber)"></line>
+          <text x="960" y="466" font-size="11" font-weight="600" fill="var(--amber-600)">pending review</text>
+
+          <line x1="1000" y1="470" x2="1000" y2="452" stroke="var(--amber-600)" stroke-width="2.25" marker-end="url(#arrowAmber)"></line>
+          <text x="1015" y="466" font-size="11" font-weight="600" fill="var(--amber-600)">resumes</text>
+        </g>
+
+        <!-- Column C: Data + LLM providers -->
+        <g>
+          <rect x="1220" y="180" width="320" height="270" rx="10" fill="var(--white)" stroke="var(--navy-700)" stroke-width="2"></rect>
+          <text x="1380" y="222" text-anchor="middle" font-size="17" font-weight="700" fill="var(--navy-900)">PostgreSQL 16</text>
+          <text x="1380" y="244" text-anchor="middle" font-size="12.5" fill="var(--navy-500)">grievances · citizens · status</text>
+          <line x1="1250" y1="264" x2="1510" y2="264" stroke="var(--paper-line)" stroke-width="1.5"></line>
+          <text x="1380" y="290" text-anchor="middle" font-size="15" font-weight="700" fill="var(--navy-900)">+ pgvector</text>
+          <text x="1380" y="312" text-anchor="middle" font-size="12" fill="var(--navy-500)">policy corpus (vector search)</text>
+
+          <rect x="1220" y="480" width="320" height="220" rx="10" fill="var(--white)" stroke="var(--navy-700)" stroke-width="2"></rect>
+          <text x="1380" y="514" text-anchor="middle" font-size="15.5" font-weight="700" fill="var(--navy-900)">LLM Providers</text>
+
+          <rect x="1244" y="536" width="130" height="48" rx="7" fill="var(--paper)" stroke="var(--navy-500)" stroke-width="1.5"></rect>
+          <text x="1309" y="558" text-anchor="middle" font-size="12" font-weight="700" fill="var(--navy-900)">Ollama</text>
+          <text x="1309" y="574" text-anchor="middle" font-size="9.5" fill="var(--navy-500)">local · default</text>
+
+          <rect x="1386" y="536" width="130" height="48" rx="7" fill="var(--paper)" stroke="var(--navy-500)" stroke-width="1.5"></rect>
+          <text x="1451" y="558" text-anchor="middle" font-size="12" font-weight="700" fill="var(--navy-900)">Anthropic</text>
+          <text x="1451" y="574" text-anchor="middle" font-size="9.5" fill="var(--navy-500)">Claude · swap</text>
+
+          <line x1="1374" y1="560" x2="1386" y2="560" stroke="var(--navy-300)" stroke-width="1.5" stroke-dasharray="2 3"></line>
+
+          <text x="1380" y="608" text-anchor="middle" font-size="11" fill="var(--navy-300)">one config line switches providers</text>
+        </g>
+
+        <!-- Column A -> Intake: both arrows target the same box at different heights, so they
+             can never cross each other or the panel border. The Client box's own caption
+             already lists submit/track/ask, so this arrow carries no redundant label. -->
+        <path d="M280,270 L345,300" fill="none" stroke="var(--navy-500)" stroke-width="2" marker-end="url(#arrow)"></path>
+
+        <path d="M280,520 L302,520 L302,400 L345,400" fill="none" stroke="var(--navy-500)" stroke-width="2" marker-end="url(#arrow)"></path>
+        <text x="310" y="464" font-size="9.5" fill="var(--navy-500)">poll</text>
+
+        <!-- Panel -> Data / LLM: sourced from the panel's own border, not an individual box,
+             since each represents combined behaviour from more than one capability inside it
+             (see figure caption). Short single-word labels sized to fit inside the 40px gutter
+             rather than spill onto the Data/LLM boxes. The two exit at very different heights
+             (near the top row vs. near the bottom row), so their lanes never need to cross. -->
+        <path d="M1180,300 L1220,270" fill="none" stroke="var(--navy-500)" stroke-width="2" marker-end="url(#arrow)"></path>
+        <text x="1184" y="290" font-size="10" fill="var(--navy-500)">commit</text>
+
+        <path d="M1180,500 L1200,500 L1200,495 L1220,495" fill="none" stroke="var(--navy-500)" stroke-width="2" marker-end="url(#arrow)"></path>
+        <text x="1184" y="516" font-size="10" fill="var(--navy-500)">classify</text>
+
+        <!-- Legend -->
+        <g>
+          <rect x="60" y="880" width="16" height="16" rx="3" fill="var(--amber-100)" stroke="var(--amber-600)" stroke-width="1.5"></rect>
+          <text x="84" y="892" font-size="12" fill="var(--navy-700)">AI pauses for a human decision</text>
+
+          <line x1="330" y1="888" x2="366" y2="888" stroke="var(--navy-300)" stroke-width="1.5" stroke-dasharray="2 3"></line>
+          <text x="376" y="892" font-size="12" fill="var(--navy-700)">Swappable provider</text>
+
+          <line x1="540" y1="888" x2="576" y2="888" stroke="var(--navy-500)" stroke-width="2" marker-end="url(#arrow)"></line>
+          <text x="586" y="892" font-size="12" fill="var(--navy-700)">Data flow</text>
+        </g>
+
+      </svg>
+    </div>
+    <figcaption>Simplified from the full component diagram in docs/ARCHITECTURE.md. The "commit" and "classify" arrows represent every capability's traffic to Postgres and the LLM layer, not only the box each is drawn nearest to — Dashboard's reads and Chat's retrieval/embedding calls travel the same two arrows.</figcaption>
+  </figure>
+</div>
