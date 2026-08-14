@@ -9,12 +9,14 @@ import org.bsc.langgraph4j.CompileConfig;
 import org.bsc.langgraph4j.CompiledGraph;
 import org.bsc.langgraph4j.GraphStateException;
 import org.bsc.langgraph4j.StateGraph;
-import org.bsc.langgraph4j.checkpoint.MemorySaver;
+import org.bsc.langgraph4j.checkpoint.PostgresSaver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.HashMap;
@@ -35,9 +37,10 @@ import static org.bsc.langgraph4j.action.AsyncNodeAction.node_async;
  * confidence on its single best-guess department rather than a second department field, so it
  * already falls into the same low-confidence branch as scenario 4.
  *
- * Checkpointing uses an in-memory MemorySaver: fine for this milestone's pause/resume
- * demonstration within a single running instance; a Postgres-backed saver is an open item if
- * paused workflows ever need to survive an app restart (PROJECT.md).
+ * Checkpointing is Postgres-backed (PostgresSaver, reusing the app's own DataSource bean), so a
+ * paused human-review workflow survives an app restart -- the graph/thread state lives in
+ * lg4jthread/lg4jcheckpoint (created idempotently by PostgresSaver itself, see schema.sql), not
+ * this process's heap.
  */
 @Configuration
 public class GrievanceWorkflowGraphConfig {
@@ -48,20 +51,23 @@ public class GrievanceWorkflowGraphConfig {
     private final SlaCalculator slaCalculator;
     private final NamedParameterJdbcTemplate jdbc;
     private final DuplicateDetectionService duplicateDetectionService;
+    private final DataSource dataSource;
 
     public GrievanceWorkflowGraphConfig(
             LlmGrievanceClassifier classifier,
             SlaCalculator slaCalculator,
             NamedParameterJdbcTemplate jdbc,
-            DuplicateDetectionService duplicateDetectionService) {
+            DuplicateDetectionService duplicateDetectionService,
+            DataSource dataSource) {
         this.classifier = classifier;
         this.slaCalculator = slaCalculator;
         this.jdbc = jdbc;
         this.duplicateDetectionService = duplicateDetectionService;
+        this.dataSource = dataSource;
     }
 
     @Bean
-    public CompiledGraph<GrievanceWorkflowState> grievanceWorkflowGraph() throws GraphStateException {
+    public CompiledGraph<GrievanceWorkflowState> grievanceWorkflowGraph() throws GraphStateException, SQLException {
         StateGraph<GrievanceWorkflowState> graph = new StateGraph<>(GrievanceWorkflowState::new)
                 .addNode("classify", node_async(this::classify))
                 .addNode(HUMAN_REVIEW_NODE, node_async(this::humanReview))
@@ -74,8 +80,22 @@ public class GrievanceWorkflowGraphConfig {
                 .addEdge(HUMAN_REVIEW_NODE, "commit")
                 .addEdge("commit", END);
 
+        // .datasource(dataSource) reuses the app's own Hikari-pooled DataSource bean (the same one
+        // RagConfig hands to PgVectorEmbeddingStore) -- without it, PostgresSaver falls back to
+        // building its own unpooled PGSimpleDataSource, i.e. one new raw connection per checkpoint
+        // read/write. .stateSerializer(graph.getStateSerializer()) reuses the exact
+        // ObjectStreamStateSerializer the StateGraph constructor above already built, instead of
+        // constructing a second one by hand. createTables(true) is idempotent (CREATE TABLE IF NOT
+        // EXISTS) and runs on every startup, same cadence as schema.sql itself.
+        PostgresSaver saver = PostgresSaver.builder()
+                .datasource(dataSource)
+                .stateSerializer(graph.getStateSerializer())
+                .createTables(true)
+                .dropTablesFirst(false)
+                .build();
+
         return graph.compile(CompileConfig.builder()
-                .checkpointSaver(new MemorySaver())
+                .checkpointSaver(saver)
                 .interruptBefore(HUMAN_REVIEW_NODE)
                 .build());
     }

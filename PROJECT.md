@@ -1768,6 +1768,95 @@ raw unvalidated LLM string could violate it.
   and the row appears in `GET /grievances?status=NEW` for that department.
 - Full backend suite re-run clean after the change.
 
+## Postgres-backed LangGraph4j checkpointing: paused reviews now survive a restart
+
+Picked up the open item below. `GrievanceWorkflowGraphConfig`'s `MemorySaver` kept
+every checkpoint in that JVM's heap — a paused human-review workflow was lost
+entirely on an app restart, even though the grievance row itself was already fine
+(the earlier "Paused-review visibility bug" fix ensures `department_predicted` etc.
+land in Postgres immediately at classify-time). Swapped in
+`langgraph4j-postgres-saver:1.8.20` — an exact version match to the
+`langgraph4j-core:1.8.20` already pinned via `pom.xml`'s `${langgraph4j.version}`
+property, confirmed via Maven Central's `maven-metadata.xml` before adding it
+(per CLAUDE.md's version-sensitive-dependency rule) — and its actual source at git
+tag `v1.8.20` was read directly rather than trusted from a search summary, since an
+AI-generated web search result for this exact artifact had already produced a wrong
+groupId/version pairing during research.
+
+**Change is small and confined**: `GrievanceWorkflowService.java` needed zero
+changes — it only ever calls `graph.invoke(...)`/`GraphInput.resume(...)`/
+`graph.getState(config).next()` against the injected `CompiledGraph` bean and has no
+idea which checkpoint saver backs it. `GrievanceWorkflowGraphConfig.java` gained a
+`DataSource` constructor parameter (the same Boot-autoconfigured Hikari bean
+`RagConfig` already reuses for `PgVectorEmbeddingStore`) and now builds
+`PostgresSaver.builder().datasource(dataSource).stateSerializer(graph.getStateSerializer())
+.createTables(true).dropTablesFirst(false).build()` instead of `new MemorySaver()`.
+Passing `.datasource(dataSource)` explicitly matters: without it, `PostgresSaver`
+falls back to its own unpooled `PGSimpleDataSource` (a new raw connection per
+checkpoint read/write) instead of the app's connection pool. `.stateSerializer(graph
+.getStateSerializer())` reuses the exact `ObjectStreamStateSerializer` the
+`StateGraph` constructor already builds internally, rather than constructing a
+second one by hand. `createTables(true)` is idempotent (`CREATE TABLE IF NOT
+EXISTS`) and runs every startup, same cadence `schema.sql` already runs at — added a
+one-line comment there noting the two tables it creates (`lg4jthread`,
+`lg4jcheckpoint` — Postgres folds the library's unquoted PascalCase names to
+lowercase) are owned by `PostgresSaver`, not `schema.sql`, mirroring the file's
+existing note about `rag_documents` being owned by `PgVectorEmbeddingStore`.
+Deliberately did **not** set `CompileConfig.releaseThread(true)` — it already
+defaults to `false`, and turning it on would let the framework soft-delete a
+thread's checkpoint history, which is the opposite of what "survive a restart" is
+asking for.
+
+**Verified with a test that would have failed under the old `MemorySaver`, not just
+one that still passes under the new saver**: added
+`GrievanceWorkflowPauseResumeTest.pausedWorkflowResumesAgainstAnIndependentlyConstructedGraph_provingItSurvivesARestart`.
+After a workflow pauses via the real `service`/singleton bean, it hand-constructs a
+**second, fully independent `GrievanceWorkflowGraphConfig`** (bypassing Spring's
+singleton bean cache entirely) and calls `.grievanceWorkflowGraph()` on it directly
+— a brand-new `PostgresSaver`/`CompiledGraph` object with zero shared in-memory
+state with the one `service` uses, since `PostgresSaver` has no in-process cache
+(confirmed in source: only a `ReentrantLock` for thread-safety, every read/write is
+real JDBC against `lg4jthread`/`lg4jcheckpoint`). Resuming against that second graph
+object only succeeds if the checkpoint really came from Postgres — this is
+genuinely equivalent to a restart, not a simulation that happens to pass for an
+unrelated reason: the identical test against a fresh `new MemorySaver()` would fail,
+since that saver's state is just an empty in-memory map with no knowledge of a
+different `MemorySaver` instance's checkpoints. The test also asserts the second
+graph's own `getState(config).next()` equals `HUMAN_REVIEW_NODE` *before* resuming
+(proves the paused checkpoint was independently read back, not just that resume
+happened to work) and checks `grievances` directly via SQL after resuming, not only
+through `GrievanceWorkflowResponse` — so the test isn't solely trusting the same
+response-building code path every other test in this file already exercises. All 6
+`GrievanceWorkflowPauseResumeTest` cases and the single `GrievanceWorkflowServiceTest`
+case pass. Direct `psql` against `aigre-pg` after the run confirmed real rows in both
+new tables. Full backend suite re-run clean afterward too — the only failures were
+the already-documented, pre-existing `RagEvalSuiteTest` LLM-rerank sampling
+variance (5/34, exact same named cases as prior runs), unrelated to this change
+(that suite never touches workflow/checkpointing code).
+
+**Live restart verification, not just the simulated one above**: started the app,
+`POST /grievances/workflow` with deliberately vague text → paused
+(`pendingReview: true`, confidence 0.2). Confirmed 2 rows in `lg4jcheckpoint` for
+that thread. **Killed the process entirely** (both the Maven launcher and the real
+`AigreApplication` JVM) and started a brand-new one — a genuinely different PID,
+not a simulation. `POST /grievances/{id}/workflow/resume` against the *new* process
+returned `200`/`TRIAGED` with the reviewer's department/category/priority/SLA due
+date all correctly applied. Direct SQL after confirmed the `grievances` row matches
+and `lg4jcheckpoint` grew from 2 to 4 rows for that thread (the new process's own
+`human_review`/`commit` steps writing on top of what the *dead* process had
+written) — the checkpoint the old process wrote was read back correctly by a
+process that never held it in memory.
+
+**Known upstream quirk, not an AIGRE bug**: found while reading `PostgresSaver`'s
+source end to end — `insertCheckpoint()` always writes `parent_checkpoint_id` as
+`NULL`, despite the column existing; this version of the library never actually
+populates checkpoint lineage. Doesn't affect anything AIGRE does today (every
+`getState`/resume only ever needs "the most recent checkpoint for this thread",
+never a parent-chain walk), so nothing to fix — but worth remembering if a future
+LangGraph4j feature (checkpoint rollback, time-travel, branching) is ever wanted:
+it wouldn't work correctly against this saver version until upstream populates
+that column.
+
 ## Open items to revisit
 - Dark mode — explicitly deferred in the redesign pass above; the token
   system (`--mat-sys-*` throughout, no hardcoded colors outside the
@@ -1783,10 +1872,10 @@ raw unvalidated LLM string could violate it.
   could walk a chain once a `duplicate_of_id` link existed, but nothing
   created that link, and `update_grievance_status` didn't apply the
   priority-bump-on-reopen rule).
-- Postgres-backed LangGraph4j checkpointing — milestone 4 uses the in-memory
-  `MemorySaver`, so a paused (pending-review) workflow does not survive an
-  app restart. `langgraph4j-postgres-saver` exists upstream if this becomes
-  a real requirement; not needed for the current single-instance demo.
+- Postgres-backed LangGraph4j checkpointing — **built, see "Postgres-backed
+  LangGraph4j checkpointing: paused reviews now survive a restart" above**
+  (was previously an open item: milestone 4's in-memory `MemorySaver` lost a
+  paused review's checkpoint on every app restart).
 - Real auth/RBAC for the employee dashboard — **built, see below**. Residual
   demo-grade gaps: all 12 seeded accounts share one password, the JWT
   signing secret is a fixed `application.yml` value rather than a secrets

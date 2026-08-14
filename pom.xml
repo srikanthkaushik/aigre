@@ -132,6 +132,12 @@
             <artifactId>langgraph4j-core</artifactId>
             <version>${langgraph4j.version}</version>
         </dependency>
+        <!-- Postgres-backed checkpointing so a paused human-review workflow survives an app restart -->
+        <dependency>
+            <groupId>org.bsc.langgraph4j</groupId>
+            <artifactId>langgraph4j-postgres-saver</artifactId>
+            <version>${langgraph4j.version}</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>

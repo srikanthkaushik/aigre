@@ -1,6 +1,9 @@
 -- Systems-of-record schema (plan.md §3.1, §3.5). The RAG knowledge-corpus
 -- table (rag_documents) is managed separately by PgVectorEmbeddingStore
--- (com.aigre.config.RagConfig), not defined here.
+-- (com.aigre.config.RagConfig), not defined here. Likewise, the LangGraph4j
+-- checkpoint tables (lg4jthread, lg4jcheckpoint) are created and owned by
+-- PostgresSaver (com.aigre.workflow.GrievanceWorkflowGraphConfig), not defined
+-- here -- that's what lets a paused human-review workflow survive an app restart.
 
 CREATE EXTENSION IF NOT EXISTS vector;
 

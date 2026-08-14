@@ -2,15 +2,23 @@ package com.aigre.workflow;
 
 import com.aigre.classification.ClassificationResult;
 import com.aigre.classification.LlmGrievanceClassifier;
+import com.aigre.duplicate.DuplicateDetectionService;
 import com.aigre.intake.GrievanceIntakeRequest;
 import com.aigre.query.GrievanceQueryService;
 import com.aigre.query.GrievanceSummary;
+import com.aigre.sla.SlaCalculator;
+import org.bsc.langgraph4j.CompiledGraph;
+import org.bsc.langgraph4j.GraphInput;
+import org.bsc.langgraph4j.RunnableConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +44,18 @@ class GrievanceWorkflowPauseResumeTest {
 
     @Autowired
     private GrievanceQueryService queryService;
+
+    @Autowired
+    private SlaCalculator slaCalculator;
+
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
+
+    @Autowired
+    private DuplicateDetectionService duplicateDetectionService;
+
+    @Autowired
+    private DataSource dataSource;
 
     @MockitoBean
     private LlmGrievanceClassifier classifier;
@@ -91,6 +111,66 @@ class GrievanceWorkflowPauseResumeTest {
 
         List<GrievanceSummary> dotQueue = queryService.list("DOT", null);
         assertThat(dotQueue).extracting(GrievanceSummary::id).contains(started.grievanceId().toString());
+    }
+
+    /**
+     * Regression test for the other half of "paused reviews survive a restart": proves the
+     * checkpoint really lives in Postgres, not just in the JVM heap of the CompiledGraph bean
+     * `service` happens to hold. Simulates an app restart by hand-constructing a second, fully
+     * independent GrievanceWorkflowGraphConfig (bypassing Spring's singleton bean cache) and
+     * calling grievanceWorkflowGraph() on it directly -- this produces a brand-new
+     * PostgresSaver/CompiledGraph object with zero shared in-memory state with the one `service`
+     * uses. Resuming against that second object only works if the checkpoint was actually read
+     * back from lg4jthread/lg4jcheckpoint. Under the old in-memory MemorySaver this exact test
+     * would fail: a fresh `new MemorySaver()` starts with an empty map and has no knowledge of
+     * checkpoints written by a different MemorySaver instance.
+     */
+    @Test
+    void pausedWorkflowResumesAgainstAnIndependentlyConstructedGraph_provingItSurvivesARestart() throws Exception {
+        when(classifier.classify(anyString())).thenReturn(new ClassificationResult(
+                null, null, null, 0.3, "NEUTRAL", 0.0, true,
+                "too vague to identify a specific issue or department"));
+
+        GrievanceWorkflowResponse started = service.start(
+                new GrievanceIntakeRequest("Things have been bad on my street lately.", null, null, null));
+        assertThat(started.pendingReview()).isTrue();
+
+        CompiledGraph<GrievanceWorkflowState> freshGraph = new GrievanceWorkflowGraphConfig(
+                classifier, slaCalculator, jdbc, duplicateDetectionService, dataSource)
+                .grievanceWorkflowGraph();
+
+        RunnableConfig config = RunnableConfig.builder().threadId(started.grievanceId().toString()).build();
+
+        // Assert the second, independent graph object can already see the paused checkpoint
+        // *before* resuming -- proves the second instance genuinely read it back from Postgres,
+        // not just that resume happened to work for some unrelated reason.
+        assertThat(freshGraph.getState(config).next()).isEqualTo(GrievanceWorkflowGraphConfig.HUMAN_REVIEW_NODE);
+
+        String category = "test-cat-" + UUID.randomUUID();
+        freshGraph.invoke(GraphInput.resume(Map.of(
+                "reviewedDepartment", "DPW",
+                "reviewedCategory", category,
+                "reviewedPriority", "LOW",
+                "reviewNote", "reviewed via an independently-constructed graph",
+                "reviewedBy", "supervisor-1")), config);
+
+        // Assert straight off the database too, not only through GrievanceWorkflowResponse/
+        // buildResponse() -- so this test isn't solely trusting the same response-building code
+        // path every other test in this file already exercises.
+        Map<String, Object> row = jdbc.queryForMap(
+                "SELECT status, department_confirmed, category, priority FROM grievances WHERE id = :id",
+                Map.of("id", started.grievanceId()));
+        assertThat(row.get("status")).isEqualTo("TRIAGED");
+        assertThat(row.get("department_confirmed")).isEqualTo("DPW");
+        assertThat(row.get("category")).isEqualTo(category);
+        assertThat(row.get("priority")).isEqualTo("LOW");
+
+        GrievanceWorkflowResponse afterRestart = service.status(started.grievanceId());
+        assertThat(afterRestart.pendingReview()).isFalse();
+        assertThat(afterRestart.status()).isEqualTo("TRIAGED");
+        assertThat(afterRestart.department()).isEqualTo("DPW");
+        assertThat(afterRestart.category()).isEqualTo(category);
+        assertThat(afterRestart.priority()).isEqualTo("LOW");
     }
 
     @Test
