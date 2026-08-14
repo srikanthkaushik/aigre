@@ -89,20 +89,76 @@ column.** No architectural rewrite needed here; this is the easiest part of the
 whole system to extend, because the existing pattern (optional filter clause,
 principal-derived not client-trusted) already composes with one more dimension.
 
-**Within Model B** (the agency owns the data): AIGRE deliberately does **not**
-reach into an agency's external system to look anything up. Building bespoke
-connectors to an unbounded set of unknown legacy CRMs is an unscoped
-integration-matrix problem, not a feature. Instead:
-- **Default**: the agency optionally includes context in the classify request
-  itself — a summary of prior related cases, account history, whatever they
-  judge relevant. AIGRE never fetches it; the agency's own system decides what
-  to push in. This keeps AIGRE's integration surface to one HTTP contract, not
-  N connectors to N legacy systems.
-- **Optional, later** (Phase 5 below): a lightweight "shadow index" an agency
-  can choose to feed AIGRE — a webhook push or batch sync of just
-  department/category/timestamp/external-id — purely so AIGRE can offer
-  duplicate-candidate *suggestions* back. The agency's system stays
-  authoritative; AIGRE never claims ownership of the record.
+**Within Model B** (the agency owns the data): AIGRE reaches **out**, live,
+during inference — it doesn't wait for the agency to push context in, and it
+doesn't replicate the agency's data into its own database either. This is a
+better fit for AIGRE than a passive contract, not just a different one: AIGRE
+already speaks MCP — it runs an MCP **server** today
+(`com.aigre.tools.GrievanceMcpTools`, 5 tools over its own data). The client
+side has always been the deferred half — see this doc's own [Known
+Limitations](ARCHITECTURE.md#known-limitations) cross-reference: *"the workflow
+graph writes to Postgres directly rather than calling the MCP tools... not yet
+wired to each other."* This is the natural generalization of that same deferred
+wiring, pointed outward at a third party's tools instead of just AIGRE's own.
+
+Two integration shapes, both converging on the same principle — AIGRE calls
+out live, the agency stays the source of truth:
+
+1. **Agency already runs (or stands up) an MCP server.** AIGRE connects as an
+   MCP *client* — `langchain4j-mcp`'s `McpToolProvider` against a Streamable
+   HTTP transport. Two gotchas already known in this project's own `CLAUDE.md`
+   apply directly:
+   - `StreamableHttpMcpTransport.url(...)`, not the deprecated
+     `HttpMcpTransport.sseUrl(...)`.
+   - Build the client *inside* the `ToolProvider` bean and catch; return an
+     empty `ToolProviderResult` on failure, so one agency's unreachable system
+     doesn't prevent AIGRE from booting or serving anyone else.
+2. **Agency only has a REST/legacy API, no MCP support** — the realistic
+   default for brownfield legacy systems. AIGRE hosts a thin **adapter layer**:
+   a generically-configured MCP server that wraps an agency's REST calls as MCP
+   tools, driven by declarative per-agency config (tool name, description,
+   endpoint, auth, request/response field mapping) rather than hand-written
+   Java per agency. This is what turns "unbounded bespoke connectors" into one
+   reusable, configurable pattern — what's agency-specific is *config*, not
+   code. See Phase 5 below.
+
+**How this changes classification.** `LlmGrievanceClassifier.classify()` today
+is a single-shot `chatModel.chat(prompt)` call with no tool access. Supporting
+live lookups means moving to LangChain4j's `AiServices` pattern (or explicit
+`ChatRequest`/`ToolSpecification` wiring) with the agency's `McpToolProvider`
+bound in, so the model can decide mid-classification to call e.g.
+`find_open_cases_at_address` or `lookup_citizen_account` before finalizing
+department/priority/duplicate signals — grounded in the agency's live data, not
+just the raw complaint text. This also revises, not just extends, one earlier
+finding: duplicate detection isn't categorically impossible for Model B after
+all. An agency exposing a `find_similar_cases`-shaped tool lets classification
+delegate duplicate-signal-gathering to the agency's own live system, instead of
+needing AIGRE's own `DuplicateDetectionService` or stored rows at all.
+
+**How this changes chat.** Today's RAG (`RetrievalService`) is static/ingested
+— right for policy/SOP questions, the wrong tool for "what's the status of MY
+case" (account-specific, always-current). The same tool-calling capability
+extends to the citizen chat agent: a case-status question gets answered by
+calling the agency's live status tool, not by searching the ingested corpus —
+two distinct mechanisms for two distinct question types, not one retrieval path
+doing double duty.
+
+**Trust/safety considerations this introduces, worth naming rather than
+deferring silently:**
+- Same tool-design discipline this project already applies to its own tools:
+  filter output, make errors teach, don't let a malformed/missing field
+  silently corrupt a classification.
+- **Default to read-only tool contracts.** `GrievanceMcpTools` mixes read/write
+  because AIGRE owns that data; a new agency-facing contract should default to
+  read-only unless an agency explicitly negotiates write access.
+- Per-agency credential management (API keys/mTLS/whatever an agency's system
+  requires) is a new surface — ties to Phase 1's agency-scoped data model, but
+  for integration credentials, not citizen data.
+- Latency/failure handling: classification now optionally depends on a live
+  third-party call, and needs an explicit fallback (proceed using just the raw
+  text if the agency tool call times out) — the same defensive pattern named
+  above for the MCP client eager-connect gotcha, just pointed at a remote
+  dependency instead of AIGRE's own server.
 
 ## Phased roadmap
 
@@ -153,49 +209,59 @@ per-agency branding, reusing the exact `ng generate @angular/material:m3-theme
 own civic-navy/amber palette — an agency's brand becomes two seed colors, not
 a redesign.
 
-### Phase 4 — Classification-as-a-Service API (Model B, brownfield)
-A genuinely new, separate, stateless endpoint — **not** a mode flag bolted onto
+### Phase 4 — Classification-as-a-Service API with live agency tool-calling (Model B, brownfield)
+A genuinely new, separate endpoint — **not** a mode flag bolted onto
 `GrievanceController`/`GrievanceWorkflowController`, since both are
 persistence-first by construction and neither has an existing branch that
-skips storage. A new controller calls `LlmGrievanceClassifier.classify()` and
-`SlaCalculator` directly, with no `grievances` row ever written — this is
-exactly the "already composable as a stateless service" property the current
-code already has, just never exposed as its own product surface.
+skips storage. A new controller wraps `LlmGrievanceClassifier` — moved from a
+plain `chatModel.chat(prompt)` call to LangChain4j's `AiServices` pattern with
+the agency's `McpToolProvider` bound in (see the mechanism above) — plus
+`SlaCalculator`, with no `grievances` row ever written. Classification itself
+stays stateless from AIGRE's own database's point of view even once it's
+making live outbound tool calls — it still never reads or writes AIGRE's own
+`grievances` table in this mode.
 
 Auth here is a deliberately different path: API-key-based, system-to-system —
 not employee JWT, not a citizen session, because brownfield integration is
 service-to-service, not a human logging in. The request contract takes raw
 complaint text, a reference to the agency's own taxonomy/config (Phase 2), and
-an optional agency-supplied-context field (see the lookup section above). The
-response is the classification result — department, category, priority,
-confidence, reasoning — nothing more.
+the agency's registered MCP endpoint (or adapter config, Phase 5) so
+classification knows what tools it's allowed to call. The response is the
+classification result — department, category, priority, confidence,
+reasoning, and now optionally which agency tools were consulted and what they
+returned, for audit purposes.
 
 **Explicitly out of scope for this mode, stated as a deliberate design
-boundary, not a gap**: duplicate detection (nothing AIGRE-owned exists to
-compare against), the human-review workflow and its persistence, and the
-dashboard/portal — the agency's own system owns all of that. Worth supporting
-both a synchronous REST response and an async webhook-callback option, since
-LLM-backed classification takes a few seconds and not every brownfield
-integration pipeline is synchronous-request-friendly.
+boundary, not a gap**: the human-review workflow and its persistence, and the
+dashboard/portal — the agency's own system owns all of that. (Duplicate
+detection moved from "impossible here" to "delegated to an agency tool if one
+exists" — see the mechanism above; it's no longer a blanket exclusion.) Worth
+supporting both a synchronous REST response and an async webhook-callback
+option, since classification now potentially chains an LLM call with one or
+more live tool calls, and not every brownfield integration pipeline is
+synchronous-request-friendly.
 
-### Phase 5 — Optional shadow index for cross-system duplicate suggestions
-Explicitly speculative — not built unless a real brownfield agency asks for it.
-For agencies wanting duplicate-detection-like value without ceding ownership of
-their system of record: an optional webhook push or batch sync populating a
-minimal AIGRE-side index (department, category, timestamp, external ID only)
-purely to support duplicate-candidate *suggestions* returned alongside a
-classification. The agency's system remains authoritative; AIGRE never claims
-the record as its own.
+### Phase 5 — Reusable API-to-MCP adapter for non-MCP agencies
+Sequenced after Phase 4, not before: agencies that already run an MCP server
+can be served as soon as Phase 4 ships (mechanism 1 above). This phase is for
+the more common brownfield case — a REST/legacy API with no MCP support
+(mechanism 2 above) — a generically-configured MCP server AIGRE hosts, wrapping
+an agency's REST calls as MCP tools from declarative config (tool name,
+description, endpoint, auth, request/response mapping) rather than
+hand-written Java per agency. This is what keeps "brownfield integration"
+bounded: one reusable adapter pattern to build and maintain, not N bespoke
+connectors to N legacy systems.
 
 ## Explicit non-goals for now
 
-- No bespoke per-CRM connectors. The agency-supplied-context contract in
-  Phase 4 is the intentional integration boundary, not a placeholder for a
-  future connector catalog.
+- No write-capable tool contracts by default. Every agency-facing tool starts
+  read-only; write access is something an agency would have to explicitly
+  negotiate, not a default capability.
+- The Phase 5 adapter's configuration tooling/UI doesn't exist yet — Phase 5
+  describes the wrapping mechanism, not a self-service way to configure it.
 - No database-per-tenant infrastructure until an actual agency's compliance
   requirement demands it — named above as the alternative, not built
   speculatively.
-- No Phase 5 shadow index until a real brownfield customer specifically asks
-  for it.
-- No schema changes, no agency-provisioning UI, no API-key auth path has
-  started — this is a design reference, not a spec ready to implement.
+- No schema changes, no agency-provisioning UI, no API-key auth path, no MCP
+  client wiring has started — this is a design reference, not a spec ready to
+  implement.
