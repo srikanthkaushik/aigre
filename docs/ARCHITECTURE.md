@@ -794,9 +794,11 @@ Full detail lives in `PROJECT.md`; the headline items:
   (see §2 above): 5 of 6 originally-named failures now pass, the 6th narrowed. Two
   separate, unrelated failure families remain as known findings (resolved-case-log
   competition; LLM-rerank sampling variance), not targeted by this fix.
-- **In-memory workflow checkpointing** — a paused human-review case is lost on
-  application restart. `langgraph4j-postgres-saver` is the documented upgrade path.
-  path.
+- **Single-agency by construction** — no tenant/agency concept exists anywhere
+  (schema, auth, RAG corpus, or deployment config); onboarding additional
+  agencies, greenfield or brownfield, would need real schema and code changes.
+  See [`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`](FUTURE_MULTI_AGENCY_ROADMAP.md)
+  for a phased plan.
 - **Employee auth is real (Spring Security + JWT, department-scoped, role-gated) but
   demo-grade**: all 12 seeded accounts share one password, the signing secret is a
   fixed value in `application.yml` rather than a secrets manager, and there's no
