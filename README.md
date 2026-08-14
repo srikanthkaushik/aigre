@@ -268,6 +268,7 @@ Full detail in [`docs/RUNNING.md`](docs/RUNNING.md#4-seed-data).
 | [`docs/RUNNING.md`](docs/RUNNING.md) | Full local setup, seeding, switching LLM providers, exposing the app to the internet |
 | [`docs/APP_WALKTHROUGH.md`](docs/APP_WALKTHROUGH.md) | Screen-by-screen tour of the citizen and employee experiences, with real input/output examples |
 | [`docs/TEST_SCENARIOS.md`](docs/TEST_SCENARIOS.md) | Automated test suites, the 10 domain routing scenarios the classifier is designed against, and a manual QA checklist |
+| [`docs/FUTURE_INFRASTRUCTURE_GRAPH.md`](docs/FUTURE_INFRASTRUCTURE_GRAPH.md) | **Not built.** A candidate future enhancement — root-causing clusters of complaints back to a shared upstream infrastructure failure (a water main, a power line) via network reachability, and why that's the one use case in this project that would actually justify graph-database technology |
 | [`PROJECT.md`](PROJECT.md) | Build log: every milestone's decisions, tradeoffs, bugs found, and how each was verified — the "why," not just the "what" |
 | [`kickoff.md`](kickoff.md) | The original project brief this was built against |
 

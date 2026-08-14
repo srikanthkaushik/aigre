@@ -165,6 +165,14 @@ submissions), Neo4j Community would be the most defensible starting point of the
 four specifically because of that existing LangChain4j tie-in — everything else here
 would need to be wired by hand.
 
+One candidate does clear the bar this section sets, though it isn't built and isn't
+scoped: root-causing complaint clusters back to a shared upstream infrastructure
+failure (a water main, a power line) via real network reachability — a genuine
+multi-hop traversal problem, unlike duplicate chains or LangGraph4j checkpointing.
+See [`docs/FUTURE_INFRASTRUCTURE_GRAPH.md`](FUTURE_INFRASTRUCTURE_GRAPH.md) for why,
+and why even that case likely starts with `pgRouting` on the existing Postgres
+instance rather than a dedicated graph database.
+
 ---
 
 ## Tech stack
