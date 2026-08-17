@@ -1950,6 +1950,79 @@ mode all read as a polished, intentional dark theme on inspection — proper
 contrast throughout, no illegible text, no leftover light-mode artifacts.
 `ng build` clean (no new type errors from the `computed()` conversions).
 
+## Local model comparison: qwen2.5:7b vs. qwen3:30b-a3b vs. qwen3:8b vs. qwen3.5:9b
+
+Explored whether a newer/larger local Ollama model could close the accuracy
+gap to Claude Sonnet 5 (95.6%, see "Provider comparison" above) without
+leaving the offline/no-cost default. Hardware: RTX 3060 Ti, 8GB VRAM.
+
+**`qwen3:30b-a3b` (30.5B MoE, 3B active) — never completed a run.** Loaded
+at 22GB against 8GB VRAM, Ollama split it 71%/29% CPU/GPU, and individual
+classification calls blew past both a 120s and (after raising it) a 600s
+timeout — 3 attempts, all `HttpTimeoutException`, one run burning 37 minutes
+before failing. Root-cause finding worth keeping: **the MoE "3B active"
+figure describes compute per token, not memory residency** — expert
+selection is data-dependent per token, so all 30B parameters must be
+resident somewhere regardless of how few are active on a given forward pass.
+On a GPU too small to hold the whole model, MoE is *worse* than a dense
+model of similar total size, not better — a dense model's weights are the
+same every token (predictable, cacheable), while a MoE's CPU/GPU-split
+experts get shuffled per token, thrashing across the slow device boundary.
+Abandoned; not hardware-compatible on this machine at any timeout setting.
+
+**Real fix found along the way, applied generally:** `ollama ps` showed
+every qwen3-family model defaulting to a 32768-token context window (the
+model's own max, not something AIGRE requested) — and classification is
+single-shot (system prompt + one complaint, no chat history, no RAG context
+injected), never needing more than a few thousand tokens. That unused
+32K-context KV-cache reservation was independently pushing `qwen3:8b` (5.2GB
+weights, should fit easily) to 10GB loaded with a 38%/62% CPU/GPU split.
+Fixed two ways: added `ollama.num-ctx` (default `4096`) wired through
+`LlmProviderConfig`'s `OllamaChatModel`/`OllamaStreamingChatModel` builders
+via `.numCtx(Integer)` — confirmed to exist on both builders via `javap`
+against the real `langchain4j-ollama-1.18.0.jar` rather than assumed; and
+enabled Ollama server-side flash attention + `q4_0` KV-cache quantization
+(`OLLAMA_FLASH_ATTENTION=1`, `OLLAMA_KV_CACHE_TYPE=q4_0`), which shrank the
+context-memory overhead further with no measured quality loss. Both kept as
+permanent config — they help regardless of which model is active. Important
+distinction confirmed by this investigation: **KV-cache quantization and
+weight quantization are orthogonal.** It didn't save `qwen3:30b-a3b` (the
+*weights* don't fit, not the context), but it materially helped once context
+size was also right-sized to the workload.
+
+**`qwen3:8b` (8.19B dense) — the win.** With `num-ctx=4096`, loads at 5.1GB,
+100% GPU, no CPU spillover. Three clean runs: **90.1% / 92.3% / 93.4%**
+(91.9% average) — a full ~16 points above `qwen2.5:7b`'s ~75.5% average
+across 4 runs, with mismatch counts of just 1 per run vs. `qwen2.5:7b`'s
+historical systematic misses. Tradeoff: ~10.6 minutes per 91-complaint run
+vs. `qwen2.5:7b`'s ~2.9 minutes — roughly 3.6x slower, consistent with it
+being a "thinking"/reasoning-style model doing more work per classification
+call.
+
+**`qwen3.5:9b` (newer-gen dense) — still fails, different failure mode.**
+Fits VRAM fine (5.5-6.6GB), but `chatModel.chat()` returned `null` on every
+attempt — `LlmGrievanceClassifier.parse()` NPEs at `RESULT_PATTERN
+.matcher(response)` because `response` itself is null. Root cause: this
+model's reasoning-chain length is unpredictable per complaint, and it
+sometimes exhausts the entire context budget thinking before ever emitting
+the `RESULT:` line. Failed 3/3 at `num-ctx=4096` (~47-49s each — fails
+almost immediately) and 1/1 at `num-ctx=8192` (7 minutes — gets further
+before still failing the same way). `num-ctx=16384` was confirmed via a
+direct footprint check to force the model back into a 12%/88% CPU/GPU split
+before a full run was attempted — reintroducing the exact problem the
+context fix was solving, for a model that still wasn't guaranteed to finish.
+No context size threads "enough headroom for unpredictable thinking" and
+"stays GPU-resident on 8GB" at the same time on this hardware. Abandoned
+rather than chase a third context size.
+
+**Current state:** `llm.provider=ollama`, `ollama.chat-model=qwen2.5:7b`
+(left as the default by explicit choice — faster iteration loop for ongoing
+dev work), `ollama.num-ctx=4096` and the Ollama server's flash-attention/
+`q4_0` settings kept permanently. `qwen3:8b` is a confirmed, ready-to-flip
+upgrade path (one `chat-model` line) whenever the accuracy gain is worth the
+~3.6x slower per-call latency; `qwen3:30b-a3b` and `qwen3.5:9b` are not
+viable on this GPU for this workload.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

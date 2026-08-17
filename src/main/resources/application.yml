@@ -40,6 +40,11 @@ ollama:
   chat-model: qwen2.5:7b
   embedding-model: nomic-embed-text
   timeout: 120s
+  # Classification is single-shot (system prompt + one complaint, no chat history, no RAG
+  # context injected) -- 4096 comfortably covers it. Ollama otherwise defaults to each model's
+  # own max context (32768 for the qwen3 family), which multiplies KV-cache VRAM for no benefit
+  # here and was the actual cause of qwen3:8b/qwen3:30b-a3b timing out on an 8GB GPU.
+  num-ctx: 4096
 
 anthropic:
   api-key: ${ANTHROPIC_API_KEY:}

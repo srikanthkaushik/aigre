@@ -25,11 +25,13 @@ public class LlmProviderConfig {
     public ChatModel ollamaChatModel(
             @Value("${ollama.base-url}") String baseUrl,
             @Value("${ollama.chat-model}") String modelName,
-            @Value("${ollama.timeout:120s}") Duration timeout) {
+            @Value("${ollama.timeout:120s}") Duration timeout,
+            @Value("${ollama.num-ctx:4096}") Integer numCtx) {
         return OllamaChatModel.builder()
                 .baseUrl(baseUrl)
                 .modelName(modelName)
                 .timeout(timeout)
+                .numCtx(numCtx)
                 .build();
     }
 
@@ -38,11 +40,13 @@ public class LlmProviderConfig {
     public StreamingChatModel ollamaStreamingChatModel(
             @Value("${ollama.base-url}") String baseUrl,
             @Value("${ollama.chat-model}") String modelName,
-            @Value("${ollama.timeout:120s}") Duration timeout) {
+            @Value("${ollama.timeout:120s}") Duration timeout,
+            @Value("${ollama.num-ctx:4096}") Integer numCtx) {
         return OllamaStreamingChatModel.builder()
                 .baseUrl(baseUrl)
                 .modelName(modelName)
                 .timeout(timeout)
+                .numCtx(numCtx)
                 .build();
     }
 
