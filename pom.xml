@@ -119,6 +119,13 @@
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-document-parser-apache-tika</artifactId>
         </dependency>
+        <!-- MCP client, consuming AIGRE's own MCP server (see McpClientConfig). No explicit
+             version: langchain4j-bom resolves this to 1.18.0-beta28, not 1.18.0, since MCP
+             support stays beta-versioned inside the otherwise-GA BOM. -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-mcp</artifactId>
+        </dependency>
 
         <!-- Spring AI (MCP server only, per canonical stack) -->
         <dependency>

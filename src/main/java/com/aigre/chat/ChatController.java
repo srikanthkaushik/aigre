@@ -2,7 +2,6 @@ package com.aigre.chat;
 
 import com.aigre.retrieval.RetrievalService;
 import com.aigre.retrieval.RetrievedSource;
-import dev.langchain4j.model.chat.StreamingChatModel;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import jakarta.validation.Valid;
@@ -26,22 +25,27 @@ import java.util.stream.Collectors;
  * event carrying structured, cited JSON — chosen over buffering the whole
  * structured payload so the UI still gets a live streaming feel (plan §5
  * backend decision).
+ *
+ * Goes through CitizenChatAssistant (an AiServices-backed TokenStream, see McpClientConfig)
+ * rather than calling a raw StreamingChatModel directly, so the model can optionally call
+ * AIGRE's own read-only MCP tools (get_grievance_status/check_sla_status/find_duplicate_chain)
+ * for live per-grievance questions the static policy corpus can't answer.
  */
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
 
-    private final StreamingChatModel streamingChatModel;
+    private final CitizenChatAssistant citizenChatAssistant;
     private final RetrievalService retrievalService;
     private final ObjectMapper objectMapper;
     private final MeterRegistry meterRegistry;
 
     public ChatController(
-            StreamingChatModel streamingChatModel,
+            CitizenChatAssistant citizenChatAssistant,
             RetrievalService retrievalService,
             ObjectMapper objectMapper,
             MeterRegistry meterRegistry) {
-        this.streamingChatModel = streamingChatModel;
+        this.citizenChatAssistant = citizenChatAssistant;
         this.retrievalService = retrievalService;
         this.objectMapper = objectMapper;
         this.meterRegistry = meterRegistry;
@@ -58,8 +62,11 @@ public class ChatController {
         String context = sources.stream().map(RetrievedSource::text).collect(Collectors.joining("\n---\n"));
         String prompt =
                 """
-                Answer the citizen's question using only the context below.
-                If the context does not contain the answer, say you don't know -- never guess.
+                Answer the citizen's question using only the context below, UNLESS the question asks
+                about the status, SLA, or duplicate history of a specific grievance identified by its
+                UUID -- for that, call the available tool to look up live data instead of guessing from
+                the context. If neither the context nor a tool call answers the question, say you don't
+                know -- never guess.
 
                 Context:
                 %s
@@ -70,7 +77,7 @@ public class ChatController {
 
         Sinks.Many<ServerSentEvent<String>> sink = Sinks.many().unicast().onBackpressureBuffer();
         Timer.Sample sample = Timer.start(meterRegistry);
-        streamingChatModel.chat(prompt, new SseTokenStreamingHandler(sink, sample, meterRegistry));
+        new SseTokenStreamBridge(sink, sample, meterRegistry).attach(citizenChatAssistant.chat(prompt));
 
         Flux<ServerSentEvent<String>> sourcesEvent =
                 Flux.just(ServerSentEvent.builder(toJson(sources)).event("sources").build());

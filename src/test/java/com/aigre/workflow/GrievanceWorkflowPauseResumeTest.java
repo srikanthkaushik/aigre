@@ -7,6 +7,7 @@ import com.aigre.intake.GrievanceIntakeRequest;
 import com.aigre.query.GrievanceQueryService;
 import com.aigre.query.GrievanceSummary;
 import com.aigre.sla.SlaCalculator;
+import com.aigre.tools.GrievanceMcpTools;
 import org.bsc.langgraph4j.CompiledGraph;
 import org.bsc.langgraph4j.GraphInput;
 import org.bsc.langgraph4j.RunnableConfig;
@@ -56,6 +57,9 @@ class GrievanceWorkflowPauseResumeTest {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private GrievanceMcpTools grievanceMcpTools;
 
     @MockitoBean
     private LlmGrievanceClassifier classifier;
@@ -136,7 +140,7 @@ class GrievanceWorkflowPauseResumeTest {
         assertThat(started.pendingReview()).isTrue();
 
         CompiledGraph<GrievanceWorkflowState> freshGraph = new GrievanceWorkflowGraphConfig(
-                classifier, slaCalculator, jdbc, duplicateDetectionService, dataSource)
+                classifier, slaCalculator, jdbc, duplicateDetectionService, dataSource, grievanceMcpTools)
                 .grievanceWorkflowGraph();
 
         RunnableConfig config = RunnableConfig.builder().threadId(started.grievanceId().toString()).build();

@@ -5,6 +5,8 @@ import com.aigre.classification.LlmGrievanceClassifier;
 import com.aigre.duplicate.DuplicateDetectionService;
 import com.aigre.sla.Priority;
 import com.aigre.sla.SlaCalculator;
+import com.aigre.tools.GrievanceMcpTools;
+import com.aigre.tools.UpdateStatusResult;
 import org.bsc.langgraph4j.CompileConfig;
 import org.bsc.langgraph4j.CompiledGraph;
 import org.bsc.langgraph4j.GraphStateException;
@@ -52,18 +54,21 @@ public class GrievanceWorkflowGraphConfig {
     private final NamedParameterJdbcTemplate jdbc;
     private final DuplicateDetectionService duplicateDetectionService;
     private final DataSource dataSource;
+    private final GrievanceMcpTools grievanceMcpTools;
 
     public GrievanceWorkflowGraphConfig(
             LlmGrievanceClassifier classifier,
             SlaCalculator slaCalculator,
             NamedParameterJdbcTemplate jdbc,
             DuplicateDetectionService duplicateDetectionService,
-            DataSource dataSource) {
+            DataSource dataSource,
+            GrievanceMcpTools grievanceMcpTools) {
         this.classifier = classifier;
         this.slaCalculator = slaCalculator;
         this.jdbc = jdbc;
         this.duplicateDetectionService = duplicateDetectionService;
         this.dataSource = dataSource;
+        this.grievanceMcpTools = grievanceMcpTools;
     }
 
     @Bean
@@ -198,11 +203,8 @@ public class GrievanceWorkflowGraphConfig {
                 ? "Automatically linked as a duplicate of " + duplicateOfId
                 : state.reviewNote().orElse(null);
 
-        String previousStatus = jdbc.queryForObject(
-                "SELECT status FROM grievances WHERE id = :id",
-                new MapSqlParameterSource("id", grievanceId),
-                String.class);
-
+        // Classification/scheduling columns: no MCP tool covers these (pure computed values, no
+        // decision content for an agent to exercise) -- stays direct JDBC.
         jdbc.update(
                 """
                 UPDATE grievances
@@ -213,10 +215,8 @@ public class GrievanceWorkflowGraphConfig {
                     classification_confidence = :confidence,
                     sentiment_label = :sentimentLabel,
                     sentiment_score = :sentimentScore,
-                    status = :status,
                     sla_due_at = :slaDueAt,
-                    duplicate_of_id = :duplicateOfId,
-                    resolution_notes = :resolutionNotes
+                    duplicate_of_id = :duplicateOfId
                 WHERE id = :id
                 """,
                 new MapSqlParameterSource()
@@ -228,24 +228,24 @@ public class GrievanceWorkflowGraphConfig {
                         .addValue("confidence", state.confidence())
                         .addValue("sentimentLabel", state.sentimentLabel().orElse(null))
                         .addValue("sentimentScore", state.sentimentScore())
-                        .addValue("status", status)
                         .addValue("slaDueAt", toTimestamp(slaDueAt))
-                        .addValue("duplicateOfId", duplicateOfId)
-                        .addValue("resolutionNotes", resolutionNotes));
+                        .addValue("duplicateOfId", duplicateOfId));
 
-        jdbc.update(
-                """
-                INSERT INTO status_history (id, grievance_id, from_status, to_status, changed_by, changed_at, note)
-                VALUES (:id, :grievanceId, :fromStatus, :toStatus, :changedBy, :changedAt, :note)
-                """,
-                new MapSqlParameterSource()
-                        .addValue("id", UUID.randomUUID())
-                        .addValue("grievanceId", grievanceId)
-                        .addValue("fromStatus", previousStatus)
-                        .addValue("toStatus", status)
-                        .addValue("changedBy", state.humanReviewed() ? state.reviewedBy().orElse("supervisor") : "system:workflow")
-                        .addValue("changedAt", toTimestamp(now))
-                        .addValue("note", resolutionNotes));
+        // Status transition + resolution_notes + status_history: converges onto the same tool an
+        // external MCP client would use, eliminating the duplicate SQL this used to carry
+        // in-line. NOTE: unlike the old inline UPDATE, this now sets resolved_at for
+        // NOT_ACTIONABLE too (a terminal status per GrievanceMcpTools.TERMINAL_STATUSES) --
+        // deliberate, not a regression: a terminal state having a resolution timestamp is more
+        // correct than leaving it null.
+        String changedBy = state.humanReviewed() ? state.reviewedBy().orElse("supervisor") : "system:workflow";
+        UpdateStatusResult result = grievanceMcpTools.updateGrievanceStatus(
+                grievanceId.toString(), status, resolutionNotes, changedBy);
+        if (!result.success()) {
+            // commit() only ever passes a hardcoded-valid status literal (TRIAGED/NOT_ACTIONABLE/
+            // DUPLICATE, all in VALID_STATUSES) -- unreachable today, but fail loudly rather than
+            // silently no-op if that ever changes.
+            throw new IllegalStateException("commit() produced an invalid status transition: " + result.message());
+        }
 
         Map<String, Object> update = new HashMap<>();
         update.put("committedStatus", status);

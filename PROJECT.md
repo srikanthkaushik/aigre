@@ -2017,11 +2017,107 @@ rather than chase a third context size.
 
 **Current state:** `llm.provider=ollama`, `ollama.chat-model=qwen2.5:7b`
 (left as the default by explicit choice — faster iteration loop for ongoing
-dev work), `ollama.num-ctx=4096` and the Ollama server's flash-attention/
-`q4_0` settings kept permanently. `qwen3:8b` is a confirmed, ready-to-flip
-upgrade path (one `chat-model` line) whenever the accuracy gain is worth the
-~3.6x slower per-call latency; `qwen3:30b-a3b` and `qwen3.5:9b` are not
-viable on this GPU for this workload.
+dev work), `ollama.num-ctx=4096` kept permanently. **Correction, found
+later (see "MCP tool wiring" below): the Ollama server's `q4_0` KV-cache
+quantization was NOT a safe no-downside setting** — it corrupts
+`qwen2.5:7b`'s output into complete gibberish (confirmed via direct A/B
+`curl` against the same prompt: coherent, correct JSON with `q4_0` disabled;
+token soup with it enabled). The `qwen3:8b`/`qwen3.5:9b` numbers above were
+measured while `q4_0` was active and produced coherent, sensible-looking
+output throughout (no gibberish observed in any mismatch), so they're
+probably still representative — but they haven't been independently
+re-verified under the corrected default-KV-cache setting. `q4_0` is off by
+default again (Ollama server now runs with no `OLLAMA_KV_CACHE_TYPE`
+override). `qwen3:8b` is still a confirmed, ready-to-flip upgrade path (one
+`chat-model` line) whenever the accuracy gain is worth the ~3.6x slower
+per-call latency; `qwen3:30b-a3b` and `qwen3.5:9b` are not viable on this
+GPU for this workload regardless.
+
+## MCP tool wiring: `commit()` converges on `GrievanceMcpTools`; citizen chat gets real LLM tool-calling
+
+Closes the milestone-3 scoping note ("the MCP client side... is deliberately
+not built yet — that belongs to milestone 4, where an actual agent exists to
+consume them") and the corresponding open-items bullet below. AIGRE has run
+its own MCP **server** since milestone 3 but never built the MCP **client**
+side until now.
+
+**Investigated and corrected mid-plan:** the original framing ("give the
+classifier tool access during `classify()`") didn't survive scrutiny —
+`classify()` runs on a brand-new grievance with no history, so none of the 3
+read-only tools (`get_grievance_status`/`check_sla_status`/
+`find_duplicate_chain`) would return anything useful there. Found a better
+fit instead: the citizen-facing chat endpoint (`ChatController`, previously
+RAG-only) had no way to answer "what's the status of my complaint?" — a
+live, per-citizen question the static policy corpus can't contain. Citizens
+already get their grievance UUID back at submission
+(`GrievanceIntakeResponse.id`), so referencing it in a chat question is a
+real, not-invented trigger.
+
+**Part A — `commit()` converges onto `GrievanceMcpTools.updateGrievanceStatus()`**
+as a plain Java method call (constructor DI, no MCP wire protocol — there's
+no judgment call in finalizing already-decided values). Only the status
+transition + `status_history` write converge; the 9 classification/
+scheduling columns (`department_predicted`, `category`, `priority`,
+`sla_due_at`, `duplicate_of_id`, etc.) stay direct JDBC in `commit()` — no
+MCP tool covers them and inventing one just to avoid direct JDBC wasn't
+worth it. **Deliberate behavior change, not a bug:** `updateGrievanceStatus`
+sets `resolved_at` for any terminal status per its own `TERMINAL_STATUSES`
+set, including `NOT_ACTIONABLE` — the old inline `UPDATE` never did. A
+terminal state having a resolution timestamp is more correct than leaving it
+null; confirmed inert for `GrievanceTrendsService`'s breach math (reads
+`sla_due_at`, which stays NULL for `NOT_ACTIONABLE` either way).
+
+**Part B — citizen chat gets real MCP tool-calling.** Added
+`langchain4j-mcp` (resolves via `langchain4j-bom` to `1.18.0-beta28`, not
+`1.18.0` — MCP support stays beta-versioned inside the otherwise-GA BOM,
+worth remembering next time this comes up). `ChatController` now goes
+through an `AiServices`-backed `CitizenChatAssistant` (`TokenStream`
+return type) instead of calling `StreamingChatModel` directly — `TokenStream`
+streams token-by-token both before and after any tool-call round trip, so
+one `SseTokenStreamBridge` handles the RAG-only and tool-calling cases
+uniformly (`onToolExecuted` just never fires when no tool is called).
+`McpToolProvider.filterToolNames("get_grievance_status", "check_sla_status",
+"find_duplicate_chain")` is the load-bearing safety mechanism — without it,
+the citizen chat's LLM would also see the 2 write tools
+(`update_grievance_status`/`reopen_grievance`) with no server-side ACL
+stopping a confused or adversarial prompt from trying to invoke them.
+
+**A real gap found during live verification, not just a hypothetical from
+the plan:** the CLAUDE.md-documented "build the MCP client eagerly inside
+the bean, catch, fall back to a no-op `ToolProvider`" pattern is correct for
+a genuinely-external, possibly-down agency server — but for this
+self-referential same-JVM case, it deterministically lost the race against
+this app's own Netty listener on every cold start (confirmed twice in a
+row, not an occasional flake): `McpClientConfig`'s bean was constructed
+before `McpServerAutoConfiguration`'s routes were actually live, so eager-
+connect-with-catch would have silently and *permanently* disabled
+tool-calling every time the app started fresh. Fixed with
+`LazyGrievanceToolProvider` — connects on first real invocation instead of
+at bean-construction time (by which point the app is guaranteed fully up),
+caching only a *successful* connection so a transient first-request failure
+still retries on the next request rather than sticking on RAG-only forever.
+
+**A second, unrelated, more serious bug found while debugging a test
+failure this same session:** `GrievanceWorkflowServiceTest` started failing
+reproducibly (3/3 identical failures) with a clearly-actionable pothole
+complaint scored `NOT_ACTIONABLE`. Traced via direct `curl` A/B testing
+(same prompt, same model, only the Ollama server's KV-cache setting
+changed) to the `q4_0` KV-cache quantization enabled in the "Local model
+comparison" work above — it produces complete gibberish output for
+`qwen2.5:7b` (see the correction in that section). Not a code bug in this
+feature at all, but discovered because this feature's test suite happened
+to exercise a live classification call. Fixed by reverting the Ollama
+server to default (non-quantized) KV cache; all 8 workflow tests pass
+cleanly afterward.
+
+**Verified live, not just via `mvn test`:** RAG-only chat (a known
+eval-corpus policy question) streams an unchanged, correctly-cited answer
+with zero tool calls. Submitting a real grievance via `POST /grievances`,
+then asking chat "what's the status of grievance `<id>`?" returns live DB
+data (submission timestamp, category, no-contact-info flag) that cannot
+have come from the static RAG corpus — confirmed via
+`aigre_chat_tool_calls_total{tool="get_grievance_status"} 1.0` on the
+Prometheus endpoint, exactly one call to exactly the right tool.
 
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
@@ -2055,13 +2151,13 @@ viable on this GPU for this workload.
 - A paused (human-review) grievance was invisible in every department's
   queue until it committed — **fixed, see "Paused-review visibility bug:
   fixed" below**.
-- The milestone-4 workflow's own MCP-tool consumption — the graph currently
-  writes to Postgres directly from the `commit` node (matching
-  `GrievanceIntakeService`'s pattern) rather than calling
-  `GrievanceMcpTools.updateGrievanceStatus` as a LangChain4j tool. A
-  LangChain4j `ToolProvider` wrapping `GrievanceMcpTools` for the agent to
-  call as actual tool-use (vs. direct JDBC) would be a natural follow-up if
-  the graph grows more nodes that need MCP-tool-mediated actions.
+- The milestone-4 workflow's own MCP-tool consumption — **built, see "MCP
+  tool wiring" above**. `commit()` now converges its status transition onto
+  `GrievanceMcpTools.updateGrievanceStatus()` directly, and the citizen chat
+  gets real LangChain4j MCP-client tool-calling for live per-grievance
+  questions. `GrievanceIntakeService` (the non-graph `/grievances` path)
+  still writes directly and independently — a separate, not-yet-touched
+  code path if unification there is ever wanted.
 
 ## Full plan
 The complete Milestone-0 plan (domain model, routing/escalation scenarios,
