@@ -23,14 +23,6 @@ spring:
 server:
   port: 8085
 
-mcp:
-  client:
-    # Self-referential -- AIGRE's own MCP server, same JVM/port. Consumed by McpClientConfig for
-    # the citizen chat's read-only tool-calling (get_grievance_status/check_sla_status/
-    # find_duplicate_chain). Confirmed live at this path via a real initialize/tools-list/
-    # tools-call protocol probe (see PROJECT.md milestone 3).
-    grievance-url: http://localhost:${server.port}/mcp
-
 management:
   endpoints:
     web:

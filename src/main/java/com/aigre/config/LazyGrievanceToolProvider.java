@@ -10,6 +10,7 @@ import dev.langchain4j.service.tool.ToolProviderRequest;
 import dev.langchain4j.service.tool.ToolProviderResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 
 import java.time.Duration;
 
@@ -22,6 +23,15 @@ import java.time.Duration;
  * intends for a genuinely-external, possibly-down agency MCP server. By the time the first
  * citizen chat request arrives, the app is guaranteed fully up.
  *
+ * The URL itself is also resolved lazily, not injected at bean-construction time -- Spring Boot
+ * only publishes the actually-bound port as local.server.port once the embedded server has
+ * finished starting (via WebServerInitializedEvent), which is later than @Value resolution during
+ * bean construction. This matters for @SpringBootTest(webEnvironment = RANDOM_PORT): a
+ * bean-construction-time @Value would resolve against the fixed application.yml server.port
+ * (8085), not the random port the test server actually bound -- found via ChatControllerTest
+ * initially connecting to the wrong port and getting zero tools back. Falls back to server.port
+ * for real deployment, where local.server.port is never set.
+ *
  * A failed connection attempt is never cached -- only a successful one is -- so a transient
  * failure on the very first request still gets retried on the next one, rather than sticking on
  * RAG-only for the rest of the process lifetime.
@@ -30,11 +40,11 @@ class LazyGrievanceToolProvider implements ToolProvider {
 
     private static final Logger log = LoggerFactory.getLogger(LazyGrievanceToolProvider.class);
 
-    private final String mcpUrl;
+    private final Environment environment;
     private volatile ToolProvider delegate;
 
-    LazyGrievanceToolProvider(String mcpUrl) {
-        this.mcpUrl = mcpUrl;
+    LazyGrievanceToolProvider(Environment environment) {
+        this.environment = environment;
     }
 
     @Override
@@ -61,6 +71,8 @@ class LazyGrievanceToolProvider implements ToolProvider {
     }
 
     private ToolProvider tryConnect() {
+        String port = environment.getProperty("local.server.port", environment.getProperty("server.port", "8085"));
+        String mcpUrl = "http://localhost:" + port + "/mcp";
         try {
             McpTransport transport = StreamableHttpMcpTransport.builder()
                     .url(mcpUrl)

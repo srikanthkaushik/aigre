@@ -2119,6 +2119,21 @@ have come from the static RAG corpus — confirmed via
 `aigre_chat_tool_calls_total{tool="get_grievance_status"} 1.0` on the
 Prometheus endpoint, exactly one call to exactly the right tool.
 
+**Automated afterward as `ChatControllerTest`** (see `docs/TEST_SCENARIOS.md`)
+— and writing it caught a third real bug the manual `curl` verification
+missed: the self-referential MCP URL was resolved via `@Value("${mcp.client.
+grievance-url}")` at bean-construction time, which correctly picked up
+`application.yml`'s fixed `server.port: 8085` for the real running app, but
+`@SpringBootTest(webEnvironment = RANDOM_PORT)` binds the test server to an
+actual random port — so the test's `LazyGrievanceToolProvider` was silently
+connecting to the wrong port and getting zero tools back, not a wiring
+failure in the feature itself. Fixed by resolving the port lazily too
+(`Environment.getProperty("local.server.port", ...server.port...)`), read
+at first-use time rather than injected at construction time — by which
+point Spring Boot has always already published whichever port (fixed or
+random) actually got bound. `mcp.client.grievance-url` as a config property
+is gone; the port is now always resolved dynamically.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

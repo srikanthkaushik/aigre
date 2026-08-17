@@ -39,6 +39,7 @@ mvn test -Dtest=ClassName
 | `ComplaintEvalHarnessTest` | Integration (live Ollama, slow) | **The accuracy measurement** — all 91 labeled complaints in `test-data/grievances/eval-complaints.jsonl` run through the real classification pipeline, department-match accuracy reported. See variance note below |
 | `RetrievalEvalTest` | Integration (live Ollama) | Day-one retrieval smoke test — ⚠️ **destructive**, see warning below |
 | `RagEvalSuiteTest` | Integration (live Ollama, slow, ~9 min) | 34 labeled retrieval cases from `test-data/eval-questions.md` against the real hybrid-retrieval + rerank pipeline |
+| `ChatControllerTest` | Integration (real Postgres + live Ollama + real self-referential MCP client) | Citizen chat's MCP tool-calling, end to end: a deterministic check that only the 3 read-only tools are ever exposed to the model (`filterToolNames`, no LLM involved), a RAG-only question that must never trigger a tool call, and a status question about a just-submitted real grievance that must trigger exactly one live `get_grievance_status` call. See variance note below |
 
 ### ⚠️ `RetrievalEvalTest` is destructive against the shared dev database
 
@@ -66,6 +67,13 @@ floor is set at 55% (a comfortable margin below the observed low end), not pinne
 any single run's number. Anthropic (`claude-sonnet-5`) scored a much more stable
 95.6% in a head-to-head comparison — see `ARCHITECTURE.md` and `PROJECT.md` for the
 full writeup. **If this test fails once, re-run it before assuming a regression.**
+
+The same caveat applies to `ChatControllerTest.statusQuestionAboutARealGrievance
+TriggersALiveToolCall` — whether the model reliably recognizes a UUID in a
+question as a cue to call `get_grievance_status` is live model behavior, not
+deterministic. If it fails, first check `onlyReadOnlyToolsAreEverExposedToThe
+CitizenChatModel` still passes (that one *is* deterministic, no LLM involved) —
+if that one fails too, it's a real wiring regression, not variance.
 
 ---
 
