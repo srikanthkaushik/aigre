@@ -108,19 +108,16 @@ export interface RetrievedSource {
   rerankScore: number;
 }
 
-export const DEPARTMENTS = ['DOT', 'DPW', 'DHHS', 'DOE', 'DHUD', 'DEP'] as const;
-export type Department = (typeof DEPARTMENTS)[number];
+// Departments are no longer a fixed, hardcoded list -- new ones can be onboarded at runtime
+// (see com.aigre.admin.DepartmentOnboardingService), so a compile-time-exhaustive union type
+// can't represent them. DepartmentService fetches the live list from GET /departments.
+export type Department = string;
 
-// Mirrors schema.sql's departments seed data -- kept in sync by hand since the frontend has no
-// live "list departments" endpoint to fetch this from.
-export const DEPARTMENT_NAMES: Record<string, string> = {
-  DOT: 'Department of Transportation',
-  DPW: 'Department of Public Works',
-  DHHS: 'Department of Health and Human Services',
-  DOE: 'Department of Education',
-  DHUD: 'Department of Housing and Urban Development',
-  DEP: 'Department of Environmental Protection'
-};
+// Mirrors com.aigre.department.DepartmentSummary exactly.
+export interface DepartmentSummary {
+  id: string;
+  name: string;
+}
 
 export const PRIORITIES = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'] as const;
 

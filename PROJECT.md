@@ -2134,6 +2134,159 @@ point Spring Boot has always already published whichever port (fixed or
 random) actually got bound. `mcp.client.grievance-url` as a config property
 is gone; the port is now always resolved dynamically.
 
+## Onboard a new department from a public URL of PDFs
+
+A genuinely new city department (not just more documents for one of the
+existing 6) can now be onboarded live, from a real public URL, with zero
+code redeploy for department #2 onward. Two decisions shaped this: reusable
+admin feature, not a one-off script; and full integration (classification +
+routing), not just RAG-searchable — specifically, the classifier prompt
+went **fully dynamic**, migrating all 6 existing departments' hand-tuned
+prompt text into the DB rather than leaving them hardcoded and only new
+ones dynamic.
+
+**Schema**: `departments` gained a `short_name` column (the prompt's
+parenthetical label, e.g. "Transportation" — not derivable from `name` by
+stripping "Department of " for all 6, since DHHS/DHUD use "&", not "and").
+`jurisdiction_notes` was migrated to the *exact* rich prompt text
+(`schema.sql`'s old seed text was much thinner) — including DPW's
+cross-department disambiguation sentences, which fixed a real documented
+classification bug (hazard-adjacent DPW infrastructure incidents misrouted
+to DEP). Migrating a summary instead of the verbatim text would have risked
+silently reintroducing that bug.
+
+**`DepartmentDirectory`** (new, `com.aigre.classification`): in-memory
+cache of the classifier's DEPARTMENTS prompt section, built from the DB,
+`@DependsOnDatabaseInitialization` so it reads `departments` only after
+`schema.sql`'s seed has actually run — the first component in this codebase
+doing a DB read from a constructor. Not re-queried per `classify()` call
+(that's a hot-ish path); `refresh()` is called explicitly after a new
+department is inserted. `LlmGrievanceClassifier` gained its first-ever DB
+dependency as a result — a deliberate, known tradeoff, not a quiet one:
+its own javadoc used to advertise "zero database dependency" as a feature.
+
+**New `com.aigre.admin` package**: `POST /admin/departments` (ADMIN-only —
+creating a routing target is bigger blast-radius than day-to-day supervisor
+work), taking a department code/name/short-name/jurisdiction-notes plus a
+`sourceUrl`. `PdfCrawlService` is this codebase's first outbound HTTP
+client (`WebClient`) and first HTML-parsing dependency (`jsoup` — already a
+*transitive* dependency via Tika, confirmed via `mvn dependency:tree`, so
+declaring it explicitly added zero new jars). `Jsoup.parse(html, pageUrl)`'s
+`absUrl("href")` resolves relative PDF links against the page's own URL —
+exactly what a real index page needs, no manual `URI.resolve`.
+`DepartmentOnboardingService` orchestrates: crawl → download (skip, don't
+fail, on a dead link or non-PDF response) → write into
+`test-data/documents/<CODE>/` → `INSERT INTO departments` → `DepartmentDirectory
+.refresh()` → `CorpusIngestionService.reset()` (full wipe-and-reseed of the
+*entire* vector store, in-process — not via `POST /ingest/reset`, which
+turned out to be fully unauthenticated already, a pre-existing gap this
+feature deliberately doesn't depend on). New `GET /departments` (public —
+`department-name.pipe.ts` renders on the unauthenticated citizen status
+page) returns just `id`/`name`, deliberately excluding the internal
+prompt-engineering columns.
+
+**Three real bugs found while building and verifying this, not just
+theorized in the plan:**
+1. **`WebClient.Builder` isn't auto-configured in this app.** Assumed it
+   would be (this is a `spring-boot-starter-webflux` app), but
+   `PdfCrawlService`'s constructor injection failed with
+   `NoSuchBeanDefinitionException` — confirmed by actually running
+   `LlmGrievanceClassifierTest` and reading the real `Caused by` chain, not
+   assumed. Fixed with an explicit `WebClient.Builder` bean
+   (`com.aigre.config.WebClientConfig`).
+2. **The pom.xml `--` XML-comment pitfall bit again** (same one from the
+   MCP-wiring session) — a comment containing a bare `--` in the middle
+   fails Maven's POM parser outright. Worth adding to `CLAUDE.md`'s gotcha
+   table if it comes up a third time.
+3. **A boundedElastic worker thread's interrupted status leaks across
+   sequential blocking calls within the same request — and this one
+   actually broke production, not just this one request.** An aggressively
+   short client-side `curl --max-time` cancelled an onboarding request
+   mid-flight while `DepartmentOnboardingService` was still sequentially
+   downloading ~60 PDF links; Reactor propagated the cancellation as a
+   thread interrupt, and every *subsequent* blocking call on that same
+   worker thread failed near-instantly (visible as a rapid-fire cascade of
+   `Skipping ... -- java.lang.InterruptedException` log lines during the
+   downloads) — but the `onboard()` call still ran to completion regardless,
+   because `PdfCrawlService.download()` catches per-link and never rethrows.
+   The real damage: that same still-interrupted thread then went on to call
+   `corpusIngestionService.reset()`, whose very first line is
+   `embeddingStore.removeAll()` — a full wipe of the *entire* RAG vector
+   store, all departments, not just the new one. The lingering interrupt
+   status broke the first embedding batch's blocking Ollama HTTP call
+   immediately, aborting `reset()` **after** the wipe but **before**
+   anything was re-added. Found for real, not hypothetically: a genuine
+   citizen-chat question ("what does OEMS do?", expecting an answer from a
+   newly-onboarded department's PDF) came back with a generic non-answer;
+   `rag_documents` was confirmed at 0 rows. **Fixed** with
+   `Thread.interrupted()` (reads and clears the flag) called explicitly
+   right before `corpusIngestionService.reset()`, guaranteeing it always
+   runs on a clean thread regardless of what happened earlier in the same
+   request. Corpus restored via the normal `POST /ingest/reset?confirm=true`
+   recovery path (116 documents — the original 108 plus PRD's 8); the OEMS
+   question then answered correctly, grounded in the right PDF, sources
+   cited.
+
+**Verified live, not just via `mvn test`:** `mvn test -Dtest
+=LlmGrievanceClassifierTest` (4/4 pass) confirms the dynamic prompt still
+classifies correctly on fast structural cases. `ComplaintEvalHarnessTest`
+run twice — 83.5% and 79.1%, both solidly inside the already-documented
+Ollama variance band (65.9%–86.8%) — confirms no classification regression
+from migrating the original 6 departments to DB-driven prompt text. Live
+onboarding against a real public URL (LA's Department of Public Works
+management-manual page, 60+ real PDF links, mostly relative URLs) produced
+a working department end to end: `GET /departments` listed it, a
+hand-crafted playground/park-maintenance complaint classified into it at
+0.85 confidence with a sensible category, and — after finding and fixing
+the corpus-wipe bug above — a real citizen question against one of the
+onboarded PDFs answered correctly with proper citations. The whole
+pipeline, including the classifier's live prompt update and RAG retrieval,
+working for a department that didn't exist when the app booted.
+
+**Explicitly out of scope, left manual**: employee/staff provisioning
+(`department_employees` rows). A freshly onboarded department has zero
+staff until someone adds them separately — a grievance routed there has no
+one to claim it in the dashboard until then.
+
+### Follow-up found by actually using the new department: irrelevant citations
+
+Asking the citizen chat "what does OEMS do?" (answerable from the newly
+onboarded PD003.pdf) got a correct answer, but with 2-3 clearly-unrelated
+documents cited alongside the right one. Root cause, confirmed in
+`RetrievalService.retrieve()`: it always returned exactly `rerank-to` (5)
+results unconditionally, with no relevance floor — when fewer than 5
+candidates were genuinely relevant, it padded the response with whatever
+scored lowest rather than fewer, better citations.
+
+**Fix shipped**: filter to `rerankScore > 0` before capping at `rerank-to`
+— a rerank score of 0 is the LLM's own "not relevant" signal on its 0-10
+scale, per the rerank prompt itself.
+
+**Verified insufficient on its own, not just theorized**: re-running the
+same question 4 times showed irrelevant documents (`trend-analysis-policy
+.txt`, `fleet-equipment-policy.txt`, `citizen-notification-policy.txt`)
+routinely scoring 2-5 — never landing on the literal 0 the filter catches,
+and twice actually *tying or beating* the genuinely relevant `PD003.pdf`
+chunks (which themselves scored as low as 2.0 in the same runs). A hard
+numeric threshold can't cleanly separate the two classes here: raising the
+bar would cut relevant and irrelevant content roughly equally, since they
+occupy the same score range with this model. This is the same underlying
+limitation `RetrievalService`'s own javadoc already documents — the
+cross-encoder ONNX reranker attempted as "the theoretically better fix" is
+blocked by a Windows DLL version conflict, reverted to LLM-based rerank as
+a known-imperfect fallback.
+
+**Decision**: keep the `>0` filter (real, low-risk improvement, catches the
+literal-zero case that caused the original incident) and stop there for
+now — a stricter threshold or the cross-encoder revisit are both real
+options with real costs, not pursued this round. **Verified no regression**:
+`RagEvalSuiteTest` re-run at 27/34 — within the already-documented variance
+band for this exact suite (26/34-29/34 across prior runs, see the
+provider-comparison history above) — and the top-1 assertions this test
+checks are structurally unaffected by tail-filtering anyway (the filter
+only removes low-scored entries from the bottom of an already-sorted list,
+never changes which result ranks first).
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

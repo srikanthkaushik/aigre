@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, signal } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -13,7 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../core/api.service';
 import { AuthService } from '../../core/auth.service';
-import { DEPARTMENTS, GrievanceSummary } from '../../core/models';
+import { DepartmentService } from '../../core/department.service';
+import { GrievanceSummary } from '../../core/models';
 import { DepartmentNamePipe } from '../../core/department-name.pipe';
 import { GrievanceDetailDialog } from './grievance-detail-dialog/grievance-detail-dialog';
 import { Trends } from './trends/trends';
@@ -41,6 +42,8 @@ const PAGE_SIZE = 10;
   styleUrl: './employee.scss'
 })
 export class Employee implements OnInit, AfterViewInit {
+  private readonly departmentService = inject(DepartmentService);
+
   readonly pageSize = PAGE_SIZE;
 
   readonly loading = signal(false);
@@ -49,7 +52,7 @@ export class Employee implements OnInit, AfterViewInit {
   // ADMIN-only: '' means "all departments" (its default cross-department view); a specific code
   // narrows both tables to that one department, same as a non-admin employee already sees.
   readonly departmentFilter = signal('');
-  readonly departmentOptions = DEPARTMENTS;
+  readonly departmentOptions = this.departmentService.departmentIds;
 
   readonly pendingDataSource = new MatTableDataSource<GrievanceSummary>([]);
   readonly departmentDataSource = new MatTableDataSource<GrievanceSummary>([]);
@@ -137,7 +140,7 @@ export class Employee implements OnInit, AfterViewInit {
     const ref = this.dialog.open(GrievanceDetailDialog, {
       data: {
         grievanceId: id,
-        departments: DEPARTMENTS,
+        departments: this.departmentService.departmentIds(),
         priorities: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
         defaultReviewedBy: session?.name ?? session?.departmentId ?? 'employee'
       }

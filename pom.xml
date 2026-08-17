@@ -126,6 +126,16 @@
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-mcp</artifactId>
         </dependency>
+        <!-- HTML link-scraping for department onboarding (PdfCrawlService). No BOM covers this,
+             so an explicit version is required. Was already a transitive dependency at this exact
+             version via Tika's tika-parser-code-module (langchain4j-document-parser-apache-tika),
+             confirmed via `mvn dependency:tree`; this just makes it a direct, intentional
+             dependency instead of an implicit one. -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.21.2</version>
+        </dependency>
 
         <!-- Spring AI (MCP server only, per canonical stack) -->
         <dependency>

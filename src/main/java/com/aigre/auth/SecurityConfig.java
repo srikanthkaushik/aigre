@@ -64,6 +64,12 @@ public class SecurityConfig {
                         .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers("/ingest/**").permitAll()
                         .pathMatchers("/mcp/**").permitAll()
+                        // Public: department-name.pipe.ts renders on citizen.html, the
+                        // unauthenticated citizen status page.
+                        .pathMatchers(HttpMethod.GET, "/departments").permitAll()
+                        // Creating a new department/routing target is bigger blast-radius than
+                        // day-to-day supervisor work -- ADMIN only, not SUPERVISOR too.
+                        .pathMatchers(HttpMethod.POST, "/admin/departments").hasRole("ADMIN")
                         .pathMatchers(HttpMethod.POST, "/grievances/{id}/workflow/resume", "/grievances/{id}/status")
                         .hasAnyRole("SUPERVISOR", "ADMIN")
                         // The built Angular app (see SpaWebFluxConfig), served from this same

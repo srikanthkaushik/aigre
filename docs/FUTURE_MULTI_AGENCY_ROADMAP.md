@@ -33,16 +33,28 @@ calculator, duplicate detection, deployment config), not assumed.
   organization-scoping column at all — the single biggest gap. `department_
   employees.username` is globally `UNIQUE`, so two agencies couldn't even have
   two different people both named `jsmith`.
-- **The department taxonomy is hardcoded in three independent places**, all of
-  which would need to become agency-configurable:
-  1. `schema.sql`'s seed `INSERT`s (six literal rows).
-  2. The frontend's `DEPARTMENTS`/`DEPARTMENT_NAMES` constants
-     (`frontend/src/app/core/models.ts`), hand-synced against the seed data —
-     the file's own comment admits "the frontend has no live 'list departments'
-     endpoint."
-  3. **The largest single piece of unplanned-for work**: `LlmGrievanceClassifier`'s
-     prompt bakes the six departments' jurisdiction descriptions and worked
-     examples in as literal Java string content, not data read from a table.
+- **The department taxonomy is no longer hardcoded** — see PROJECT.md's
+  "Onboard a new department from a public URL" for the full build. All three
+  places named below now read from the `departments` table live:
+  1. `schema.sql`'s seed rows still exist (for a fresh database's first boot),
+     but a new `POST /admin/departments` endpoint inserts new rows at runtime.
+  2. The frontend's department list (`frontend/src/app/core/department
+     .service.ts`) fetches `GET /departments` live instead of the old
+     hardcoded `DEPARTMENTS`/`DEPARTMENT_NAMES` constants.
+  3. `LlmGrievanceClassifier`'s prompt now interpolates its DEPARTMENTS
+     section from `DepartmentDirectory` (an in-memory cache over the
+     `departments` table, refreshed on new-department onboarding), not a
+     literal Java string. Its worked EXAMPLES section (a few illustrative
+     reasoning samples, not an exhaustive per-department list) is still
+     hardcoded prose — deliberately: examples teach the reasoning *pattern*,
+     they don't need one per department to do that.
+
+  **Still genuinely future work, unaffected by the above**: none of this
+  adds an agency/tenant qualifier. `departments.id` is still a bare
+  `VARCHAR(10)` primary key, globally unique with no agency scope — two
+  agencies both wanting a `DPW` code would still collide. This closed the
+  "hardcoded taxonomy" problem for single-agency dynamic departments, not
+  the multi-agency tenant-isolation problem described below.
 - **Classification is already a stateless, side-effect-free function.**
   `LlmGrievanceClassifier.classify(String rawText)` has exactly three
   dependencies — a `ChatModel`, an `ObjectMapper`, and a Micrometer timer — no

@@ -1,10 +1,15 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { DEPARTMENT_NAMES } from './models';
+import { Pipe, PipeTransform, inject } from '@angular/core';
+import { DepartmentService } from './department.service';
 
-@Pipe({ name: 'departmentName' })
+// pure: false -- reads a live signal from DepartmentService (populated asynchronously after the
+// initial GET /departments resolves), so this must re-run once that signal updates, not just
+// when `code` itself changes.
+@Pipe({ name: 'departmentName', pure: false })
 export class DepartmentNamePipe implements PipeTransform {
+  private readonly departmentService = inject(DepartmentService);
+
   transform(code: string | null | undefined): string {
     if (!code) return '—';
-    return DEPARTMENT_NAMES[code] ?? code;
+    return this.departmentService.departmentNames()[code] ?? code;
   }
 }

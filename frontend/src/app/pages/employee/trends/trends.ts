@@ -12,8 +12,9 @@ import { ChartConfiguration } from 'chart.js';
 import { ApiService } from '../../../core/api.service';
 import { AuthService } from '../../../core/auth.service';
 import { ThemeService } from '../../../core/theme.service';
+import { DepartmentService } from '../../../core/department.service';
 import { DepartmentNamePipe } from '../../../core/department-name.pipe';
-import { DailySentimentLevels, DEPARTMENTS, TrendsResponse } from '../../../core/models';
+import { DailySentimentLevels, TrendsResponse } from '../../../core/models';
 import { GrievanceDetailDialog } from '../grievance-detail-dialog/grievance-detail-dialog';
 
 type Scope = 'department' | 'all';
@@ -118,6 +119,7 @@ export class Trends {
   }
 
   private readonly theme = inject(ThemeService);
+  private readonly departmentService = inject(DepartmentService);
   private readonly palette = computed(() => (this.theme.resolvedMode() === 'dark' ? DARK_PALETTE : LIGHT_PALETTE));
 
   readonly volumeChartData = computed<ChartConfiguration<'line'>['data']>(() => {
@@ -244,7 +246,7 @@ export class Trends {
     this.dialog.open(GrievanceDetailDialog, {
       data: {
         grievanceId: id,
-        departments: DEPARTMENTS,
+        departments: this.departmentService.departmentIds(),
         priorities: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'],
         defaultReviewedBy: session?.name ?? session?.departmentId ?? 'employee'
       }

@@ -17,7 +17,7 @@
         <mat-label>Department</mat-label>
         <mat-select [value]="departmentFilter()" (selectionChange)="onDepartmentFilterChange($event.value)">
           <mat-option value="">All Departments</mat-option>
-          @for (dept of departmentOptions; track dept) {
+          @for (dept of departmentOptions(); track dept) {
             <mat-option [value]="dept">{{ dept | departmentName }}</mat-option>
           }
         </mat-select>

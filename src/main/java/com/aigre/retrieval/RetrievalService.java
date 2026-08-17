@@ -86,6 +86,17 @@ public class RetrievalService {
                         match.embedded().metadata().toMap(),
                         match.score(),
                         rerankScore(query, rerankCandidateText(match.embedded()))))
+                // rerankTo is a MAX, not a fixed count -- without this filter, a query where fewer
+                // than rerankTo candidates are genuinely relevant still padded the result out with
+                // whatever scored lowest (confirmed live: a query with only 2 relevant chunks
+                // returned 3 more scored 3, 0, and 0 out of 10, just to fill the quota). A rerank
+                // score of 0 is the LLM's own "not relevant" signal on its 0-10 scale, per the
+                // rerank prompt itself -- excluding it (and the -1 unparseable sentinel) removes
+                // the clearest false citations. Not a perfect fix: a middling score can still
+                // outrank a genuinely relevant low-scored one (observed: an unrelated chunk at 3
+                // outscored a relevant one at 2) -- the same LLM-judgment noise this project's
+                // rerank step already accepts as better than cosine alone, not eliminated by it.
+                .filter(source -> source.rerankScore() > 0)
                 .sorted(Comparator.comparingDouble(RetrievedSource::rerankScore).reversed())
                 .limit(rerankTo)
                 .toList();

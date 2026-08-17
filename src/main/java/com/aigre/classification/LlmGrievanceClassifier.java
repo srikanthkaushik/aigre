@@ -39,33 +39,7 @@ public class LlmGrievanceClassifier {
             the complaint below.
 
             DEPARTMENTS (pick exactly one as your best guess, or null if none apply):
-            - DOT (Transportation): road surface/potholes, traffic signals, public transit, street
-              signage, bike lanes, school-zone traffic safety, railroad crossings, vehicle-for-hire
-              licensing.
-            - DPW (Public Works): sidewalks, water/sewer mains, street lighting, trash/recycling
-              collection, snow removal, right-of-way trees, graffiti on public property, storm
-              drains, DPW-managed public buildings (city hall, libraries). DPW owns infrastructure
-              hazards even when they sound environmental -- a gas smell from a sewer/manhole, a
-              downed pole or exposed wiring -- because DPW is the one who fixes the underlying
-              infrastructure. DEP's hazardous-waste category is for abandoned or dumped chemical
-              containers, NOT for incidents involving DPW-owned infrastructure.
-            - DHHS (Health & Human Services): food safety at licensed establishments, benefits
-              eligibility/appeals, elder/adult protective services, mandatory reporting (child
-              welfare), senior nutrition, public health nuisances on private property,
-              immunization access, mental health crisis, homeless health outreach, child care
-              licensing.
-            - DOE (Education): school facilities, student safety/bullying (peer-to-peer), teacher
-              conduct (staff-to-student), special education services, school health services,
-              school transportation, enrollment, free/reduced lunch, after-school programs, ADA
-              accessibility at school buildings, truancy.
-            - DHUD (Housing & Urban Development): subsidized-housing habitability, in-unit utility
-              outages, public housing maintenance, homelessness shelter referral, fair housing
-              discrimination, housing vouchers, first-time homebuyer assistance, lead paint,
-              eviction prevention.
-            - DEP (Environmental Protection): illegal dumping, noise ordinance, air quality,
-              drinking water quality/contamination, recycling/composting program design,
-              pesticide/herbicide complaints, wetlands/stormwater contamination, hazardous waste,
-              protected/heritage trees, vehicle emissions, construction dust.
+            %s
 
             PRIORITY RUBRIC (apply exactly, do not improvise):
             - CRITICAL: the text describes an active hazard -- gas leak/odor, exposed or downed
@@ -157,15 +131,21 @@ public class LlmGrievanceClassifier {
     private final ChatModel chatModel;
     private final ObjectMapper objectMapper;
     private final LlmCallTimer llmCallTimer;
+    private final DepartmentDirectory departmentDirectory;
 
-    public LlmGrievanceClassifier(ChatModel chatModel, ObjectMapper objectMapper, LlmCallTimer llmCallTimer) {
+    public LlmGrievanceClassifier(
+            ChatModel chatModel,
+            ObjectMapper objectMapper,
+            LlmCallTimer llmCallTimer,
+            DepartmentDirectory departmentDirectory) {
         this.chatModel = chatModel;
         this.objectMapper = objectMapper;
         this.llmCallTimer = llmCallTimer;
+        this.departmentDirectory = departmentDirectory;
     }
 
     public ClassificationResult classify(String rawText) {
-        String prompt = PROMPT_TEMPLATE.formatted(rawText);
+        String prompt = PROMPT_TEMPLATE.formatted(departmentDirectory.departmentsPromptSection(), rawText);
         String response = llmCallTimer.time("classification", () -> chatModel.chat(prompt));
         return parse(response);
     }
