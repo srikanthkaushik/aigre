@@ -35,9 +35,9 @@ blast-radius than day-to-day supervisor work). Log in as one of the seeded
 password `Demo1234!` per `RUNNING.md`):
 
 ```
-curl -s -X POST http://localhost:8085/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"ops.admin","password":"Demo1234!"}'
+curl -s -X POST http://localhost:8085/auth/login ^
+  -H "Content-Type: application/json" ^
+  -d "{\"username\":\"ops.admin\",\"password\":\"Demo1234!\"}"
 ```
 
 Grab the `token` field from the response for the next step.
@@ -45,16 +45,10 @@ Grab the `token` field from the response for the next step.
 ## 2. Call the onboarding endpoint
 
 ```
-curl -s -X POST http://localhost:8085/admin/departments \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <TOKEN>" \
-  -d '{
-    "id": "PRD",
-    "name": "Parks and Recreation Department",
-    "shortName": "Parks and Recreation",
-    "jurisdictionNotes": "public parks maintenance, playground equipment, recreation program registration, sports field scheduling, park tree hazards, dog park facilities.",
-    "sourceUrl": "https://example.gov/parks-department/policy-documents"
-  }' \
+curl -s -X POST http://localhost:8085/admin/departments ^
+  -H "Content-Type: application/json" ^
+  -H "Authorization: Bearer <TOKEN>" ^
+  -d "{\"id\": \"PRD\", \"name\": \"Parks and Recreation Department\", \"shortName\": \"Parks and Recreation\", \"jurisdictionNotes\": \"public parks maintenance, playground equipment, recreation program registration, sports field scheduling, park tree hazards, dog park facilities.\", \"sourceUrl\": \"https://example.gov/parks-department/policy-documents\"}" ^
   --max-time 600
 ```
 
@@ -97,9 +91,9 @@ Should now include the new department. Then try a complaint that clearly
 matches its jurisdiction:
 
 ```
-curl -s -X POST http://localhost:8085/grievances \
-  -H "Content-Type: application/json" \
-  -d '{"rawText":"<a complaint matching the new department'"'"'s jurisdiction>"}'
+curl -s -X POST http://localhost:8085/grievances ^
+  -H "Content-Type: application/json" ^
+  -d "{\"rawText\": \"<a complaint matching the new department's jurisdiction>\"}"
 ```
 
 `departmentPredicted` in the response should be the new code, with a
