@@ -25,16 +25,19 @@ public class GrievanceIntakeService {
     private final LlmGrievanceClassifier classifier;
     private final SlaCalculator slaCalculator;
     private final DuplicateDetectionService duplicateDetectionService;
+    private final GrievanceIdGenerator grievanceIdGenerator;
 
     public GrievanceIntakeService(
             NamedParameterJdbcTemplate jdbc,
             LlmGrievanceClassifier classifier,
             SlaCalculator slaCalculator,
-            DuplicateDetectionService duplicateDetectionService) {
+            DuplicateDetectionService duplicateDetectionService,
+            GrievanceIdGenerator grievanceIdGenerator) {
         this.jdbc = jdbc;
         this.classifier = classifier;
         this.slaCalculator = slaCalculator;
         this.duplicateDetectionService = duplicateDetectionService;
+        this.grievanceIdGenerator = grievanceIdGenerator;
     }
 
     public GrievanceIntakeResponse submit(GrievanceIntakeRequest request) {
@@ -44,9 +47,9 @@ public class GrievanceIntakeService {
         String status = resolveStatus(classification);
         Priority priority = "TRIAGED".equals(status) ? resolvePriority(classification) : null;
         Instant submittedAt = Instant.now();
-        UUID grievanceId = UUID.randomUUID();
+        String grievanceId = grievanceIdGenerator.next();
 
-        UUID duplicateOfId = "TRIAGED".equals(status)
+        String duplicateOfId = "TRIAGED".equals(status)
                 ? duplicateDetectionService
                         .findOpenDuplicate(classification.department(), classification.category(), grievanceId, submittedAt)
                         .orElse(null)
@@ -111,7 +114,7 @@ public class GrievanceIntakeService {
     }
 
     private void insertGrievance(
-            UUID grievanceId,
+            String grievanceId,
             UUID citizenId,
             String rawText,
             ClassificationResult classification,
@@ -119,7 +122,7 @@ public class GrievanceIntakeService {
             Priority priority,
             Instant slaDueAt,
             Instant submittedAt,
-            UUID duplicateOfId) {
+            String duplicateOfId) {
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, citizen_id, raw_text, department_predicted, category,
@@ -145,7 +148,7 @@ public class GrievanceIntakeService {
                         .addValue("submittedAt", toTimestamp(submittedAt)));
     }
 
-    private void insertStatusHistory(UUID grievanceId, String status, Instant changedAt, UUID duplicateOfId) {
+    private void insertStatusHistory(String grievanceId, String status, Instant changedAt, String duplicateOfId) {
         String note = duplicateOfId == null ? null : "Automatically linked as a duplicate of " + duplicateOfId;
         jdbc.update(
                 """

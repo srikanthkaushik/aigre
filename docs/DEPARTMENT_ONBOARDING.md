@@ -168,6 +168,31 @@ should list the new department, and a complaint matching its jurisdiction
 should classify into it (see [step 3 above](#3-verify-it-worked) for the
 exact call).
 
+## Adding documents to an existing department
+
+Simpler than onboarding a new one — the department row already exists, so
+there's no DB write and no backend restart needed:
+
+1. **Drop the files into the existing department's folder**:
+   `test-data\documents\<CODE>\`. Any format Tika can parse works (`.pdf`,
+   `.txt`, `.docx`, ...), and formats can be freely mixed in the same
+   folder.
+2. **Re-ingest the corpus**:
+   ```
+   curl -s -X POST "http://localhost:8085/ingest/reset?confirm=true"
+   ```
+   This is the only ingestion path that exists — a full wipe-and-rebuild of
+   the **entire** vector store, every department, not an incremental add of
+   just the new files (see [Corpus reset](#corpus-reset-not-incremental)
+   below).
+3. **Verify**: ask the citizen chat a question answerable from the new
+   document and confirm it's cited.
+
+No department restart or `DepartmentDirectory` refresh needed — that cache
+only holds the classifier's jurisdiction prompt text, which doesn't change
+when you're adding more RAG source documents to a department that already
+exists.
+
 ## Known limitations
 
 - **Employee/staff provisioning is manual, not part of this flow.** A

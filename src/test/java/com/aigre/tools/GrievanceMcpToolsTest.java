@@ -1,12 +1,11 @@
 package com.aigre.tools;
 
+import com.aigre.intake.GrievanceIdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -16,18 +15,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * edge cases seeded in test-data/sql/seed.sql -- this is the higher-signal test for the tools'
  * actual logic; a separate live protocol-level probe confirms the MCP server wiring itself.
  *
- * Requires seed.sql to have been run against aigre-pg -- these are fixed UUIDs, not generated
- * per-test-run.
+ * Requires seed.sql to have been run against aigre-pg -- these are fixed G####-format IDs, not
+ * generated per-test-run.
  */
 @SpringBootTest
 class GrievanceMcpToolsTest {
 
-    private static final String BAD_DEPARTMENT_CODE_ID = "af000000-0000-0000-0000-000000000001";
-    private static final String STALE_BREACH_ID = "af000000-0000-0000-0000-000000000002";
-    private static final String DUPLICATE_CHAIN_ORIGINAL_ID = "af000000-0000-0000-0000-000000000003";
-    private static final String DUPLICATE_CHAIN_TAIL_ID = "af000000-0000-0000-0000-000000000005";
-    private static final String ANONYMOUS_NO_CONTACT_ID = "af000000-0000-0000-0000-000000000006";
-    private static final String NEVER_CLASSIFIED_ID = "af000000-0000-0000-0000-000000000007";
+    private static final String BAD_DEPARTMENT_CODE_ID = "G0011";
+    private static final String STALE_BREACH_ID = "G0012";
+    private static final String DUPLICATE_CHAIN_ORIGINAL_ID = "G0013";
+    private static final String DUPLICATE_CHAIN_TAIL_ID = "G0015";
+    private static final String ANONYMOUS_NO_CONTACT_ID = "G0016";
+    private static final String NEVER_CLASSIFIED_ID = "G0017";
 
     @Autowired
     private GrievanceMcpTools tools;
@@ -35,13 +34,16 @@ class GrievanceMcpToolsTest {
     @Autowired
     private NamedParameterJdbcTemplate jdbc;
 
+    @Autowired
+    private GrievanceIdGenerator grievanceIdGenerator;
+
     @Test
     void badDepartmentCodeIsSurfacedNotHidden() {
         GrievanceStatusResult result = tools.getGrievanceStatus(BAD_DEPARTMENT_CODE_ID);
 
-        assertThat(result.departmentPredicted()).isEqualTo("DMV");
+        assertThat(result.departmentPredicted()).isEqualTo("ZZLEGACY");
         assertThat(result.departmentValid())
-                .as("DMV is not a real department -- the tool should flag this, not silently accept it")
+                .as("ZZLEGACY is not a real department -- the tool should flag this, not silently accept it")
                 .isFalse();
     }
 
@@ -63,7 +65,7 @@ class GrievanceMcpToolsTest {
                 .isEqualTo(DUPLICATE_CHAIN_ORIGINAL_ID);
         assertThat(result.hopsToOriginal()).isEqualTo(2);
         assertThat(result.chain()).containsExactly(
-                DUPLICATE_CHAIN_TAIL_ID, "af000000-0000-0000-0000-000000000004", DUPLICATE_CHAIN_ORIGINAL_ID);
+                DUPLICATE_CHAIN_TAIL_ID, "G0014", DUPLICATE_CHAIN_ORIGINAL_ID);
     }
 
     @Test
@@ -86,14 +88,14 @@ class GrievanceMcpToolsTest {
 
     @Test
     void unknownGrievanceIdProducesAClearError() {
-        assertThatThrownBy(() -> tools.getGrievanceStatus("00000000-0000-0000-0000-000000000000"))
+        assertThatThrownBy(() -> tools.getGrievanceStatus("G99999999"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("No grievance found");
     }
 
     @Test
     void malformedGrievanceIdProducesAClearError() {
-        assertThatThrownBy(() -> tools.getGrievanceStatus("not-a-uuid"))
+        assertThatThrownBy(() -> tools.getGrievanceStatus("not-a-grievance-id"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("not a valid grievance ID");
     }
@@ -135,9 +137,9 @@ class GrievanceMcpToolsTest {
 
     @Test
     void reopenBumpsPriorityClearsResolutionAndRecomputesSla() {
-        UUID id = insertClosedFixture("MEDIUM");
+        String id = insertClosedFixture("MEDIUM");
 
-        ReopenResult result = tools.reopenGrievance(id.toString(), "issue recurred", "citizen-contact");
+        ReopenResult result = tools.reopenGrievance(id, "issue recurred", "citizen-contact");
 
         assertThat(result.success()).isTrue();
         assertThat(result.previousStatus()).isEqualTo("CLOSED");
@@ -146,7 +148,7 @@ class GrievanceMcpToolsTest {
         assertThat(result.newPriority()).isEqualTo("HIGH");
         assertThat(result.newSlaDueAt()).isNotNull();
 
-        GrievanceStatusResult after = tools.getGrievanceStatus(id.toString());
+        GrievanceStatusResult after = tools.getGrievanceStatus(id);
         assertThat(after.status()).isEqualTo("REOPENED");
         assertThat(after.priority()).isEqualTo("HIGH");
         assertThat(after.resolvedAt())
@@ -157,16 +159,16 @@ class GrievanceMcpToolsTest {
 
     @Test
     void reopenAtCriticalPriorityStaysCriticalInsteadOfCrashing() {
-        UUID id = insertClosedFixture("CRITICAL");
+        String id = insertClosedFixture("CRITICAL");
 
-        ReopenResult result = tools.reopenGrievance(id.toString(), "still broken", "citizen-contact");
+        ReopenResult result = tools.reopenGrievance(id, "still broken", "citizen-contact");
 
         assertThat(result.previousPriority()).isEqualTo("CRITICAL");
         assertThat(result.newPriority()).isEqualTo("CRITICAL");
     }
 
-    private UUID insertClosedFixture(String priority) {
-        UUID id = UUID.randomUUID();
+    private String insertClosedFixture(String priority) {
+        String id = grievanceIdGenerator.next();
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, raw_text, department_predicted, department_confirmed,

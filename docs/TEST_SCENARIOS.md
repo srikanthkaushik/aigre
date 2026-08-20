@@ -69,9 +69,9 @@ any single run's number. Anthropic (`claude-sonnet-5`) scored a much more stable
 full writeup. **If this test fails once, re-run it before assuming a regression.**
 
 The same caveat applies to `ChatControllerTest.statusQuestionAboutARealGrievance
-TriggersALiveToolCall` — whether the model reliably recognizes a UUID in a
-question as a cue to call `get_grievance_status` is live model behavior, not
-deterministic. If it fails, first check `onlyReadOnlyToolsAreEverExposedToThe
+TriggersALiveToolCall` — whether the model reliably recognizes a grievance ID
+(a `G0001`-style format) in a question as a cue to call `get_grievance_status`
+is live model behavior, not deterministic. If it fails, first check `onlyReadOnlyToolsAreEverExposedToThe
 CitizenChatModel` still passes (that one *is* deterministic, no LLM involved) —
 if that one fails too, it's a real wiring regression, not variance.
 

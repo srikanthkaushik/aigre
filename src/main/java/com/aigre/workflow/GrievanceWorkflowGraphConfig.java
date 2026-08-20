@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import static org.bsc.langgraph4j.StateGraph.END;
 import static org.bsc.langgraph4j.StateGraph.START;
@@ -151,7 +150,7 @@ public class GrievanceWorkflowGraphConfig {
                 WHERE id = :id
                 """,
                 new MapSqlParameterSource()
-                        .addValue("id", UUID.fromString(grievanceId))
+                        .addValue("id", grievanceId)
                         .addValue("department", result.department())
                         .addValue("category", result.category())
                         .addValue("priority", priority == null ? null : priority.name())
@@ -180,7 +179,7 @@ public class GrievanceWorkflowGraphConfig {
     }
 
     private Map<String, Object> commit(GrievanceWorkflowState state) {
-        UUID grievanceId = UUID.fromString(state.grievanceId());
+        String grievanceId = state.grievanceId();
         String status = state.actionable() ? "TRIAGED" : "NOT_ACTIONABLE";
         Priority priority = resolvePriority(state.finalPriority().orElse(null));
         Instant now = Instant.now();
@@ -189,7 +188,7 @@ public class GrievanceWorkflowGraphConfig {
         String effectiveDepartment =
                 departmentConfirmed != null ? departmentConfirmed : state.predictedDepartment().orElse(null);
 
-        UUID duplicateOfId = "TRIAGED".equals(status)
+        String duplicateOfId = "TRIAGED".equals(status)
                 ? duplicateDetectionService.findOpenDuplicate(effectiveDepartment, category, grievanceId, now).orElse(null)
                 : null;
         if (duplicateOfId != null) {
@@ -239,7 +238,7 @@ public class GrievanceWorkflowGraphConfig {
         // correct than leaving it null.
         String changedBy = state.humanReviewed() ? state.reviewedBy().orElse("supervisor") : "system:workflow";
         UpdateStatusResult result = grievanceMcpTools.updateGrievanceStatus(
-                grievanceId.toString(), status, resolutionNotes, changedBy);
+                grievanceId, status, resolutionNotes, changedBy);
         if (!result.success()) {
             // commit() only ever passes a hardcoded-valid status literal (TRIAGED/NOT_ACTIONABLE/
             // DUPLICATE, all in VALID_STATUSES) -- unreachable today, but fail loudly rather than

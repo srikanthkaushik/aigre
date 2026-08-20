@@ -2342,6 +2342,101 @@ into `DMV` at 0.9 confidence with a proper SLA date — full pipeline,
 including a document nearly 2 orders of magnitude larger than anything in
 the original corpus.
 
+## Grievance IDs: random UUID → sequential `G0001` format
+
+Grievance IDs were opaque `gen_random_uuid()` values — not memorable, not
+easy to reference in a support conversation. Replaced with an app-minted
+sequential format: `G` + a zero-padded running number, minimum width 4,
+growing past `G9999` with no truncation/collision risk (`G10000`, not a
+wrapped `G1000`).
+
+**Design**: a Postgres sequence (`grievance_id_seq`) backs a new
+`GrievanceIdGenerator` component — `SELECT nextval(...)` formatted in Java
+as `"G%04d".formatted(n)`. Deliberately not SQL-side `LPAD`: confirmed
+`LPAD('100000', 4, '0')` *truncates* to `'1000'` once the input exceeds the
+target width, a silent collision past 9999 that Java's `%04d` (a minimum
+width, never truncating) doesn't have. Generation stays app-side rather
+than a column `DEFAULT` because both intake paths need the finished ID
+*before* the INSERT — for duplicate-detection lookup and, on the workflow
+path, the LangGraph4j checkpoint `threadId` — and a `DEFAULT` is only
+recoverable via `RETURNING`, which doesn't fit that call order.
+`GrievanceIntakeService` and `GrievanceWorkflowService` both inject the same
+generator, so the two intake paths draw from one shared counter rather than
+two independent ones (verified live: submitting through `/grievances` then
+immediately through `/grievances/workflow` produced consecutive IDs).
+
+**Schema**: `grievances.id`, `duplicate_of_id`,
+`grievance_clarifications.grievance_id`, and `status_history.grievance_id`
+all changed `UUID` → `VARCHAR` (unbounded — a bounded width like
+`VARCHAR(20)` is a trap during the transition, since old UUID text is 36
+characters). Since `CREATE TABLE IF NOT EXISTS` is a no-op against an
+already-existing dev database, `schema.sql` carries a permanent, idempotent
+`ALTER TABLE` block right after `status_history`'s definition: drop the 3
+FK constraints (Postgres refuses to retype a column an FK references),
+retype all 4 columns (the implicit `uuid`→`varchar` cast needs no `USING`
+clause), then unconditionally re-add the FKs (Postgres has no
+`ADD CONSTRAINT IF NOT EXISTS`, so drop-then-add every boot is the correct
+idempotent shape, not an existence check). No DB-level `CHECK` constraint
+enforces the `G####` shape — format validation lives only at
+`GrievanceMcpTools.parseId` (the LLM-facing MCP boundary), which now
+validates against `^G\d{4,}$` instead of parsing a UUID. This is
+deliberate: several test fixtures insert non-`G`-format placeholder IDs via
+raw SQL and never touch that boundary, so a DB-level constraint would break
+them.
+
+**One-time data migration** (not something `schema.sql` does on every
+boot — a permanent `TRUNCATE` there would wipe every future real grievance
+on every restart): deploy once so the sequence exists and columns migrate,
+then `TRUNCATE status_history, grievance_clarifications, grievances`,
+`ALTER SEQUENCE grievance_id_seq RESTART WITH 1`, then reseed. One gotcha
+hit live and fixed: `seed.sql` inserts its 17 rows as literal `G0001`–
+`G0017` strings, bypassing `nextval()` entirely — so the sequence itself
+never advances past 1 from the reseed alone, and the first real submission
+after reseeding collided with `G0001` (`duplicate key value violates
+unique constraint "grievances_pkey"`, caught by `GrievanceMcpToolsTest`'s
+`insertClosedFixture` fixture). Fixed by running
+`SELECT setval('grievance_id_seq', (SELECT count(*) FROM grievances))`
+after every reseed, so the next `nextval()` correctly continues from 18.
+
+**A second live bug this surfaced**: `seed.sql`'s edge-case-A row (`plan.md`
+scenario testing an unrecognized department code) had always used `'DMV'`
+as its deliberately-nonexistent department code. Since this same session
+had onboarded a real `DMV` department earlier (see "Onboard a new
+department" above), that edge case silently stopped testing what it was
+built to test — `GrievanceMcpToolsTest.badDepartmentCodeIsSurfacedNotHidden`
+failed on this migration's first full-suite run, not because of the ID
+format, but because `DMV` is now a real, valid department. Fixed by
+switching the fixture to `'ZZLEGACY'`, a code guaranteed to never collide
+with a real department (matching the `ZZTEST` convention
+`GrievanceTrendsServiceTest` already used for the same reason).
+
+**Cascade**: every `UUID grievanceId` typed field/param/local across
+`GrievanceIntakeResponse`, `GrievanceWorkflowResponse`,
+`DuplicateDetectionService`, `GrievanceWorkflowGraphConfig` (dropping the
+now-unnecessary `UUID.fromString`/`.toString()` round-trips),
+`GrievanceWorkflowController`'s 3 `@PathVariable` bindings, and
+`GrievanceMcpTools`'s 5 `@McpToolParam`-annotated tool methods became
+`String`. `GrievanceQueryController` needed no change — it already typed
+`@PathVariable id` as `String`, not `UUID`. `SecurityIntegrationTest` (not
+originally in scope — missed by the initial codebase-usage research, since
+it references grievance IDs only inside HTTP path strings, not as a typed
+Java parameter) also needed its 2 hardcoded `a0000000-...` fixture IDs
+remapped to `G0001`/`G0003` — a reminder that a grep for a *type* doesn't
+catch every reference when the reference is a string literal.
+
+**Verified live end-to-end** after the full migration: `POST /grievances`
+and `POST /grievances/workflow` in succession produced consecutive IDs
+(`G0170`, `G0171` — the counter had already advanced past `G0017` from the
+test suite's own real writes against the shared dev database, expected and
+harmless); both were correctly flagged `DUPLICATE` against seeded rows
+(`G0013`, `G0003`); the citizen chat correctly answered "What is the status
+of grievance G0170?" via a live `get_grievance_status` MCP tool call,
+grounded in the real DUPLICATE status and original ID; a DB-wide check
+confirmed all 191 grievance rows have distinct IDs, with the only
+non-`G####`-shaped ones being `DuplicateDetectionServiceTest`'s
+raw-SQL-inserted fixtures — exactly the deliberate carve-out the "no
+DB-level CHECK constraint" design decision above allows for.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

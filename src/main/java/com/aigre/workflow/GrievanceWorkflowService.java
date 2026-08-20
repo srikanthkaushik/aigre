@@ -2,6 +2,7 @@ package com.aigre.workflow;
 
 import com.aigre.classification.ClassificationResult;
 import com.aigre.classification.LlmGrievanceClassifier;
+import com.aigre.intake.GrievanceIdGenerator;
 import com.aigre.intake.GrievanceIntakeRequest;
 import org.bsc.langgraph4j.CompiledGraph;
 import org.bsc.langgraph4j.GraphInput;
@@ -33,14 +34,17 @@ public class GrievanceWorkflowService {
     private final NamedParameterJdbcTemplate jdbc;
     private final CompiledGraph<GrievanceWorkflowState> graph;
     private final LlmGrievanceClassifier classifier;
+    private final GrievanceIdGenerator grievanceIdGenerator;
 
     public GrievanceWorkflowService(
             NamedParameterJdbcTemplate jdbc,
             CompiledGraph<GrievanceWorkflowState> grievanceWorkflowGraph,
-            LlmGrievanceClassifier classifier) {
+            LlmGrievanceClassifier classifier,
+            GrievanceIdGenerator grievanceIdGenerator) {
         this.jdbc = jdbc;
         this.graph = grievanceWorkflowGraph;
         this.classifier = classifier;
+        this.grievanceIdGenerator = grievanceIdGenerator;
     }
 
     public GrievanceWorkflowResponse start(GrievanceIntakeRequest request) {
@@ -55,19 +59,19 @@ public class GrievanceWorkflowService {
      */
     public GrievanceWorkflowResponse start(GrievanceIntakeRequest request, String channel) {
         UUID citizenId = insertCitizenIfProvided(request);
-        UUID grievanceId = UUID.randomUUID();
+        String grievanceId = grievanceIdGenerator.next();
         Instant submittedAt = Instant.now();
         insertNewGrievance(grievanceId, citizenId, request.rawText(), submittedAt, channel);
         insertStatusHistory(grievanceId, null, "NEW", submittedAt, "system:workflow", null);
 
-        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId.toString()).build();
-        graph.invoke(Map.of("grievanceId", grievanceId.toString(), "rawText", request.rawText()), config);
+        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId).build();
+        graph.invoke(Map.of("grievanceId", grievanceId, "rawText", request.rawText()), config);
 
         return buildResponse(grievanceId, config);
     }
 
-    public GrievanceWorkflowResponse resume(UUID grievanceId, GrievanceReviewDecision decision) {
-        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId.toString()).build();
+    public GrievanceWorkflowResponse resume(String grievanceId, GrievanceReviewDecision decision) {
+        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId).build();
         ensureResumable(grievanceId, config);
 
         Map<String, Object> resumeInputs = new HashMap<>();
@@ -108,8 +112,8 @@ public class GrievanceWorkflowService {
      * that's not really an issue" is an edge case); left for a supervisor to close out via the
      * existing update_grievance_status tool rather than adding that plumbing now.
      */
-    public GrievanceWorkflowResponse clarify(UUID grievanceId, String additionalText) {
-        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId.toString()).build();
+    public GrievanceWorkflowResponse clarify(String grievanceId, String additionalText) {
+        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId).build();
         ensureResumable(grievanceId, config);
         if (!HUMAN_REVIEW_NODE.equals(graph.getState(config).next())) {
             throw new IllegalStateException(
@@ -159,8 +163,8 @@ public class GrievanceWorkflowService {
         return buildResponse(grievanceId, config);
     }
 
-    public GrievanceWorkflowResponse status(UUID grievanceId) {
-        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId.toString()).build();
+    public GrievanceWorkflowResponse status(String grievanceId) {
+        RunnableConfig config = RunnableConfig.builder().threadId(grievanceId).build();
         return buildResponse(grievanceId, config);
     }
 
@@ -170,7 +174,7 @@ public class GrievanceWorkflowService {
      * error -- e.g. a seeded/demo grievance or one submitted via the plain (non-workflow) intake
      * endpoint has no checkpoint at all.
      */
-    private void ensureResumable(UUID grievanceId, RunnableConfig config) {
+    private void ensureResumable(String grievanceId, RunnableConfig config) {
         try {
             graph.getState(config);
         } catch (IllegalStateException e) {
@@ -186,7 +190,7 @@ public class GrievanceWorkflowService {
      * run is paused -- CLAUDE.md gotcha: InterruptionMetadata isn't a NodeOutput, so invoke()'s
      * Optional<State> doesn't reliably distinguish pause from completion on its own.
      */
-    private GrievanceWorkflowResponse buildResponse(UUID grievanceId, RunnableConfig config) {
+    private GrievanceWorkflowResponse buildResponse(String grievanceId, RunnableConfig config) {
         boolean pendingReview = false;
         String reasoning = null;
         try {
@@ -212,7 +216,7 @@ public class GrievanceWorkflowService {
                 : (String) row.get("department_predicted");
         Double confidence = (Double) row.get("classification_confidence");
         Instant slaDueAt = row.get("sla_due_at") instanceof Timestamp ts ? ts.toInstant() : null;
-        UUID duplicateOfId = row.get("duplicate_of_id") instanceof UUID u ? u : null;
+        String duplicateOfId = (String) row.get("duplicate_of_id");
 
         return new GrievanceWorkflowResponse(
                 grievanceId,
@@ -229,7 +233,7 @@ public class GrievanceWorkflowService {
                 duplicateOfId);
     }
 
-    private List<ClarificationEntry> fetchClarifications(UUID grievanceId) {
+    private List<ClarificationEntry> fetchClarifications(String grievanceId) {
         List<Map<String, Object>> rows = jdbc.queryForList(
                 "SELECT additional_text, submitted_at FROM grievance_clarifications "
                         + "WHERE grievance_id = :id ORDER BY submitted_at ASC",
@@ -264,7 +268,7 @@ public class GrievanceWorkflowService {
     }
 
     private void insertNewGrievance(
-            UUID grievanceId, UUID citizenId, String rawText, Instant submittedAt, String channel) {
+            String grievanceId, UUID citizenId, String rawText, Instant submittedAt, String channel) {
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, citizen_id, raw_text, status, submitted_at)
@@ -279,7 +283,7 @@ public class GrievanceWorkflowService {
     }
 
     private void insertStatusHistory(
-            UUID grievanceId, String fromStatus, String toStatus, Instant changedAt, String changedBy, String note) {
+            String grievanceId, String fromStatus, String toStatus, Instant changedAt, String changedBy, String note) {
         jdbc.update(
                 """
                 INSERT INTO status_history (id, grievance_id, from_status, to_status, changed_by, changed_at, note)

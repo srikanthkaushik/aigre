@@ -11,7 +11,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Scenario 5 from plan.md §1.4: a newly (about to be) classified grievance that matches an
@@ -51,14 +50,14 @@ public class DuplicateDetectionService {
      * start() already inserted a bare row; the plain intake path checks before insert, so the
      * exclude is a harmless no-op there since no row with that id exists yet).
      */
-    public Optional<UUID> findOpenDuplicate(
-            String department, String category, UUID excludeGrievanceId, Instant asOf) {
+    public Optional<String> findOpenDuplicate(
+            String department, String category, String excludeGrievanceId, Instant asOf) {
         if (department == null || category == null) {
             return Optional.empty();
         }
         Instant windowStart = asOf.minus(windowDays, ChronoUnit.DAYS);
 
-        List<UUID> matches = jdbc.query(
+        List<String> matches = jdbc.query(
                 """
                 SELECT id FROM grievances
                 WHERE COALESCE(department_confirmed, department_predicted) = :department
@@ -77,7 +76,7 @@ public class DuplicateDetectionService {
                         .addValue("windowStart", Timestamp.from(windowStart))
                         .addValue("asOf", Timestamp.from(asOf))
                         .addValue("excludeId", excludeGrievanceId),
-                (rs, rowNum) -> UUID.fromString(rs.getString("id")));
+                (rs, rowNum) -> rs.getString("id"));
 
         return matches.isEmpty() ? Optional.empty() : Optional.of(matches.get(0));
     }

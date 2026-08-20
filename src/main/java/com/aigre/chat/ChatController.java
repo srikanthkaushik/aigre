@@ -64,9 +64,9 @@ public class ChatController {
                 """
                 Answer the citizen's question using only the context below, UNLESS the question asks
                 about the status, SLA, or duplicate history of a specific grievance identified by its
-                UUID -- for that, call the available tool to look up live data instead of guessing from
-                the context. If neither the context nor a tool call answers the question, say you don't
-                know -- never guess.
+                ID (a format like G0001) -- for that, call the available tool to look up live data
+                instead of guessing from the context. If neither the context nor a tool call answers
+                the question, say you don't know -- never guess.
 
                 Context:
                 %s
