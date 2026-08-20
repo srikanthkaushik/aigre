@@ -101,6 +101,73 @@ reasonable `classificationConfidence`. If it isn't, the most common cause is
 a `jurisdictionNotes` value that's too thin or too generic — compare it
 against the existing 6 departments' entries in `schema.sql`.
 
+## Manual fallback: you already have the PDFs locally
+
+If `sourceUrl` can't be crawled at all (bot-blocked, login-gated, or you
+just already have the files) or missed some links the heuristic couldn't
+see, you can register the department and ingest its documents without going
+through the crawler. **The onboarding endpoint always tries to crawl
+`sourceUrl` first — there's no flag to skip that** — so this path bypasses
+`POST /admin/departments` entirely rather than fighting it.
+
+### 1. Place the documents
+
+Copy your files into a folder named for the department code — same
+convention `CorpusIngestionService` already uses for every department
+(folder name = department code, no validation against any list):
+
+```
+test-data\documents\DMV\
+```
+
+**Not limited to PDFs.** `CorpusIngestionService` parses every file under
+this folder via Apache Tika regardless of extension — `.txt` works today
+(most of the existing corpus for the original 6 departments is plain
+`.txt`, not PDF), and anything else Tika can parse (`.docx`, `.html`, ...)
+should too. `.txt` and PDFs can be mixed freely in the same department
+folder.
+
+### 2. Insert the department row directly
+
+```
+docker exec aigre-pg psql -U aigre -d aigre -c "INSERT INTO departments (id, name, short_name, jurisdiction_notes) VALUES ('DMV', 'Department of Safety - Division of Motor Vehicles', 'Motor Vehicles', 'vehicle registration, drivers licenses, title transfers, road tests, vanity plates, vehicle inspections.');"
+```
+
+Put real care into `jurisdiction_notes` — same as the API's `jurisdictionNotes`
+field, it's the single highest-leverage piece of text for classification
+quality (see the field table above).
+
+### 3. Restart the backend
+
+`DepartmentDirectory` (the classifier's live department cache) only
+refreshes when `POST /admin/departments` calls it — since this path
+bypasses that endpoint, nothing tells the running classifier a new
+department exists until it re-reads the `departments` table, which happens
+once at startup:
+
+```
+mvn spring-boot:run
+```
+
+### 4. Re-ingest the corpus
+
+This is the step that actually embeds your PDFs into the RAG vector store
+— nothing before this point has touched pgvector:
+
+```
+curl -s -X POST "http://localhost:8085/ingest/reset?confirm=true"
+```
+
+### 5. Verify
+
+```
+curl -s http://localhost:8085/departments
+```
+
+should list the new department, and a complaint matching its jurisdiction
+should classify into it (see [step 3 above](#3-verify-it-worked) for the
+exact call).
+
 ## Known limitations
 
 - **Employee/staff provisioning is manual, not part of this flow.** A
@@ -108,12 +175,25 @@ against the existing 6 departments' entries in `schema.sql`.
   grievance routed there has no one to claim it in the employee dashboard
   until someone adds staff separately (direct SQL today; no admin UI for
   this yet).
-- **PDF-link detection is best-effort**, not exhaustive. It looks for
-  `.pdf` in the resolved URL — a page that links a PDF via a redirect-y URL
-  with no `.pdf` in it (e.g. `/download?doc=42`) will be silently missed,
-  not downloaded-and-rejected. Check `skippedLinks` and, if a real document
-  went missing entirely (not even attempted), download it manually into
-  `test-data/documents/<CODE>/` and run `POST /ingest/reset?confirm=true`.
+- **The crawler only looks for PDFs.** `PdfCrawlService` matches links
+  containing `.pdf` — a source page linking `.txt`, `.docx`, or other
+  document formats won't pull them in via `POST /admin/departments`, even
+  though `CorpusIngestionService` itself would happily parse them (see the
+  [manual fallback](#manual-fallback-you-already-have-the-pdfs-locally)
+  above). PDF-link detection is also best-effort even for PDFs, not
+  exhaustive — it looks for `.pdf` in the resolved URL, so a redirect-y URL
+  with no `.pdf` in it (e.g. `/download?doc=42`) is silently missed, not
+  downloaded-and-rejected. Check `skippedLinks`, and if a real document went
+  missing entirely, use the manual fallback to add it directly.
+- **Some public sites block non-browser requests outright** (`403
+  Forbidden`, common bot-protection on `.gov` sites in particular). If
+  `sourceUrl` itself can't be fetched at all, the call fails fast with a
+  `400` naming the real cause (e.g. `Could not fetch sourceUrl '...': 403
+  Forbidden from GET ...`) — no department is created, nothing is written.
+  There's no way to make a bot-blocking site crawlable from here; use the
+  [manual fallback](#manual-fallback-you-already-have-the-pdfs-locally)
+  above — find a different, publicly crawlable source, or download the
+  files by hand.
 - **Citations can include tangentially-related documents alongside the
   right one.** The citizen chat's retrieval reranker (a local LLM scoring
   pass, not a purpose-built relevance model) doesn't always cleanly

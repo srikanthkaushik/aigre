@@ -43,6 +43,19 @@ public class CorpusIngestionService {
     private static final int DOCUMENTS_PER_BATCH = 10;
 
     /**
+     * DOCUMENTS_PER_BATCH assumed roughly-uniform, small documents -- true for the original
+     * curated corpus, but department onboarding can introduce a single much larger document (a
+     * full statute/regulation text, not a short SOP). Confirmed live: a single 222KB .txt file
+     * split into ~493 chunks, all landing in one embedAll() call regardless of the 10-document
+     * cap, reproducing the exact "one giant request overwhelms the local Ollama embedding runner"
+     * failure this class's own DOCUMENTS_PER_BATCH comment already documents -- just triggered by
+     * one oversized document instead of total corpus size. Segments are additionally sub-batched
+     * by this count immediately before each embedAll() call so no single HTTP request to the
+     * embedding model exceeds it, independent of how many documents or how large any one of them is.
+     */
+    private static final int SEGMENTS_PER_EMBED_CALL = 50;
+
+    /**
      * Fix for the "cross-reference-competition" retrieval bug (PROJECT.md): several corpus docs
      * deliberately contain a disambiguation sentence naming a DIFFERENT department/topic ("that's
      * a DPW matter, not illegal dumping"), per plan.md's own "cross-references between documents"
@@ -135,11 +148,12 @@ public class CorpusIngestionService {
             storedSegments.add(TextSegment.from(storedText, storedMetadata));
         }
 
-        if (embeddableSegments.isEmpty()) {
-            return;
+        for (int start = 0; start < embeddableSegments.size(); start += SEGMENTS_PER_EMBED_CALL) {
+            int end = Math.min(start + SEGMENTS_PER_EMBED_CALL, embeddableSegments.size());
+            List<Embedding> embeddings =
+                    embeddingModel.embedAll(embeddableSegments.subList(start, end)).content();
+            embeddingStore.addAll(embeddings, storedSegments.subList(start, end));
         }
-        List<Embedding> embeddings = embeddingModel.embedAll(embeddableSegments).content();
-        embeddingStore.addAll(embeddings, storedSegments);
     }
 
     /**

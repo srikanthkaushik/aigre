@@ -23,7 +23,10 @@
 }
 
 .department-filter {
-  width: 12rem;
+  // Wide enough for the longest current department name ("Department of Safety - Division of
+  // Motor Vehicles") without wrapping -- department names are no longer a fixed, short set (see
+  // DepartmentService), so this needs headroom beyond what the original 6 departments needed.
+  width: 22rem;
 }
 
 .channel-icon {

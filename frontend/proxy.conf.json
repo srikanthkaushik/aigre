@@ -4,5 +4,7 @@
   "/chat": { "target": "http://localhost:8085", "secure": false },
   "/ingest": { "target": "http://localhost:8085", "secure": false },
   "/mcp": { "target": "http://localhost:8085", "secure": false },
-  "/actuator": { "target": "http://localhost:8085", "secure": false }
+  "/actuator": { "target": "http://localhost:8085", "secure": false },
+  "/departments": { "target": "http://localhost:8085", "secure": false },
+  "/admin": { "target": "http://localhost:8085", "secure": false }
 }

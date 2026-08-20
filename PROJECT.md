@@ -2287,6 +2287,61 @@ checks are structurally unaffected by tail-filtering anyway (the filter
 only removes low-scored entries from the bottom of an already-sorted list,
 never changes which result ranks first).
 
+### Second follow-up: a blocked source URL crashed with an opaque 500
+
+Reported live: onboarding a real department (NH DMV, `dmv.nh.gov/forms`)
+returned a bare `500 Internal Server Error` with no useful message.
+Reproduced immediately — `PdfCrawlService.findPdfLinks()`'s initial page
+fetch had no error handling at all (unlike `download()`, which does):
+`WebClient.retrieve()` throws `WebClientResponseException` on any non-2xx
+response by default, and this specific site returns `403 Forbidden` to
+non-browser requests (common bot-protection behavior on `.gov` sites — the
+same thing that blocked a couple of candidate URLs during this feature's
+own original build-and-verify pass). The uncaught exception propagated all
+the way to Spring's default error handler.
+
+**Fixed**: wrapped the fetch in try/catch, throwing
+`InvalidDepartmentRequestException` (→ 400, with the real cause in the
+message) instead of letting it crash to a generic 500. Confirmed the
+failure happens before any state is written — no department row, no corpus
+touched — so this was a bad error message, not a data-safety issue.
+**This does not make the crawl succeed against a bot-blocking site** — the
+underlying `403` is real and the target site is still not crawlable; the
+fix only replaces an opaque crash with an actionable one. `docs
+/DEPARTMENT_ONBOARDING.md` documents the workaround (a different, publicly
+crawlable source URL, or manually placing PDFs in `test-data/documents
+/<CODE>/` and calling `POST /ingest/reset?confirm=true`).
+
+### Third follow-up: an oversized document crashed the corpus reset
+
+Onboarding NH's real DMV department via the manual fallback (a 222KB `.txt`
+document — the actual `dmv.nh.gov` page was one of the `403`-blocking sites
+from the second follow-up above) hit a third real bug: `POST /ingest/reset`
+failed with `dev.langchain4j.exception.InvalidRequestException` wrapping a
+connection-refused error against an internal Ollama tokenizer endpoint.
+
+Root cause: `CorpusIngestionService.DOCUMENTS_PER_BATCH` (10) batches by
+**document** count, sized for the original corpus's small, roughly-uniform
+documents. A single 222KB document splits into ~493 chunks at the existing
+500-char/50-char-overlap settings — confirmed by direct calculation and by
+the actual indexed count afterward (492 rows). Landing in one 10-document
+batch, that one document alone produced a single `embedAll()` call with
+~493 segments, reproducing the exact "one giant request overwhelms the
+local Ollama embedding runner" failure this same class's own
+`DOCUMENTS_PER_BATCH` comment already named — just triggered by one
+oversized document instead of total corpus size, a case the original
+batching didn't account for.
+
+**Fixed**: added `SEGMENTS_PER_EMBED_CALL` (50) — segments are now
+additionally sub-batched immediately before each `embedAll()` call, so no
+single embedding request exceeds that count regardless of how large any one
+source document is. Verified: `POST /ingest/reset` succeeded afterward
+(117 documents, 492 of them DMV's), and a real complaint ("my vehicle
+registration renewal was rejected... title transfer is stuck") classified
+into `DMV` at 0.9 confidence with a proper SLA date — full pipeline,
+including a document nearly 2 orders of magnitude larger than anything in
+the original corpus.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

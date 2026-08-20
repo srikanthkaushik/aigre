@@ -15,6 +15,13 @@ export class DepartmentService {
   );
 
   constructor(private readonly http: HttpClient) {
-    this.http.get<DepartmentSummary[]>(`${API_BASE}/departments`).subscribe((list) => this._departments.set(list));
+    this.http.get<DepartmentSummary[]>(`${API_BASE}/departments`).subscribe({
+      next: (list) => this._departments.set(list),
+      // A silent failure here previously meant the department dropdown showed nothing but
+      // "All Departments" with no indication why -- confirmed live via a missing ng serve proxy
+      // rule for /departments (fixed in proxy.conf.json), but any other transient failure would
+      // have hit the exact same silent-empty-forever symptom without this.
+      error: (err) => console.error('Failed to load departments -- department dropdowns will be empty.', err)
+    });
   }
 }

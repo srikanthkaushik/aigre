@@ -35,14 +35,26 @@ public class PdfCrawlService {
      * Jsoup.parse's baseUri) -- no manual java.net.URI.resolve needed. Best-effort: a real page
      * that links a PDF via a redirect-y URL with no ".pdf" in it (e.g. "/download?doc=42") would
      * be silently missed, not downloaded-and-rejected -- known limitation, see PROJECT.md.
+     *
+     * Unlike download() below, a failure to fetch the page ITSELF (unreachable, or -- confirmed
+     * live against a real .gov site -- 403 from bot protection) is not something to skip past:
+     * there's nothing to crawl at all, so the whole onboarding call should fail with a clear
+     * message. .retrieve() throws WebClientResponseException on any non-2xx by default; left
+     * uncaught this surfaced as an opaque 500 instead of an actionable error.
      */
     public List<String> findPdfLinks(String pageUrl) {
-        String html = webClient.get()
-                .uri(pageUrl)
-                .retrieve()
-                .bodyToMono(String.class)
-                .timeout(Duration.ofSeconds(30))
-                .block();
+        String html;
+        try {
+            html = webClient.get()
+                    .uri(pageUrl)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .timeout(Duration.ofSeconds(30))
+                    .block();
+        } catch (RuntimeException e) {
+            throw new InvalidDepartmentRequestException(
+                    "Could not fetch sourceUrl '" + pageUrl + "': " + e.getMessage());
+        }
 
         if (html == null) {
             return List.of();
