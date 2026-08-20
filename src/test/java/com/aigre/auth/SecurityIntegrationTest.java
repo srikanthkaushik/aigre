@@ -95,7 +95,7 @@ class SecurityIntegrationTest {
     void agentCannotMarkAGrievanceResolved() {
         String agentToken = login("priya.nakamura");
 
-        client().post().uri("/grievances/a0000000-0000-0000-0000-000000000001/status")
+        client().post().uri("/grievances/G0001/status")
                 .header("Authorization", "Bearer " + agentToken)
                 .bodyValue(Map.of("newStatus", "IN_PROGRESS", "note", "should be forbidden", "changedBy", "priya.nakamura"))
                 .exchange()
@@ -104,10 +104,10 @@ class SecurityIntegrationTest {
 
     @Test
     void supervisorCannotActOnAnotherDepartmentsGrievance() {
-        // marcus.webb is DOT; a0000000-...-000000000003 is a DPW grievance (seed.sql).
+        // marcus.webb is DOT; G0003 is a DPW grievance (seed.sql).
         String dotSupervisorToken = login("marcus.webb");
 
-        client().post().uri("/grievances/a0000000-0000-0000-0000-000000000003/status")
+        client().post().uri("/grievances/G0003/status")
                 .header("Authorization", "Bearer " + dotSupervisorToken)
                 .bodyValue(Map.of("newStatus", "IN_PROGRESS", "note", "cross-department, should be forbidden",
                         "changedBy", "marcus.webb"))
@@ -136,7 +136,7 @@ class SecurityIntegrationTest {
         // supervisor is forbidden from -- ADMIN must succeed where that one is rejected.
         String adminToken = login("ops.admin");
 
-        client().post().uri("/grievances/a0000000-0000-0000-0000-000000000003/status")
+        client().post().uri("/grievances/G0003/status")
                 .header("Authorization", "Bearer " + adminToken)
                 .bodyValue(Map.of("newStatus", "IN_PROGRESS", "note", "admin cross-department action", "changedBy", "ops.admin"))
                 .exchange()

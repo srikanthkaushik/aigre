@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Map;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -67,7 +66,7 @@ class PiiRedactionWebFilterTest {
                 .getResponseBody();
 
         assertThat(response).isNotNull();
-        UUID grievanceId = UUID.fromString((String) response.get("grievanceId"));
+        String grievanceId = (String) response.get("grievanceId");
 
         String storedRawText = jdbc.queryForObject(
                 "SELECT raw_text FROM grievances WHERE id = :id",
@@ -95,7 +94,7 @@ class PiiRedactionWebFilterTest {
                 .getResponseBody();
 
         assertThat(response).isNotNull();
-        UUID grievanceId = UUID.fromString((String) response.get("grievanceId"));
+        String grievanceId = (String) response.get("grievanceId");
 
         String storedRawText = jdbc.queryForObject(
                 "SELECT raw_text FROM grievances WHERE id = :id",

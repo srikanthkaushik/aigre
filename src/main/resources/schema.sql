@@ -7,6 +7,11 @@
 
 CREATE EXTENSION IF NOT EXISTS vector;
 
+-- Backs GrievanceIdGenerator's app-side "G0001"-style ID minting -- see the
+-- idempotent ALTER block after status_history below for the one-time column
+-- retype from UUID that made this necessary.
+CREATE SEQUENCE IF NOT EXISTS grievance_id_seq START 1;
+
 CREATE TABLE IF NOT EXISTS departments (
     id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(120) NOT NULL,
@@ -61,7 +66,7 @@ CREATE TABLE IF NOT EXISTS sla_policies (
 -- with a department code that no longer exists, to exercise MCP tool error
 -- paths in milestone 3. A hard FK would make that edge case unseedable.
 CREATE TABLE IF NOT EXISTS grievances (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id VARCHAR PRIMARY KEY,
     channel VARCHAR(10) NOT NULL DEFAULT 'PORTAL' CHECK (channel IN ('PORTAL', 'EMAIL')),
     citizen_id UUID REFERENCES citizens (id),
     raw_text TEXT NOT NULL,
@@ -77,7 +82,7 @@ CREATE TABLE IF NOT EXISTS grievances (
     sla_due_at TIMESTAMPTZ,
     assigned_department VARCHAR(10),
     assigned_employee_id UUID REFERENCES department_employees (id),
-    duplicate_of_id UUID REFERENCES grievances (id),
+    duplicate_of_id VARCHAR REFERENCES grievances (id),
     resolution_notes TEXT,
     resolved_at TIMESTAMPTZ,
     submitted_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -89,20 +94,42 @@ CREATE TABLE IF NOT EXISTS grievances (
 -- each follow-up as distinct entries instead of one concatenated blob.
 CREATE TABLE IF NOT EXISTS grievance_clarifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    grievance_id UUID NOT NULL REFERENCES grievances (id),
+    grievance_id VARCHAR NOT NULL REFERENCES grievances (id),
     additional_text TEXT NOT NULL,
     submitted_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS status_history (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    grievance_id UUID NOT NULL REFERENCES grievances (id),
+    grievance_id VARCHAR NOT NULL REFERENCES grievances (id),
     from_status VARCHAR(24),
     to_status VARCHAR(24) NOT NULL,
     changed_by VARCHAR(120),
     changed_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     note TEXT
 );
+
+-- One-time migration for an already-seeded database (this dev DB included), where the
+-- CREATE TABLE IF NOT EXISTS statements above are no-ops against existing tables. Safe to
+-- leave here permanently and re-run on every boot: once the columns are already VARCHAR,
+-- dropping/re-adding the FK constraints and retyping is a no-op in effect (Postgres has no
+-- ADD CONSTRAINT IF NOT EXISTS, so this is unconditional drop-then-add rather than a guard).
+ALTER TABLE grievances DROP CONSTRAINT IF EXISTS grievances_duplicate_of_id_fkey;
+ALTER TABLE grievance_clarifications DROP CONSTRAINT IF EXISTS grievance_clarifications_grievance_id_fkey;
+ALTER TABLE status_history DROP CONSTRAINT IF EXISTS status_history_grievance_id_fkey;
+
+ALTER TABLE grievances ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE grievances ALTER COLUMN id TYPE VARCHAR;
+ALTER TABLE grievances ALTER COLUMN duplicate_of_id TYPE VARCHAR;
+ALTER TABLE grievance_clarifications ALTER COLUMN grievance_id TYPE VARCHAR;
+ALTER TABLE status_history ALTER COLUMN grievance_id TYPE VARCHAR;
+
+ALTER TABLE grievances ADD CONSTRAINT grievances_duplicate_of_id_fkey
+    FOREIGN KEY (duplicate_of_id) REFERENCES grievances (id);
+ALTER TABLE grievance_clarifications ADD CONSTRAINT grievance_clarifications_grievance_id_fkey
+    FOREIGN KEY (grievance_id) REFERENCES grievances (id);
+ALTER TABLE status_history ADD CONSTRAINT status_history_grievance_id_fkey
+    FOREIGN KEY (grievance_id) REFERENCES grievances (id);
 
 -- jurisdiction_notes below is the classifier's actual DEPARTMENTS prompt-bullet text, verbatim
 -- (including DPW's cross-department disambiguation sentences, which fixed a real documented

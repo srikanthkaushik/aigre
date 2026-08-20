@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import java.util.UUID;
-
 /**
  * The agent-workflow counterpart to GrievanceController's direct intake: confident/unambiguous
  * cases auto-commit exactly like plain intake, but low-confidence or ambiguous cases pause for a
@@ -39,7 +37,7 @@ public class GrievanceWorkflowController {
 
     /** Employee-facing (the dashboard's detail dialog) -- department-scoped, see DepartmentAccess. */
     @GetMapping("/{id}/workflow")
-    public Mono<GrievanceWorkflowResponse> status(@PathVariable UUID id, @AuthenticationPrincipal EmployeePrincipal principal) {
+    public Mono<GrievanceWorkflowResponse> status(@PathVariable String id, @AuthenticationPrincipal EmployeePrincipal principal) {
         return Mono.fromCallable(() -> {
             GrievanceWorkflowResponse response = service.status(id);
             DepartmentAccess.requireOwnDepartment(principal, response.department());
@@ -50,7 +48,7 @@ public class GrievanceWorkflowController {
     /** SUPERVISOR-only (SecurityConfig) and department-scoped -- checked before the resume actually mutates anything. */
     @PostMapping("/{id}/workflow/resume")
     public Mono<GrievanceWorkflowResponse> resume(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody GrievanceReviewDecision decision,
             @AuthenticationPrincipal EmployeePrincipal principal) {
         return Mono.fromCallable(() -> {
@@ -61,7 +59,7 @@ public class GrievanceWorkflowController {
 
     @PostMapping("/{id}/workflow/clarify")
     public Mono<GrievanceWorkflowResponse> clarify(
-            @PathVariable UUID id, @Valid @RequestBody ClarificationRequest request) {
+            @PathVariable String id, @Valid @RequestBody ClarificationRequest request) {
         return Mono.fromCallable(() -> service.clarify(id, request.additionalText()))
                 .subscribeOn(Schedulers.boundedElastic());
     }

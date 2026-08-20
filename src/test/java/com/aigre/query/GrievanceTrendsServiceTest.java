@@ -101,7 +101,7 @@ class GrievanceTrendsServiceTest {
     @Test
     void recurringIssueSurfacedWhenThreeOrMoreReportsShareARoot() {
         Instant now = Instant.now();
-        UUID root = insertGrievance("pothole", "MEDIUM", null, now, null, null, "TRIAGED", null);
+        String root = insertGrievance("pothole", "MEDIUM", null, now, null, null, "TRIAGED", null);
         insertGrievance("pothole", "MEDIUM", null, now, null, null, "DUPLICATE", root);
         insertGrievance("pothole", "MEDIUM", null, now, null, null, "DUPLICATE", root);
 
@@ -109,7 +109,7 @@ class GrievanceTrendsServiceTest {
 
         assertThat(trends.recurringIssues()).hasSize(1);
         RecurringIssue issue = trends.recurringIssues().get(0);
-        assertThat(issue.grievanceId()).isEqualTo(root.toString());
+        assertThat(issue.grievanceId()).isEqualTo(root);
         assertThat(issue.repeatCount()).isEqualTo(2);
         assertThat(issue.category()).isEqualTo("pothole");
         assertThat(issue.department()).isEqualTo(DEPT);
@@ -119,22 +119,22 @@ class GrievanceTrendsServiceTest {
     @Test
     void multiHopChainResolvesToTheTrueRootNotAnIntermediateDuplicate() {
         Instant now = Instant.now();
-        UUID a = insertGrievance("noise", "LOW", null, now, null, null, "TRIAGED", null);
-        UUID b = insertGrievance("noise", "LOW", null, now, null, null, "DUPLICATE", a);
+        String a = insertGrievance("noise", "LOW", null, now, null, null, "TRIAGED", null);
+        String b = insertGrievance("noise", "LOW", null, now, null, null, "DUPLICATE", a);
         insertGrievance("noise", "LOW", null, now, null, null, "DUPLICATE", b);
 
         TrendsResponse trends = service.trends(DEPT, 30);
 
         assertThat(trends.recurringIssues()).hasSize(1);
         RecurringIssue issue = trends.recurringIssues().get(0);
-        assertThat(issue.grievanceId()).isEqualTo(a.toString());
+        assertThat(issue.grievanceId()).isEqualTo(a);
         assertThat(issue.repeatCount()).isEqualTo(2);
     }
 
     @Test
     void onlyTwoTotalReportsStaysBelowTheRecurringThreshold() {
         Instant now = Instant.now();
-        UUID root = insertGrievance("graffiti", "LOW", null, now, null, null, "TRIAGED", null);
+        String root = insertGrievance("graffiti", "LOW", null, now, null, null, "TRIAGED", null);
         insertGrievance("graffiti", "LOW", null, now, null, null, "DUPLICATE", root);
 
         TrendsResponse trends = service.trends(DEPT, 30);
@@ -146,10 +146,10 @@ class GrievanceTrendsServiceTest {
         return list.stream().collect(Collectors.toMap(keyFn, valueFn));
     }
 
-    private UUID insertGrievance(
+    private String insertGrievance(
             String category, String priority, Double sentimentScore,
-            Instant submittedAt, Instant resolvedAt, Instant slaDueAt, String status, UUID duplicateOfId) {
-        UUID id = UUID.randomUUID();
+            Instant submittedAt, Instant resolvedAt, Instant slaDueAt, String status, String duplicateOfId) {
+        String id = UUID.randomUUID().toString();
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, raw_text, department_predicted, category, priority,

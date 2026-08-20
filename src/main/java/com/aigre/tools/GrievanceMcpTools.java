@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * MCP tools over the grievance systems-of-record (plan milestone 3), exposed via Spring AI's
@@ -36,6 +37,8 @@ public class GrievanceMcpTools {
 
     private static final Set<String> TERMINAL_STATUSES = Set.of("RESOLVED", "CLOSED", "NOT_ACTIONABLE");
 
+    private static final Pattern GRIEVANCE_ID_PATTERN = Pattern.compile("^G\\d{4,}$");
+
     private final NamedParameterJdbcTemplate jdbc;
     private final SlaCalculator slaCalculator;
 
@@ -48,8 +51,8 @@ public class GrievanceMcpTools {
             name = "get_grievance_status",
             description = "Look up the current status, classification, and SLA due date for a grievance by its ID.")
     public GrievanceStatusResult getGrievanceStatus(
-            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId) {
-        UUID id = parseId(grievanceId);
+            @McpToolParam(description = "The grievance's ID, e.g. G0001", required = true) String grievanceId) {
+        String id = parseId(grievanceId);
         List<GrievanceStatusResult> rows = jdbc.query(
                 """
                 SELECT g.id, g.status, g.department_predicted, g.department_confirmed, g.category, g.priority,
@@ -87,8 +90,8 @@ public class GrievanceMcpTools {
             description = "Check whether a grievance's SLA is breached, and how many hours remain or how many "
                     + "hours overdue it is.")
     public SlaStatusResult checkSlaStatus(
-            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId) {
-        UUID id = parseId(grievanceId);
+            @McpToolParam(description = "The grievance's ID, e.g. G0001", required = true) String grievanceId) {
+        String id = parseId(grievanceId);
         List<SlaStatusResult> rows = jdbc.query(
                 """
                 SELECT id, status, priority, sla_due_at,
@@ -111,8 +114,8 @@ public class GrievanceMcpTools {
             description = "Walk a grievance's duplicate-of chain to find the true original report, even if the "
                     + "chain is several hops deep.")
     public DuplicateChainResult findDuplicateChain(
-            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId) {
-        UUID id = parseId(grievanceId);
+            @McpToolParam(description = "The grievance's ID, e.g. G0001", required = true) String grievanceId) {
+        String id = parseId(grievanceId);
         List<Object[]> hops = jdbc.query(
                 """
                 WITH RECURSIVE chain AS (
@@ -144,12 +147,12 @@ public class GrievanceMcpTools {
                     + "statuses: NEW, NEEDS_CLARIFICATION, TRIAGED, ROUTED, IN_PROGRESS, RESOLVED, CLOSED, "
                     + "ESCALATED, REOPENED, NOT_ACTIONABLE, DUPLICATE.")
     public UpdateStatusResult updateGrievanceStatus(
-            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId,
+            @McpToolParam(description = "The grievance's ID, e.g. G0001", required = true) String grievanceId,
             @McpToolParam(description = "The new status", required = true) String newStatus,
             @McpToolParam(description = "Why the status is changing", required = true) String note,
             @McpToolParam(description = "Who is making this change (employee ID or 'system:<source>')", required = true)
                     String changedBy) {
-        UUID id = parseId(grievanceId);
+        String id = parseId(grievanceId);
         String normalizedStatus = newStatus == null ? "" : newStatus.trim().toUpperCase();
         if (!VALID_STATUSES.contains(normalizedStatus)) {
             return new UpdateStatusResult(
@@ -205,13 +208,13 @@ public class GrievanceMcpTools {
                     + "its resolution, recomputes a fresh SLA due date, and routes it back to its confirmed "
                     + "department for another look. Only works on grievances currently in CLOSED status.")
     public ReopenResult reopenGrievance(
-            @McpToolParam(description = "The grievance's UUID", required = true) String grievanceId,
+            @McpToolParam(description = "The grievance's ID, e.g. G0001", required = true) String grievanceId,
             @McpToolParam(description = "Why the grievance is being reopened", required = true) String reason,
             @McpToolParam(
                             description = "Who is reopening it (citizen ID/contact, or 'system:<source>')",
                             required = true)
                     String reopenedBy) {
-        UUID id = parseId(grievanceId);
+        String id = parseId(grievanceId);
         List<Map<String, Object>> rows = jdbc.queryForList(
                 "SELECT status, priority FROM grievances WHERE id = :id", new MapSqlParameterSource("id", id));
         if (rows.isEmpty()) {
@@ -263,14 +266,12 @@ public class GrievanceMcpTools {
                 "Reopened.");
     }
 
-    private UUID parseId(String rawId) {
-        try {
-            return UUID.fromString(rawId);
-        } catch (IllegalArgumentException e) {
+    private String parseId(String rawId) {
+        if (rawId == null || !GRIEVANCE_ID_PATTERN.matcher(rawId).matches()) {
             throw new IllegalArgumentException(
-                    "'" + rawId + "' is not a valid grievance ID (expected a UUID like "
-                            + "123e4567-e89b-12d3-a456-426614174000).");
+                    "'" + rawId + "' is not a valid grievance ID -- expected a format like G0001.");
         }
+        return rawId;
     }
 
     private <T> T requireFound(List<T> rows, String grievanceId) {

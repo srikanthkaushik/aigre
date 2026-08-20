@@ -2,10 +2,9 @@ package com.aigre.workflow;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 public record GrievanceWorkflowResponse(
-        UUID grievanceId,
+        String grievanceId,
         String status,
         boolean pendingReview,
         String department,
@@ -16,5 +15,5 @@ public record GrievanceWorkflowResponse(
         String reasoning,
         String rawText,
         List<ClarificationEntry> clarifications,
-        UUID duplicateOfId) {
+        String duplicateOfId) {
 }

@@ -35,9 +35,9 @@ class DuplicateDetectionServiceTest {
     void findsAnOpenGrievanceInTheSameDepartmentAndCategory() {
         String category = uniqueCategory();
         Instant now = Instant.now();
-        UUID original = insertGrievance("DOT", category, "TRIAGED", now.minus(1, ChronoUnit.DAYS));
+        String original = insertGrievance("DOT", category, "TRIAGED", now.minus(1, ChronoUnit.DAYS));
 
-        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID(), now);
+        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID().toString(), now);
 
         assertThat(match).contains(original);
     }
@@ -47,7 +47,7 @@ class DuplicateDetectionServiceTest {
         Instant now = Instant.now();
         insertGrievance("DOT", uniqueCategory(), "TRIAGED", now.minus(1, ChronoUnit.DAYS));
 
-        var match = service.findOpenDuplicate("DOT", uniqueCategory(), UUID.randomUUID(), now);
+        var match = service.findOpenDuplicate("DOT", uniqueCategory(), UUID.randomUUID().toString(), now);
 
         assertThat(match).isEmpty();
     }
@@ -58,7 +58,7 @@ class DuplicateDetectionServiceTest {
         Instant now = Instant.now();
         insertGrievance("DOT", category, "TRIAGED", now.minus(30, ChronoUnit.DAYS));
 
-        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID(), now);
+        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID().toString(), now);
 
         assertThat(match)
                 .as("31-day-old submission is well outside the default 7-day window")
@@ -74,7 +74,7 @@ class DuplicateDetectionServiceTest {
         insertGrievance("DOT", category, "NOT_ACTIONABLE", now.minus(1, ChronoUnit.DAYS));
         insertGrievance("DOT", category, "DUPLICATE", now.minus(1, ChronoUnit.DAYS));
 
-        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID(), now);
+        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID().toString(), now);
 
         assertThat(match)
                 .as("none of these are still-open issues worth linking a new report against")
@@ -85,7 +85,7 @@ class DuplicateDetectionServiceTest {
     void excludesItsOwnRowWhenGivenAsTheExcludeId() {
         String category = uniqueCategory();
         Instant now = Instant.now();
-        UUID self = insertGrievance("DOT", category, "NEW", now.minus(1, ChronoUnit.HOURS));
+        String self = insertGrievance("DOT", category, "NEW", now.minus(1, ChronoUnit.HOURS));
 
         var match = service.findOpenDuplicate("DOT", category, self, now);
 
@@ -98,10 +98,10 @@ class DuplicateDetectionServiceTest {
     void picksTheEarliestMatchingCandidateWhenSeveralExist() {
         String category = uniqueCategory();
         Instant now = Instant.now();
-        UUID earlier = insertGrievance("DOT", category, "TRIAGED", now.minus(3, ChronoUnit.DAYS));
+        String earlier = insertGrievance("DOT", category, "TRIAGED", now.minus(3, ChronoUnit.DAYS));
         insertGrievance("DOT", category, "TRIAGED", now.minus(1, ChronoUnit.DAYS));
 
-        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID(), now);
+        var match = service.findOpenDuplicate("DOT", category, UUID.randomUUID().toString(), now);
 
         assertThat(match).contains(earlier);
     }
@@ -110,8 +110,8 @@ class DuplicateDetectionServiceTest {
         return "test-cat-" + UUID.randomUUID();
     }
 
-    private UUID insertGrievance(String department, String category, String status, Instant submittedAt) {
-        UUID id = UUID.randomUUID();
+    private String insertGrievance(String department, String category, String status, Instant submittedAt) {
+        String id = UUID.randomUUID().toString();
         jdbc.update(
                 """
                 INSERT INTO grievances (id, channel, raw_text, department_predicted, department_confirmed,
