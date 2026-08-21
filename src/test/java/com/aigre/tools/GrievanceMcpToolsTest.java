@@ -1,11 +1,17 @@
 package com.aigre.tools;
 
 import com.aigre.intake.GrievanceIdGenerator;
+import com.aigre.workflow.ClarificationEntry;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -45,6 +51,26 @@ class GrievanceMcpToolsTest {
         assertThat(result.departmentValid())
                 .as("ZZLEGACY is not a real department -- the tool should flag this, not silently accept it")
                 .isFalse();
+        assertThat(result.rawText())
+                .isEqualTo("Legacy complaint about a vehicle registration issue, filed before the department was renamed.");
+        assertThat(result.clarifications())
+                .as("no follow-up detail was ever submitted for this seeded row")
+                .isEmpty();
+    }
+
+    @Test
+    void statusIncludesClarificationsInSubmittedOrder() {
+        String id = insertClosedFixture("MEDIUM");
+        insertClarification(id, "the pothole is right in front of 12 Elm St", Instant.now().minus(Duration.ofDays(2)));
+        insertClarification(id, "it's gotten worse after last night's rain", Instant.now().minus(Duration.ofDays(1)));
+
+        GrievanceStatusResult result = tools.getGrievanceStatus(id);
+
+        assertThat(result.clarifications())
+                .extracting(ClarificationEntry::text)
+                .containsExactly(
+                        "the pothole is right in front of 12 Elm St",
+                        "it's gotten worse after last night's rain");
     }
 
     @Test
@@ -178,5 +204,16 @@ class GrievanceMcpToolsTest {
                 """,
                 new MapSqlParameterSource().addValue("id", id).addValue("priority", priority));
         return id;
+    }
+
+    private void insertClarification(String grievanceId, String text, Instant submittedAt) {
+        jdbc.update(
+                "INSERT INTO grievance_clarifications (id, grievance_id, additional_text, submitted_at) "
+                        + "VALUES (:id, :grievanceId, :text, :submittedAt)",
+                new MapSqlParameterSource()
+                        .addValue("id", UUID.randomUUID())
+                        .addValue("grievanceId", grievanceId)
+                        .addValue("text", text)
+                        .addValue("submittedAt", Timestamp.from(submittedAt)));
     }
 }

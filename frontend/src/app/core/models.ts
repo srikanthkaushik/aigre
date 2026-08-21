@@ -43,6 +43,8 @@ export interface GrievanceStatusResult {
   resolutionNotes: string | null;
   citizenContactAvailable: boolean;
   duplicateOfId: string | null;
+  rawText: string | null;
+  clarifications: ClarificationEntry[];
 }
 
 export interface GrievanceSummary {

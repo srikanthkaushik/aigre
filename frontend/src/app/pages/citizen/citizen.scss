@@ -156,6 +156,26 @@
   background: var(--mat-sys-surface-container-low);
 }
 
+.complaint-block {
+  margin-top: 1rem;
+
+  h4 {
+    margin: 0 0 0.3rem;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0 0 0.4rem;
+  }
+
+  .clarification-date {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 0.8rem;
+  }
+}
+
 dl {
   display: grid;
   grid-template-columns: auto 1fr;

@@ -1,6 +1,9 @@
 package com.aigre.tools;
 
+import com.aigre.workflow.ClarificationEntry;
+
 import java.time.Instant;
+import java.util.List;
 
 public record GrievanceStatusResult(
         String id,
@@ -17,5 +20,7 @@ public record GrievanceStatusResult(
         Instant resolvedAt,
         String resolutionNotes,
         boolean citizenContactAvailable,
-        String duplicateOfId) {
+        String duplicateOfId,
+        String rawText,
+        List<ClarificationEntry> clarifications) {
 }

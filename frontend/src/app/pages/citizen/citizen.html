@@ -169,6 +169,22 @@
             @if (statusResult(); as s) {
               <div class="receipt-card">
                 <mat-chip class="status-chip" [class]="'status-' + s.status.toLowerCase()">{{ s.status }}</mat-chip>
+
+                @if (s.rawText) {
+                  <div class="complaint-block">
+                    <h4>Your complaint</h4>
+                    <p>{{ s.rawText }}</p>
+                  </div>
+                }
+                @if (s.clarifications.length) {
+                  <div class="complaint-block">
+                    <h4>Additional detail you provided</h4>
+                    @for (c of s.clarifications; track $index) {
+                      <p>{{ c.text }} <span class="clarification-date">({{ c.submittedAt | date: 'medium' }})</span></p>
+                    }
+                  </div>
+                }
+
                 <dl>
                   <dt>Department</dt>
                   <dd>{{ (s.departmentConfirmed ?? s.departmentPredicted) | departmentName }}</dd>

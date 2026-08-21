@@ -2451,6 +2451,62 @@ immunization-clinic-access-faq`. Template binding changed from
 `'unknown source'` fallback moved inside the helper. No backend change —
 purely a display-layer transform over data already being returned.
 
+## Check Status: show the citizen's own submitted complaint + clarifications
+
+The citizen-facing Check Status tab showed status/department/category/
+priority/SLA/notes, but never the complaint text itself or any follow-up
+detail added via the clarification flow — even though both already
+existed in the DB (`grievances.raw_text`, `grievance_clarifications`) and
+were already wired into the *employee*-facing
+`GrievanceWorkflowResponse` (`GrievanceWorkflowService.buildResponse()`).
+The gap was narrower than it looked: `GrievanceStatusResult` — the DTO
+behind the anonymous, `permitAll` `GET /grievances/{id}` endpoint the
+Check Status tab actually calls (`GrievanceMcpTools.getGrievanceStatus()`)
+— had simply never been given those two fields. Not a deliberate
+citizen/employee split; `rawText`/`clarifications` were just missing from
+this one DTO.
+
+Added `rawText` and `clarifications` (reusing the existing
+`com.aigre.workflow.ClarificationEntry` record) to `GrievanceStatusResult`,
+extended `getGrievanceStatus()`'s SELECT to include `raw_text`, and added
+a private `fetchClarifications()` to `GrievanceMcpTools` mirroring
+`GrievanceWorkflowService`'s own (same query, independent copy — this
+codebase already duplicates small JDBC helpers like `toTimestamp`/
+`toInstant` per-class rather than extracting shared utilities for them).
+Frontend: `GrievanceStatusResult` interface in `models.ts` gained the two
+fields; `citizen.html`'s Check Status result card now renders a "Your
+complaint" block and, when present, an "Additional detail you provided"
+block (each clarification shown with its timestamp) above the existing
+status `<dl>`; matching `.complaint-block` styling added to `citizen.scss`.
+
+**Worth flagging, not fixed here**: `GET /grievances/{id}` is anonymous
+and grievance IDs are sequential (`G0001`, `G0002`, ...) since the earlier
+ID-format migration — this endpoint already exposed classification data to
+anyone who could guess an ID, and now exposes the full complaint text and
+any follow-up detail too. Text is PII-redacted at submission
+(`PiiRedactionWebFilter`) before it's ever stored, and the design already
+follows a tracking-number pattern (ID knowledge is the "auth"), consistent
+with how the rest of this endpoint works — not a blocker, just noted for
+whenever citizen-portal auth is revisited.
+
+Extended `GrievanceMcpToolsTest`: `badDepartmentCodeIsSurfacedNotHidden`
+now also asserts `rawText`/empty `clarifications` on a seeded row with no
+follow-ups; added `statusIncludesClarificationsInSubmittedOrder`, which
+inserts two clarifications out of DB-insertion order via explicit
+timestamps and confirms `getGrievanceStatus()` returns them ordered by
+`submitted_at`. All 13 tests in the class pass. Verified live end-to-end:
+restarted the backend, submitted a vague complaint through
+`/grievances/workflow` (routed to human review), confirmed
+`GET /grievances/{id}` returned `rawText` with empty `clarifications`,
+submitted a follow-up via `/grievances/{id}/workflow/clarify`, confirmed
+it appeared in `clarifications` on re-check — then drove the actual
+Check Status tab with Playwright against the running app (`chromium-cli`
+wasn't available in this environment, so a throwaway Playwright script in
+the scratchpad dir stood in for it) and screenshotted both the
+with-clarification and no-clarification cases: the "Additional detail"
+block correctly disappears entirely when `clarifications` is empty rather
+than rendering an empty heading.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

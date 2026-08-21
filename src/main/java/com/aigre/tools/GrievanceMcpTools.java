@@ -2,6 +2,7 @@ package com.aigre.tools;
 
 import com.aigre.sla.Priority;
 import com.aigre.sla.SlaCalculator;
+import com.aigre.workflow.ClarificationEntry;
 import org.springframework.ai.mcp.annotation.McpTool;
 import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -57,7 +58,7 @@ public class GrievanceMcpTools {
                 """
                 SELECT g.id, g.status, g.department_predicted, g.department_confirmed, g.category, g.priority,
                        g.classification_confidence, g.sentiment_label, g.sla_due_at, g.submitted_at,
-                       g.resolved_at, g.resolution_notes, g.duplicate_of_id,
+                       g.resolved_at, g.resolution_notes, g.duplicate_of_id, g.raw_text,
                        (d.id IS NOT NULL) AS department_valid,
                        (g.citizen_id IS NOT NULL AND (c.email IS NOT NULL OR c.phone IS NOT NULL)) AS citizen_contact_available
                 FROM grievances g
@@ -81,8 +82,26 @@ public class GrievanceMcpTools {
                         toInstant(rs.getTimestamp("resolved_at")),
                         rs.getString("resolution_notes"),
                         rs.getBoolean("citizen_contact_available"),
-                        rs.getString("duplicate_of_id")));
+                        rs.getString("duplicate_of_id"),
+                        rs.getString("raw_text"),
+                        fetchClarifications(id)));
         return requireFound(rows, grievanceId);
+    }
+
+    /** Mirrors GrievanceWorkflowService.fetchClarifications() -- same query, own copy per this class's own DTO. */
+    private List<ClarificationEntry> fetchClarifications(String grievanceId) {
+        List<Map<String, Object>> rows = jdbc.queryForList(
+                "SELECT additional_text, submitted_at FROM grievance_clarifications "
+                        + "WHERE grievance_id = :id ORDER BY submitted_at ASC",
+                new MapSqlParameterSource("id", grievanceId));
+
+        List<ClarificationEntry> entries = new ArrayList<>();
+        for (Map<String, Object> row : rows) {
+            entries.add(new ClarificationEntry(
+                    (String) row.get("additional_text"),
+                    ((Timestamp) row.get("submitted_at")).toInstant()));
+        }
+        return entries;
     }
 
     @McpTool(
