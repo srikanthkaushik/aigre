@@ -269,4 +269,10 @@ export class Citizen {
     }
     return deduped;
   }
+
+  citationLabel(source: RetrievedSource): string {
+    const name = (source.metadata['source'] as string | undefined) ?? 'unknown source';
+    const withoutExtension = name.replace(/\.[^./\\]+$/, '');
+    return `CITED FROM: ${withoutExtension}`;
+  }
 }

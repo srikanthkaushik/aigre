@@ -238,7 +238,7 @@
                         @for (s of m.sources; track $index) {
                           <div class="citation-card">
                             <mat-icon>description</mat-icon>
-                            <span>{{ s.metadata['source'] ?? 'unknown source' }}</span>
+                            <span>{{ citationLabel(s) }}</span>
                           </div>
                         }
                       </div>

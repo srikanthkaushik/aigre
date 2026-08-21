@@ -2437,6 +2437,20 @@ non-`G####`-shaped ones being `DuplicateDetectionServiceTest`'s
 raw-SQL-inserted fixtures — exactly the deliberate carve-out the "no
 DB-level CHECK constraint" design decision above allows for.
 
+## Citation labels: strip file extension, prefix "CITED FROM:"
+
+Small citizen-chat polish. Citation cards under an assistant answer
+(`citizen.html`'s `.citations` block) previously rendered the raw
+`metadata['source']` value straight from `RetrievedSource` — e.g.
+`immunization-clinic-access-faq.txt`. Added `citationLabel()` in
+`citizen.ts` (next to the existing `dedupeBySource` helper) to strip the
+trailing extension via `.replace(/\.[^./\\]+$/, '')` and prefix with
+`CITED FROM: `, so the card now reads `CITED FROM:
+immunization-clinic-access-faq`. Template binding changed from
+`s.metadata['source'] ?? 'unknown source'` to `citationLabel(s)`; the
+`'unknown source'` fallback moved inside the helper. No backend change —
+purely a display-layer transform over data already being returned.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct
