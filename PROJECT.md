@@ -2507,6 +2507,94 @@ with-clarification and no-clarification cases: the "Additional detail"
 block correctly disappears entirely when `clarifications` is empty rather
 than rendering an empty heading.
 
+## DMV title-correction misclassification: root-caused, two of three fixes kept
+
+Investigated why "my vehicle's title has the address printed incorrectly"
+wasn't auto-classified to DMV despite DMV existing as a real department
+(onboarded earlier from a public URL, see "Onboard a new department"
+below). Reproduced live via `/grievances/workflow`: `confidence: 0.8`,
+`department: null` — the classifier was confident this was a real,
+actionable complaint but declined to name a department, which isn't
+`isConfident()`'s normal low-confidence/ambiguous-department path.
+
+**Root cause 1 — DMV's jurisdiction text was too narrow.** DMV was
+onboarded with `jurisdiction_notes = 'vehicle registration, drivers
+licenses, title transfers, road tests, vanity plates, vehicle
+inspections.'` — "title transfers" (ownership changing hands) reads as a
+different thing from "a printing error on a title already issued," and a
+7B model matches this list fairly literally rather than inferring DMV
+obviously still owns it.
+
+**Root cause 2 — this is inherent `qwen2.5:7b` flakiness, not a
+deterministic miss.** Replayed the identical prompt against Ollama
+directly 4 times: `department: "DMV"` once (with correct reasoning, but
+`category`/`priority` both null that same run), `department: null` three
+times. Matches the already-documented ~75.5% average accuracy for this
+model (see "Local model comparison" below) — not new information, but a
+concrete case caught in the act.
+
+**Fix 1, kept: broadened DMV's `jurisdiction_notes`** (direct `UPDATE` on
+the live dev DB) to explicitly name title corrections/amendments:
+`'vehicle registration, drivers licenses, title transfers, title
+corrections/amendments (e.g. a wrong name or address printed on an issued
+title), road tests, vanity plates, vehicle inspections.'`. **Not
+persisted in `schema.sql`** — DMV (and PRD) were never added there to
+begin with; both only exist because they were onboarded live via
+`DepartmentOnboardingService` into this dev DB, a pre-existing gap
+unrelated to this fix. A fresh database built from `schema.sql` alone
+still won't have DMV at all, let alone this corrected text — worth
+revisiting if DMV becomes a permanent fixture rather than a one-off
+onboarding demo. `DepartmentDirectory` caches its prompt section at
+startup and only refreshes when the onboarding flow calls it explicitly,
+so a running app process needs a restart to pick up this DB change.
+
+**Fix 2, attempted then reverted: `ollama.chat-model` → `qwen3:8b`.**
+Already a vetted upgrade path per "Local model comparison" below
+(~91.9% vs. ~75.5% average classification accuracy), and pulled locally.
+Flipped `application.yml`, but `LlmGrievanceClassifier` and
+`RetrievalService` (RAG rerank) share the exact same `ChatModel` bean
+(`LlmProviderConfig.ollamaChatModel()`, one `ollama.chat-model` property)
+— rerank calls the model once per retrieval candidate per query, far more
+often than classification's once per grievance. Full suite run confirmed
+real damage: `RagEvalSuiteTest` went from its documented ~5/34 baseline
+to **9/34 failing and a 43-minute runtime** (`qwen3:8b`'s "thinking"
+overhead), and `SecurityIntegrationTest.citizenSubmissionNeedsNoAuthentication`
+started failing on a hardcoded 5s `WebTestClient` timeout, now too short
+for `qwen3:8b`'s slower per-call latency. Presented three options (split
+into two separate `ChatModel` beans/configs so classification and rerank
+can use different models; revert entirely; keep it globally and raise
+timeouts) — reverted to `qwen2.5:7b` by explicit choice, prioritizing zero
+risk to RAG/existing tests over the classification accuracy gain for now.
+**A per-purpose model split (classification vs. rerank) is the
+architecturally correct fix if this gets revisited** — `LlmProviderConfig`
+would need a second `@Qualifier`-ed `ChatModel` bean and a second
+`ollama.*-chat-model` property, with `LlmGrievanceClassifier` and
+`RetrievalService` each wired to their own.
+
+**Fix 3, kept: `ClassificationResult.isConfident()`** now also requires
+`category != null && priority != null`, not just `department != null` —
+directly closes the gap root-cause 2 exposed (the one run that correctly
+guessed `department: "DMV"` still had `category`/`priority` null, which
+would have silently committed incomplete data under the old check instead
+of routing to human review).
+
+**Side effect caught mid-investigation, unrelated to the fixes
+themselves:** an earlier full `mvn test` run (checking for `isConfident()`
+regressions) triggered `RetrievalEvalTest`'s documented destructive
+`@BeforeEach`, wiping `rag_documents` down to 2 fixture rows — exactly
+the scenario `RUNNING.md` already warns about. Restored via
+`POST /ingest/reset?confirm=true` (1,369 rows back). Re-ran
+`RagEvalSuiteTest` twice more after restoring both the corpus and
+`qwen2.5:7b`: 5/34 then 3/34 failing, both runs' failures drawn entirely
+from the test's own documented known-gap set (EQ-020, EQ-024, EQ-031,
+and once EQ-011) — consistent with this project's already-documented
+LLM-rerank sampling variance, not a new regression. Full targeted test
+run (`LlmGrievanceClassifierTest`, `GrievanceMcpToolsTest`,
+`GrievanceWorkflowPauseResumeTest`, `GrievanceWorkflowDuplicateTest`,
+`GrievanceIntakeDuplicateTest`, `EmailGrievancePollerTest`,
+`PiiRedactionWebFilterTest`, `SecurityIntegrationTest`) all green after
+the model revert.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct
@@ -2546,6 +2634,15 @@ than rendering an empty heading.
   questions. `GrievanceIntakeService` (the non-graph `/grievances` path)
   still writes directly and independently — a separate, not-yet-touched
   code path if unification there is ever wanted.
+- Per-purpose Ollama model split (classification vs. RAG rerank) — see
+  "DMV title-correction misclassification" above. `qwen3:8b` is a proven
+  classification-accuracy upgrade but shares one `ChatModel` bean with
+  rerank today, so flipping it globally regresses RAG. Needs a second
+  `@Qualifier`-ed bean + property before it's worth revisiting.
+- DMV/PRD missing from `schema.sql` — see "DMV title-correction
+  misclassification" above. Both only exist in this dev DB via live
+  onboarding; a fresh database built from `schema.sql` alone won't have
+  either department at all.
 
 ## Full plan
 The complete Milestone-0 plan (domain model, routing/escalation scenarios,
