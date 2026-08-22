@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * In-memory cache of the classifier prompt's DEPARTMENTS bullet section, built from the
@@ -27,6 +29,7 @@ public class DepartmentDirectory {
 
     private final NamedParameterJdbcTemplate jdbc;
     private volatile String departmentsPromptSection;
+    private volatile Set<String> departmentIds;
 
     public DepartmentDirectory(NamedParameterJdbcTemplate jdbc) {
         this.jdbc = jdbc;
@@ -37,6 +40,11 @@ public class DepartmentDirectory {
         return departmentsPromptSection;
     }
 
+    /** Valid department codes, e.g. for validating a client-supplied chat scope before trusting it. */
+    public Set<String> departmentIds() {
+        return departmentIds;
+    }
+
     public synchronized void refresh() {
         List<String> bullets = jdbc.query(
                 "SELECT id, short_name, jurisdiction_notes FROM departments ORDER BY id",
@@ -44,5 +52,11 @@ public class DepartmentDirectory {
                 (rs, rowNum) -> "- %s (%s): %s".formatted(
                         rs.getString("id"), rs.getString("short_name"), rs.getString("jurisdiction_notes")));
         this.departmentsPromptSection = String.join("\n", bullets);
+
+        List<String> ids = jdbc.query(
+                "SELECT id FROM departments",
+                EmptySqlParameterSource.INSTANCE,
+                (rs, rowNum) -> rs.getString("id"));
+        this.departmentIds = ids.stream().collect(Collectors.toUnmodifiableSet());
     }
 }

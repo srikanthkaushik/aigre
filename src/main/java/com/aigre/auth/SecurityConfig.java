@@ -2,6 +2,7 @@ package com.aigre.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
@@ -9,6 +10,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -30,12 +32,36 @@ import java.util.List;
  * is one origin/port -- its static assets and client-side route shells are permitted below
  * alongside the API rules; this has no bearing on employee auth, which is still enforced by the
  * API calls those pages make, not by the page load itself.
+ *
+ * <p>Two filter chains: {@link #embedSecurityFilterChain}, scoped to /embed/** only, so the
+ * embeddable department-scoped chat widget can be framed by an external site; and the main chain
+ * below, which keeps Spring Security's default clickjacking protection for everything else.
  */
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
+    /**
+     * The embedded-chat SPA shell (com.aigre.embed.EmbedChatController) needs to be frameable by
+     * an external site -- Spring Security's default X-Frame-Options: DENY (confirmed live via
+     * curl -D-) would block that regardless of EmbedChatController's own per-department
+     * Content-Security-Policy: frame-ancestors header, since browsers honor whichever of the two
+     * is more restrictive. Scoped to /embed/** only via its own securityMatcher/@Order(1), a
+     * separate chain from the main one below (@Order(2)) -- everywhere else keeps DENY.
+     */
     @Bean
+    @Order(1)
+    public SecurityWebFilterChain embedSecurityFilterChain(ServerHttpSecurity http) {
+        return http
+                .securityMatcher(ServerWebExchangeMatchers.pathMatchers("/embed/**"))
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+                .authorizeExchange(exchanges -> exchanges.anyExchange().permitAll())
+                .build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, JwtService jwtService) {
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -70,6 +96,10 @@ public class SecurityConfig {
                         // Creating a new department/routing target is bigger blast-radius than
                         // day-to-day supervisor work -- ADMIN only, not SUPERVISOR too.
                         .pathMatchers(HttpMethod.POST, "/admin/departments").hasRole("ADMIN")
+                        // Registers which external origins may embed a department's chat widget
+                        // (com.aigre.embed) -- same blast-radius reasoning as onboarding a
+                        // department itself, ADMIN only.
+                        .pathMatchers("/admin/departments/{id}/embed-origins").hasRole("ADMIN")
                         .pathMatchers(HttpMethod.POST, "/grievances/{id}/workflow/resume", "/grievances/{id}/status")
                         .hasAnyRole("SUPERVISOR", "ADMIN")
                         // The built Angular app (see SpaWebFluxConfig), served from this same

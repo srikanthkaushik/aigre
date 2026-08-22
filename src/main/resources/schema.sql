@@ -109,6 +109,16 @@ CREATE TABLE IF NOT EXISTS status_history (
     note TEXT
 );
 
+-- Registered origins an external site's embedded chat widget (frontend/public/embed.js,
+-- GET /embed/chat) is allowed to run from, per department -- enforced via a dynamic
+-- Content-Security-Policy: frame-ancestors header (com.aigre.embed.EmbedChatController), not
+-- CORS (the embed's own /chat/stream calls are same-origin, made from inside the iframe).
+CREATE TABLE IF NOT EXISTS department_embed_origins (
+    department_id VARCHAR(10) NOT NULL REFERENCES departments (id),
+    origin VARCHAR(255) NOT NULL,
+    PRIMARY KEY (department_id, origin)
+);
+
 -- One-time migration for an already-seeded database (this dev DB included), where the
 -- CREATE TABLE IF NOT EXISTS statements above are no-ops against existing tables. Safe to
 -- leave here permanently and re-run on every boot: once the columns are already VARCHAR,

@@ -7,6 +7,8 @@ import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingStore;
+import dev.langchain4j.store.embedding.filter.Filter;
+import dev.langchain4j.store.embedding.filter.MetadataFilterBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -71,10 +73,19 @@ public class RetrievalService {
     }
 
     public List<RetrievedSource> retrieve(String query) {
+        return retrieve(query, null);
+    }
+
+    /** department, when non-null, restricts retrieval to that department's own corpus (see CorpusIngestionService). */
+    public List<RetrievedSource> retrieve(String query, String department) {
+        Filter filter = department != null
+                ? MetadataFilterBuilder.metadataKey("department").isEqualTo(department)
+                : null;
         EmbeddingSearchRequest request = EmbeddingSearchRequest.builder()
                 .queryEmbedding(llmCallTimer.time("embed", () -> embeddingModel.embed(query)).content())
                 .query(query)
                 .maxResults(initialK)
+                .filter(filter)
                 .build();
 
         List<EmbeddingMatch<TextSegment>> matches =

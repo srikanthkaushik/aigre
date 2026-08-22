@@ -1,0 +1,11 @@
+@switch (status()) {
+  @case ('valid') {
+    <app-chat-widget class="embed-chat-widget" [department]="department()" />
+  }
+  @case ('loading') {
+    <div class="embed-chat-message">Loading…</div>
+  }
+  @default {
+    <div class="embed-chat-message">This chat widget isn't configured correctly. Missing or unknown department.</div>
+  }
+}

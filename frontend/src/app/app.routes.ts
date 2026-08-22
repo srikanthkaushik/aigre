@@ -19,5 +19,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./pages/employee/employee').then((m) => m.Employee)
   },
+  {
+    path: 'embed/chat',
+    data: { bareLayout: true },
+    loadComponent: () => import('./pages/embed-chat/embed-chat').then((m) => m.EmbedChat)
+  },
   { path: '**', redirectTo: '' }
 ];

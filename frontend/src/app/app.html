@@ -1,3 +1,4 @@
+@if (showAppShell()) {
 <mat-toolbar color="primary" class="app-toolbar">
   <a routerLink="/" class="brand-link">
     <svg class="brand-mark" viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true">
@@ -55,11 +56,18 @@
     </button>
   </mat-menu>
 </mat-toolbar>
+}
 
 <router-outlet />
 
+@if (showAppShell()) {
 <footer class="app-footer">
   <span>AIGRE — AI Grievance Resolution Engine</span>
   <span class="app-footer-sep">&middot;</span>
   <span>A city services demonstration portal</span>
 </footer>
+}
+
+@if (showFloatingChat()) {
+<app-floating-chat />
+}

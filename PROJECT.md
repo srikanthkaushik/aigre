@@ -2595,6 +2595,128 @@ run (`LlmGrievanceClassifierTest`, `GrievanceMcpToolsTest`,
 `PiiRedactionWebFilterTest`, `SecurityIntegrationTest`) all green after
 the model revert.
 
+## Floating chat widget + embeddable, department-scoped chat
+
+Replaced the citizen portal's in-page "Ask a Question" tab with a site-wide
+floating chat launcher, and added a second, genuinely new capability: any
+external website can embed the same chatbot via a one-line `<script>`
+include, with its answers scoped to a single department's RAG corpus only
+(e.g. a real DMV website embedding a widget that only ever answers from
+DMV's own policy documents).
+
+**Extraction, not a rewrite.** `citizen.ts`/`.html`/`.scss`'s chat-tab logic
+(message state, streaming callbacks, citation dedup/formatting) moved
+verbatim into a new shared `ChatWidget` component
+(`frontend/src/app/shared/chat-widget/`), parameterized by an optional
+`department` signal input. Two consumers reuse it: `FloatingChat`
+(`frontend/src/app/shared/floating-chat/`), a FAB mounted once in `app.html`
+and shown on every route except `/employee/**` and `/embed/**`
+(unscoped -- full corpus, same as the old tab); and a new `EmbedChat` page
+at `/embed/chat?department=X` (scoped), meant to be loaded inside an
+iframe. `app.ts` gained a `bareLayout` route-data flag (read via
+`toSignal(router.events...)`, no prior pattern for this in the repo) so
+`/embed/chat` renders full-bleed with no toolbar/footer/floating-launcher.
+
+**Department-scoped retrieval was a small, additive change, not a rewrite
+either.** `department` metadata already existed on every RAG chunk
+(`CorpusIngestionService` tags it from the source folder name) but was
+never used as a filter -- exactly the gap `docs/FUTURE_MULTI_AGENCY_ROADMAP.md`
+already named. `RetrievalService` gained a `retrieve(query, department)`
+overload building a `Filter` via langchain4j's `MetadataFilterBuilder`
+(exact API verified against the real `langchain4j-core-1.18.0.jar` via
+`javap` before writing the call); the existing `retrieve(query)` delegates
+with `department = null`, so all 6 pre-existing call sites and tests are
+untouched. `ChatQuestion` gained a nullable `department` field, validated
+in `ChatController` against `DepartmentDirectory.departmentIds()` (a new
+accessor, populated in the same `refresh()` query the prompt-section cache
+already ran) before being trusted.
+
+**The embeddability design decision, made explicitly with the user before
+building anything**: embedding is gated by an admin-managed allowlist of
+registered origins per department (new `department_embed_origins` table;
+`POST/GET/DELETE /admin/departments/{id}/embed-origins`, ADMIN-only,
+`com.aigre.embed.EmbedOriginService`/`Controller`), not open to any site
+that happens to include the script. This was a deliberate tradeoff against
+the literal "any existing website... just by including a script" framing
+in the original ask -- a fully open embed would have let anyone frame the
+widget and drive unmetered traffic at an LLM-backed endpoint with no rate
+limiting. The registration step is a single curl call, not a UI, matching
+how `POST /admin/departments` itself first shipped.
+
+**Enforcement mechanism, chosen to avoid touching CORS at all.** The embed
+script (`frontend/public/embed.js`, vanilla JS, zero dependencies) injects
+a floating button that toggles a same-origin `<iframe
+src="{aigre-origin}/embed/chat?department=X">` rather than making a raw
+cross-origin `fetch` from the embedding page's own JS. Because the
+iframe's content is served from AIGRE's own origin, its `/chat/stream`
+calls are same-origin to AIGRE -- **no CORS allowlist changes were needed
+anywhere in this feature**, only a framing decision. `GET /embed/chat` is
+a real controller (`EmbedChatController`), not the generic static-file
+fallback (`SpaWebFluxConfig`), specifically so it can set a
+*per-department, dynamically computed* `Content-Security-Policy:
+frame-ancestors <registered origins>` header (or `frame-ancestors 'none'`
+for a missing/unregistered department -- a safe default, not an error
+state needing its own UI) before serving the same `index.html` bytes the
+SPA shell always serves. Spring Security's default `X-Frame-Options: DENY`
+(confirmed live via `curl -D-` before writing any code) would have blocked
+framing regardless of that header, so it's suppressed *only* for
+`/embed/**` via a second, path-scoped `SecurityWebFilterChain`
+(`@Order(1)`, `securityMatcher(ServerWebExchangeMatchers.pathMatchers(
+"/embed/**"))`, `.headers(h -> h.frameOptions(f -> f.disable()))`) --
+every other page keeps the default clickjacking protection unchanged
+(verified: `curl -D- http://localhost:8085/` still shows `X-Frame-Options:
+DENY` after this change).
+
+**Stated boundary, not a gap discovered later**: department scoping only
+restricts the RAG document corpus. `CitizenChatAssistant`'s MCP
+tool-calling (grievance status/SLA/duplicate lookups) is unaffected either
+way -- a DMV-scoped embed can still answer a live status question for
+*any* grievance, not just DMV's. This was named explicitly in the plan
+before implementation, and manifested live during verification exactly as
+predicted (see below) -- not something that surprised anyone after the
+fact.
+
+**Verified live end-to-end**, not just via `ng build`/`mvn test`: registered
+a test origin (`http://localhost:5500`) for DMV via the new admin endpoint,
+served a plain HTML page from that origin embedding the real
+`embed.js`, and drove it with Playwright:
+- A real DMV question ("how do I get a duplicate title if my original was
+  lost or damaged") correctly retrieved and cited `SAF-C-1900.txt` -- the
+  actual NH DMV title-and-anti-theft regulation text (`rerankScore: 10.0`
+  on the two most relevant chunks).
+- The identical DOT-specific question ("how long does DOT have to repair
+  a pothole"), asked through the DMV-scoped embed, returned `sources: []`
+  -- confirmed via direct SSE inspection, not just the rendered UI -- zero
+  cross-department corpus leakage. The model instead fell back to a live
+  `check_sla_status` MCP tool call for a real grievance, exactly the
+  tool-calling boundary named above, caught live rather than assumed.
+- A **second, unregistered** origin (`http://localhost:5501`) embedding the
+  identical script: Chrome's own console reported "Framing
+  'http://localhost:8085/' violates the following Content Security Policy
+  directive: 'frame-ancestors http://localhost:5500'. The request has been
+  blocked" -- the iframe rendered completely blank, no leaked content, no
+  server-side involvement needed to enforce it.
+- Floating-chat presence confirmed across `/`, `/citizen`, `/login`
+  (shown) vs. `/embed/chat` (hidden) via a Playwright DOM check.
+
+**Side effect caught mid-verification, unrelated to this feature's own
+correctness**: running `RetrievalEvalTest` as part of an earlier
+verification pass triggered its documented destructive `@BeforeEach`
+again, wiping `rag_documents` down to 2 rows -- initially looked like a
+broken department filter (empty `sources: []` even unfiltered) until
+`docker exec ... psql` confirmed the corpus itself was gone, not the
+filter logic. Restored via `POST /ingest/reset?confirm=true` (118
+documents / 1,369 chunks); same documented `RUNNING.md` behavior as
+earlier in this project's history, not a new bug.
+
+Bundle-size note: the floating widget is mounted app-wide (not lazy,
+since it needs to appear on first paint everywhere), so `ChatWidget`'s
+code moved from the lazily-loaded `citizen` chunk into the eager initial
+bundle. `angular.json`'s initial-bundle warning budget raised from 600kB
+to 650kB to reflect this as an accepted, intentional cost rather than a
+regression to chase down; the 1MB error budget (which would actually fail
+a build) was untouched and not approached.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct
@@ -2643,6 +2765,13 @@ the model revert.
   misclassification" above. Both only exist in this dev DB via live
   onboarding; a fresh database built from `schema.sql` alone won't have
   either department at all.
+- RAG isolation by department — **built for chat, see "Floating chat
+  widget + embeddable, department-scoped chat" above**
+  (`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`'s Phase 2 named this exact gap:
+  "today's retrieval applies no metadata filter at all"). Registering an
+  embed origin is still a curl call against `/admin/departments/{id}/
+  embed-origins`, no admin UI — fine for now, same bar as
+  `POST /admin/departments` when it first shipped.
 
 ## Full plan
 The complete Milestone-0 plan (domain model, routing/escalation scenarios,

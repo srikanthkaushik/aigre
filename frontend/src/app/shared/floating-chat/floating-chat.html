@@ -1,0 +1,21 @@
+@if (open()) {
+  <div class="floating-chat-panel">
+    <div class="floating-chat-header">
+      <span>Ask a Question</span>
+      <button mat-icon-button (click)="toggle()" aria-label="Close chat">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <app-chat-widget class="floating-chat-widget" />
+  </div>
+}
+
+<button
+  mat-fab
+  color="primary"
+  class="floating-chat-trigger"
+  (click)="toggle()"
+  [attr.aria-label]="open() ? 'Close chat' : 'Open chat'"
+>
+  <mat-icon>{{ open() ? 'close' : 'chat' }}</mat-icon>
+</button>

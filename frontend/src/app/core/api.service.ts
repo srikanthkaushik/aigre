@@ -91,12 +91,17 @@ export class ApiService {
    * EventSource (GET-only) can't be used -- reads the streamed text/event-stream response body
    * directly via fetch + ReadableStream instead, parsing "event:"/"data:" frames by hand.
    */
-  async streamChat(question: string, callbacks: ChatStreamCallbacks, signal?: AbortSignal): Promise<void> {
+  async streamChat(
+    question: string,
+    callbacks: ChatStreamCallbacks,
+    department?: string | null,
+    signal?: AbortSignal
+  ): Promise<void> {
     try {
       const response = await fetch(`${API_BASE}/chat/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question, department: department ?? null }),
         signal
       });
 

@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.embed-chat-widget {
+  flex: 1;
+  min-height: 0;
+}
+
+.embed-chat-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 1rem;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.9rem;
+}

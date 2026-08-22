@@ -1,5 +1,6 @@
 package com.aigre.chat;
 
+import com.aigre.classification.DepartmentDirectory;
 import com.aigre.retrieval.RetrievalService;
 import com.aigre.retrieval.RetrievedSource;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -37,23 +38,30 @@ public class ChatController {
 
     private final CitizenChatAssistant citizenChatAssistant;
     private final RetrievalService retrievalService;
+    private final DepartmentDirectory departmentDirectory;
     private final ObjectMapper objectMapper;
     private final MeterRegistry meterRegistry;
 
     public ChatController(
             CitizenChatAssistant citizenChatAssistant,
             RetrievalService retrievalService,
+            DepartmentDirectory departmentDirectory,
             ObjectMapper objectMapper,
             MeterRegistry meterRegistry) {
         this.citizenChatAssistant = citizenChatAssistant;
         this.retrievalService = retrievalService;
+        this.departmentDirectory = departmentDirectory;
         this.objectMapper = objectMapper;
         this.meterRegistry = meterRegistry;
     }
 
     @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<String>> stream(@Valid @RequestBody ChatQuestion question) {
-        return Mono.fromCallable(() -> retrievalService.retrieve(question.question()))
+        String department = question.department();
+        if (department != null && !departmentDirectory.departmentIds().contains(department)) {
+            return Flux.just(ServerSentEvent.builder("Unknown department: " + department).event("error").build());
+        }
+        return Mono.fromCallable(() -> retrievalService.retrieve(question.question(), department))
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMapMany(sources -> streamAnswer(question.question(), sources));
     }
