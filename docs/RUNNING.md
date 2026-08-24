@@ -43,11 +43,18 @@ Install Ollama (https://ollama.com) if you don't have it, then:
 
 ```
 ollama pull qwen2.5:7b
+ollama pull qwen3:8b
 ollama pull nomic-embed-text
 ```
 
 Ollama should be listening at `http://localhost:11434` (its default) — this matches
-`application.yml`'s `ollama.base-url`.
+`application.yml`'s `ollama.base-url`. Two chat models, not one: `qwen2.5:7b` handles RAG
+rerank and the citizen chat's own responses (`ollama.chat-model`), `qwen3:8b` handles
+grievance classification only (`ollama.classification-chat-model`) — a deliberately
+slower, more-accurate model that's safe to use there because classification runs once
+per grievance, not once per retrieved chunk the way rerank does. See `PROJECT.md`'s
+"Per-purpose Ollama model split" writeup if you're curious why they're split rather than
+sharing one model.
 
 ## 3. Run the backend
 
@@ -189,6 +196,71 @@ instead, which requires a free Cloudflare account with that domain's nameservers
 
 ---
 
+## Testing the embeddable chat widget (optional)
+
+The citizen portal's floating chat can also be embedded on an *external* website via
+one `<script>` tag (`frontend/public/embed.js`), scoped to a single department's own
+policy corpus — e.g. a real DMV website embedding a widget that only ever answers from
+DMV's documents. Trying this locally means running **two separate "apps"** at once: the
+main AIGRE app (steps 1-5 above) and a second, throwaway static site standing in for
+"some department's existing website."
+
+`test-data/embed-demo/index.html` is a ready-made stand-in for that second site — a
+locally-styled (not real) NH DMV–style page that already includes the embed script.
+
+**a) With AIGRE running (steps 1-5 above), register an embed origin as an admin.**
+Embedding is allowlisted per department, not open to any site that includes the
+script — nothing renders until its origin is registered:
+
+```
+curl -s -X POST http://localhost:8085/auth/login ^
+  -H "Content-Type: application/json" ^
+  -d "{\"username\":\"ops.admin\",\"password\":\"Demo1234!\"}"
+```
+
+Grab the `token` field from the response, then:
+
+```
+curl -s -X POST http://localhost:8085/admin/departments/DMV/embed-origins ^
+  -H "Content-Type: application/json" ^
+  -H "Authorization: Bearer <TOKEN>" ^
+  -d "{\"origin\": \"http://localhost:5500\"}"
+```
+
+**b) Serve the demo page on a different port than AIGRE's** (it has to be a different
+origin for this to actually test anything — same-origin embedding is trivial and proves
+nothing about the CORS/framing story):
+
+```
+cd test-data\embed-demo
+npx http-server -p 5500
+```
+
+**c) Open `http://localhost:5500` in a browser.** A floating chat button appears
+bottom-right — that's `embed.js`, injected by the demo page's own `<script>` tag, not
+part of AIGRE's own frontend. Click it, ask a DMV-specific question (e.g. *"How do I
+get a duplicate title if my original was lost or damaged?"*) and confirm it answers
+and cites from DMV's own corpus. Ask a question about a different department (e.g. a
+DOT pothole question) and confirm it does **not** cross-contaminate — an honest "I
+don't know" instead, or a real MCP tool call if the question references a specific
+grievance ID (department scoping only restricts the RAG corpus, not tool-calling — see
+`PROJECT.md`).
+
+**To see the allowlist actually being enforced**, serve the same demo page on a
+*different*, unregistered port instead (e.g. `npx http-server -p 5501` from the same
+`test-data/embed-demo` directory) and open that — the floating button still appears (it's injected
+client-side, unconditionally), but the chat panel stays blank when clicked. Check the
+browser devtools console for a `Content-Security-Policy: frame-ancestors` violation —
+the browser itself refuses to render AIGRE's page in the iframe; nothing on AIGRE's
+side needs to detect or reject the unregistered origin at request time.
+
+Full design writeup — why an iframe instead of a raw cross-origin `fetch`, why
+`Content-Security-Policy: frame-ancestors` instead of CORS, why the origin allowlist
+instead of an open embed — is in `PROJECT.md`'s "Floating chat widget + embeddable,
+department-scoped chat" section.
+
+---
+
 ## Email ingestion (optional)
 
 A second inbound channel alongside the portal: `com.aigre.email.EmailGrievancePoller`
@@ -264,6 +336,7 @@ config changes needed either direction.
 | Postgres (pgvector) | 5434 | the `docker run -p` flag + `spring.datasource.url` |
 | Ollama | 11434 (Ollama's default) | `ollama.base-url` in `application.yml` |
 | Frontend dev server | 4200 (or next free port) | `ng serve --port <n>` |
+| Embed-widget demo page (optional) | 5500 | `npx http-server -p <n>` — any unused port, must differ from AIGRE's own |
 
 ---
 

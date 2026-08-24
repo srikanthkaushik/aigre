@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NH Division of Motor Vehicles — POC embed test</title>
+<style>
+  :root {
+    --nh-navy: #1b3a6b;
+    --nh-navy-dark: #12274a;
+    --nh-gold: #f2a900;
+    --nh-bg: #f4f6f8;
+    --nh-text: #1c1c1c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--nh-text);
+    background: var(--nh-bg);
+  }
+
+  .poc-banner {
+    background: #fff3cd;
+    border-bottom: 2px dashed #b58900;
+    color: #6b5400;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.03em;
+    padding: 6px 12px;
+  }
+
+  .utility-bar {
+    background: var(--nh-navy-dark);
+    color: #cfd8e6;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    padding: 4px 20px;
+  }
+
+  header.site-header {
+    background: var(--nh-navy);
+    color: #fff;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .seal-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--nh-gold);
+    color: var(--nh-navy-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .site-title h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: normal;
+  }
+  .site-title p {
+    margin: 2px 0 0;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #cfd8e6;
+  }
+
+  nav.main-nav {
+    background: #fff;
+    border-bottom: 3px solid var(--nh-gold);
+    font-family: Arial, sans-serif;
+  }
+  nav.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 28px;
+  }
+  nav.main-nav a {
+    display: inline-block;
+    padding: 12px 0;
+    color: var(--nh-navy);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 3px solid transparent;
+  }
+  nav.main-nav a:hover {
+    border-bottom-color: var(--nh-navy);
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 36px 20px 60px;
+  }
+
+  .hero {
+    background: #fff;
+    border: 1px solid #dde3ea;
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .hero h2 {
+    margin-top: 0;
+    color: var(--nh-navy);
+  }
+  .hero p {
+    line-height: 1.6;
+    max-width: 70ch;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .service-card {
+    background: #fff;
+    border: 1px solid #dde3ea;
+    border-left: 4px solid var(--nh-gold);
+    border-radius: 4px;
+    padding: 16px 18px;
+  }
+  .service-card h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    color: var(--nh-navy);
+  }
+  .service-card p {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  footer {
+    background: var(--nh-navy-dark);
+    color: #b7c3d6;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    padding: 24px 20px;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="poc-banner">
+  PROOF OF CONCEPT — internal demo page only, not an official government site
+</div>
+
+<div class="utility-bar">An official-style demo page of a State of New Hampshire agency site (mockup)</div>
+
+<header class="site-header">
+  <div class="seal-placeholder">NH</div>
+  <div class="site-title">
+    <h1>Department of Safety — Division of Motor Vehicles</h1>
+    <p>State of New Hampshire · POC layout for embedded chat widget testing</p>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <ul>
+    <li><a href="#">Registrations</a></li>
+    <li><a href="#">Titles</a></li>
+    <li><a href="#">Driver Licenses</a></li>
+    <li><a href="#">Online Services</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="hero">
+    <h2>Vehicle &amp; Driver Services</h2>
+    <p>
+      This is a locally-hosted proof-of-concept page (served from localhost:5500), styled to
+      resemble a typical state DMV website so the embedded AIGRE chat widget can be evaluated in a
+      realistic-looking hosting context before the real department site integrates it. It is not
+      affiliated with, and does not represent, the actual New Hampshire DMV.
+    </p>
+  </div>
+
+  <div class="service-grid">
+    <div class="service-card">
+      <h3>Vehicle Registration</h3>
+      <p>Renew, transfer, or register a vehicle.</p>
+    </div>
+    <div class="service-card">
+      <h3>Title Services</h3>
+      <p>Apply for a title, duplicate title, or title correction.</p>
+    </div>
+    <div class="service-card">
+      <h3>Driver Licensing</h3>
+      <p>Renew or replace a driver's license or ID card.</p>
+    </div>
+    <div class="service-card">
+      <h3>Inspections</h3>
+      <p>Find inspection station requirements and locations.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  POC test page — served from localhost:5500 for AIGRE embed-widget testing purposes only.
+</footer>
+
+<script src="http://localhost:8085/embed.js" data-department="DMV"></script>
+</body>
+</html>
