@@ -20,6 +20,7 @@ workflow state rather than a bolted-on afterthought.
 
 - [What it does](#what-it-does)
 - [Where AI is actually used](#where-ai-is-actually-used)
+- [What's agentic here (and what isn't)](#whats-agentic-here-and-what-isnt)
 - [Tech stack](#tech-stack)
 - [Architecture at a glance](#architecture-at-a-glance)
 - [Screenshots](#screenshots)
@@ -103,6 +104,41 @@ Plus two cross-cutting concerns: a **PII redaction guardrail** on every citizen
 free-text field, and **observability** (every LLM/retrieval call timed and tagged under
 one Micrometer metric family, scraped in Prometheus format) — because "the critic step
 was 53% of total runtime" is the kind of thing you should never have to guess about.
+
+---
+
+## What's agentic here (and what isn't)
+
+"Agentic" means the model has autonomy over *what action to take next*, not just what
+text to generate. Two parts of this system genuinely qualify; the rest is deliberately
+plain LLM calls wrapped in code that does the deciding.
+
+**Agentic:**
+
+- **Live tool-calling in the citizen chat** (`CitizenChatAssistant`, `ChatController`).
+  The model decides, per question, whether to answer from the retrieved RAG context or
+  call one of AIGRE's own MCP tools (`get_grievance_status`, `check_sla_status`,
+  `find_duplicate_chain`) instead — the code never tells it which to do. Confirmed live:
+  a question outside a department-scoped corpus returned zero RAG matches, and the
+  model *on its own* fell back to calling `check_sla_status` for a real grievance
+  rather than saying it didn't know.
+- **The human-review workflow graph** (`GrievanceWorkflowGraphConfig`, LangGraph4j) — a
+  stateful, multi-step orchestration (`classify → human_review (if unconfident) →
+  commit`) that makes a routing decision based on model confidence, genuinely *pauses*
+  execution rather than just flagging a row, and resumes only on a human decision — with
+  Postgres-backed checkpointing so a paused run survives an app restart.
+
+**Not agentic, on purpose:** `LlmGrievanceClassifier.classify()` (one system prompt, one
+complaint, one structured JSON result — no tool access, no say over what happens next)
+and `RetrievalService`'s LLM-rerank step (same shape — score and return). Both are
+single-shot calls; the surrounding code, not the model, decides what happens with the
+result.
+
+**Planned, not built:** [`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`](docs/FUTURE_MULTI_AGENCY_ROADMAP.md)
+lays out making classification itself agentic — moving it from a single-shot call to an
+`AiServices`-backed agent with live tool access, so it could call a brownfield agency's
+own `find_similar_cases`-shaped tool mid-classification instead of reasoning from raw
+text alone.
 
 ---
 
