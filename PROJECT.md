@@ -2717,6 +2717,63 @@ to 650kB to reflect this as an accepted, intentional cost rather than a
 regression to chase down; the 1MB error budget (which would actually fail
 a build) was untouched and not approached.
 
+## Per-purpose Ollama model split: qwen3:8b for classification only
+
+Built the fix named as an open item in "DMV title-correction
+misclassification" above: a second, `@Qualifier("classificationChatModel")`
+`ChatModel` bean (`LlmProviderConfig`) alongside the existing `@Primary`
+"general" one, so classification and RAG rerank can run different models
+instead of fighting over one shared bean.
+
+**Wiring, not a rewrite.** `LlmGrievanceClassifier` now injects the
+qualified bean; `RetrievalService` (rerank) and `CitizenChatAssistant`
+(streaming chat) needed zero changes — their constructors still ask for a
+plain `ChatModel`/`StreamingChatModel`, which Spring resolves to the
+`@Primary` bean automatically. Anthropic's classification bean reuses the
+same `claude-sonnet-5` model as the general one; only Ollama has a real
+split, since Claude has no equivalent rerank-latency tradeoff to avoid.
+
+**Verified against the real eval suites, not just unit tests** (the
+mistake from the earlier global-swap attempt was trusting `mvn test`'s
+narrower default set):
+- `ComplaintEvalHarnessTest` (91-case labeled classification eval, live):
+  **81/91 correct (89.0%)**, 642.6s. Comfortably above `qwen2.5:7b`'s
+  historical 65.9–86.8% range (~75.5% average) — consistent with the
+  earlier single-sample ~91.9% finding from "Local model comparison"
+  below, now confirmed against the actual project eval harness rather than
+  a general benchmark run.
+- `RagEvalSuiteTest` (34-case RAG eval, live): **31/34 (91.2%)**, 561.6s.
+  Failures were exactly `EQ-020`, `EQ-024`, `EQ-031` — the same
+  already-documented known-gap set this test's own inline comments name,
+  identical to pre-change baseline runs. Confirms rerank genuinely didn't
+  move, not just that it wasn't expected to.
+- One mismatch worth flagging for a future run, not acted on from a single
+  sample: `GRV-064` (scenario 9) expected `[]` (not-actionable) but got
+  routed to DOT — a false-positive actionability call, a different failure
+  shape than the other 3 mismatches (all department confusions between
+  plausible neighbors, e.g. DOT vs. DPW, DHUD vs. DPW).
+
+**Also caught and fixed along the way:**
+`SecurityIntegrationTest.citizenSubmissionNeedsNoAuthentication` broke on
+its default 5s `WebTestClient` timeout — same failure mode as the earlier
+global-swap attempt, but this time from a single classification call's own
+latency, with no rerank multiplication involved at all. Confirms `qwen3:8b`
+is meaningfully slower per call in absolute terms, not just cumulatively
+expensive when shared with rerank. Bumped to 30s (matching
+`ChatControllerTest`'s existing pattern for the same underlying reason)
+rather than reverting, since this is expected latency for a deliberately
+slower-but-more-accurate model. Also re-ran
+`LlmGrievanceClassifierTest.pureComplimentIsNotActionable` (which failed
+once during this work) 3/3 clean under `qwen3:8b` before concluding it was
+the same pre-existing sampling-variance flake documented elsewhere in this
+file, not a new regression.
+
+**Current state:** `ollama.chat-model: qwen2.5:7b` (rerank + chat, unchanged),
+`ollama.classification-chat-model: qwen3:8b` (classification only, new).
+`ollama.num-ctx: 4096` still applies to both — proven sufficient for
+`qwen3:8b` in the earlier "Local model comparison" evaluation, and neither
+model here does chained/multi-turn reasoning that would need more.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct
@@ -2756,11 +2813,11 @@ a build) was untouched and not approached.
   questions. `GrievanceIntakeService` (the non-graph `/grievances` path)
   still writes directly and independently — a separate, not-yet-touched
   code path if unification there is ever wanted.
-- Per-purpose Ollama model split (classification vs. RAG rerank) — see
-  "DMV title-correction misclassification" above. `qwen3:8b` is a proven
-  classification-accuracy upgrade but shares one `ChatModel` bean with
-  rerank today, so flipping it globally regresses RAG. Needs a second
-  `@Qualifier`-ed bean + property before it's worth revisiting.
+- Per-purpose Ollama model split (classification vs. RAG rerank) —
+  **built, see "Per-purpose Ollama model split: qwen3:8b for
+  classification only" above**. Was previously an open item: `qwen3:8b`
+  was a proven classification-accuracy upgrade but shared one `ChatModel`
+  bean with rerank, so flipping it globally regressed RAG.
 - DMV/PRD missing from `schema.sql` — see "DMV title-correction
   misclassification" above. Both only exist in this dev DB via live
   onboarding; a fresh database built from `schema.sql` alone won't have
