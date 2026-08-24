@@ -7,6 +7,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.time.Duration;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,8 +30,18 @@ class SecurityIntegrationTest {
     @Autowired
     private JwtService jwtService;
 
+    /**
+     * responseTimeout above WebTestClient's 5s default -- citizenSubmissionNeedsNoAuthentication
+     * triggers a real classify() call (com.aigre.classification.LlmGrievanceClassifier, the
+     * "classificationChatModel"-qualified bean), which can exceed 5s on its own even without any
+     * RAG rerank involved (confirmed live: qwen3:8b's single-call latency alone blew this test's
+     * old default). Same fix ChatControllerTest already applies for the same underlying reason.
+     */
     private WebTestClient client() {
-        return WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+        return WebTestClient.bindToServer()
+                .baseUrl("http://localhost:" + port)
+                .responseTimeout(Duration.ofSeconds(30))
+                .build();
     }
 
     @Test

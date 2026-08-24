@@ -2,6 +2,7 @@ package com.aigre.classification;
 
 import com.aigre.metrics.LlmCallTimer;
 import dev.langchain4j.model.chat.ChatModel;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -27,6 +28,11 @@ import java.util.regex.Pattern;
  * wiring to verify), and this project already has a proven version of this exact pattern in
  * RetrievalService's rerank call -- reusing it keeps the two LLM-call sites consistent and
  * avoids a second round of cross-provider structured-output verification.
+ *
+ * Injects the "classificationChatModel"-qualified bean (LlmProviderConfig), not the
+ * @Primary general one RetrievalService's rerank step uses -- classification runs once per
+ * grievance, so it can afford a slower, more-accurate model (qwen3:8b under Ollama) without
+ * the RAG-rerank latency multiplication that made a single shared model a bad tradeoff.
  */
 @Component
 public class LlmGrievanceClassifier {
@@ -134,7 +140,7 @@ public class LlmGrievanceClassifier {
     private final DepartmentDirectory departmentDirectory;
 
     public LlmGrievanceClassifier(
-            ChatModel chatModel,
+            @Qualifier("classificationChatModel") ChatModel chatModel,
             ObjectMapper objectMapper,
             LlmCallTimer llmCallTimer,
             DepartmentDirectory departmentDirectory) {

@@ -37,13 +37,24 @@ llm:
 
 ollama:
   base-url: http://localhost:11434
+  # General-purpose model (@Primary bean, LlmProviderConfig) -- RAG rerank and the citizen
+  # chat's own streaming responses. Deliberately NOT qwen3:8b: rerank calls this once per
+  # retrieved candidate per chat question, and a "thinking"-style model there regressed
+  # RagEvalSuiteTest badly when tried (see PROJECT.md's "DMV title-correction
+  # misclassification" writeup) -- stays on the faster model for that reason, not accuracy.
   chat-model: qwen2.5:7b
+  # Classification-only model ("classificationChatModel" qualified bean). One call per
+  # grievance, not per RAG candidate, so it can afford qwen3:8b's slower, more-accurate
+  # output (~91.9% vs. ~65.9-86.8% measured on the labeled eval set) without the rerank
+  # latency problem above.
+  classification-chat-model: qwen3:8b
   embedding-model: nomic-embed-text
   timeout: 120s
-  # Classification is single-shot (system prompt + one complaint, no chat history, no RAG
-  # context injected) -- 4096 comfortably covers it. Ollama otherwise defaults to each model's
-  # own max context (32768 for the qwen3 family), which multiplies KV-cache VRAM for no benefit
-  # here and was the actual cause of qwen3:8b/qwen3:30b-a3b timing out on an 8GB GPU.
+  # Both models above stay well under this: rerank/classification are single-shot calls
+  # (one passage or one complaint, no chat history, no chained context) -- 4096 comfortably
+  # covers either. Ollama otherwise defaults to each model's own max context (32768 for the
+  # qwen3 family), which multiplies KV-cache VRAM for no benefit here and was the actual
+  # cause of qwen3:8b/qwen3:30b-a3b timing out on an 8GB GPU.
   num-ctx: 4096
 
 anthropic:
