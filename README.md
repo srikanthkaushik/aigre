@@ -21,6 +21,7 @@ workflow state rather than a bolted-on afterthought.
 - [What it does](#what-it-does)
 - [Where AI is actually used](#where-ai-is-actually-used)
 - [What's agentic here (and what isn't)](#whats-agentic-here-and-what-isnt)
+- [Embedding on an existing site (brownfield integration)](#embedding-on-an-existing-site-brownfield-integration)
 - [Tech stack](#tech-stack)
 - [Architecture at a glance](#architecture-at-a-glance)
 - [Screenshots](#screenshots)
@@ -43,9 +44,10 @@ workflow state rather than a bolted-on afterthought.
   of a bad guess.
 - Check the status of an existing complaint by ID at any time.
 - Reopen a closed complaint if the issue recurs (priority bumps up a tier automatically).
-- Ask policy questions in a chat interface ("How long does DOT have to fix a pothole?")
-  and get an answer grounded in the actual policy corpus, with a citation — or an
-  honest "I don't have that" instead of a fabricated answer.
+- Ask policy questions via a floating chat launcher, available on every page
+  ("How long does DOT have to fix a pothole?") and get an answer grounded in the
+  actual policy corpus, with a citation — or an honest "I don't have that" instead of
+  a fabricated answer.
 - Email a complaint instead of using the form — a monitored inbox is polled on a
   schedule and every message goes through the identical pipeline as a portal
   submission.
@@ -142,6 +144,51 @@ text alone.
 
 ---
 
+## Embedding on an existing site (brownfield integration)
+
+A department that already runs its own website doesn't need to send citizens to
+AIGRE — it can embed the same chat widget directly, scoped to *only its own* policy
+corpus, with one script tag:
+
+```html
+<script src="https://your-aigre-host/embed.js" data-department="DMV"></script>
+```
+
+That's the whole integration. The script injects a floating chat button on the host
+page; clicking it opens a same-origin AIGRE iframe pre-scoped to the given department,
+so a DMV site's widget only ever answers from DMV's own documents — a question about a
+different department's policies gets an honest "I don't know," not a cross-department
+answer (verified live; see `PROJECT.md`).
+
+The screenshots below are a real proof-of-concept page, locally styled to resemble a
+typical state DMV site so the widget can be evaluated in a realistic hosting context —
+**it is not the real dmv.nh.gov and isn't affiliated with the actual New Hampshire
+DMV**, just a stand-in for "some department's existing website."
+
+| | |
+|---|---|
+| ![DMV POC page with the closed chat launcher](docs/images/20-dmv-embed-closed.png) Embedded on a DMV-styled page — closed | ![DMV POC page with an answered, cited question](docs/images/21-dmv-embed-open.png) A real DMV-specific question, answered and cited from DMV's corpus only |
+
+**Embedding is allowlisted, not open to any site that includes the script.** An admin
+registers which origins may embed a given department's widget; nothing renders on an
+unregistered origin — the browser itself refuses to display it (enforced via a
+per-department `Content-Security-Policy: frame-ancestors` header, not just an app-level
+check):
+
+```
+curl -s -X POST http://localhost:8085/admin/departments/DMV/embed-origins ^
+  -H "Content-Type: application/json" ^
+  -H "Authorization: Bearer <ADMIN_TOKEN>" ^
+  -d "{\"origin\": \"https://dmv.example.gov\"}"
+```
+
+Because the widget's chat requests happen *inside* the iframe (same origin as AIGRE,
+not the host page), no CORS changes are needed at all — only a framing decision. Full
+design writeup, including the live cross-department-leakage and unregistered-origin
+tests, is in `PROJECT.md`.
+
+---
+
 ## Tech stack
 
 | Layer | Technology |
@@ -235,7 +282,7 @@ diagrams, and the data model are in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.m
 
 | | |
 |---|---|
-| ![Citizen submit form](docs/images/02-citizen-submit-form.png) Citizen intake form | ![Chat with citations](docs/images/06-citizen-chat-answer.png) Policy chat, with citations |
+| ![Citizen submit form](docs/images/02-citizen-submit-form.png) Citizen intake form | ![Chat with citations](docs/images/06-citizen-chat-answer.png) Floating policy chat, with citations |
 | ![Pending review queue](docs/images/07-employee-pending-review.png) Pending Review — low-confidence cases | ![Complaint trends dashboard](docs/images/10-employee-trends.png) Trends: volume, sentiment, SLA snapshot |
 
 The full illustrated tour of every screen, for both the citizen and employee sides —

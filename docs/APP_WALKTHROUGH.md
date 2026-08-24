@@ -24,7 +24,8 @@ here.
 
 ## Citizen Portal (`/citizen`)
 
-Three tabs: **Submit a Complaint**, **Check Status**, **Ask a Question**.
+Two tabs — **Submit a Complaint**, **Check Status** — plus a floating **Chat** launcher
+(bottom-right) that's available from any page in the app, not just the citizen portal.
 
 ### Submit a Complaint
 
@@ -116,14 +117,20 @@ department for another look.
 
 ![Reopened complaint — priority bumped, fresh SLA, confirmation shown](images/14-citizen-reopen-success.png)
 
-### Ask a Question
+---
 
-A chat interface backed by the RAG pipeline over the department policy corpus. Empty
-state offers three clickable example questions. Answers stream in token-by-token and
-end with citation cards (document filename + department) for whatever was actually
-retrieved and used.
+## Floating chat (available on every page)
 
-![Chat empty state with example questions](images/05-citizen-chat-empty.png)
+A floating **Chat** button sits bottom-right on every page of the app — not just the
+citizen portal — and opens a small panel backed by the same RAG pipeline over the
+department policy corpus. It used to be a third tab on the citizen portal ("Ask a
+Question"); it's now a site-wide launcher instead, so the same assistant is reachable
+from the landing page or mid-way through filling out a complaint, not just from one
+specific tab. Empty state offers three clickable example questions. Answers stream in
+token-by-token and end with citation cards (document filename + department) for
+whatever was actually retrieved and used.
+
+![Floating chat empty state with example questions](images/05-citizen-chat-empty.png)
 
 **Example — verified live:**
 
