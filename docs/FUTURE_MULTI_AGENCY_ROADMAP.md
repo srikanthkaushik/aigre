@@ -1,9 +1,13 @@
 # Future state: onboarding new agencies (greenfield and brownfield)
 
-**Status: not built.** Documented here as a phased roadmap for a future capability,
-deliberately deferred — see [`PROJECT.md`](../PROJECT.md#open-items-to-revisit) for
-how open items are tracked in this project. This file exists so the design has a
-home to come back to, not as a spec ready to implement.
+**Status: not built**, with one exception — Phase 2's department-level RAG
+metadata filter has since been built, for a different reason (an embeddable,
+department-scoped chat widget, not agency onboarding) — see the updated notes
+in "What's actually true today" and Phase 2 below. Everything else here
+remains a phased roadmap for a future capability, deliberately deferred — see
+[`PROJECT.md`](../PROJECT.md#open-items-to-revisit) for how open items are
+tracked in this project. This file exists so the design has a home to come
+back to, not as a spec ready to implement.
 
 ## The problem this would solve
 
@@ -73,12 +77,19 @@ calculator, duplicate detection, deployment config), not assumed.
   utility.** `DuplicateDetectionService.findOpenDuplicate()` queries AIGRE's own
   previously-stored `grievances` rows. It has nothing to compare against for an
   agency whose case history lives in their own external system.
-- **The RAG corpus has no isolation at all**, not even along the one dimension
-  it already carries metadata for. `RetrievalService.retrieve()` builds an
-  `EmbeddingSearchRequest` with no metadata filter — every query searches the
-  entire `rag_documents` table regardless of department, let alone agency. A
-  second agency's corpus sharing the same table today would produce
-  cross-contaminated chatbot answers.
+- **The RAG corpus now has department-level isolation, but no agency-level
+  isolation.** `RetrievalService.retrieve(query, department)` builds a real
+  `MetadataFilterBuilder`-based filter on the existing `department` chunk
+  metadata (built for the embeddable, department-scoped chat widget — see
+  `PROJECT.md`'s "Floating chat widget + embeddable, department-scoped chat").
+  Verified live, including that a question outside the given department's
+  corpus correctly returns no cross-department matches. This closes the
+  specific department-level gap this section used to describe as completely
+  unfiltered. **Still missing**: there's no `agency` dimension anywhere in the
+  filter, the metadata, or the schema — the filter that exists only
+  distinguishes departments *within* this one AIGRE instance/tenant. A second
+  agency's corpus sharing the same `rag_documents` table would still
+  cross-contaminate; nothing built so far touches that.
 - **Infra is single-everything**: one hardcoded Postgres database name
   (`aigre`), one Spring Boot process/port, one global JWT signing secret, one
   global corpus filesystem path, no `docker-compose.yml`, no schema-per-tenant
@@ -202,15 +213,18 @@ Externalizes the department taxonomy, jurisdiction descriptions, and worked
 examples currently hardcoded into `LlmGrievanceClassifier`'s prompt into
 agency-scoped config, templated in at call time. The priority rubric
 (`Priority`'s ack/resolve hours) becomes agency-configurable too, backed by
-Phase 1's now-agency-scoped `sla_policies`. RAG isolation:
-`CorpusIngestionService` gains an `agency` metadata field at ingestion
-(alongside the existing `department` field, which is itself currently
-decorative for retrieval — see below); `RetrievalService.retrieve()` gains an
-actual metadata filter on its `EmbeddingSearchRequest`. This is additive —
-langchain4j's pgvector store already supports metadata filtering — but it's
-genuinely new work, not activation of a dormant field: today's retrieval
-applies **no** metadata filter at all, not even along the one dimension
-(`department`) it already tags chunks with.
+Phase 1's now-agency-scoped `sla_policies`. RAG isolation: **the
+department-level half of this is now built** (see "What's actually true
+today" above) — `RetrievalService.retrieve(query, department)` filters on the
+existing `department` chunk metadata, proven via the embeddable
+department-scoped chat widget. What's left here is strictly the agency
+dimension: `CorpusIngestionService` still needs an `agency` metadata field at
+ingestion (alongside `department`, additive, same
+`MetadataFilterBuilder`/langchain4j mechanism already proven to work), and
+`RetrievalService.retrieve()` needs a second filter predicate — or an
+`AND`-combined `Filter` — scoping by agency as well as department, so two
+agencies sharing this table can't cross-contaminate at the tenant boundary
+the way they still can today.
 
 ### Phase 3 — Full multi-agency onboarding (Model A)
 Agency provisioning, self-service or admin-assisted: create the agency row,
