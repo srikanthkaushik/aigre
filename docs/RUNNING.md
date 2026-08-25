@@ -227,6 +227,13 @@ curl -s -X POST http://localhost:8085/admin/departments/DMV/embed-origins ^
   -d "{\"origin\": \"http://localhost:5500\"}"
 ```
 
+> **Load the demo page as `http://localhost:5500`, not `http://127.0.0.1:5500`.**
+> `http-server`'s own startup banner prints `127.0.0.1` as one of its "Available on"
+> URLs, but browsers treat `localhost` and `127.0.0.1` as different origins even
+> though they're the same machine — only the exact origin you registered above will
+> be allowed to frame the widget. If you want both to work, register a second
+> `embed-origins` entry for `http://127.0.0.1:5500` the same way.
+
 **b) Serve the demo page on a different port than AIGRE's** (it has to be a different
 origin for this to actually test anything — same-origin embedding is trivial and proves
 nothing about the CORS/framing story):
