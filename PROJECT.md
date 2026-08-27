@@ -2774,6 +2774,89 @@ file, not a new regression.
 `qwen3:8b` in the earlier "Local model comparison" evaluation, and neither
 model here does chained/multi-turn reasoning that would need more.
 
+## Agentic memory: recognizing returning citizens in chat
+
+Explored "agentic memory" as a concept, surveyed where AIGRE already has (or
+lacks) memory-like mechanisms, and built the one the user picked: episodic
+memory of a citizen's own past submissions, so the citizen chat can answer
+"what's the status of my complaint" without requiring an ID paste.
+
+**Diagnosis before building anything.** The citizen chat had zero memory of
+who's asking, even within the same browser across visits — `ChatWidget`'s
+message history is pure client-side signal state, gone on refresh.
+Meanwhile, supervisor corrections (`GrievanceReviewDecision`,
+`status_history.note`) were already being durably captured and never fed
+back into anything — the biggest "memory-shaped hole" found in the survey,
+though the user chose the citizen-recognition option to build first, not
+that one.
+
+**Security framing, decided upfront, not bolted on after.** This
+deliberately isn't a "type your email to see your grievances" flow — emails
+are far more guessable/known than a grievance ID (everyone at one employer
+shares a domain), so that shape would leak more than today's
+"know-the-ID" model, not less. Instead: `CitizenTokenService`
+(`com.aigre.auth`, intentionally separate from `JwtService`/
+`EmployeePrincipal` — different claim shape, a year-long lifetime instead of
+8 hours, a `type: "citizen"` claim so it can never be parsed as an employee
+token even though both reuse `security.jwt.secret`) issues a token
+*automatically* in the submission response, never typed or displayed. The
+frontend replays it silently. Same "possession of a secret grants access"
+shape the app already uses for grievance IDs, just automated.
+
+**One issuance point, not four.** `GrievanceWorkflowService.buildResponse()`
+— already the single method called from `start()`/`resume()`/`clarify()`/
+`status()` — gained `citizen_id` in its existing row query and issues the
+token there when non-null. Avoided threading `citizenId` through four call
+sites for the same effect. `GrievanceIntakeService` (the plain intake path)
+got the identical field for consistency, though the citizen portal itself
+only exercises the workflow path.
+
+**Prompt injection, not a new tool.** `ChatController` fetches the citizen's
+5 most recent grievances (capped for prompt size and relevance) and splices
+them into the existing grounding prompt, instructing the model to pick the
+relevant one and call the *existing* `get_grievance_status`/
+`check_sla_status` MCP tools — reusing 100% of the tool-calling
+infrastructure built for milestone 4, rather than threading citizen identity
+through the `AiServices` tool-calling boundary itself (which doesn't support
+that cleanly today). An invalid/expired/missing token is silently treated as
+"no citizen context," never an error — anonymous chat must keep working
+identically.
+
+**A real bug caught during verification, not a plumbing failure.** First
+live test: asked "what's the status of my most recent complaint" with a
+valid token, and the model *asked for the grievance ID anyway* — but named
+`G0424` as its example, the citizen's own actual (and only) grievance. That
+proved the retrieval/injection worked; the model just wasn't following the
+"pick one and act" instruction, hedging back to the citizen instead.
+Rewrote the directive from a soft "pick the most relevant one below" to an
+explicit "you already have enough information to act — do NOT ask which one
+they mean" — same pattern this project has hit before with `qwen2.5:7b`
+needing more forceful instruction language than a stronger model would.
+Re-verified: the model resolved decisively on the next attempt, no
+hesitation, correct tool call.
+
+**Verified live end-to-end**, including a case the plan explicitly flagged
+as worth checking rather than assuming:
+- Real browser flow via Playwright: submitted with an email through the
+  actual form, confirmed the token landed in `localStorage`, opened the
+  floating chat, asked "my most recent complaint" with no ID — resolved
+  correctly via a live tool call.
+- Anonymous submission: no token issued, chat behavior byte-identical to
+  before (confirmed the prompt template produces the same text when the new
+  citizen section is empty).
+- Citizen-switch test: submitted as citizen A, then citizen B (different
+  email) in the same browser — token updated, B's chat surfaced only B's
+  own grievance (`G0425`), no cross-citizen leakage of A's history
+  (`G0424`).
+- **Embed-widget side effect, predicted in the plan and confirmed true**: a
+  citizen recognized on the main portal (`localhost:8085`) was
+  automatically recognized inside the embedded widget on a *different*
+  external site (`localhost:5500`), since the embed iframe is same-origin
+  to AIGRE and shares the same `localStorage`. No extra code needed for
+  this — it fell out of the existing embed architecture for free.
+- `ChatControllerTest` (3/3) reconfirmed green after the prompt-wording fix,
+  since it exercises the exact prompt string being changed.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct
@@ -2829,6 +2912,23 @@ model here does chained/multi-turn reasoning that would need more.
   embed origin is still a curl call against `/admin/departments/{id}/
   embed-origins`, no admin UI — fine for now, same bar as
   `POST /admin/departments` when it first shipped.
+- Other agentic-memory options surveyed but not built (see "Agentic memory:
+  recognizing returning citizens in chat" above) — the user picked citizen
+  recognition; these are still open:
+  - Feed supervisor corrections back into `LlmGrievanceClassifier` as
+    retrievable few-shot examples (episodic memory) — the biggest
+    "captured but never used" gap found in the survey:
+    `status_history.note`/`resolution_notes` already durably store human
+    reasoning, nothing reads it back.
+  - Semantic duplicate detection — replace/augment
+    `DuplicateDetectionService`'s department+category+7-day-window SQL
+    match with embedding similarity, catching duplicates worded completely
+    differently about the same issue.
+  - Surface similar past human-review decisions to supervisors when a case
+    pauses for review (procedural memory aiding a human, not replacing
+    one).
+  - Track unanswered ("I don't know") chat questions as a corpus-gap
+    report for ADMIN.
 
 ## Full plan
 The complete Milestone-0 plan (domain model, routing/escalation scenarios,

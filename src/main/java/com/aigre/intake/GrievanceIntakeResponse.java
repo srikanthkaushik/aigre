@@ -10,5 +10,6 @@ public record GrievanceIntakeResponse(
         double classificationConfidence,
         String priority,
         Instant slaDueAt,
-        String duplicateOfId) {
+        String duplicateOfId,
+        String citizenToken) {
 }

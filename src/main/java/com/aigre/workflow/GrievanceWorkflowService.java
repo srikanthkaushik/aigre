@@ -1,5 +1,6 @@
 package com.aigre.workflow;
 
+import com.aigre.auth.CitizenTokenService;
 import com.aigre.classification.ClassificationResult;
 import com.aigre.classification.LlmGrievanceClassifier;
 import com.aigre.intake.GrievanceIdGenerator;
@@ -35,16 +36,19 @@ public class GrievanceWorkflowService {
     private final CompiledGraph<GrievanceWorkflowState> graph;
     private final LlmGrievanceClassifier classifier;
     private final GrievanceIdGenerator grievanceIdGenerator;
+    private final CitizenTokenService citizenTokenService;
 
     public GrievanceWorkflowService(
             NamedParameterJdbcTemplate jdbc,
             CompiledGraph<GrievanceWorkflowState> grievanceWorkflowGraph,
             LlmGrievanceClassifier classifier,
-            GrievanceIdGenerator grievanceIdGenerator) {
+            GrievanceIdGenerator grievanceIdGenerator,
+            CitizenTokenService citizenTokenService) {
         this.jdbc = jdbc;
         this.graph = grievanceWorkflowGraph;
         this.classifier = classifier;
         this.grievanceIdGenerator = grievanceIdGenerator;
+        this.citizenTokenService = citizenTokenService;
     }
 
     public GrievanceWorkflowResponse start(GrievanceIntakeRequest request) {
@@ -206,7 +210,7 @@ public class GrievanceWorkflowService {
         Map<String, Object> row = jdbc.queryForMap(
                 """
                 SELECT status, department_predicted, department_confirmed, category, priority,
-                       classification_confidence, sla_due_at, raw_text, duplicate_of_id
+                       classification_confidence, sla_due_at, raw_text, duplicate_of_id, citizen_id
                 FROM grievances WHERE id = :id
                 """,
                 new MapSqlParameterSource("id", grievanceId));
@@ -217,6 +221,13 @@ public class GrievanceWorkflowService {
         Double confidence = (Double) row.get("classification_confidence");
         Instant slaDueAt = row.get("sla_due_at") instanceof Timestamp ts ? ts.toInstant() : null;
         String duplicateOfId = (String) row.get("duplicate_of_id");
+        // Silent recognition token for a returning citizen's browser -- only issued when contact
+        // info was provided (citizen_id non-null); never issued for anonymous submissions, so
+        // chat stays exactly as it is today for them. See CitizenTokenService's own javadoc for
+        // why this isn't a "type your email to look up your grievances" flow.
+        String citizenToken = row.get("citizen_id") instanceof UUID citizenId
+                ? citizenTokenService.issueToken(citizenId)
+                : null;
 
         return new GrievanceWorkflowResponse(
                 grievanceId,
@@ -230,7 +241,8 @@ public class GrievanceWorkflowService {
                 reasoning,
                 (String) row.get("raw_text"),
                 fetchClarifications(grievanceId),
-                duplicateOfId);
+                duplicateOfId,
+                citizenToken);
     }
 
     private List<ClarificationEntry> fetchClarifications(String grievanceId) {

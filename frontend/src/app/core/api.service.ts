@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import {
   GrievanceIntakeRequest,
   GrievanceReviewDecision,
@@ -19,6 +19,13 @@ import {
 // is also what makes tunneling just one port (the backend's) enough to expose the whole app.
 const API_BASE = '';
 
+// Silent citizen-recognition token (see CitizenTokenService's javadoc for the full design
+// rationale) -- never displayed or typed by the citizen. Persisted automatically whenever a
+// GrievanceWorkflowResponse carries one, attached automatically to every streamChat() call. Same
+// origin as the main portal even inside an embedded /embed/chat iframe, so a citizen recognized
+// on the main site is recognized there too.
+const CITIZEN_TOKEN_KEY = 'aigre.citizenToken';
+
 export interface ChatStreamCallbacks {
   onToken: (token: string) => void;
   onSources: (sources: RetrievedSource[]) => void;
@@ -31,24 +38,34 @@ export class ApiService {
   constructor(private readonly http: HttpClient) {}
 
   submitGrievance(request: GrievanceIntakeRequest): Observable<GrievanceWorkflowResponse> {
-    return this.http.post<GrievanceWorkflowResponse>(`${API_BASE}/grievances/workflow`, request);
+    return this.http
+      .post<GrievanceWorkflowResponse>(`${API_BASE}/grievances/workflow`, request)
+      .pipe(tap((r) => this.persistCitizenToken(r)));
   }
 
   resumeReview(grievanceId: string, decision: GrievanceReviewDecision): Observable<GrievanceWorkflowResponse> {
-    return this.http.post<GrievanceWorkflowResponse>(
-      `${API_BASE}/grievances/${grievanceId}/workflow/resume`,
-      decision
-    );
+    return this.http
+      .post<GrievanceWorkflowResponse>(`${API_BASE}/grievances/${grievanceId}/workflow/resume`, decision)
+      .pipe(tap((r) => this.persistCitizenToken(r)));
   }
 
   getWorkflowStatus(grievanceId: string): Observable<GrievanceWorkflowResponse> {
-    return this.http.get<GrievanceWorkflowResponse>(`${API_BASE}/grievances/${grievanceId}/workflow`);
+    return this.http
+      .get<GrievanceWorkflowResponse>(`${API_BASE}/grievances/${grievanceId}/workflow`)
+      .pipe(tap((r) => this.persistCitizenToken(r)));
   }
 
   clarify(grievanceId: string, additionalText: string): Observable<GrievanceWorkflowResponse> {
-    return this.http.post<GrievanceWorkflowResponse>(`${API_BASE}/grievances/${grievanceId}/workflow/clarify`, {
-      additionalText
-    });
+    return this.http
+      .post<GrievanceWorkflowResponse>(`${API_BASE}/grievances/${grievanceId}/workflow/clarify`, { additionalText })
+      .pipe(tap((r) => this.persistCitizenToken(r)));
+  }
+
+  /** Only ever writes when a token is actually present -- an anonymous submission's response leaves any existing token untouched. */
+  private persistCitizenToken(response: GrievanceWorkflowResponse): void {
+    if (response.citizenToken) {
+      localStorage.setItem(CITIZEN_TOKEN_KEY, response.citizenToken);
+    }
   }
 
   getStatus(grievanceId: string): Observable<GrievanceStatusResult> {
@@ -90,6 +107,10 @@ export class ApiService {
    * The backend's SSE endpoint is POST-based (needs a JSON body), so the browser's native
    * EventSource (GET-only) can't be used -- reads the streamed text/event-stream response body
    * directly via fetch + ReadableStream instead, parsing "event:"/"data:" frames by hand.
+   *
+   * Silently attaches whatever citizen-recognition token is stored, if any -- null for an
+   * anonymous citizen or a fresh browser, which the backend treats identically to a missing
+   * token (see ChatQuestion's javadoc).
    */
   async streamChat(
     question: string,
@@ -98,10 +119,11 @@ export class ApiService {
     signal?: AbortSignal
   ): Promise<void> {
     try {
+      const citizenToken = localStorage.getItem(CITIZEN_TOKEN_KEY);
       const response = await fetch(`${API_BASE}/chat/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, department: department ?? null }),
+        body: JSON.stringify({ question, department: department ?? null, citizenToken }),
         signal
       });
 

@@ -15,5 +15,6 @@ public record GrievanceWorkflowResponse(
         String reasoning,
         String rawText,
         List<ClarificationEntry> clarifications,
-        String duplicateOfId) {
+        String duplicateOfId,
+        String citizenToken) {
 }

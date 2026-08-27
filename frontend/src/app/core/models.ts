@@ -25,6 +25,9 @@ export interface GrievanceWorkflowResponse {
   rawText: string | null;
   clarifications: ClarificationEntry[];
   duplicateOfId: string | null;
+  // Present only when contact info was provided -- ApiService persists it automatically
+  // (see its own comment) so the floating chat can silently recognize this browser later.
+  citizenToken: string | null;
 }
 
 export interface GrievanceStatusResult {

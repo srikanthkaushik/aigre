@@ -1,5 +1,6 @@
 package com.aigre.intake;
 
+import com.aigre.auth.CitizenTokenService;
 import com.aigre.classification.ClassificationResult;
 import com.aigre.classification.LlmGrievanceClassifier;
 import com.aigre.duplicate.DuplicateDetectionService;
@@ -26,18 +27,21 @@ public class GrievanceIntakeService {
     private final SlaCalculator slaCalculator;
     private final DuplicateDetectionService duplicateDetectionService;
     private final GrievanceIdGenerator grievanceIdGenerator;
+    private final CitizenTokenService citizenTokenService;
 
     public GrievanceIntakeService(
             NamedParameterJdbcTemplate jdbc,
             LlmGrievanceClassifier classifier,
             SlaCalculator slaCalculator,
             DuplicateDetectionService duplicateDetectionService,
-            GrievanceIdGenerator grievanceIdGenerator) {
+            GrievanceIdGenerator grievanceIdGenerator,
+            CitizenTokenService citizenTokenService) {
         this.jdbc = jdbc;
         this.classifier = classifier;
         this.slaCalculator = slaCalculator;
         this.duplicateDetectionService = duplicateDetectionService;
         this.grievanceIdGenerator = grievanceIdGenerator;
+        this.citizenTokenService = citizenTokenService;
     }
 
     public GrievanceIntakeResponse submit(GrievanceIntakeRequest request) {
@@ -67,6 +71,8 @@ public class GrievanceIntakeService {
                 duplicateOfId);
         insertStatusHistory(grievanceId, status, submittedAt, duplicateOfId);
 
+        String citizenToken = citizenId != null ? citizenTokenService.issueToken(citizenId) : null;
+
         return new GrievanceIntakeResponse(
                 grievanceId,
                 status,
@@ -75,7 +81,8 @@ public class GrievanceIntakeService {
                 classification.confidence(),
                 priority == null ? null : priority.name(),
                 slaDueAt,
-                duplicateOfId);
+                duplicateOfId,
+                citizenToken);
     }
 
     private String resolveStatus(ClassificationResult classification) {

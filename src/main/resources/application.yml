@@ -94,6 +94,11 @@ security:
     # the real requirement beyond a single-instance demo). 256-bit random value, base64-encoded.
     secret: 6UWjAYsTXxU3N61ttvUPFyDn4JfGXXmMBLTeff9XfKo=
     expiration-hours: 8
+  # Silent citizen-recognition token (CitizenTokenService) -- deliberately long-lived compared
+  # to the employee JWT above: the point is recognizing a returning citizen months later, not a
+  # login session. Reuses jwt.secret, not a separate key.
+  citizen-token:
+    expiration-days: 365
 
 logging:
   level:
