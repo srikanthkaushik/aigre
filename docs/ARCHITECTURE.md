@@ -350,6 +350,13 @@ corpus doesn't contain the answer.
    followed by a final `sources` event carrying the cited chunks' metadata
    (`department`, `source` filename) so the UI can show real citations, not just prose.
 
+Retrieval can optionally be scoped to one department (`retrieve(query, department)`,
+a metadata filter on step 2) — what makes the embeddable per-department chat widget
+possible — and the grounding prompt in step 4 can optionally be enriched with a
+returning citizen's own grievance history. See [§5, Agentic
+memory](#5-agentic-memory-recognizing-returning-citizens-citizentokenservice-chatcontroller)
+below for the latter.
+
 **Why LLM rerank instead of trusting cosine similarity?** Measured directly: an
 irrelevant chunk scored a *higher* cosine similarity (0.789) than the actually-relevant
 one (0.788) on a real query. Cosine alone can't tell "on-topic" from "answers the
@@ -458,6 +465,93 @@ too (`POST /grievances/{id}/reopen`, citizen-facing; `POST
 /grievances/{id}/status`, the employee dashboard's "Mark Resolved"/"Mark
 Closed" action) via `GrievanceQueryController`, alongside its existing
 read-only endpoints.
+
+### 5. Agentic memory: recognizing returning citizens (`CitizenTokenService`, `ChatController`)
+
+**What "agentic memory" means**: an LLM call is stateless by default — it only knows
+what's in the prompt sent *this time*. Agentic memory is the general term for
+mechanisms that let an agent retain and reuse information *across* calls, sessions, or
+time instead of starting from zero every time. It's usually grouped into: **short-term/
+working memory** (state kept for one task/conversation — chat history in a single
+session, cheap and already the norm); **episodic memory** (records of specific past
+events, retrieved back in when a similar situation recurs — "this citizen filed this
+exact complaint before"); **semantic memory** (generalized facts distilled from many
+past events, not raw logs — AIGRE's RAG policy corpus is a *static*, human-authored
+form of this, never updated by the agent's own experience); and **procedural memory**
+(learned preferences built from repeated correction). The common thread: capture an
+outcome → store it retrievably → pull the relevant piece back into a future prompt
+instead of re-deriving or re-guessing.
+
+**What's built here**: episodic memory of a citizen's own past submissions, so the
+floating chat can answer "what's the status of my complaint" without an ID paste —
+with no citizen login system. A citizen who provides contact info at submission gets a
+long-lived recognition token issued automatically to their browser (`CitizenTokenService`,
+`com.aigre.auth` — deliberately separate from `JwtService`/`EmployeePrincipal`: a
+`type: "citizen"` claim and a year-long lifetime, reusing the same signing key). The
+token is never shown or typed; the frontend (`ApiService`) persists and replays it
+silently. On a later chat call, `ChatController` resolves the token back to a citizen
+id, fetches their 5 most recent grievances, and splices that list into the same
+grounding prompt §2 already builds — the model picks the relevant grievance and calls
+the *existing* `get_grievance_status`/`check_sla_status` MCP tools (§4) to answer with
+live data, exactly as it would if the citizen had typed the ID themselves.
+
+**Why not a login/email-lookup flow?** Deliberately not: accepting a typed email as a
+lookup key would let anyone who knows (or guesses) a citizen's email see their full
+grievance history — a materially bigger leak than today's "know the grievance ID"
+model, since emails are far more guessable (everyone at one employer shares a domain).
+Automatic, browser-issued tokens keep the same "possession of a secret grants access"
+shape the app already uses for grievance IDs, just automated instead of copy-pasted.
+An invalid, expired, or missing token is treated identically — silently, never an
+error — since anonymous chat must keep working exactly as it does today.
+
+```mermaid
+sequenceDiagram
+    participant C as Citizen (browser)
+    participant W as GrievanceWorkflowService
+    participant T as CitizenTokenService
+    participant DB as Postgres
+    participant Chat as ChatController
+    participant L as LLM
+
+    Note over C,DB: Visit 1 — submitting a complaint with contact info
+    C->>W: POST /grievances/workflow {rawText, citizenEmail}
+    W->>DB: INSERT citizens, grievances (citizen_id set)
+    W->>T: issueToken(citizenId)
+    T-->>W: signed JWT (sub=citizenId, type=citizen)
+    W-->>C: {..., citizenToken}
+    Note over C: ApiService persists citizenToken to localStorage (silent, no UI)
+
+    Note over C,L: Visit 2 — later chat question, same browser
+    C->>Chat: POST /chat/stream {question, citizenToken}
+    Chat->>T: parseToken(citizenToken)
+    T-->>Chat: citizenId (or empty — invalid/expired treated as anonymous)
+    Chat->>DB: SELECT 5 most recent grievances WHERE citizen_id
+    DB-->>Chat: G0429 (TRIAGED, DMV, submitted ...)
+    Chat->>L: stream answer (RAG context + this citizen's own grievance list)
+    L->>Chat: tool call get_grievance_status(G0429)
+    Chat-->>C: event: token (live status, no ID needed from the citizen)
+```
+
+**Scope boundary, stated not hidden**: this only enriches the RAG-side grounding
+prompt. It doesn't change what tools the model can call or what they return — the
+model still decides whether to call a tool, and the tools themselves stay unaware any
+of this happened. Verified live, including a cross-citizen isolation check (citizen A's
+history never leaks into citizen B's session after a token switch) and a same-origin
+side effect the design implies but wasn't separately built for: a citizen recognized on
+the main portal is automatically recognized inside the embeddable per-department widget
+too, since `/embed/chat` is same-origin to AIGRE and shares the same `localStorage`.
+Full narrative, including a real prompt-compliance bug caught mid-verification (the
+model initially hedged and asked for an ID instead of acting, even though the correct
+ID was already in its context), is in `PROJECT.md`.
+
+Other agentic-memory mechanisms were surveyed but not built — feeding supervisor
+corrections back into `LlmGrievanceClassifier` as retrievable few-shot examples
+(episodic memory closing the biggest "captured but never used" gap: `status_history
+.note`/`resolution_notes` already store human reasoning that nothing reads back today),
+semantic duplicate detection via embedding similarity instead of
+`DuplicateDetectionService`'s department+category+window SQL match, and surfacing
+similar past human-review decisions to supervisors. See `PROJECT.md`'s "Open items to
+revisit" for the full list.
 
 ### Cross-cutting: dual-provider architecture
 

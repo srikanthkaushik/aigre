@@ -169,6 +169,32 @@ If the corpus genuinely doesn't cover a question (e.g. "what's the SLA for a ful
 highway repaving?"), the answer says so rather than extrapolating from a related
 but different SLA.
 
+**A citizen who's submitted before is recognized automatically, with no login.**
+Providing an email or phone at submission silently issues the browser a
+long-lived recognition token (never shown or typed) — the chat then knows that
+browser's own recent grievances, so a follow-up visit can ask "what's the status
+of my most recent complaint" and get a real answer instead of "please provide a
+grievance ID":
+
+**Example — verified live** (asked right after submitting a title-correction
+complaint to DMV, no ID given):
+
+> *"What's the status of my most recent complaint?"*
+
+> Based on the information provided, your most recent submission is G0429, which
+> was submitted on 2026-08-26 11:44:05. To provide you with the current status of
+> this complaint, I will look up its details.
+>
+> The status of your most recent complaint, G0429, is currently "TRIAGED". It was
+> submitted to the DMV for processing. The service level agreement (SLA) due date
+> for this complaint is 2026-08-31 15:44 UTC. As of now, it has not been resolved
+> yet.
+
+This still goes through the same live `get_grievance_status`/`check_sla_status`
+tool calls described above, not a guess — the model just no longer needs the
+citizen to supply the ID by hand. Submitting without contact info skips this
+entirely; chat behaves exactly as it does for any anonymous citizen.
+
 ---
 
 ## Employee Dashboard (`/employee`)
