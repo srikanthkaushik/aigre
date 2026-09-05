@@ -23,6 +23,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,11 @@ import java.util.stream.Collectors;
  * is a browser-issued token, never a typed email/identity lookup. Their recent grievance summary
  * is spliced into the grounding prompt so "what's the status of my complaint" resolves via the
  * existing tool-calling mechanism above without requiring an ID.
+ *
+ * ChatResponseCache sits in front of retrieval + the chat call for non-personalized questions --
+ * see its javadoc and ChatResponseCache.CachedChatAnswer for the exact-match cache itself; the
+ * eligibility rules (never cache a personalized or tool-triggering answer) live here since they
+ * depend on request-shape decisions (citizenContext, tool calls) this controller already makes.
  */
 @RestController
 @RequestMapping("/chat")
@@ -51,6 +57,7 @@ public class ChatController {
     private final RetrievalService retrievalService;
     private final DepartmentDirectory departmentDirectory;
     private final CitizenTokenService citizenTokenService;
+    private final ChatResponseCache chatCache;
     private final NamedParameterJdbcTemplate jdbc;
     private final ObjectMapper objectMapper;
     private final MeterRegistry meterRegistry;
@@ -60,6 +67,7 @@ public class ChatController {
             RetrievalService retrievalService,
             DepartmentDirectory departmentDirectory,
             CitizenTokenService citizenTokenService,
+            ChatResponseCache chatCache,
             NamedParameterJdbcTemplate jdbc,
             ObjectMapper objectMapper,
             MeterRegistry meterRegistry) {
@@ -67,6 +75,7 @@ public class ChatController {
         this.retrievalService = retrievalService;
         this.departmentDirectory = departmentDirectory;
         this.citizenTokenService = citizenTokenService;
+        this.chatCache = chatCache;
         this.jdbc = jdbc;
         this.objectMapper = objectMapper;
         this.meterRegistry = meterRegistry;
@@ -78,15 +87,39 @@ public class ChatController {
         if (department != null && !departmentDirectory.departmentIds().contains(department)) {
             return Flux.just(ServerSentEvent.builder("Unknown department: " + department).event("error").build());
         }
-        return Mono.fromCallable(() -> new RetrievalWithContext(
-                        retrievalService.retrieve(question.question(), department),
-                        citizenContext(question.citizenToken())))
+        // Optional wrapper, not a bare String -- citizenContext() legitimately returns null for the
+        // (overwhelmingly common) anonymous case, and Mono.fromCallable treats a null-returning
+        // Callable as completing empty, which would make flatMapMany below never run at all.
+        return Mono.fromCallable(() -> Optional.ofNullable(citizenContext(question.citizenToken())))
                 .subscribeOn(Schedulers.boundedElastic())
-                .flatMapMany(rc -> streamAnswer(question.question(), rc.sources(), rc.citizenContext()));
+                .flatMapMany(citizenContext -> respond(question.question(), department, citizenContext.orElse(null)));
     }
 
-    /** Bundles the two blocking lookups stream() needs so both run in the same boundedElastic hop. */
-    private record RetrievalWithContext(List<RetrievedSource> sources, String citizenContext) {
+    /**
+     * cacheEligible is false whenever citizenContext resolved -- a personalized answer must never
+     * be read from or written to the shared cache (see class javadoc). On a cache hit, retrieval
+     * and the chat call are skipped entirely, not just the chat call.
+     */
+    private Flux<ServerSentEvent<String>> respond(String question, String department, String citizenContext) {
+        boolean cacheEligible = citizenContext == null;
+        if (cacheEligible) {
+            Optional<ChatResponseCache.CachedChatAnswer> cached = chatCache.get(question, department);
+            if (cached.isPresent()) {
+                meterRegistry.counter("aigre.chat.cache", "result", "hit").increment();
+                return replayCached(cached.get());
+            }
+        }
+        meterRegistry.counter("aigre.chat.cache", "result", cacheEligible ? "miss" : "bypass").increment();
+        return Mono.fromCallable(() -> retrievalService.retrieve(question, department))
+                .subscribeOn(Schedulers.boundedElastic())
+                .flatMapMany(sources -> streamAnswer(question, department, sources, citizenContext, cacheEligible));
+    }
+
+    /** Instant full-text reveal, not a simulated token trickle -- shows the cache-hit speed win directly. */
+    private Flux<ServerSentEvent<String>> replayCached(ChatResponseCache.CachedChatAnswer cached) {
+        return Flux.just(
+                ServerSentEvent.builder(cached.answerText()).event("token").build(),
+                ServerSentEvent.builder(toJson(cached.sources())).event("sources").build());
     }
 
     /**
@@ -119,7 +152,8 @@ public class ChatController {
                 .collect(Collectors.joining("\n"));
     }
 
-    private Flux<ServerSentEvent<String>> streamAnswer(String question, List<RetrievedSource> sources, String citizenContext) {
+    private Flux<ServerSentEvent<String>> streamAnswer(
+            String question, String department, List<RetrievedSource> sources, String citizenContext, boolean cacheEligible) {
         String context = sources.stream().map(RetrievedSource::text).collect(Collectors.joining("\n---\n"));
         String citizenSection = citizenContext == null
                 ? ""
@@ -152,7 +186,16 @@ public class ChatController {
 
         Sinks.Many<ServerSentEvent<String>> sink = Sinks.many().unicast().onBackpressureBuffer();
         Timer.Sample sample = Timer.start(meterRegistry);
-        new SseTokenStreamBridge(sink, sample, meterRegistry).attach(citizenChatAssistant.chat(prompt));
+        SseTokenStreamBridge.CompletionListener completionListener = !cacheEligible
+                ? (response, toolWasCalled) -> { }
+                : (response, toolWasCalled) -> {
+                    if (!toolWasCalled) {
+                        chatCache.put(
+                                question, department,
+                                new ChatResponseCache.CachedChatAnswer(response.aiMessage().text(), sources));
+                    }
+                };
+        new SseTokenStreamBridge(sink, sample, meterRegistry, completionListener).attach(citizenChatAssistant.chat(prompt));
 
         Flux<ServerSentEvent<String>> sourcesEvent =
                 Flux.just(ServerSentEvent.builder(toJson(sources)).event("sources").build());

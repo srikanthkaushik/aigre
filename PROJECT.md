@@ -2857,6 +2857,87 @@ as worth checking rather than assuming:
 - `ChatControllerTest` (3/3) reconfirmed green after the prompt-wording fix,
   since it exercises the exact prompt string being changed.
 
+## Exact-match response cache for `/chat/stream`
+
+Every chat question previously did a fully live round trip on every call --
+an embedding call, a hybrid pgvector+FTS search, up to `rag.retrieval.
+initial-k` (15) separate LLM rerank calls, and a live streaming chat
+completion -- with nothing memoized, even for two citizens asking the exact
+same FAQ. Built `ChatResponseCache` (`com.aigre.chat`, backed by Caffeine,
+newly added to `pom.xml` -- no caching infrastructure of any kind existed in
+the codebase before this) to short-circuit that whole path on a repeated
+question.
+
+**Exact-match, deliberately not semantic.** Keyed on `(normalized question,
+department)` -- trim/collapse-whitespace/lowercase, not an embedding
+similarity comparison. This project's own "cosine can't judge relevance"
+lesson (an irrelevant chunk scored 0.789 outscoring a relevant one at 0.788)
+applies just as much to deciding whether two *questions* are "the same" as to
+comparing documents, so a semantic cache was ruled out for this pass rather
+than risk serving a confidently-wrong cached answer to a superficially
+similar but actually-different question.
+
+**Two eligibility rules, enforced in `ChatController`, not the cache itself:**
+- **Personalized (citizen-recognized) requests bypass the cache entirely --
+  no read, no write.** A returning citizen's own recent-grievance summary
+  gets spliced into the prompt (see "Agentic memory" above), and there's no
+  signal distinguishing "the answer actually used that personal data" from
+  "answered a general policy question anyway" other than whether
+  `citizenContext` resolved non-null. Bypassing outright avoids ever leaking
+  one citizen's cached answer to another, or serving a stale grievance-status
+  blurb after their status changes.
+- **Tool-triggering answers are never cached.** Any response where
+  `onToolExecuted` fired (a live `get_grievance_status`/`check_sla_status`/
+  `find_duplicate_chain` call) reflects mutable per-grievance DB state,
+  decided only *after* generation starts -- `SseTokenStreamBridge` tracks
+  this per-stream and the write-back callback checks it before caching.
+
+**Cache-hit replay is an instant full-text reveal**, not a simulated
+token-by-token trickle: one `token` SSE event carrying the whole cached
+answer, then the `sources` event -- the existing frontend's accumulate-as-
+you-go parsing needed zero changes, and the speed win is visibly obvious
+rather than faked as a normal stream.
+
+**Invalidated on corpus reset, not just TTL.** `CorpusIngestionService.
+reset()` calls `chatCache.invalidateAll()` immediately after
+`embeddingStore.removeAll()` -- a cached answer can cite a document the
+corpus is about to no longer have. TTL (`chat.cache.ttl`, default 30m) is a
+backstop for narrower edits that don't go through a full reset.
+`chat.cache.enabled` can kill the cache outright without a redeploy.
+
+**A real bug found and fixed while wiring this in, unrelated to caching
+logic itself.** The first version restructured `ChatController.stream()`
+into `Mono.fromCallable(() -> citizenContext(...)).flatMapMany(...)` --
+`citizenContext()` legitimately returns `null` for the (overwhelmingly
+common) anonymous case, and `Mono.fromCallable` treats a null-returning
+`Callable` as completing **empty**, so `flatMapMany` never ran at all. Caught
+immediately by running the live `ChatControllerTest` suite: even the
+pre-existing, untouched `ragOnlyQuestionNeverTriggersAToolCall` test started
+failing with zero SSE events returned. Fixed by wrapping in
+`Optional.ofNullable(...)` before the `Mono` boundary -- the same class of
+null-Mono trap this file's own gotchas table already warns about elsewhere,
+just a new instance of it.
+
+**Verified live, not just unit-tested:** `ChatResponseCacheTest` (9 cases --
+normalization, department-as-key including the `null` case, TTL expiry,
+`enabled: false`, `invalidateAll()`) needs no Spring context and runs in
+under a second. `ChatControllerTest` extended with 3 live cases against real
+Postgres + Ollama: repeating the identical anonymous question hits the cache
+on the second call (`aigre.chat.cache{result="hit"}` increments, retrieval
+and the chat call are skipped); a citizen-recognized request bypasses the
+cache on both of two identical calls (`result="bypass"` both times, never
+`hit`); a grievance-ID status question that triggers a tool call is never
+cached even when repeated verbatim (`result="miss"` both times). All 6 tests
+in that file pass (173s live run). A full corpus `reset()` genuinely wiping
+the cache is verified separately in a new,
+**deliberately-not-run-by-default** `CorpusIngestionServiceCacheInvalidationTest`
+(`mvn test -Dtest=CorpusIngestionServiceCacheInvalidationTest`) -- kept out
+of `ChatControllerTest` specifically so a routine `mvn test` isn't silently
+made much slower by a full 108-document re-ingest, the same reasoning
+`RagEvalSuiteTest`'s own javadoc already documents for a different expensive
+suite. Passed in 35s, corpus correctly re-ingested (108 docs) as a side
+effect, same as the documented manual recovery step elsewhere in this file.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

@@ -69,6 +69,15 @@ rag:
     initial-k: 15
     rerank-to: 5
 
+chat:
+  cache:
+    # Exact-match only (ChatResponseCache) -- personalized and tool-triggering answers never
+    # reach this cache regardless of these settings. Set enabled: false to kill it without a
+    # redeploy if it ever misbehaves.
+    enabled: true
+    ttl: 30m
+    max-size: 500
+
 grievances:
   duplicate-window-days: 7
 
