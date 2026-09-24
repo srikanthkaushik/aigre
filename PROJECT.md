@@ -2938,6 +2938,91 @@ made much slower by a full 108-document re-ingest, the same reasoning
 suite. Passed in 35s, corpus correctly re-ingested (108 docs) as a side
 effect, same as the documented manual recovery step elsewhere in this file.
 
+## Two-machine split: Ollama on the GPU box, everything else on Unraid
+
+Every service so far ran on one machine. The user has a second box (Unraid
+NAS — plenty of RAM, a Docker host) with **no GPU**, so the split is: Ollama
+(`qwen2.5:7b` rerank/chat, `qwen3:8b` classification, `nomic-embed-text`
+embeddings — all GPU-bound) stays on the GPU machine, reached over the LAN;
+Postgres/pgvector and the Spring Boot app itself (frontend baked in, same
+static-resource approach as the Cloudflare-tunnel single-origin setup) move
+to Unraid as containers. No Dockerfile/docker-compose/.dockerignore existed
+anywhere in the repo before this — all three are new. Cloudflare Tunnel was
+explicitly skipped for this pass (LAN-only access); the existing dev workflow
+on the GPU machine (`mvn spring-boot:run`, `application.yml` defaults) is
+untouched — every Unraid-specific value is an env-var override at
+container-run time, relying on Spring's relaxed binding (`ollama.base-url` →
+`OLLAMA_BASE_URL`, `spring.datasource.url` → `SPRING_DATASOURCE_URL`).
+
+**Real bug found and fixed — same class as the Cloudflare-tunnel CORS bug,
+new trigger.** `SecurityConfig.corsConfigurationSource()` hardcoded its
+allowed-origin list to `http://localhost:*` and `https://*.trycloudflare.com`.
+Browsers send an `Origin` header for the Angular build's own
+`<script type="module">` requests even on a genuinely same-origin load — that
+was the exact mechanism that broke every JS asset when the app was first
+reached through a Cloudflare quick tunnel instead of localhost (see "Single-
+origin static hosting + Cloudflare Tunnel" above). The identical failure mode
+recurs for `http://<unraid-ip>:8085`: neither existing pattern matches a bare
+LAN IP origin, so Spring Security's CORS filter would 403 every asset request
+before any `permitAll` rule is reached, rendering a blank page. Fixed by
+externalizing the pattern list to `security.cors.allowed-origin-patterns`
+(comma-separated, `SecurityConfig.java`), defaulting to the exact same two
+values so the GPU machine's behavior doesn't change at all — Unraid's
+`docker-compose.yml` supplies its own LAN origin via
+`SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS` instead of a third hardcoded pattern
+being added to the source. `corsConfigurationSource()` moved from a
+zero-arg `@Bean` method to one taking a `@Value`-injected `List<String>`
+parameter; `securityWebFilterChain()` (which previously called
+`corsConfigurationSource()` directly as a same-class method call) now takes
+the bean as a constructor-style parameter instead, since the direct call
+site no longer compiles once the method requires an argument.
+
+**`Dockerfile`: three stages, builds the frontend inside Docker rather than
+requiring the manual `ng build` + copy step from `docs/RUNNING.md` first** —
+reproducible from a bare checkout on Unraid, doesn't depend on a developer
+having pre-baked `src/main/resources/static/` (which is gitignored and empty
+on a fresh clone). Node stage builds Angular, a `maven:3.9-eclipse-temurin-21`
+stage builds the jar with the frontend copied into `static/` before
+`mvn package` (no `mvnw` wrapper exists in this repo, so a Maven-preinstalled
+image is used directly), and an `eclipse-temurin:21-jre-alpine` runtime stage
+runs it. Alpine is safe for all three stages — the dependency tree
+(LangChain4j, LangGraph4j, Spring AI, Tika, the Postgres driver, jjwt) is
+pure-JVM, no native/glibc requirement found. `test-data/` is explicitly
+copied into the runtime image too, since `CorpusIngestionService`/
+`DepartmentOnboardingService` resolve `rag.ingest.corpus-path` via
+`Path.of(...)` against the JVM's working directory at runtime, not the
+classpath — omitting it would make `/ingest/reset` silently no-op instead of
+erroring.
+
+**Build on Unraid itself, not on the GPU machine.** `docker-compose.yml`'s
+`app` service uses `build: context: .` against a checkout on Unraid, rather
+than building an image on Windows and pushing to a registry. No registry
+needed, and no reason to add a Docker Desktop/WSL2 dependency to the GPU
+machine's dev setup for something that only ever needs to run headless on
+Unraid — Unraid's Compose Manager plugin supports a local `build:` context
+natively.
+
+**Postgres: migrate, don't rebuild from `schema.sql`.** The existing
+`aigre-pg` container holds the full 108-doc/543-chunk corpus, 91 labeled
+complaints, seed rows, and the live-onboarded DMV/PRD departments (see the
+open item below) — the user chose a full `pg_dump --format=custom` /
+`pg_restore` migration into the new Unraid Postgres container over
+re-running `schema.sql` + `seed.sql` + corpus ingestion from scratch, so none
+of that is lost. `CREATE EXTENSION vector` has to run on the fresh container
+*before* the restore, since `pg_restore` recreates `vector`-typed columns
+that require the extension already registered.
+
+**Ollama LAN exposure on the GPU machine (Windows)**: `OLLAMA_HOST=0.0.0.0:
+11434` as a persistent (Machine-scope, not just current-shell) environment
+variable, plus a Windows Firewall inbound rule scoped to Unraid's specific
+LAN IP rather than `0.0.0.0/0` — Ollama has no built-in auth, so the rule
+should stay as narrow as the actual client set. Verified from the Unraid box
+itself, not the GPU machine (which would succeed via loopback regardless of
+whether the bind/firewall change actually worked).
+
+Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
+"Splitting across two machines (Unraid deployment)" section.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct
@@ -2985,7 +3070,10 @@ effect, same as the documented manual recovery step elsewhere in this file.
 - DMV/PRD missing from `schema.sql` — see "DMV title-correction
   misclassification" above. Both only exist in this dev DB via live
   onboarding; a fresh database built from `schema.sql` alone won't have
-  either department at all.
+  either department at all. **Not regressed by the Unraid deployment** (see
+  "Two-machine split" below) — that migration is a full `pg_dump`/
+  `pg_restore` of the existing dev database, not a `schema.sql`-only
+  rebuild, so both departments' rows carry across intact.
 - RAG isolation by department — **built for chat, see "Floating chat
   widget + embeddable, department-scoped chat" above**
   (`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`'s Phase 2 named this exact gap:

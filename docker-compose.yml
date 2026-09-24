@@ -1,0 +1,59 @@
+# Unraid deployment (or any second, non-GPU box) -- see docs/RUNNING.md
+# "Splitting across two machines" and PROJECT.md "Two-machine split" for the
+# full writeup, the Postgres data-migration runbook, and the Ollama
+# LAN-exposure steps on the GPU machine.
+#
+# Fill in <machineA-lan-ip> and <unraid-ip> below before running. Build and
+# run this ON the Unraid box itself (from a checkout there) -- no registry,
+# no Docker Desktop/WSL2 dependency on the GPU machine:
+#   docker compose build
+#   docker compose up -d
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: aigre-pg-unraid
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: aigre
+      POSTGRES_USER: aigre
+      POSTGRES_PASSWORD: aigre_dev
+    ports:
+      - "5434:5432"
+    volumes:
+      - aigre-pg-data:/var/lib/postgresql/data
+      # Unraid convention: swap the line above for a bind mount, e.g.
+      # /mnt/user/appdata/aigre/postgres:/var/lib/postgresql/data,
+      # if you want Unraid's appdata backup tooling to cover it.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aigre -d aigre"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aigre-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aigre
+      SPRING_DATASOURCE_USERNAME: aigre
+      SPRING_DATASOURCE_PASSWORD: aigre_dev
+      # GPU machine's LAN address -- see docs/RUNNING.md for the OLLAMA_HOST +
+      # firewall steps that make this reachable from Unraid.
+      OLLAMA_BASE_URL: "http://<machineA-lan-ip>:11434"
+      # This box's own LAN origin -- without this, the Angular build's own
+      # <script type="module"> requests get CORS-403'd by Spring Security
+      # before any permitAll rule is reached (same bug class as the
+      # Cloudflare-tunnel CORS fix, see SecurityConfig.corsConfigurationSource).
+      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://<unraid-ip>:8085"
+    ports:
+      - "8085:8085"
+
+volumes:
+  aigre-pg-data:

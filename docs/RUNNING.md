@@ -196,6 +196,101 @@ instead, which requires a free Cloudflare account with that domain's nameservers
 
 ---
 
+## Splitting across two machines (Unraid deployment, optional)
+
+Ollama needs a GPU to be usable — the rerank pass alone does up to `rag.retrieval.
+initial-k` (15) LLM calls per chat question. If you have a second box (e.g. an Unraid
+NAS) with RAM and a Docker host but **no GPU**, keep Ollama on the GPU machine and move
+everything else — Postgres and the app itself (frontend baked in, same as the
+single-origin setup above) — onto the second box as containers.
+
+**What runs where:**
+
+| | Machine A (GPU) | Machine B (Unraid / Docker host) |
+|---|---|---|
+| Ollama (`qwen2.5:7b`, `qwen3:8b`, `nomic-embed-text`) | ✅ | — |
+| Postgres/pgvector | — | ✅ (container) |
+| Spring Boot app + baked-in frontend | — | ✅ (container) |
+
+**a) Expose Ollama on the LAN from Machine A** (Windows, elevated PowerShell):
+
+```powershell
+[Environment]::SetEnvironmentVariable("OLLAMA_HOST", "0.0.0.0:11434", "Machine")
+# Then restart Ollama (quit + relaunch the tray app, or restart its service) for
+# OLLAMA_HOST to take effect.
+New-NetFirewallRule -DisplayName "Ollama LAN (Unraid only)" -Direction Inbound -Protocol TCP -LocalPort 11434 -RemoteAddress <unraid-ip> -Action Allow
+```
+
+Scope the firewall rule to Machine B's specific LAN IP, not `0.0.0.0/0` — Ollama has no
+built-in auth. Verify from Machine B itself (not Machine A, which would succeed via
+loopback regardless of the firewall rule):
+
+```
+curl http://<machineA-lan-ip>:11434/api/tags
+```
+
+A 200 listing `qwen2.5:7b`, `qwen3:8b`, and `nomic-embed-text` confirms both the bind
+and the firewall rule are correct.
+
+**b) Migrate the existing corpus/data into a fresh Postgres on Machine B.** On Machine A:
+
+```powershell
+docker exec aigre-pg pg_dump -U aigre -d aigre --format=custom --file=/tmp/aigre.dump
+docker cp aigre-pg:/tmp/aigre.dump ./aigre.dump
+```
+
+Transfer `aigre.dump` to Machine B (SMB share, `scp`, USB stick — whatever's available),
+then, after `docker compose up -d postgres` there (see step c):
+
+```
+docker exec aigre-pg-unraid psql -U aigre -d aigre -c "CREATE EXTENSION IF NOT EXISTS vector;"
+docker cp ./aigre.dump aigre-pg-unraid:/tmp/aigre.dump
+docker exec aigre-pg-unraid pg_restore -U aigre -d aigre --no-owner --no-privileges /tmp/aigre.dump
+```
+
+Verify the restore before starting the app container:
+
+```
+docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT count(*) FROM rag_documents;"
+docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT id FROM departments;"
+```
+
+Expect `rag_documents` ≈543 and `departments` to include `DMV`/`PRD` alongside the six
+`schema.sql`-seeded ones — those two only exist via live onboarding (see `PROJECT.md`'s
+"DMV/PRD missing from `schema.sql`" open item), so a fresh `schema.sql`-only rebuild
+would silently drop them; a full `pg_dump`/`pg_restore` carries them across intact.
+
+**c) Build and run on Machine B.** Get the repo onto Machine B (`git clone`/`git pull`,
+or `rsync`/SMB-copy the working tree), fill in `<machineA-lan-ip>` and `<unraid-ip>` in
+`docker-compose.yml`, then from the repo root there:
+
+```
+docker compose build
+docker compose up -d
+```
+
+This builds the three-stage `Dockerfile` (Angular frontend → Spring Boot jar with the
+frontend baked into `static/` → slim JRE runtime) directly on Machine B — no registry,
+no Docker Desktop/WSL2 dependency on Machine A. Unraid's Compose Manager plugin (or
+`docker compose` at the CLI) both work against this file as-is; swap the `postgres`
+service's volume for a bind mount under `/mnt/user/appdata/` if you want Unraid's own
+appdata backup tooling to cover it (commented inline in `docker-compose.yml`).
+
+The app is then reachable at `http://<unraid-ip>:8085` — `application.yml`'s own
+defaults (`localhost` Postgres/Ollama) are untouched, so Machine A's existing `mvn
+spring-boot:run` dev workflow keeps working exactly as documented in steps 1–5 above,
+completely independent of this deployment.
+
+> **Don't skip `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS`.** Browsers send an `Origin`
+> header for the Angular build's `<script type="module">` requests even on a genuinely
+> same-origin load. Without this env var set to Machine B's own origin, Spring
+> Security's CORS filter 403s those requests before any `permitAll` rule is reached and
+> the page loads blank — the same bug class already hit and fixed for the Cloudflare
+> tunnel case above, this time triggered by a LAN IP origin instead of a
+> `trycloudflare.com` one.
+
+---
+
 ## Testing the embeddable chat widget (optional)
 
 The citizen portal's floating chat can also be embedded on an *external* website via
@@ -344,6 +439,7 @@ config changes needed either direction.
 | Ollama | 11434 (Ollama's default) | `ollama.base-url` in `application.yml` |
 | Frontend dev server | 4200 (or next free port) | `ng serve --port <n>` |
 | Embed-widget demo page (optional) | 5500 | `npx http-server -p <n>` — any unused port, must differ from AIGRE's own |
+| Unraid deployment: app + Postgres (optional) | 8085 / 5434 | same ports as above, via `docker-compose.yml` on Machine B |
 
 ---
 

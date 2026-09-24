@@ -97,6 +97,12 @@ email:
   poll-interval-ms: 60000
 
 security:
+  cors:
+    # Exact values already in use today (localhost dev + Cloudflare quick-tunnel subdomains).
+    # Override via SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS (comma-separated) per-deployment --
+    # e.g. a docker-compose deployment on a separate box sets this to that box's LAN origin,
+    # without editing this default. See SecurityConfig.corsConfigurationSource().
+    allowed-origin-patterns: http://localhost:*,https://*.trycloudflare.com
   jwt:
     # Demo-only: a fixed configured secret, not per-restart-random (that would log every
     # employee out on every backend restart) and not pulled from a real secrets manager (that's
