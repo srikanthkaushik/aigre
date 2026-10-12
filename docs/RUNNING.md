@@ -232,7 +232,32 @@ curl http://<machineA-lan-ip>:11434/api/tags
 A 200 listing `qwen2.5:7b`, `qwen3:8b`, and `nomic-embed-text` confirms both the bind
 and the firewall rule are correct.
 
-**b) Migrate the existing corpus/data into a fresh Postgres on Machine B.** On Machine A:
+**b) Start Postgres on Machine B and migrate the existing corpus/data into it.**
+
+Postgres is the `postgres` service in `docker-compose.yml` (container name
+`aigre-pg-unraid`). Copy just `docker-compose.yml` onto Machine B (no source checkout
+needed — the app image comes from GHCR, step c), then from its folder there (Unraid
+terminal), start only the database:
+
+```
+mkdir -p /mnt/user/appdata/aigre/postgres
+docker compose up -d postgres
+docker exec aigre-pg-unraid pg_isready -U aigre -d aigre
+```
+
+The data lives in a bind mount under `/mnt/user/appdata/aigre/postgres`, so Unraid's
+appdata backup tooling covers it and it survives `docker compose down` and container
+recreation. `5434:5432` is only for reaching it from outside Docker (pgAdmin, `psql`
+from Machine A) — the app container talks to it as `postgres:5432` on the compose
+network.
+
+> If you previously started `aigre-pg-unraid` by hand with `docker run`, remove it
+> first (`docker rm -f aigre-pg-unraid`) — the container name would otherwise clash.
+> It used the same bind-mount path, so the restored data carries over and you can skip
+> the dump/restore below. The old `aigre` network is no longer used
+> (`docker network rm aigre`).
+
+Then dump the existing database on Machine A:
 
 ```powershell
 docker exec aigre-pg pg_dump -U aigre -d aigre --format=custom --file=/tmp/aigre.dump
@@ -240,7 +265,7 @@ docker cp aigre-pg:/tmp/aigre.dump ./aigre.dump
 ```
 
 Transfer `aigre.dump` to Machine B (SMB share, `scp`, USB stick — whatever's available),
-then, after `docker compose up -d postgres` there (see step c):
+then restore it there:
 
 ```
 docker exec aigre-pg-unraid psql -U aigre -d aigre -c "CREATE EXTENSION IF NOT EXISTS vector;"
@@ -260,21 +285,35 @@ Expect `rag_documents` ≈543 and `departments` to include `DMV`/`PRD` alongside
 "DMV/PRD missing from `schema.sql`" open item), so a fresh `schema.sql`-only rebuild
 would silently drop them; a full `pg_dump`/`pg_restore` carries them across intact.
 
-**c) Build and run on Machine B.** Get the repo onto Machine B (`git clone`/`git pull`,
-or `rsync`/SMB-copy the working tree), fill in `<machineA-lan-ip>` and `<unraid-ip>` in
-`docker-compose.yml`, then from the repo root there:
+**c) Build and push the app image (Machine A), then run on Machine B.** The image is
+built on Machine A and pushed to GHCR; Unraid only pulls it. (Unraid's bundled Docker
+lacks buildx 0.17+, so `docker compose build` can't run there.) On Machine A, from the
+repo root, once logged in (`docker login ghcr.io` with a GitHub PAT that has
+`write:packages`):
+
+```cmd
+for /f %s in ('git rev-parse --short HEAD') do set SHA=%s
+docker build -t ghcr.io/srikanthkaushik/aigre-app:latest -t ghcr.io/srikanthkaushik/aigre-app:%SHA% .
+docker push ghcr.io/srikanthkaushik/aigre-app:latest
+docker push ghcr.io/srikanthkaushik/aigre-app:%SHA%
+```
+
+GHCR packages start **private**. Either make `aigre-app` public (GitHub → Packages →
+aigre-app → Package settings → Change visibility), or log in on Machine B once with a
+PAT that has `read:packages`: `docker login ghcr.io -u srikanthkaushik`.
+
+On Machine B, fill in `OLLAMA_BASE_URL` and `<unraid-ip>` in `docker-compose.yml`, then
+(the app waits on the `postgres` healthcheck via `depends_on`):
 
 ```
-docker compose build
+docker compose pull
 docker compose up -d
 ```
 
-This builds the three-stage `Dockerfile` (Angular frontend → Spring Boot jar with the
-frontend baked into `static/` → slim JRE runtime) directly on Machine B — no registry,
-no Docker Desktop/WSL2 dependency on Machine A. Unraid's Compose Manager plugin (or
-`docker compose` at the CLI) both work against this file as-is; swap the `postgres`
-service's volume for a bind mount under `/mnt/user/appdata/` if you want Unraid's own
-appdata backup tooling to cover it (commented inline in `docker-compose.yml`).
+To deploy a new build: rebuild and push on Machine A, then `docker compose pull &&
+docker compose up -d` on Machine B. Unraid's Compose Manager plugin works against this
+file as-is. The image is `linux/amd64`, built on Machine A's Docker Desktop, which
+matches Unraid.
 
 The app is then reachable at `http://<unraid-ip>:8085` — `application.yml`'s own
 defaults (`localhost` Postgres/Ollama) are untouched, so Machine A's existing `mvn

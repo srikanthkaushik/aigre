@@ -2994,13 +2994,15 @@ copied into the runtime image too, since `CorpusIngestionService`/
 classpath — omitting it would make `/ingest/reset` silently no-op instead of
 erroring.
 
-**Build on Unraid itself, not on the GPU machine.** `docker-compose.yml`'s
-`app` service uses `build: context: .` against a checkout on Unraid, rather
-than building an image on Windows and pushing to a registry. No registry
-needed, and no reason to add a Docker Desktop/WSL2 dependency to the GPU
-machine's dev setup for something that only ever needs to run headless on
-Unraid — Unraid's Compose Manager plugin supports a local `build:` context
-natively.
+**Build on the GPU machine, push to GHCR, pull on Unraid.** Originally the
+compose `app` service built from a source checkout on Unraid, to avoid a
+registry. That ran into Unraid's missing buildx (below), and the classic
+builder workaround still meant keeping a checkout on Unraid. The image is now
+built on the GPU machine's Docker Desktop (`linux/amd64`, same as Unraid),
+pushed as `ghcr.io/srikanthkaushik/aigre-app` (`latest` plus the short git
+SHA), and compose only references `image:`. Unraid needs only the compose
+file. GHCR packages start private: either flip visibility or `docker login
+ghcr.io` on Unraid with a `read:packages` PAT.
 
 **Postgres: migrate, don't rebuild from `schema.sql`.** The existing
 `aigre-pg` container holds the full 108-doc/543-chunk corpus, 91 labeled
@@ -3011,6 +3013,23 @@ re-running `schema.sql` + `seed.sql` + corpus ingestion from scratch, so none
 of that is lost. `CREATE EXTENSION vector` has to run on the fresh container
 *before* the restore, since `pg_restore` recreates `vector`-typed columns
 that require the extension already registered.
+
+**Unraid can't build the image.** Unraid's bundled Docker lacks buildx >=
+0.17, so `docker compose build` fails outright (`compose build requires buildx
+0.17.0 or later`). A `DOCKER_BUILDKIT=0 docker build` on Unraid worked, but
+was superseded by the GHCR flow above. Installing buildx by hand was
+rejected: Unraid's root filesystem lives in RAM, so the plugin would vanish
+on every reboot without a boot-script hook. Postgres (`aigre-pg-unraid`, `pgvector/pgvector:pg16`)
+stays in compose as the `postgres` service, but with a bind mount to
+`/mnt/user/appdata/aigre/postgres` instead of a named volume, so Unraid's
+appdata backups cover it and the data survives `compose down`. It was briefly
+moved out to a hand-run `docker run` container on an external `aigre`
+network, then brought back so one compose file describes the whole Unraid
+deployment. The bind-mount path is unchanged, so data restored into the
+hand-run container carries over. The app reaches it as `postgres:5432` and
+waits on its healthcheck via `depends_on`. An
+existing non-pgvector Postgres on Unraid was considered and skipped: it
+would need the extension plus role and ownership setup as superuser.
 
 **Ollama LAN exposure on the GPU machine (Windows)**: `OLLAMA_HOST=0.0.0.0:
 11434` as a persistent (Machine-scope, not just current-shell) environment

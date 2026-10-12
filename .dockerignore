@@ -7,3 +7,5 @@ frontend/.angular/
 .idea/
 .vscode/
 models/
+tmp/
+*.dump
