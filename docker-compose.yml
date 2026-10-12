@@ -56,6 +56,6 @@ services:
       # <script type="module"> requests get CORS-403'd by Spring Security
       # before any permitAll rule is reached (same bug class as the
       # Cloudflare-tunnel CORS fix, see SecurityConfig.corsConfigurationSource).
-      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://<unraid-ip>:8085"
+      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://<unraid-ip>:8087"
     ports:
-      - "8085:8085"
+      - "8087:8085"

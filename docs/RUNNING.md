@@ -315,7 +315,7 @@ docker compose up -d` on Machine B. Unraid's Compose Manager plugin works agains
 file as-is. The image is `linux/amd64`, built on Machine A's Docker Desktop, which
 matches Unraid.
 
-The app is then reachable at `http://<unraid-ip>:8085` — `application.yml`'s own
+The app is then reachable at `http://<unraid-ip>:8087` (host port 8087, since 8086 was taken on Unraid; the container still listens on 8085) — `application.yml`'s own
 defaults (`localhost` Postgres/Ollama) are untouched, so Machine A's existing `mvn
 spring-boot:run` dev workflow keeps working exactly as documented in steps 1–5 above,
 completely independent of this deployment.

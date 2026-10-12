@@ -2962,7 +2962,7 @@ Browsers send an `Origin` header for the Angular build's own
 was the exact mechanism that broke every JS asset when the app was first
 reached through a Cloudflare quick tunnel instead of localhost (see "Single-
 origin static hosting + Cloudflare Tunnel" above). The identical failure mode
-recurs for `http://<unraid-ip>:8085`: neither existing pattern matches a bare
+recurs for `http://<unraid-ip>:8087`: neither existing pattern matches a bare
 LAN IP origin, so Spring Security's CORS filter would 403 every asset request
 before any `permitAll` rule is reached, rendering a blank page. Fixed by
 externalizing the pattern list to `security.cors.allowed-origin-patterns`
