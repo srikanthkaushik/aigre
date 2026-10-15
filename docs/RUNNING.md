@@ -311,6 +311,24 @@ docker push ghcr.io/srikanthkaushik/aigre-app:latest
 docker push ghcr.io/srikanthkaushik/aigre-app:%SHA%
 ```
 
+The compose file also runs the mock DMV embed-demo site (`test-data/embed-demo`, a
+tiny nginx image) as the `embed-demo` service. Build and push it the same way, from
+the repo root. Rebuild it only when `test-data/embed-demo` changes:
+
+```cmd
+docker build -t ghcr.io/srikanthkaushik/aigre-embed-demo:latest -t ghcr.io/srikanthkaushik/aigre-embed-demo:%SHA% test-data\embed-demo
+docker push ghcr.io/srikanthkaushik/aigre-embed-demo:latest
+docker push ghcr.io/srikanthkaushik/aigre-embed-demo:%SHA%
+```
+
+It's served at `http://<unraid-ip>:5500`, and its default AIGRE instance comes from
+`AIGRE_API_ORIGIN` in compose (the app's browser-facing origin,
+`http://<unraid-ip>:8087`). Register its own origin as a DMV embed origin on the
+Unraid app once, the same way as the "Testing the embeddable chat widget" step a below
+but against `http://<unraid-ip>:8087` with `{"origin": "http://<unraid-ip>:5500"}`.
+Without that, the chat button appears but the panel stays blank. `aigre-embed-demo`
+is a separate GHCR package, so it starts private too.
+
 GHCR packages start **private**. Either make `aigre-app` public (GitHub → Packages →
 aigre-app → Package settings → Change visibility), or log in on Machine B once with a
 PAT that has `read:packages`: `docker login ghcr.io -u srikanthkaushik`.

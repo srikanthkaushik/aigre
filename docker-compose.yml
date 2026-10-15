@@ -67,3 +67,17 @@ services:
       SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087"
     ports:
       - "8087:8085"
+
+  embed-demo:
+    # Mock DMV website embedding the chat widget from a different origin
+    # (test-data/embed-demo, built and pushed to GHCR like the app image).
+    image: ghcr.io/srikanthkaushik/aigre-embed-demo:latest
+    container_name: aigre-embed-demo
+    restart: unless-stopped
+    environment:
+      # The app as the *browser* reaches it -- not app:8085 on the compose network.
+      AIGRE_API_ORIGIN: "http://192.168.5.34:8087"
+    ports:
+      # The page's origin is then http://192.168.5.34:5500, which must be registered
+      # as a DMV embed origin on the app, or the chat panel renders blank.
+      - "5500:80"
