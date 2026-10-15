@@ -3060,6 +3060,19 @@ SOP with citations. The answer also pulled from the *superseded* v1 SOP
 (10-day vs v2's 5-day). That's a retrieval-quality issue, not a deployment
 one, and it applies on the dev box too.
 
+**Embed demo hosted on Unraid too.** The mock DMV site (`test-data/embed-demo`)
+is the compose `embed-demo` service, built as a separate nginx image
+(`ghcr.io/srikanthkaushik/aigre-embed-demo`) and served on Unraid port 5500.
+It must stay a different origin from the app, or the embed proves nothing about
+framing or CSP. The page's default AIGRE origin lives in an
+`<meta name="aigre-api">` tag. The image's nginx `sub_filter` rewrites it from
+`AIGRE_API_ORIGIN`, so one image works for any deployment, and `?api=` on the
+URL still overrides it. `AIGRE_API_ORIGIN` must be the app's *browser-facing*
+origin (`http://192.168.5.34:8087`), not `app:8085`, because the browser loads
+`embed.js` and the iframe directly. `http://192.168.5.34:5500` is registered
+as a DMV embed origin in the Unraid database only, not in the dev database.
+Verified end to end on 2026-10-15: chat works from the Unraid-hosted page.
+
 Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 "Splitting across two machines (Unraid deployment)" section.
 
