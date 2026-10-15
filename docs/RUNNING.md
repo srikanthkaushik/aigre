@@ -390,6 +390,11 @@ cd test-data\embed-demo
 npx http-server -p 5500
 ```
 
+To point the demo at a different AIGRE instance, such as the Unraid deployment, pass its
+origin as `?api=`: `http://localhost:5500/?api=http://<unraid-ip>:8087`. With no `?api=`
+it defaults to `http://localhost:8085`. The demo page's own origin, `http://localhost:5500`,
+must be registered (step a) on *that* instance.
+
 **c) Open `http://localhost:5500` in a browser.** A floating chat button appears
 bottom-right — that's `embed.js`, injected by the demo page's own `<script>` tag, not
 part of AIGRE's own frontend. Click it, ask a DMV-specific question (e.g. *"How do I
