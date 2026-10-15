@@ -64,7 +64,14 @@ services:
       # <script type="module"> requests get CORS-403'd by Spring Security
       # before any permitAll rule is reached (same bug class as the
       # Cloudflare-tunnel CORS fix, see SecurityConfig.corsConfigurationSource).
-      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087"
+      # Replaces application.yml's default list, so the quick-tunnel pattern has to be
+      # repeated here for the tunnel-app service below to work.
+      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087,https://*.trycloudflare.com"
+      # The application.yml default is committed and baked into the image -- anyone holding
+      # it can forge an ADMIN JWT. Set a deployment-only value in .env next to this file:
+      #   echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
+      # Rotating it logs out employees and invalidates citizen-recognition tokens.
+      SECURITY_JWT_SECRET: "${AIGRE_JWT_SECRET:?set AIGRE_JWT_SECRET in .env next to docker-compose.yml}"
     ports:
       - "8087:8085"
 
@@ -81,3 +88,28 @@ services:
       # The page's origin is then http://192.168.5.34:5500, which must be registered
       # as a DMV embed origin on the app, or the chat panel renders blank.
       - "5500:80"
+
+  # Public HTTPS URLs for internet testing via Cloudflare quick tunnels: outbound-only, no
+  # router changes, no Cloudflare account. Each prints a random
+  # https://<words>.trycloudflare.com URL in its logs (docker logs aigre-tunnel-app), and
+  # the URL changes whenever the container restarts. The whole app is exposed, not just
+  # chat -- see docs/RUNNING.md before starting these. They're opt-in via a profile:
+  #   docker compose --profile tunnel up -d
+  # Testers open https://<demo-url>/?api=https://<app-url>.
+  tunnel-app:
+    image: cloudflare/cloudflared:2026.9.1
+    container_name: aigre-tunnel-app
+    profiles: ["tunnel"]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://app:8085
+    depends_on:
+      - app
+
+  tunnel-demo:
+    image: cloudflare/cloudflared:2026.9.1
+    container_name: aigre-tunnel-demo
+    profiles: ["tunnel"]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://embed-demo:80
+    depends_on:
+      - embed-demo

@@ -359,6 +359,48 @@ completely independent of this deployment.
 > tunnel case above, this time triggered by a LAN IP origin instead of a
 > `trycloudflare.com` one.
 
+**d) JWT secret (required).** The app service reads `SECURITY_JWT_SECRET` from
+`AIGRE_JWT_SECRET` in a `.env` file next to `docker-compose.yml` on Machine B, and
+`docker compose` refuses to start without it. The `application.yml` default is
+committed and baked into the image, and anyone holding it can forge an ADMIN token.
+
+```
+echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
+```
+
+**e) Exposing the embed demo to the internet (optional, testing only).** Two
+`cloudflared` quick tunnels (compose profile `tunnel`) give the app and the demo site
+random public `https://<words>.trycloudflare.com` URLs. Both are needed, because the
+browser loads `embed.js` and the chat iframe from the app's origin. The tunnel exposes
+**the whole app**, including the employee dashboard and admin API, so lock it down first:
+
+```
+# 1. Allow any trycloudflare.com page to frame DMV's chat. Run this while the seeded
+#    password still works; the wildcard survives tunnel URL changes.
+TOKEN=$(curl -s -X POST http://localhost:8087/auth/login -H "Content-Type: application/json" \
+  -d '{"username":"ops.admin","password":"Demo1234!"}' | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
+curl -s -X POST http://localhost:8087/admin/departments/DMV/embed-origins \
+  -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
+  -d '{"origin":"https://*.trycloudflare.com"}'
+
+# 2. Replace the shared seeded password (Demo1234!) on every employee account.
+#    seed.sql isn't re-run at boot, so this persists.
+read -rsp "New employee password: " PW; echo
+HASH=$(docker run --rm httpd:2.4-alpine htpasswd -nbBC 10 "" "$PW" | tr -d ':\n')
+docker exec aigre-pg-unraid psql -U aigre -d aigre \
+  -c "UPDATE department_employees SET password_hash = '$HASH' WHERE username IS NOT NULL;"
+
+# 3. Start the tunnels and read their URLs.
+docker compose --profile tunnel up -d
+docker logs aigre-tunnel-app 2>&1 | grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' | head -1
+docker logs aigre-tunnel-demo 2>&1 | grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' | head -1
+```
+
+Testers open `https://<demo-url>/?api=https://<app-url>`. Both URLs change whenever a
+tunnel container restarts. Stop the tunnels with
+`docker compose --profile tunnel stop tunnel-app tunnel-demo`. Every public chat message
+still runs on Machine A's GPU, and there is no rate limiting.
+
 ---
 
 ## Testing the embeddable chat widget (optional)
