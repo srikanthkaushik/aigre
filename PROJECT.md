@@ -3039,6 +3039,27 @@ should stay as narrow as the actual client set. Verified from the Unraid box
 itself, not the GPU machine (which would succeed via loopback regardless of
 whether the bind/firewall change actually worked).
 
+**First live bring-up (2026-10-15): three faults, none in the app.**
+`NoRouteToHostException: Host is unreachable` from the container was a
+stale IP: the GPU box's DHCP lease had moved `.68` → `192.168.4.106`, and
+Unraid's `ip neigh` showed `INCOMPLETE` for the old address. The container
+network was ruled out first (its route table only defaulted via
+`172.30.0.1`; the compose network is now pinned to `172.30.0.0/24` anyway).
+The same check found Ollama not running and `OLLAMA_HOST` unset on the GPU
+box, and that the scoped "Ollama LAN (Unraid only)" firewall rule had never
+been created — LAN access actually came from Windows' auto-created
+`ollama.exe` program rule (Allow, any remote, Private profile), which is
+broader than intended. Fix: reserve both IPs in the router. Unraid is
+`192.168.5.34` (LAN is a `/22`, so `192.168.4.0`–`7.255`). Then chat
+streamed but `sources[]` was empty: the dump had never been restored, and
+`spring.sql.init.mode: always` had already run `schema.sql` on first boot
+(6 seeded departments, 0 `rag_documents`), so the restore needs
+`pg_restore --clean --if-exists` with the app stopped. Post-restore:
+1369 chunks, 8 departments including DMV/PRD; EQ-001 answers from the DOT
+SOP with citations. The answer also pulled from the *superseded* v1 SOP
+(10-day vs v2's 5-day). That's a retrieval-quality issue, not a deployment
+one, and it applies on the dev box too.
+
 Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 "Splitting across two machines (Unraid deployment)" section.
 

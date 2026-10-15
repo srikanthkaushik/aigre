@@ -232,6 +232,12 @@ curl http://<machineA-lan-ip>:11434/api/tags
 A 200 listing `qwen2.5:7b`, `qwen3:8b`, and `nomic-embed-text` confirms both the bind
 and the firewall rule are correct.
 
+**Reserve both machines' IPs in the router (DHCP reservation).** `OLLAMA_BASE_URL`,
+`SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS` and the firewall rule all hardcode LAN IPs. If
+Machine A's lease moves, the app fails with `java.net.NoRouteToHostException: Host is
+unreachable` — on Machine B, `ip neigh show <machineA-ip>` reports `INCOMPLETE` (nothing
+answers ARP at that address). Check `ipconfig` on Machine A before suspecting Docker.
+
 **b) Start Postgres on Machine B and migrate the existing corpus/data into it.**
 
 Postgres is the `postgres` service in `docker-compose.yml` (container name
@@ -270,8 +276,13 @@ then restore it there:
 ```
 docker exec aigre-pg-unraid psql -U aigre -d aigre -c "CREATE EXTENSION IF NOT EXISTS vector;"
 docker cp ./aigre.dump aigre-pg-unraid:/tmp/aigre.dump
-docker exec aigre-pg-unraid pg_restore -U aigre -d aigre --no-owner --no-privileges /tmp/aigre.dump
+docker exec aigre-pg-unraid pg_restore -U aigre -d aigre --clean --if-exists --no-owner --no-privileges /tmp/aigre.dump
 ```
+
+`--clean --if-exists` matters if the app container has **ever** started against this
+database: `spring.sql.init.mode: always` runs `schema.sql` on every boot, which creates
+the tables and seeds the six base departments — a plain `pg_restore` then fails on
+existing objects and duplicate keys. Stop the app first (`docker compose stop app`).
 
 Verify the restore before starting the app container:
 
@@ -280,7 +291,9 @@ docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT count(*) FROM rag_
 docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT id FROM departments;"
 ```
 
-Expect `rag_documents` ≈543 and `departments` to include `DMV`/`PRD` alongside the six
+Expect `rag_documents` ≈1369 (the 543-chunk base corpus plus the DMV/PRD onboarded
+documents; 0 means the restore didn't run — chat still answers, but with `sources[]`
+empty) and `departments` to include `DMV`/`PRD` alongside the six
 `schema.sql`-seeded ones — those two only exist via live onboarding (see `PROJECT.md`'s
 "DMV/PRD missing from `schema.sql`" open item), so a fresh `schema.sql`-only rebuild
 would silently drop them; a full `pg_dump`/`pg_restore` carries them across intact.

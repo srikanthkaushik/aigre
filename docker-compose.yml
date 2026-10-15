@@ -10,6 +10,14 @@
 #   docker compose up -d postgres        # then restore the dump (step b)
 #   docker compose up -d
 
+networks:
+  default:
+    # Pinned to a fixed range clear of the LAN (192.168.4.0/22) and the
+    # other networks on the Unraid host.
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
 services:
   postgres:
     image: pgvector/pgvector:pg16
@@ -51,11 +59,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: aigre_dev
       # GPU machine's LAN address -- see docs/RUNNING.md for the OLLAMA_HOST +
       # firewall steps that make this reachable from Unraid.
-      OLLAMA_BASE_URL: "http://192.168.4.68:11434"
+      OLLAMA_BASE_URL: "http://192.168.4.106:11434"
       # This box's own LAN origin -- without this, the Angular build's own
       # <script type="module"> requests get CORS-403'd by Spring Security
       # before any permitAll rule is reached (same bug class as the
       # Cloudflare-tunnel CORS fix, see SecurityConfig.corsConfigurationSource).
-      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://<unraid-ip>:8087"
+      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087"
     ports:
       - "8087:8085"
