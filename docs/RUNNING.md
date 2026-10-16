@@ -59,7 +59,7 @@ sharing one model.
 ## 3. Run the backend
 
 ```
-cd C:\DEVL\AIGRE
+cd <path-to-your-clone>
 mvn spring-boot:run
 ```
 
@@ -97,9 +97,13 @@ cases for testing) — run once against the running Postgres container:
 docker exec -i aigre-pg psql -U aigre -d aigre < test-data/sql/seed.sql
 ```
 
-**b) The RAG policy corpus** — loads `test-data/documents/**` (108 documents) into
-pgvector. This is a live embedding call per chunk (~543 chunks), so it takes a couple
-of minutes and requires Ollama to be running:
+**b) The RAG policy corpus** — loads `test-data/documents/**` into pgvector: 118 files,
+the original 108 for the six seeded departments plus `SHARED`, and 10 more under `DMV/`
+and `PRD/` added by live department onboarding (`DEPARTMENT_ONBOARDING.md`). This is a
+live embedding call per chunk, so it takes a few minutes and requires Ollama to be running.
+The DMV and PRD *department rows* aren't in `schema.sql`, so on a fresh database their
+documents load but those departments don't exist until onboarded (see `PROJECT.md`'s
+"DMV/PRD missing from `schema.sql`" open item):
 
 ```
 curl -X POST "http://localhost:8085/ingest/reset?confirm=true"
@@ -300,8 +304,8 @@ docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT count(*) FROM rag_
 docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT id FROM departments;"
 ```
 
-Expect `rag_documents` ≈1369 (the 543-chunk base corpus plus the DMV/PRD onboarded
-documents; 0 means the restore didn't run — chat still answers, but with `sources[]`
+Expect `rag_documents` ≈1369 on the original dev database (543 chunks from the base
+corpus plus the DMV/PRD onboarded documents; 0 means the restore didn't run — chat still answers, but with `sources[]`
 empty) and `departments` to include `DMV`/`PRD` alongside the six
 `schema.sql`-seeded ones — those two only exist via live onboarding (see `PROJECT.md`'s
 "DMV/PRD missing from `schema.sql`" open item), so a fresh `schema.sql`-only rebuild
@@ -614,7 +618,7 @@ config changes needed either direction.
 | Ollama | 11434 (Ollama's default) | `ollama.base-url` in `application.yml` |
 | Frontend dev server | 4200 (or next free port) | `ng serve --port <n>` |
 | Embed-widget demo page (optional) | 5500 | `npx http-server -p <n>` — any unused port, must differ from AIGRE's own |
-| Unraid deployment: app + Postgres (optional) | 8085 / 5434 | same ports as above, via `docker-compose.yml` on Machine B |
+| Two-machine deployment (optional) | app 8087, Postgres 5434, embed demo 5500 | host-port mappings in `docker-compose.yml` on Machine B (the app container still listens on 8085) |
 
 ---
 

@@ -185,7 +185,7 @@ instance rather than a dedicated graph database.
 | Agentic workflow / graph orchestration | LangGraph4j 1.8.20 |
 | Tool-exposure protocol | Spring AI 2.0.0 GA (MCP server only — Streamable HTTP) |
 | Vector store | pgvector (PostgreSQL extension) |
-| LLM providers | Ollama (local, default) — `qwen2.5:7b` chat + `nomic-embed-text` embeddings; Anthropic (`claude-sonnet-5`) as a switchable alternative |
+| LLM providers | Ollama (local, default) — `qwen3:8b` classification, `qwen2.5:7b` chat + rerank, `nomic-embed-text` embeddings; Anthropic (`claude-sonnet-5`) as a switchable alternative |
 | Database | PostgreSQL 16 (via `pgvector/pgvector:pg16` image) |
 | Frontend framework | Angular 21 (standalone components, signals) |
 | Frontend UI kit | Angular Material 21 (Material 3 / M3 theming) |
@@ -221,7 +221,7 @@ flowchart TB
     end
 
     subgraph LLM["LLM providers"]
-        Ollama["Ollama (local)<br/>qwen2.5:7b + nomic-embed-text"]
+        Ollama["Ollama (local)<br/>qwen3:8b, qwen2.5:7b,<br/>nomic-embed-text"]
         Anthropic["Anthropic<br/>claude-sonnet-5"]
     end
 
@@ -306,11 +306,13 @@ instead of `"LOW"`, fixed by a sanitizing regex) and sometimes emit the string
 as null).
 
 **Provider comparison, measured, not assumed**: run head-to-head against the same
-91-case labeled eval set, Anthropic (`claude-sonnet-5`) scored 95.6% vs. Ollama's
-65.9–86.8% (varies run to run — real sampling variance, not test flakiness, confirmed
-by re-running the identical input in isolation). Anthropic's errors were all
-genuinely-ambiguous cases; Ollama's included systematic department-boundary
-confusion. Ollama stays the default (offline, no per-call cost); Anthropic is a
+91-case labeled eval set, Anthropic (`claude-sonnet-5`) scored 95.6%. Locally,
+classification runs on its own model, `qwen3:8b` (89.0%), through a dedicated
+`classificationChatModel` bean; chat and rerank stay on `qwen2.5:7b`, whose 65.9–86.8% on
+this set (varying run to run with real sampling variance) is why classification was
+split off. Anthropic's errors were all genuinely-ambiguous cases; `qwen2.5:7b`'s included
+systematic department-boundary confusion. See `PROJECT.md` "Per-purpose Ollama model
+split" for why rerank didn't move to `qwen3:8b` too. Ollama stays the default (offline, no per-call cost); Anthropic is a
 one-line config flip for when accuracy matters more than cost.
 
 **Citizen-driven reclassification** (`GrievanceWorkflowService.clarify()`): when a
@@ -427,9 +429,9 @@ noticing), the graph explicitly routes low-confidence cases to a human, and the 
 shows the human *why* the AI was unsure (the model's own reasoning text) before asking
 them to decide.
 
-Checkpointing currently uses LangGraph4j's in-memory `MemorySaver` — a paused review
-does not survive an application restart (documented open item; `langgraph4j-postgres-
-saver` exists upstream if this becomes a real requirement).
+Checkpointing is Postgres-backed (LangGraph4j's `PostgresSaver`, reusing the app's own
+`DataSource`), so a paused review survives an application restart. Its tables
+(`lg4jthread`, `lg4jcheckpoint`) are created by `PostgresSaver` itself.
 
 ### 4. MCP tools (`com.aigre.tools.GrievanceMcpTools`)
 
@@ -439,10 +441,13 @@ saver` exists upstream if this becomes a real requirement).
 server (Streamable HTTP transport), so an external agent could call them the
 same way a human uses the REST API.
 
-This is the **tool-exposure layer for a future AI agent**, not the workflow's own data
-access (the workflow graph currently writes to Postgres directly, matching the plain
-intake service's pattern — wiring the graph to *call* these MCP tools instead of
-direct JDBC is a documented follow-up, not yet done). Each tool's error messages are
+The tools have two in-app consumers as well as any external agent. The workflow's
+`commit()` node performs its status transition through
+`GrievanceMcpTools.updateGrievanceStatus()` rather than its own SQL. The citizen chat is
+given the 3 read-only tools through a LangChain4j MCP client pointed back at this app,
+so it can answer live questions about a specific grievance ID. The plain
+`GrievanceIntakeService` path (`POST /grievances`) still writes directly. Each tool's
+error messages are
 written to teach the caller what to do next (e.g. "Double-check the ID, or use a
 search/list tool") rather than just reporting failure — tool quality is answer
 quality, especially for a caller that might itself be an LLM.
@@ -894,12 +899,12 @@ Full detail lives in `PROJECT.md`; the headline items:
   See [`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`](FUTURE_MULTI_AGENCY_ROADMAP.md)
   for a phased plan.
 - **Employee auth is real (Spring Security + JWT, department-scoped, role-gated) but
-  demo-grade**: all 12 seeded accounts share one password, the signing secret is a
-  fixed value in `application.yml` rather than a secrets manager, and there's no
-  refresh-token flow (an 8-hour token, then a re-login) — see `RUNNING.md` for the
-  seeded credentials.
-- **The workflow graph writes to Postgres directly** rather than calling the MCP tools
-  from §4 as actual tool-use — the MCP server and the agent workflow are both built,
-  but not yet wired to each other.
+  demo-grade**: all 13 seeded accounts share one password, the signing key comes from an
+  environment variable (`SECURITY_JWT_SECRET`, random per boot if unset) rather than a
+  secrets manager, and there's no refresh-token flow (an 8-hour token, then a
+  re-login). See `RUNNING.md` for the seeded credentials.
+- **Two commit paths** — the workflow's `commit()` goes through the MCP
+  `update_grievance_status` tool, but the plain `POST /grievances` intake path
+  (`GrievanceIntakeService`) still writes directly.
 - **Business-hours-unaware SLA calendar** — `SlaCalculator` uses flat calendar-hour
   arithmetic, not a business-hours calendar.

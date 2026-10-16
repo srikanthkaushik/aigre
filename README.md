@@ -85,9 +85,10 @@ including the actual prompts and measured accuracy numbers, is in
    priority rubric the model *applies* rather than invents, and explicit permission to
    say "not confident" instead of forcing a guess. Measured head-to-head against a
    91-case labeled eval set: Anthropic's Claude Sonnet 5 scores ~95.6%, the local
-   Ollama model (`qwen2.5:7b`) 65.9–86.8% — the local model stays the default (free,
-   offline) with the stronger model one config line away.
-2. **Retrieval-augmented chat** — hybrid vector + full-text search over a 108-document
+   Ollama classification model (`qwen3:8b`) 89.0% (up from `qwen2.5:7b`'s 65.9–86.8%).
+   The local model stays the default (free, offline) with the stronger model one config
+   line away.
+2. **Retrieval-augmented chat** — hybrid vector + full-text search over a ~120-document
    policy corpus, LLM-reranked (not cosine-only — a measured false positive proved raw
    similarity alone isn't good enough), answered strictly from the retrieved text with
    a citation, refusing rather than fabricating when the corpus doesn't have the
@@ -199,7 +200,7 @@ tests, is in `PROJECT.md`.
 | Agentic workflow / graph orchestration | LangGraph4j 1.8.20 |
 | Tool-exposure protocol | Spring AI 2.0.0 GA (MCP server, Streamable HTTP) |
 | Vector store | pgvector (PostgreSQL extension) |
-| LLM providers | Ollama (local, default) — `qwen2.5:7b` + `nomic-embed-text`; Anthropic (`claude-sonnet-5`) as a switchable alternative |
+| LLM providers | Ollama (local, default) — `qwen3:8b` (classification), `qwen2.5:7b` (chat + rerank), `nomic-embed-text` (embeddings); Anthropic (`claude-sonnet-5`) as a switchable alternative |
 | Database | PostgreSQL 16 (`pgvector/pgvector:pg16`) |
 | Frontend framework | Angular 21 (standalone components, signals) |
 | Frontend UI kit | Angular Material 21 (Material 3) |
@@ -238,7 +239,7 @@ flowchart TB
     end
 
     subgraph LLM["LLM providers"]
-        Ollama["Ollama (local)<br/>qwen2.5:7b + nomic-embed-text"]
+        Ollama["Ollama (local)<br/>qwen3:8b, qwen2.5:7b,<br/>nomic-embed-text"]
         Anthropic["Anthropic<br/>claude-sonnet-5"]
     end
 
@@ -305,6 +306,7 @@ docker run -d --name aigre-pg -e POSTGRES_DB=aigre -e POSTGRES_USER=aigre \
 
 # 2. Ollama (https://ollama.com)
 ollama pull qwen2.5:7b
+ollama pull qwen3:8b
 ollama pull nomic-embed-text
 
 # 3. Backend (starts on :8085)
@@ -321,11 +323,20 @@ cd frontend && npm install && npm start
 Requires JDK 21, Maven, Docker, Ollama, and Node.js 22+. No API key needed by default —
 Ollama runs fully offline; Anthropic is an optional one-line config swap.
 
+To run it on a second machine (app + Postgres in Docker, Ollama staying on a GPU box),
+optionally published on your own domain through a Cloudflare tunnel, see
+[`docs/RUNNING.md`](docs/RUNNING.md#splitting-across-two-machines-unraid-deployment-optional)
+and `.env.example`.
+
 ---
 
 ## Demo credentials
 
 Password for every seeded account: **`Demo1234!`**
+
+> These are public, committed demo credentials. Before exposing any deployment beyond
+> your own machine or LAN, replace the password on every account (`docs/RUNNING.md`,
+> step e of the two-machine setup) and set your own `SECURITY_JWT_SECRET`.
 
 | Username | Department | Role |
 |---|---|---|
@@ -389,6 +400,12 @@ which failures are expected LLM sampling variance rather than bugs.
 | 6 — Hardening: PII redaction, observability, real auth | ✅ Done |
 | Email as a second intake channel | ✅ Done |
 | Cross-department ADMIN role | ✅ Done |
+| Department onboarding from a public URL of PDFs | ✅ Done |
+| Embeddable, department-scoped chat widget | ✅ Done |
+| Per-purpose Ollama models (`qwen3:8b` for classification) | ✅ Done |
+| Agentic memory: recognizing returning citizens in chat | ✅ Done |
+| Exact-match response cache for `/chat/stream` | ✅ Done |
+| Two-machine Docker deployment + Cloudflare tunnel | ✅ Done |
 
 Full narrative build log, including bugs found and how they were fixed, is in
 [`PROJECT.md`](PROJECT.md).
@@ -400,11 +417,12 @@ Full narrative build log, including bugs found and how they were fixed, is in
 This is a portfolio/demo-scale build, not a production deployment. Worth knowing:
 
 - **Employee auth is real but demo-grade** — every seeded account shares one password,
-  the JWT signing secret is a fixed value in `application.yml`, no refresh-token flow.
-- **Workflow checkpointing is in-memory** — a paused human-review case is lost on
-  application restart (`langgraph4j-postgres-saver` is the documented upgrade path).
-- **The agent workflow writes to Postgres directly** rather than calling its own MCP
-  tools — both exist, but aren't yet wired to each other.
+  there's no refresh-token flow, and the JWT signing key comes from `SECURITY_JWT_SECRET`
+  (random per boot if unset) rather than a secrets manager.
+- **Two commit paths** — the agent workflow commits through its own MCP
+  `update_grievance_status` tool, but the plain `POST /grievances` intake path still
+  writes directly.
+- **No rate limiting** on the public endpoints. Every chat question costs local GPU time.
 - **SLA calendar is flat calendar-hours**, not business-hours-aware.
 - **Ollama accuracy is meaningfully lower than Anthropic's** on the labeled eval set
   (measured, not assumed — see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md#where-ai-is-used-the-core-of-this-doc)) —
