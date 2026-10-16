@@ -13,6 +13,7 @@ bolt-on feature.
 - [System overview](#system-overview)
 - [Where AI is used](#where-ai-is-used-the-core-of-this-doc)
 - [Backend components](#backend-components)
+- [Deployment](#deployment)
 - [Data flow: key journeys](#data-flow-key-journeys)
 - [Data model](#data-model)
 - [Frontend architecture](#frontend-architecture)
@@ -643,13 +644,112 @@ of which exists in this repo).
 | `com.aigre.classification` | `LlmGrievanceClassifier`, `ClassificationResult` — the classification LLM call and its parsing |
 | `com.aigre.workflow` | The LangGraph4j agent graph, its Spring Boot wiring, and the pause/resume REST endpoints |
 | `com.aigre.retrieval` | Hybrid retrieval + LLM rerank over the pgvector policy corpus |
-| `com.aigre.chat` | The SSE streaming chat endpoint that composes retrieval + grounded generation |
+| `com.aigre.chat` | The SSE streaming chat endpoint (`ChatController`) that composes retrieval + grounded generation, the tool-calling `CitizenChatAssistant`, and the exact-match `ChatResponseCache` |
 | `com.aigre.ingestion` | Corpus ingestion (`POST /ingest/reset`) — loads `test-data/documents/**` into pgvector with `department`/`source` metadata |
 | `com.aigre.tools` | MCP tool definitions over the grievance systems-of-record |
 | `com.aigre.query` | Read-side REST for the frontend: status lookup, filtered listing, and trend aggregation — deliberately separate from the MCP tool surface |
 | `com.aigre.sla` | `SlaCalculator` — a pure function, no LLM, priority → due-date |
-| `com.aigre.config` | Provider selection (`LlmProviderConfig`), pgvector store setup (`RagConfig`), CORS, and the centralized error-body `@RestControllerAdvice` |
+| `com.aigre.config` | Provider selection (`LlmProviderConfig`), pgvector store setup (`RagConfig`), the citizen chat's self-referential MCP client (`McpClientConfig`, `LazyGrievanceToolProvider`), serving the built SPA (`SpaWebFluxConfig`), and the centralized error-body `@RestControllerAdvice` (`ApiExceptionHandler`) |
 | `com.aigre.metrics` | `LlmCallTimer` — per-call-type LLM timing |
+| `com.aigre.auth` | Employee login and JWTs (`AuthController`, `AuthService`, `JwtService`, `JwtAuthenticationWebFilter`), the shared signing key (`JwtKeyConfig`), role rules and CORS (`SecurityConfig`), per-grievance department scoping (`DepartmentAccess`), and silent citizen-recognition tokens (`CitizenTokenService`) — see [employee authentication](#cross-cutting-employee-authentication-comaigreauth) |
+| `com.aigre.guardrail` | PII redaction on citizen free text (`PiiRedactor`), applied on the HTTP path by `PiiRedactionWebFilter` — see [guardrails](#cross-cutting-guardrails-comaigreguardrail) |
+| `com.aigre.duplicate` | `DuplicateDetectionService` — same department + category, open status, within a lookback window; used by both commit paths |
+| `com.aigre.department` | `GET /departments` — the public department list the frontend renders names from |
+| `com.aigre.admin` | ADMIN-only department onboarding (`POST /admin/departments`): crawl a public URL for PDFs (`PdfCrawlService`), ingest them, insert the department, refresh the classifier prompt — see [department onboarding](#department-onboarding-comaigreadmin) |
+| `com.aigre.embed` | The embeddable chat widget's server side: `GET /embed/chat` with a per-department `frame-ancestors` header (`EmbedChatController`) and the admin-managed origin allowlist (`EmbedOriginController`, `EmbedOriginService`) — see [embeddable widget](#embeddable-department-scoped-chat-widget-comaigreembed) |
+
+### Chat response cache (`ChatResponseCache`)
+
+`/chat/stream` checks an in-process Caffeine cache before doing any retrieval or LLM
+work. The key is the question (trimmed, whitespace-collapsed, lowercased) plus the
+department scope. Matching is **exact**, never semantic: two differently-worded
+questions are never treated as "close enough", for the same reason cosine similarity
+isn't trusted to judge document relevance. `ChatController` owns the eligibility rules:
+answers personalised for a recognised citizen, and answers that triggered a tool call,
+are never read from or written to the cache. `POST /ingest/reset` clears it, since a
+cached answer could cite a document that no longer exists. It's configured under
+`chat.cache.*` (`enabled`, `ttl` default 30m, `max-size` default 500) and can be
+disabled without a code change. Background: `PROJECT.md` "Exact-match response cache".
+
+### Embeddable, department-scoped chat widget (`com.aigre.embed`)
+
+A department's existing website can embed AIGRE's chat with one script tag
+(`frontend/public/embed.js`). The script adds a floating button that opens an iframe
+of `GET /embed/chat?department=<id>`, which serves the same Angular app with retrieval
+scoped to that department's corpus. Because the chat runs *inside* the iframe, on
+AIGRE's own origin, the host site needs no CORS changes. The control is framing:
+`EmbedChatController` sends `Content-Security-Policy: frame-ancestors <allowed origins>`
+built per department from the `embed-origins` allowlist, which an ADMIN manages via
+`/admin/departments/{id}/embed-origins`. An unregistered site gets
+`frame-ancestors 'none'`, so the browser refuses to render the panel. A dedicated
+security filter chain drops `X-Frame-Options: DENY` for `/embed/**` only. Background:
+`PROJECT.md` "Floating chat widget + embeddable, department-scoped chat".
+
+### Department onboarding (`com.aigre.admin`)
+
+Adding a department needs no code change or redeploy. `POST /admin/departments`
+(ADMIN only) takes the department's id, name, short name, jurisdiction notes (which feed
+the classifier prompt) and a public `sourceUrl`. `PdfCrawlService` extracts
+the PDF links from that page, and `DepartmentOnboardingService` downloads them into
+`test-data/documents/<ID>/`, ingests them with the department's metadata, inserts the
+department row, and refreshes the classifier's live list of departments. Staff accounts
+are deliberately out of scope: a new department starts with no employees. The how-to is
+[`DEPARTMENT_ONBOARDING.md`](DEPARTMENT_ONBOARDING.md); background in `PROJECT.md`
+"Onboard a new department from a public URL of PDFs".
+
+---
+
+## Deployment
+
+The same application runs in three shapes. Nothing in the code changes between them;
+every difference is an environment variable.
+
+```mermaid
+flowchart LR
+    subgraph Dev["Single machine (dev)"]
+        DevApp["mvn spring-boot:run<br/>:8085"] --> DevPG[("aigre-pg<br/>:5434")]
+        DevApp --> DevOllama["Ollama<br/>:11434"]
+        DevFE["ng serve :4200<br/>(proxied)"] --> DevApp
+    end
+
+    subgraph Split["Two machines (docker-compose.yml)"]
+        subgraph GPU["GPU machine"]
+            Ollama["Ollama :11434<br/>(LAN-exposed)"]
+        end
+        subgraph Box["Docker host (e.g. Unraid)"]
+            App["app<br/>host :8087"] --> PG[("postgres<br/>host :5434")]
+            Demo["embed-demo (nginx)<br/>host :5500"]
+            Tunnel["tunnel (cloudflared)<br/>optional profile"]
+        end
+        App -- "LAN" --> Ollama
+        Tunnel -- "aigre.&lt;domain&gt;" --> App
+        Tunnel -- "dmv-demo.&lt;domain&gt;" --> Demo
+    end
+```
+
+- **Single machine.** Postgres in a container, Ollama and the backend on the host. The
+  Angular dev server proxies to the backend, or the built frontend is copied into the
+  backend's static resources so everything is one origin (`RUNNING.md` steps 1–5).
+- **Two machines.** Ollama stays on the GPU machine. `docker-compose.yml` runs the app
+  (image from GHCR), Postgres and the mock DMV site on any Docker host. Per-deployment
+  values come from `.env` (template: `.env.example`):
+
+  | `.env` variable | Becomes | Purpose |
+  |---|---|---|
+  | `AIGRE_OLLAMA_BASE_URL` | `OLLAMA_BASE_URL` | Where the app reaches Ollama |
+  | `AIGRE_LAN_ORIGIN` | first entry of `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS` | The app's own LAN origin; without it, browsers' module-script requests get CORS-403'd |
+  | `AIGRE_JWT_SECRET` | `SECURITY_JWT_SECRET` | Signing key for employee and citizen tokens |
+  | `AIGRE_APP_PUBLIC_ORIGIN` | second CORS entry, and the demo's `AIGRE_API_ORIGIN` | The app's public hostname, when tunnelled |
+  | `CLOUDFLARE_TUNNEL_TOKEN` | `TUNNEL_TOKEN` | Connector token for the named tunnel |
+
+- **Public (optional).** The `tunnel` compose profile runs `cloudflared` against a
+  named Cloudflare tunnel with two hostnames. The app needs its own public hostname,
+  not just the demo site, because the browser loads `embed.js` and the iframe from the
+  app's origin. This exposes the employee dashboard and admin API too, so the seeded
+  password and JWT key must be replaced first.
+
+Runbook: `RUNNING.md` "Splitting across two machines". Background and the faults hit
+on first bring-up: `PROJECT.md` "Two-machine split".
 
 ---
 

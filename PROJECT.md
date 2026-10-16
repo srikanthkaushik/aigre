@@ -1,5 +1,65 @@
 # PROJECT.md — AIGRE (AI Grievance Resolution Engine)
 
+> **How to read this.** This is the build log, in the order things were built: each
+> section records a decision, the tradeoffs weighed, bugs found and how the result was
+> verified. It's the *why* behind the code. For the current design, start with
+> [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md); to run it, see
+> [`docs/RUNNING.md`](docs/RUNNING.md). Later sections sometimes supersede earlier ones
+> (for example, in-memory checkpointing was later replaced by Postgres), so when two
+> sections disagree, the later one wins. "Open items to revisit" near the end is the
+> current to-do list.
+
+<details>
+<summary>Section index</summary>
+
+- [What this is](#what-this-is)
+- [Decisions locked in at Milestone 0](#decisions-locked-in-at-milestone-0)
+- [Status](#status)
+- [Local environment](#local-environment)
+- [Scaffold implementation notes (milestone 1)](#scaffold-implementation-notes-milestone-1)
+- [Test-data corpus status (plan §3)](#test-data-corpus-status-plan-3)
+- [Eval suite (built at milestone 1, per plan §4 — not deferred to milestone 6)](#eval-suite-built-at-milestone-1-per-plan-4--not-deferred-to-milestone-6)
+- [Real LLM-based classification (milestone 2 domain work)](#real-llm-based-classification-milestone-2-domain-work)
+- [Bug found and fixed post-milestone-5: vague complaints wrongly NOT_ACTIONABLE](#bug-found-and-fixed-post-milestone-5-vague-complaints-wrongly-not_actionable)
+- [Provider comparison: Ollama (qwen2.5:7b) vs. Anthropic (Claude Sonnet 5)](#provider-comparison-ollama-qwen257b-vs-anthropic-claude-sonnet-5)
+- [Milestone 3: MCP tools over the grievance systems-of-record](#milestone-3-mcp-tools-over-the-grievance-systems-of-record)
+- [Milestone 4: agent workflow with human approval gate](#milestone-4-agent-workflow-with-human-approval-gate)
+- [Milestone 5: Angular frontend](#milestone-5-angular-frontend)
+- [Milestone 5 follow-up: bugs found live-testing the UI](#milestone-5-follow-up-bugs-found-live-testing-the-ui)
+- [Visual redesign pass (post-milestone-5 polish)](#visual-redesign-pass-post-milestone-5-polish)
+- [Citizen-driven clarification (closes an open thread from earlier this session)](#citizen-driven-clarification-closes-an-open-thread-from-earlier-this-session)
+- [Employee dashboard: follow-up detail was invisible, not just unlabeled](#employee-dashboard-follow-up-detail-was-invisible-not-just-unlabeled)
+- [First actual visual verification — and a real bug it caught](#first-actual-visual-verification--and-a-real-bug-it-caught)
+- [Complaint Trends dashboard](#complaint-trends-dashboard)
+- [Milestone 6: PII redaction guardrail](#milestone-6-pii-redaction-guardrail)
+- [Milestone 6: observability extended](#milestone-6-observability-extended)
+- [Duplicate detection (scenario 5) and reopened-case handling (scenario 7)](#duplicate-detection-scenario-5-and-reopened-case-handling-scenario-7)
+- [Cross-reference-competition: fixed via corpus restructuring (option a)](#cross-reference-competition-fixed-via-corpus-restructuring-option-a)
+- [Real employee auth: Spring Security + JWT, department-scoped, role-gated](#real-employee-auth-spring-security--jwt-department-scoped-role-gated)
+- [Sentiment trend chart: numeric average → 5-level confidence scale](#sentiment-trend-chart-numeric-average--5-level-confidence-scale)
+- [Email ingestion: second inbound channel via IMAP polling](#email-ingestion-second-inbound-channel-via-imap-polling)
+- [ADMIN role: cross-department oversight](#admin-role-cross-department-oversight)
+- [Single-origin static hosting + Cloudflare Tunnel (internet access, dev machine stays local)](#single-origin-static-hosting--cloudflare-tunnel-internet-access-dev-machine-stays-local)
+- [Paused-review visibility bug: fixed](#paused-review-visibility-bug-fixed)
+- [Postgres-backed LangGraph4j checkpointing: paused reviews now survive a restart](#postgres-backed-langgraph4j-checkpointing-paused-reviews-now-survive-a-restart)
+- [Dark mode](#dark-mode)
+- [Local model comparison: qwen2.5:7b vs. qwen3:30b-a3b vs. qwen3:8b vs. qwen3.5:9b](#local-model-comparison-qwen257b-vs-qwen330b-a3b-vs-qwen38b-vs-qwen359b)
+- [MCP tool wiring: `commit()` converges on `GrievanceMcpTools`; citizen chat gets real LLM tool-calling](#mcp-tool-wiring-commit-converges-on-grievancemcptools-citizen-chat-gets-real-llm-tool-calling)
+- [Onboard a new department from a public URL of PDFs](#onboard-a-new-department-from-a-public-url-of-pdfs)
+- [Grievance IDs: random UUID → sequential `G0001` format](#grievance-ids-random-uuid--sequential-g0001-format)
+- [Citation labels: strip file extension, prefix "CITED FROM:"](#citation-labels-strip-file-extension-prefix-cited-from)
+- [Check Status: show the citizen's own submitted complaint + clarifications](#check-status-show-the-citizens-own-submitted-complaint--clarifications)
+- [DMV title-correction misclassification: root-caused, two of three fixes kept](#dmv-title-correction-misclassification-root-caused-two-of-three-fixes-kept)
+- [Floating chat widget + embeddable, department-scoped chat](#floating-chat-widget--embeddable-department-scoped-chat)
+- [Per-purpose Ollama model split: qwen3:8b for classification only](#per-purpose-ollama-model-split-qwen38b-for-classification-only)
+- [Agentic memory: recognizing returning citizens in chat](#agentic-memory-recognizing-returning-citizens-in-chat)
+- [Exact-match response cache for `/chat/stream`](#exact-match-response-cache-for-chatstream)
+- [Two-machine split: Ollama on the GPU box, everything else on Unraid](#two-machine-split-ollama-on-the-gpu-box-everything-else-on-unraid)
+- [Open items to revisit](#open-items-to-revisit)
+- [Full plan](#full-plan)
+
+</details>
+
 ## What this is
 G2C AI Grievance Resolution Engine for public sector complaint intake,
 classification, prioritization, routing, and resolution tracking. Full
@@ -36,6 +96,9 @@ approved Milestone-0 plan (see `kickoff.md` for the original brief).
 - **Package base:** `com.aigre.*` (no underscores).
 
 ## Status
+*This checklist was frozen at Milestone 6. Everything built since is in the sections
+below and summarised in the README's "Project status" table.*
+
 - [x] Milestone 0 — domain model, test-data spec, correctness definitions
       (plan approved)
 - [x] Milestone 1 — day-one scaffold running end to end (verified live:

@@ -32,6 +32,13 @@ workflow state rather than a bolted-on afterthought.
 - [Project status](#project-status)
 - [Known limitations](#known-limitations)
 
+**New here? Read in this order:**
+1. This README: what the system does and where AI is used.
+2. [`docs/APP_WALKTHROUGH.md`](docs/APP_WALKTHROUGH.md): every screen, with real inputs and outputs.
+3. [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): components, data flow, data model, deployment.
+4. [`docs/RUNNING.md`](docs/RUNNING.md): get it running locally, then [`docs/TEST_SCENARIOS.md`](docs/TEST_SCENARIOS.md) for the tests.
+5. [`PROJECT.md`](PROJECT.md) as a reference: the build log with the reasoning behind each decision. Search it rather than reading it end to end.
+
 ---
 
 ## What it does
@@ -359,7 +366,7 @@ Full detail in [`docs/RUNNING.md`](docs/RUNNING.md#4-seed-data).
 | Doc | What's in it |
 |---|---|
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System design, where and how AI is used, component breakdown, sequence diagrams, data model, key design decisions, known limitations |
-| [`docs/RUNNING.md`](docs/RUNNING.md) | Full local setup, seeding, switching LLM providers, exposing the app to the internet |
+| [`docs/RUNNING.md`](docs/RUNNING.md) | Full local setup, seeding, switching LLM providers, exposing the app to the internet, and the two-machine Docker deployment (with `docker-compose.yml` and `.env.example`) |
 | [`docs/APP_WALKTHROUGH.md`](docs/APP_WALKTHROUGH.md) | Screen-by-screen tour of the citizen and employee experiences, with real input/output examples |
 | [`docs/TEST_SCENARIOS.md`](docs/TEST_SCENARIOS.md) | Automated test suites, the 10 domain routing scenarios the classifier is designed against, and a manual QA checklist |
 | [`docs/DEPARTMENT_ONBOARDING.md`](docs/DEPARTMENT_ONBOARDING.md) | How to onboard a genuinely new department — including pulling its policy PDFs from a public URL — with no code redeploy |
@@ -367,6 +374,8 @@ Full detail in [`docs/RUNNING.md`](docs/RUNNING.md#4-seed-data).
 | [`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`](docs/FUTURE_MULTI_AGENCY_ROADMAP.md) | **Not built.** A phased roadmap for onboarding new agencies — full-adoption tenants who want the whole app, and brownfield agencies who want only classification/prioritization bolted onto their own existing system of record |
 | [`PROJECT.md`](PROJECT.md) | Build log: every milestone's decisions, tradeoffs, bugs found, and how each was verified — the "why," not just the "what" |
 | [`kickoff.md`](kickoff.md) | The original project brief this was built against |
+| [`test-data/`](test-data) | The policy corpus, labeled complaints, eval questions (`eval-questions.md`), corpus manifest, seed SQL and the mock DMV embed site |
+| `CLAUDE.md`, `new-project-instructions.md` | Instructions for the AI coding assistant used to build this. Not application documentation |
 
 ---
 
