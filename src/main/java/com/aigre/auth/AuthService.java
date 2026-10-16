@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Checks an employee's credentials against department_employees (BCrypt hashes) and issues the
+ * JWT the dashboard sends on every call. Citizens never log in -- see CitizenTokenService for how
+ * they're recognized instead.
+ */
 @Service
 public class AuthService {
 

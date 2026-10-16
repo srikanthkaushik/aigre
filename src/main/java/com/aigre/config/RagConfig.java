@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 import java.time.Duration;
 
+/**
+ * The RAG storage layer: the Ollama embedding model and the pgvector store (rag_documents) in
+ * hybrid mode, sized from the embedding model's own dimension (768 for nomic-embed-text) rather
+ * than a hardcoded number.
+ */
 @Configuration
 public class RagConfig {
 
