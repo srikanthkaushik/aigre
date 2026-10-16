@@ -1,5 +1,65 @@
 # PROJECT.md — AIGRE (AI Grievance Resolution Engine)
 
+> **How to read this.** This is the build log, in the order things were built: each
+> section records a decision, the tradeoffs weighed, bugs found and how the result was
+> verified. It's the *why* behind the code. For the current design, start with
+> [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md); to run it, see
+> [`docs/RUNNING.md`](docs/RUNNING.md). Later sections sometimes supersede earlier ones
+> (for example, in-memory checkpointing was later replaced by Postgres), so when two
+> sections disagree, the later one wins. "Open items to revisit" near the end is the
+> current to-do list.
+
+<details>
+<summary>Section index</summary>
+
+- [What this is](#what-this-is)
+- [Decisions locked in at Milestone 0](#decisions-locked-in-at-milestone-0)
+- [Status](#status)
+- [Local environment](#local-environment)
+- [Scaffold implementation notes (milestone 1)](#scaffold-implementation-notes-milestone-1)
+- [Test-data corpus status (plan §3)](#test-data-corpus-status-plan-3)
+- [Eval suite (built at milestone 1, per plan §4 — not deferred to milestone 6)](#eval-suite-built-at-milestone-1-per-plan-4--not-deferred-to-milestone-6)
+- [Real LLM-based classification (milestone 2 domain work)](#real-llm-based-classification-milestone-2-domain-work)
+- [Bug found and fixed post-milestone-5: vague complaints wrongly NOT_ACTIONABLE](#bug-found-and-fixed-post-milestone-5-vague-complaints-wrongly-not_actionable)
+- [Provider comparison: Ollama (qwen2.5:7b) vs. Anthropic (Claude Sonnet 5)](#provider-comparison-ollama-qwen257b-vs-anthropic-claude-sonnet-5)
+- [Milestone 3: MCP tools over the grievance systems-of-record](#milestone-3-mcp-tools-over-the-grievance-systems-of-record)
+- [Milestone 4: agent workflow with human approval gate](#milestone-4-agent-workflow-with-human-approval-gate)
+- [Milestone 5: Angular frontend](#milestone-5-angular-frontend)
+- [Milestone 5 follow-up: bugs found live-testing the UI](#milestone-5-follow-up-bugs-found-live-testing-the-ui)
+- [Visual redesign pass (post-milestone-5 polish)](#visual-redesign-pass-post-milestone-5-polish)
+- [Citizen-driven clarification (closes an open thread from earlier this session)](#citizen-driven-clarification-closes-an-open-thread-from-earlier-this-session)
+- [Employee dashboard: follow-up detail was invisible, not just unlabeled](#employee-dashboard-follow-up-detail-was-invisible-not-just-unlabeled)
+- [First actual visual verification — and a real bug it caught](#first-actual-visual-verification--and-a-real-bug-it-caught)
+- [Complaint Trends dashboard](#complaint-trends-dashboard)
+- [Milestone 6: PII redaction guardrail](#milestone-6-pii-redaction-guardrail)
+- [Milestone 6: observability extended](#milestone-6-observability-extended)
+- [Duplicate detection (scenario 5) and reopened-case handling (scenario 7)](#duplicate-detection-scenario-5-and-reopened-case-handling-scenario-7)
+- [Cross-reference-competition: fixed via corpus restructuring (option a)](#cross-reference-competition-fixed-via-corpus-restructuring-option-a)
+- [Real employee auth: Spring Security + JWT, department-scoped, role-gated](#real-employee-auth-spring-security--jwt-department-scoped-role-gated)
+- [Sentiment trend chart: numeric average → 5-level confidence scale](#sentiment-trend-chart-numeric-average--5-level-confidence-scale)
+- [Email ingestion: second inbound channel via IMAP polling](#email-ingestion-second-inbound-channel-via-imap-polling)
+- [ADMIN role: cross-department oversight](#admin-role-cross-department-oversight)
+- [Single-origin static hosting + Cloudflare Tunnel (internet access, dev machine stays local)](#single-origin-static-hosting--cloudflare-tunnel-internet-access-dev-machine-stays-local)
+- [Paused-review visibility bug: fixed](#paused-review-visibility-bug-fixed)
+- [Postgres-backed LangGraph4j checkpointing: paused reviews now survive a restart](#postgres-backed-langgraph4j-checkpointing-paused-reviews-now-survive-a-restart)
+- [Dark mode](#dark-mode)
+- [Local model comparison: qwen2.5:7b vs. qwen3:30b-a3b vs. qwen3:8b vs. qwen3.5:9b](#local-model-comparison-qwen257b-vs-qwen330b-a3b-vs-qwen38b-vs-qwen359b)
+- [MCP tool wiring: `commit()` converges on `GrievanceMcpTools`; citizen chat gets real LLM tool-calling](#mcp-tool-wiring-commit-converges-on-grievancemcptools-citizen-chat-gets-real-llm-tool-calling)
+- [Onboard a new department from a public URL of PDFs](#onboard-a-new-department-from-a-public-url-of-pdfs)
+- [Grievance IDs: random UUID → sequential `G0001` format](#grievance-ids-random-uuid--sequential-g0001-format)
+- [Citation labels: strip file extension, prefix "CITED FROM:"](#citation-labels-strip-file-extension-prefix-cited-from)
+- [Check Status: show the citizen's own submitted complaint + clarifications](#check-status-show-the-citizens-own-submitted-complaint--clarifications)
+- [DMV title-correction misclassification: root-caused, two of three fixes kept](#dmv-title-correction-misclassification-root-caused-two-of-three-fixes-kept)
+- [Floating chat widget + embeddable, department-scoped chat](#floating-chat-widget--embeddable-department-scoped-chat)
+- [Per-purpose Ollama model split: qwen3:8b for classification only](#per-purpose-ollama-model-split-qwen38b-for-classification-only)
+- [Agentic memory: recognizing returning citizens in chat](#agentic-memory-recognizing-returning-citizens-in-chat)
+- [Exact-match response cache for `/chat/stream`](#exact-match-response-cache-for-chatstream)
+- [Two-machine split: Ollama on the GPU box, everything else on Unraid](#two-machine-split-ollama-on-the-gpu-box-everything-else-on-unraid)
+- [Open items to revisit](#open-items-to-revisit)
+- [Full plan](#full-plan)
+
+</details>
+
 ## What this is
 G2C AI Grievance Resolution Engine for public sector complaint intake,
 classification, prioritization, routing, and resolution tracking. Full
@@ -36,6 +96,9 @@ approved Milestone-0 plan (see `kickoff.md` for the original brief).
 - **Package base:** `com.aigre.*` (no underscores).
 
 ## Status
+*This checklist was frozen at Milestone 6. Everything built since is in the sections
+below and summarised in the README's "Project status" table.*
+
 - [x] Milestone 0 — domain model, test-data spec, correctness definitions
       (plan approved)
 - [x] Milestone 1 — day-one scaffold running end to end (verified live:
@@ -3041,7 +3104,7 @@ whether the bind/firewall change actually worked).
 
 **First live bring-up (2026-10-15): three faults, none in the app.**
 `NoRouteToHostException: Host is unreachable` from the container was a
-stale IP: the GPU box's DHCP lease had moved `.68` → `192.168.4.106`, and
+stale IP: the GPU box's DHCP lease had moved to a new address, and
 Unraid's `ip neigh` showed `INCOMPLETE` for the old address. The container
 network was ruled out first (its route table only defaulted via
 `172.30.0.1`; the compose network is now pinned to `172.30.0.0/24` anyway).
@@ -3049,8 +3112,7 @@ The same check found Ollama not running and `OLLAMA_HOST` unset on the GPU
 box, and that the scoped "Ollama LAN (Unraid only)" firewall rule had never
 been created — LAN access actually came from Windows' auto-created
 `ollama.exe` program rule (Allow, any remote, Private profile), which is
-broader than intended. Fix: reserve both IPs in the router. Unraid is
-`192.168.5.34` (LAN is a `/22`, so `192.168.4.0`–`7.255`). Then chat
+broader than intended. Fix: reserve both IPs in the router. Then chat
 streamed but `sources[]` was empty: the dump had never been restored, and
 `spring.sql.init.mode: always` had already run `schema.sql` on first boot
 (6 seeded departments, 0 `rag_documents`), so the restore needs
@@ -3068,8 +3130,8 @@ framing or CSP. The page's default AIGRE origin lives in an
 `<meta name="aigre-api">` tag. The image's nginx `sub_filter` rewrites it from
 `AIGRE_API_ORIGIN`, so one image works for any deployment, and `?api=` on the
 URL still overrides it. `AIGRE_API_ORIGIN` must be the app's *browser-facing*
-origin (`http://192.168.5.34:8087`), not `app:8085`, because the browser loads
-`embed.js` and the iframe directly. `http://192.168.5.34:5500` is registered
+origin (`http://<unraid-ip>:8087`), not `app:8085`, because the browser loads
+`embed.js` and the iframe directly. `http://<unraid-ip>:5500` is registered
 as a DMV embed origin in the Unraid database only, not in the dev database.
 Verified end to end on 2026-10-15: chat works from the Unraid-hosted page.
 
@@ -3087,6 +3149,47 @@ let anyone forge an ADMIN token; and the runbook has a step to replace the share
 `Demo1234!` password. Cloudflare Access on the whole app hostname was rejected,
 because the chat iframe would need a third-party Access cookie. Access on the
 employee and admin paths only is the next hardening step if the URL circulates.
+
+**Secrets audit (2026-10-16): the repo is public.** I scanned the full git history
+for API keys, private keys and tokens (Anthropic, GitHub, AWS, Slack, Google,
+`eyJ…`) and found none. No `.env`, dump, log or credential file was ever committed,
+and the GHCR images are private. The one real leak was the JWT signing secret in
+`application.yml`. It's removed, and the old value must be treated as compromised:
+rotate it anywhere it's still in use. History was not rewritten, because rotation
+is the fix. `security.jwt.secret` is now empty by default, and
+`com.aigre.auth.JwtKeyConfig` builds one shared `jwtSigningKey` bean: the
+configured key, or a random one per boot with a WARN. That reverses the earlier
+"fixed key so dev restarts don't log everyone out" decision, because a public repo
+can't hold a shared key. Set `SECURITY_JWT_SECRET` locally to keep dev sessions
+across restarts. Per-deployment compose values (Ollama URL, LAN origin, public
+origin, tunnel token, JWT secret) moved to `.env`, with a committed
+`.env.example`, so `docker-compose.yml` no longer carries personal IPs or a
+domain. `tmp/` and `*.dump` are gitignored. `Demo1234!` and `aigre_dev` stay
+committed on purpose: they're documented dev/demo values, and public deployments
+must change the employee password (see `docs/RUNNING.md`).
+
+**Found during the same audit: three endpoints were public, and the tunnel put them on
+the internet.** `SecurityConfig` had `permitAll` on `/ingest/**`, `/mcp/**` and
+`/actuator/**`, all set during local-only milestones. Once the app was tunnelled, I
+confirmed with harmless probes against the public hostname that `POST /ingest/reset`
+answered (its no-`confirm` 400 means `?confirm=true` would have wiped and re-embedded
+the corpus), the MCP `initialize` handshake succeeded (so `update_grievance_status` and
+`reopen_grievance` were callable by anyone, with no login), and `/actuator/prometheus`
+returned 200. The tunnel was stopped, then:
+- `/ingest/**` is ADMIN-only.
+- `/actuator/health` stays public; every other actuator endpoint is ADMIN-only.
+- `/mcp/**` accepts loopback connections only, via a `loopbackOnly` access rule on the
+  TCP peer address. The citizen chat's MCP client calls `http://localhost:<port>/mcp`
+  from inside the same JVM or container, so it's unaffected. Tunnel, proxy and LAN
+  traffic is refused. `server.forward-headers-strategy` is unset, so `X-Forwarded-For`
+  can't spoof loopback.
+
+Verified locally: anonymous ingest and prometheus get 401; AGENT ingest gets 403;
+ADMIN ingest without `confirm` gets 400 (allowed, refused safely). MCP over
+`localhost` gets 200, and over the LAN IP gets 401 even with a spoofed
+`X-Forwarded-For: 127.0.0.1`. A live chat question about a real grievance still makes
+its `get_grievance_status` tool call. MCP-level auth is the open item if an external
+agent ever needs network access.
 
 Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 "Splitting across two machines (Unraid deployment)" section.
@@ -3170,5 +3273,7 @@ Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 ## Full plan
 The complete Milestone-0 plan (domain model, routing/escalation scenarios,
 correctness table, test-data spec with eval questions, day-one scaffold
-checklist) lives at:
-`C:\Users\srika\.claude\plans\read-kickoff-md-and-new-project-instruct-serialized-goblet.md`
+checklist) was a working document outside this repo and isn't published. Its
+substance lives on in `kickoff.md` (the brief), `test-data/eval-questions.md`
+and `test-data/corpus-manifest.md` (the test-data spec), and
+`docs/TEST_SCENARIOS.md` (the routing scenarios).

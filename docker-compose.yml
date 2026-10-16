@@ -3,8 +3,10 @@
 # full writeup, the Postgres setup/migration runbook, and the Ollama
 # LAN-exposure steps on the GPU machine.
 #
-# Fill in <unraid-ip> below before running. The app image is pulled from
-# GHCR, so Unraid needs only this file -- no source checkout:
+# Per-deployment values (IPs, secrets, tunnel token) live in a .env file next to
+# this one -- copy .env.example to .env and fill it in. With Unraid's Compose
+# Manager plugin, paste them into the stack's Edit Stack -> Env File instead.
+# The app image is pulled from GHCR, so Unraid needs only these two files:
 #   docker login ghcr.io                 # only while the package is private
 #   mkdir -p /mnt/user/appdata/aigre/postgres
 #   docker compose up -d postgres        # then restore the dump (step b)
@@ -12,8 +14,8 @@
 
 networks:
   default:
-    # Pinned to a fixed range clear of the LAN (192.168.4.0/22) and the
-    # other networks on the Unraid host.
+    # Pinned to a fixed range clear of the LAN and the other Docker networks on
+    # the host. Change it if 172.30.0.0/24 is already in use there.
     ipam:
       config:
         - subnet: 172.30.0.0/24
@@ -26,10 +28,14 @@ services:
     environment:
       POSTGRES_DB: aigre
       POSTGRES_USER: aigre
+      # Dev-grade password, same as application.yml. The database is reachable only
+      # on the compose network and the optional LAN mapping below, never through the
+      # tunnel.
       POSTGRES_PASSWORD: aigre_dev
     ports:
       # Only for reaching it from outside Docker (pgAdmin, psql from the GPU
-      # machine) -- the app uses postgres:5432 on the compose network.
+      # machine) -- the app uses postgres:5432 on the compose network. Remove it
+      # if you don't need LAN access to the database.
       - "5434:5432"
     volumes:
       # Bind mount under appdata so Unraid's appdata backup tooling covers it,
@@ -57,22 +63,19 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aigre
       SPRING_DATASOURCE_USERNAME: aigre
       SPRING_DATASOURCE_PASSWORD: aigre_dev
-      # GPU machine's LAN address -- see docs/RUNNING.md for the OLLAMA_HOST +
-      # firewall steps that make this reachable from Unraid.
-      OLLAMA_BASE_URL: "http://192.168.4.106:11434"
-      # This box's own LAN origin -- without this, the Angular build's own
-      # <script type="module"> requests get CORS-403'd by Spring Security
-      # before any permitAll rule is reached (same bug class as the
-      # Cloudflare-tunnel CORS fix, see SecurityConfig.corsConfigurationSource).
-      # Replaces application.yml's default list. The second entry is the app's public
-      # hostname behind the Cloudflare tunnel (AIGRE_APP_PUBLIC_ORIGIN in .env); when that's
-      # unset it falls back to repeating the LAN origin, which is harmless.
-      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087,${AIGRE_APP_PUBLIC_ORIGIN:-http://192.168.5.34:8087}"
-      # The application.yml default is committed and baked into the image -- anyone holding
-      # it can forge an ADMIN JWT. Set a deployment-only value in .env next to this file:
-      #   echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
-      # Rotating it logs out employees and invalidates citizen-recognition tokens.
-      SECURITY_JWT_SECRET: "${AIGRE_JWT_SECRET:?set AIGRE_JWT_SECRET in .env next to docker-compose.yml}"
+      # GPU machine's Ollama -- see docs/RUNNING.md step a for the OLLAMA_HOST +
+      # firewall steps that make it reachable from this box.
+      OLLAMA_BASE_URL: "${AIGRE_OLLAMA_BASE_URL:?set AIGRE_OLLAMA_BASE_URL in .env (see .env.example)}"
+      # Replaces application.yml's default list. Without this box's own LAN origin,
+      # the Angular build's <script type="module"> requests get CORS-403'd by Spring
+      # Security before any permitAll rule is reached (see
+      # SecurityConfig.corsConfigurationSource). The second entry is the app's public
+      # tunnel hostname; unset, it repeats the LAN origin, which is harmless.
+      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "${AIGRE_LAN_ORIGIN:?set AIGRE_LAN_ORIGIN in .env (see .env.example)},${AIGRE_APP_PUBLIC_ORIGIN:-${AIGRE_LAN_ORIGIN}}"
+      # Signs employee logins and citizen-recognition tokens. Required here: without
+      # it the app would fall back to a random key per boot, logging everyone out on
+      # every container restart. Rotating it does the same once.
+      SECURITY_JWT_SECRET: "${AIGRE_JWT_SECRET:?set AIGRE_JWT_SECRET in .env (see .env.example)}"
     ports:
       - "8087:8085"
 
@@ -86,14 +89,15 @@ services:
       # The app as the *browser* reaches it -- not app:8085 on the compose network. The
       # public tunnel hostname when one is configured, so the page works from the internet;
       # the LAN origin otherwise. ?api= on the page URL still overrides either.
-      AIGRE_API_ORIGIN: "${AIGRE_APP_PUBLIC_ORIGIN:-http://192.168.5.34:8087}"
+      AIGRE_API_ORIGIN: "${AIGRE_APP_PUBLIC_ORIGIN:-${AIGRE_LAN_ORIGIN}}"
     ports:
-      # The page's origin is then http://192.168.5.34:5500, which must be registered
+      # The page's origin is then http://<this-box-ip>:5500, which must be registered
       # as a DMV embed origin on the app, or the chat panel renders blank.
       - "5500:80"
 
   # Named Cloudflare tunnel publishing two hostnames on your own domain, both configured
-  # in the Cloudflare dashboard (Zero Trust -> Networks -> Tunnels -> Public hostnames):
+  # in the Cloudflare dashboard (Zero Trust -> Networks -> Tunnels -> Published application
+  # routes):
   #   <demo-subdomain>.<domain> -> http://embed-demo:80
   #   <app-subdomain>.<domain>  -> http://app:8085   (needed: the demo's chat loads from it)
   # The tunnel's connector token goes in .env as CLOUDFLARE_TUNNEL_TOKEN. This exposes the

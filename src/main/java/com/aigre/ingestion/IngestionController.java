@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+/**
+ * Full wipe-and-rebuild of the RAG corpus from rag.ingest.corpus-path. ADMIN-only (SecurityConfig)
+ * and refuses to run without ?confirm=true, because it empties rag_documents first and chat has
+ * nothing to retrieve until the re-embed finishes.
+ */
 @RestController
 @RequestMapping("/ingest")
 public class IngestionController {

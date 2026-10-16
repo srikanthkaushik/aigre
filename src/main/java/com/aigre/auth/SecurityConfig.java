@@ -5,17 +5,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import reactor.core.publisher.Mono;
+
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -89,9 +96,19 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/grievances/{id}/workflow/clarify").permitAll()
                         .pathMatchers(HttpMethod.POST, "/grievances/{id}/reopen").permitAll()
                         .pathMatchers("/chat/**").permitAll()
-                        .pathMatchers("/actuator/**").permitAll()
-                        .pathMatchers("/ingest/**").permitAll()
-                        .pathMatchers("/mcp/**").permitAll()
+                        // Health stays public for container/uptime checks; metrics and
+                        // prometheus reveal internals and are ADMIN-only.
+                        .pathMatchers(HttpMethod.GET, "/actuator/health", "/actuator/health/**").permitAll()
+                        .pathMatchers("/actuator/**").hasRole("ADMIN")
+                        // Wipes and re-embeds the whole corpus -- minutes of GPU work, and chat
+                        // has nothing to retrieve until it finishes. Was public; ADMIN only.
+                        .pathMatchers("/ingest/**").hasRole("ADMIN")
+                        // The MCP tools include update_grievance_status and reopen_grievance, and
+                        // MCP carries no employee JWT. The only in-app client is the citizen
+                        // chat's own (LazyGrievanceToolProvider -> http://localhost:<port>/mcp),
+                        // so loopback-only keeps that working while anything arriving through a
+                        // tunnel, proxy or another container is refused.
+                        .pathMatchers("/mcp/**").access(SecurityConfig::loopbackOnly)
                         // Public: department-name.pipe.ts renders on citizen.html, the
                         // unauthenticated citizen status page.
                         .pathMatchers(HttpMethod.GET, "/departments").permitAll()
@@ -123,6 +140,18 @@ public class SecurityConfig {
                         .anyExchange().authenticated())
                 .addFilterAt(new JwtAuthenticationWebFilter(jwtService), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
+    }
+
+    /**
+     * Grants only connections whose TCP peer is a loopback address. Uses the socket's remote
+     * address, not X-Forwarded-For: server.forward-headers-strategy is unset, so a client can't
+     * spoof its way in with a header.
+     */
+    private static Mono<AuthorizationResult> loopbackOnly(
+            Mono<Authentication> authentication, AuthorizationContext context) {
+        InetSocketAddress remote = context.getExchange().getRequest().getRemoteAddress();
+        boolean loopback = remote != null && remote.getAddress() != null && remote.getAddress().isLoopbackAddress();
+        return Mono.just(new AuthorizationDecision(loopback));
     }
 
     @Bean

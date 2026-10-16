@@ -14,6 +14,10 @@ import java.util.Map;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+/**
+ * Employee login: exchanges username/password for a JWT (AuthService). Failure is a 401 with the
+ * same message whether the username or the password was wrong, so usernames can't be enumerated.
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

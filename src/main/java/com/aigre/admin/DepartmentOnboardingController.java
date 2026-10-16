@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+/**
+ * ADMIN-only entry point for onboarding a new department from a public URL of PDFs (see
+ * DepartmentOnboardingService and docs/DEPARTMENT_ONBOARDING.md). The work is blocking -- a crawl,
+ * downloads and a corpus re-embed -- so it runs on boundedElastic and the request stays open until
+ * the department is fully live.
+ */
 @RestController
 @RequestMapping("/admin/departments")
 public class DepartmentOnboardingController {

@@ -59,7 +59,7 @@ sharing one model.
 ## 3. Run the backend
 
 ```
-cd C:\DEVL\AIGRE
+cd <path-to-your-clone>
 mvn spring-boot:run
 ```
 
@@ -67,6 +67,15 @@ Starts on **port 8085**. Confirm with:
 
 ```
 curl http://localhost:8085/actuator/health
+```
+
+**Employee sessions and restarts.** With no `SECURITY_JWT_SECRET` set, the backend logs a
+WARN and signs tokens with a random key per run, so every restart logs employees out and
+drops returning-citizen recognition. To keep sessions across dev restarts, set a key of
+your own before starting the backend. Never commit one:
+
+```
+set SECURITY_JWT_SECRET=<output of: openssl rand -base64 32>
 ```
 
 **Windows note**: `mvn spring-boot:run` spawns two `java.exe` processes (the Maven
@@ -88,13 +97,21 @@ cases for testing) — run once against the running Postgres container:
 docker exec -i aigre-pg psql -U aigre -d aigre < test-data/sql/seed.sql
 ```
 
-**b) The RAG policy corpus** — loads `test-data/documents/**` (108 documents) into
-pgvector. This is a live embedding call per chunk (~543 chunks), so it takes a couple
-of minutes and requires Ollama to be running:
+**b) The RAG policy corpus** — loads `test-data/documents/**` into pgvector: 118 files,
+the original 108 for the six seeded departments plus `SHARED`, and 10 more under `DMV/`
+and `PRD/` added by live department onboarding (`DEPARTMENT_ONBOARDING.md`). This is a
+live embedding call per chunk, so it takes a few minutes and requires Ollama to be running.
+The DMV and PRD *department rows* aren't in `schema.sql`, so on a fresh database their
+documents load but those departments don't exist until onboarded (see `PROJECT.md`'s
+"DMV/PRD missing from `schema.sql`" open item):
 
 ```
-curl -X POST "http://localhost:8085/ingest/reset?confirm=true"
+curl -s -X POST http://localhost:8085/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ops.admin\",\"password\":\"Demo1234!\"}"
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
 ```
+
+The reset is ADMIN-only: the first command logs in as the seeded `ops.admin` (step 4a
+must have run) and prints a `token`; paste it in place of `<ADMIN_TOKEN>`.
 
 This **wipes and reloads** the entire `rag_documents` table — safe to re-run any time
 the corpus changes, but don't run it against a database you don't want reset.
@@ -291,8 +308,8 @@ docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT count(*) FROM rag_
 docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT id FROM departments;"
 ```
 
-Expect `rag_documents` ≈1369 (the 543-chunk base corpus plus the DMV/PRD onboarded
-documents; 0 means the restore didn't run — chat still answers, but with `sources[]`
+Expect `rag_documents` ≈1369 on the original dev database (543 chunks from the base
+corpus plus the DMV/PRD onboarded documents; 0 means the restore didn't run — chat still answers, but with `sources[]`
 empty) and `departments` to include `DMV`/`PRD` alongside the six
 `schema.sql`-seeded ones — those two only exist via live onboarding (see `PROJECT.md`'s
 "DMV/PRD missing from `schema.sql`" open item), so a fresh `schema.sql`-only rebuild
@@ -333,13 +350,19 @@ GHCR packages start **private**. Either make `aigre-app` public (GitHub → Pack
 aigre-app → Package settings → Change visibility), or log in on Machine B once with a
 PAT that has `read:packages`: `docker login ghcr.io -u srikanthkaushik`.
 
-On Machine B, fill in `OLLAMA_BASE_URL` and `<unraid-ip>` in `docker-compose.yml`, then
-(the app waits on the `postgres` healthcheck via `depends_on`):
+On Machine B, copy `.env.example` next to `docker-compose.yml` as `.env` and fill it
+in: `AIGRE_OLLAMA_BASE_URL` (Machine A's Ollama), `AIGRE_LAN_ORIGIN` (Machine B's own
+`http://<unraid-ip>:8087`) and `AIGRE_JWT_SECRET` (step d). With Unraid's Compose
+Manager plugin, paste the same lines into the stack's **Edit Stack → Env File**
+instead. Then (the app waits on the `postgres` healthcheck via `depends_on`):
 
 ```
 docker compose pull
 docker compose up -d
 ```
+
+`docker compose` stops with `required variable ... is missing a value` until every
+required `.env` value is set. That's deliberate: the file holds no personal defaults.
 
 To deploy a new build: rebuild and push on Machine A, then `docker compose pull &&
 docker compose up -d` on Machine B. Unraid's Compose Manager plugin works against this
@@ -351,21 +374,23 @@ defaults (`localhost` Postgres/Ollama) are untouched, so Machine A's existing `m
 spring-boot:run` dev workflow keeps working exactly as documented in steps 1–5 above,
 completely independent of this deployment.
 
-> **Don't skip `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS`.** Browsers send an `Origin`
+> **Why `AIGRE_LAN_ORIGIN` is required.** Compose feeds it into
+> `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS`. Browsers send an `Origin`
 > header for the Angular build's `<script type="module">` requests even on a genuinely
-> same-origin load. Without this env var set to Machine B's own origin, Spring
+> same-origin load. Without Machine B's own origin in that list, Spring
 > Security's CORS filter 403s those requests before any `permitAll` rule is reached and
 > the page loads blank — the same bug class already hit and fixed for the Cloudflare
 > tunnel case above, this time triggered by a LAN IP origin instead of a
 > `trycloudflare.com` one.
 
 **d) JWT secret (required).** The app service reads `SECURITY_JWT_SECRET` from
-`AIGRE_JWT_SECRET` in a `.env` file next to `docker-compose.yml` on Machine B, and
-`docker compose` refuses to start without it. The `application.yml` default is
-committed and baked into the image, and anyone holding it can forge an ADMIN token.
+`AIGRE_JWT_SECRET` in `.env`, and `docker compose` refuses to start without it.
+Without a configured key the app would fall back to a random key per boot, logging
+every employee out on each container restart. No key is committed: this repo is
+public, and an older committed value is compromised, so never reuse it. Generate one:
 
 ```
-echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
+openssl rand -base64 32
 ```
 
 **e) Exposing the embed demo on your own domain (optional, testing only).** One named
@@ -376,7 +401,8 @@ admin API.
 
 *In the Cloudflare dashboard:* Zero Trust → Networks → Tunnels → **Create a tunnel** →
 Cloudflared, name it (e.g. `aigre-unraid`), and copy the connector token from the
-install command it shows. Under the tunnel's **Public hostnames**, add:
+install command it shows. Under the tunnel's **Published application routes** (older
+dashboards: **Public hostnames**), add:
 
 | Subdomain | Service |
 |---|---|
@@ -399,16 +425,14 @@ Gotchas from the first setup:
 - **Unraid's Compose Manager plugin keeps its own `.env`.** Set it via the stack's
   **Edit Stack → Env File**, or in
   `/boot/config/plugins/compose.manager/projects/<stack>/.env`. If the stack logs say
-  `required variable AIGRE_JWT_SECRET is missing a value`, the plugin isn't seeing it.
+  `required variable AIGRE_... is missing a value`, the plugin isn't seeing it.
 
 *On Machine B:*
 
 ```
-# 1. Add to .env (next to AIGRE_JWT_SECRET):
-cat >> .env <<'ENV'
-CLOUDFLARE_TUNNEL_TOKEN=<token from the dashboard>
-AIGRE_APP_PUBLIC_ORIGIN=https://aigre.<domain>
-ENV
+# 1. Set these two in .env (or the Compose Manager Env File); both are in .env.example:
+#      CLOUDFLARE_TUNNEL_TOKEN=<token from the dashboard>
+#      AIGRE_APP_PUBLIC_ORIGIN=https://aigre.<domain>
 
 # 2. Allow the demo's public origin to frame DMV's chat (admin login on the LAN).
 read -rsp "ops.admin password: " PW; echo
@@ -598,7 +622,7 @@ config changes needed either direction.
 | Ollama | 11434 (Ollama's default) | `ollama.base-url` in `application.yml` |
 | Frontend dev server | 4200 (or next free port) | `ng serve --port <n>` |
 | Embed-widget demo page (optional) | 5500 | `npx http-server -p <n>` — any unused port, must differ from AIGRE's own |
-| Unraid deployment: app + Postgres (optional) | 8085 / 5434 | same ports as above, via `docker-compose.yml` on Machine B |
+| Two-machine deployment (optional) | app 8087, Postgres 5434, embed demo 5500 | host-port mappings in `docker-compose.yml` on Machine B (the app container still listens on 8085) |
 
 ---
 

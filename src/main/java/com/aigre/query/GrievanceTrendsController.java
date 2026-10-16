@@ -6,6 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+/**
+ * The employee Trends dashboard's single data call: volume, sentiment, categories, priorities and
+ * SLA compliance over the last {@code days}. Requires a login. The department filter is taken
+ * from the request as-is (absent = all departments), not checked against the caller's own
+ * department -- acceptable for aggregate counts, unlike the per-grievance endpoints DepartmentAccess
+ * guards.
+ */
 @RestController
 public class GrievanceTrendsController {
 

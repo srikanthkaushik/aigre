@@ -155,7 +155,7 @@ This is the step that actually embeds your PDFs into the RAG vector store
 — nothing before this point has touched pgvector:
 
 ```
-curl -s -X POST "http://localhost:8085/ingest/reset?confirm=true"
+curl -s -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
 ```
 
 ### 5. Verify
@@ -179,7 +179,7 @@ there's no DB write and no backend restart needed:
    folder.
 2. **Re-ingest the corpus**:
    ```
-   curl -s -X POST "http://localhost:8085/ingest/reset?confirm=true"
+   curl -s -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
    ```
    This is the only ingestion path that exists — a full wipe-and-rebuild of
    the **entire** vector store, every department, not an incremental add of

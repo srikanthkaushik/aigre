@@ -13,6 +13,7 @@ bolt-on feature.
 - [System overview](#system-overview)
 - [Where AI is used](#where-ai-is-used-the-core-of-this-doc)
 - [Backend components](#backend-components)
+- [Deployment](#deployment)
 - [Data flow: key journeys](#data-flow-key-journeys)
 - [Data model](#data-model)
 - [Frontend architecture](#frontend-architecture)
@@ -185,7 +186,7 @@ instance rather than a dedicated graph database.
 | Agentic workflow / graph orchestration | LangGraph4j 1.8.20 |
 | Tool-exposure protocol | Spring AI 2.0.0 GA (MCP server only — Streamable HTTP) |
 | Vector store | pgvector (PostgreSQL extension) |
-| LLM providers | Ollama (local, default) — `qwen2.5:7b` chat + `nomic-embed-text` embeddings; Anthropic (`claude-sonnet-5`) as a switchable alternative |
+| LLM providers | Ollama (local, default) — `qwen3:8b` classification, `qwen2.5:7b` chat + rerank, `nomic-embed-text` embeddings; Anthropic (`claude-sonnet-5`) as a switchable alternative |
 | Database | PostgreSQL 16 (via `pgvector/pgvector:pg16` image) |
 | Frontend framework | Angular 21 (standalone components, signals) |
 | Frontend UI kit | Angular Material 21 (Material 3 / M3 theming) |
@@ -221,7 +222,7 @@ flowchart TB
     end
 
     subgraph LLM["LLM providers"]
-        Ollama["Ollama (local)<br/>qwen2.5:7b + nomic-embed-text"]
+        Ollama["Ollama (local)<br/>qwen3:8b, qwen2.5:7b,<br/>nomic-embed-text"]
         Anthropic["Anthropic<br/>claude-sonnet-5"]
     end
 
@@ -306,11 +307,13 @@ instead of `"LOW"`, fixed by a sanitizing regex) and sometimes emit the string
 as null).
 
 **Provider comparison, measured, not assumed**: run head-to-head against the same
-91-case labeled eval set, Anthropic (`claude-sonnet-5`) scored 95.6% vs. Ollama's
-65.9–86.8% (varies run to run — real sampling variance, not test flakiness, confirmed
-by re-running the identical input in isolation). Anthropic's errors were all
-genuinely-ambiguous cases; Ollama's included systematic department-boundary
-confusion. Ollama stays the default (offline, no per-call cost); Anthropic is a
+91-case labeled eval set, Anthropic (`claude-sonnet-5`) scored 95.6%. Locally,
+classification runs on its own model, `qwen3:8b` (89.0%), through a dedicated
+`classificationChatModel` bean; chat and rerank stay on `qwen2.5:7b`, whose 65.9–86.8% on
+this set (varying run to run with real sampling variance) is why classification was
+split off. Anthropic's errors were all genuinely-ambiguous cases; `qwen2.5:7b`'s included
+systematic department-boundary confusion. See `PROJECT.md` "Per-purpose Ollama model
+split" for why rerank didn't move to `qwen3:8b` too. Ollama stays the default (offline, no per-call cost); Anthropic is a
 one-line config flip for when accuracy matters more than cost.
 
 **Citizen-driven reclassification** (`GrievanceWorkflowService.clarify()`): when a
@@ -427,22 +430,28 @@ noticing), the graph explicitly routes low-confidence cases to a human, and the 
 shows the human *why* the AI was unsure (the model's own reasoning text) before asking
 them to decide.
 
-Checkpointing currently uses LangGraph4j's in-memory `MemorySaver` — a paused review
-does not survive an application restart (documented open item; `langgraph4j-postgres-
-saver` exists upstream if this becomes a real requirement).
+Checkpointing is Postgres-backed (LangGraph4j's `PostgresSaver`, reusing the app's own
+`DataSource`), so a paused review survives an application restart. Its tables
+(`lg4jthread`, `lg4jcheckpoint`) are created by `PostgresSaver` itself.
 
 ### 4. MCP tools (`com.aigre.tools.GrievanceMcpTools`)
 
 **What it does**: exposes 5 grievance operations (`get_grievance_status`,
 `check_sla_status`, `find_duplicate_chain`, `update_grievance_status`,
 `reopen_grievance`) as MCP (Model Context Protocol) tools via Spring AI's MCP
-server (Streamable HTTP transport), so an external agent could call them the
-same way a human uses the REST API.
+server (Streamable HTTP transport), so an agent can operate on grievances the same way a
+human uses the REST API. MCP carries no employee login, and two of the tools write, so
+`/mcp` accepts **loopback connections only**: an agent on the same host works, anything
+arriving through a tunnel, proxy or another container is refused. Opening it wider would
+need MCP-level authentication first.
 
-This is the **tool-exposure layer for a future AI agent**, not the workflow's own data
-access (the workflow graph currently writes to Postgres directly, matching the plain
-intake service's pattern — wiring the graph to *call* these MCP tools instead of
-direct JDBC is a documented follow-up, not yet done). Each tool's error messages are
+The tools have two in-app consumers. The workflow's
+`commit()` node performs its status transition through
+`GrievanceMcpTools.updateGrievanceStatus()` rather than its own SQL. The citizen chat is
+given the 3 read-only tools through a LangChain4j MCP client pointed back at this app,
+so it can answer live questions about a specific grievance ID. The plain
+`GrievanceIntakeService` path (`POST /grievances`) still writes directly. Each tool's
+error messages are
 written to teach the caller what to do next (e.g. "Double-check the ID, or use a
 search/list tool") rather than just reporting failure — tool quality is answer
 quality, especially for a caller that might itself be an LLM.
@@ -617,7 +626,8 @@ field, alongside its WARN log line — a log line alone isn't queryable, and
 "how often is this actually happening" is exactly the kind of thing that
 shouldn't be guessed.
 
-All of the above are visible at `/actuator/metrics/<name>` and, since
+All of the above are visible at `/actuator/metrics/<name>` (ADMIN token required;
+only `/actuator/health` is public) and, since
 `micrometer-registry-prometheus` is on the classpath, scraped in Prometheus
 exposition format at `/actuator/prometheus` — the latter was listed in
 `management.endpoints.web.exposure.include` from day one but the actual
@@ -638,13 +648,112 @@ of which exists in this repo).
 | `com.aigre.classification` | `LlmGrievanceClassifier`, `ClassificationResult` — the classification LLM call and its parsing |
 | `com.aigre.workflow` | The LangGraph4j agent graph, its Spring Boot wiring, and the pause/resume REST endpoints |
 | `com.aigre.retrieval` | Hybrid retrieval + LLM rerank over the pgvector policy corpus |
-| `com.aigre.chat` | The SSE streaming chat endpoint that composes retrieval + grounded generation |
-| `com.aigre.ingestion` | Corpus ingestion (`POST /ingest/reset`) — loads `test-data/documents/**` into pgvector with `department`/`source` metadata |
-| `com.aigre.tools` | MCP tool definitions over the grievance systems-of-record |
+| `com.aigre.chat` | The SSE streaming chat endpoint (`ChatController`) that composes retrieval + grounded generation, the tool-calling `CitizenChatAssistant`, and the exact-match `ChatResponseCache` |
+| `com.aigre.ingestion` | Corpus ingestion (`POST /ingest/reset`, ADMIN only) — loads `test-data/documents/**` into pgvector with `department`/`source` metadata |
+| `com.aigre.tools` | MCP tool definitions over the grievance systems-of-record, served at `/mcp` to loopback callers only (the app's own chat client) |
 | `com.aigre.query` | Read-side REST for the frontend: status lookup, filtered listing, and trend aggregation — deliberately separate from the MCP tool surface |
 | `com.aigre.sla` | `SlaCalculator` — a pure function, no LLM, priority → due-date |
-| `com.aigre.config` | Provider selection (`LlmProviderConfig`), pgvector store setup (`RagConfig`), CORS, and the centralized error-body `@RestControllerAdvice` |
+| `com.aigre.config` | Provider selection (`LlmProviderConfig`), pgvector store setup (`RagConfig`), the citizen chat's self-referential MCP client (`McpClientConfig`, `LazyGrievanceToolProvider`), serving the built SPA (`SpaWebFluxConfig`), and the centralized error-body `@RestControllerAdvice` (`ApiExceptionHandler`) |
 | `com.aigre.metrics` | `LlmCallTimer` — per-call-type LLM timing |
+| `com.aigre.auth` | Employee login and JWTs (`AuthController`, `AuthService`, `JwtService`, `JwtAuthenticationWebFilter`), the shared signing key (`JwtKeyConfig`), role rules and CORS (`SecurityConfig`), per-grievance department scoping (`DepartmentAccess`), and silent citizen-recognition tokens (`CitizenTokenService`) — see [employee authentication](#cross-cutting-employee-authentication-comaigreauth) |
+| `com.aigre.guardrail` | PII redaction on citizen free text (`PiiRedactor`), applied on the HTTP path by `PiiRedactionWebFilter` — see [guardrails](#cross-cutting-guardrails-comaigreguardrail) |
+| `com.aigre.duplicate` | `DuplicateDetectionService` — same department + category, open status, within a lookback window; used by both commit paths |
+| `com.aigre.department` | `GET /departments` — the public department list the frontend renders names from |
+| `com.aigre.admin` | ADMIN-only department onboarding (`POST /admin/departments`): crawl a public URL for PDFs (`PdfCrawlService`), ingest them, insert the department, refresh the classifier prompt — see [department onboarding](#department-onboarding-comaigreadmin) |
+| `com.aigre.embed` | The embeddable chat widget's server side: `GET /embed/chat` with a per-department `frame-ancestors` header (`EmbedChatController`) and the admin-managed origin allowlist (`EmbedOriginController`, `EmbedOriginService`) — see [embeddable widget](#embeddable-department-scoped-chat-widget-comaigreembed) |
+
+### Chat response cache (`ChatResponseCache`)
+
+`/chat/stream` checks an in-process Caffeine cache before doing any retrieval or LLM
+work. The key is the question (trimmed, whitespace-collapsed, lowercased) plus the
+department scope. Matching is **exact**, never semantic: two differently-worded
+questions are never treated as "close enough", for the same reason cosine similarity
+isn't trusted to judge document relevance. `ChatController` owns the eligibility rules:
+answers personalised for a recognised citizen, and answers that triggered a tool call,
+are never read from or written to the cache. `POST /ingest/reset` clears it, since a
+cached answer could cite a document that no longer exists. It's configured under
+`chat.cache.*` (`enabled`, `ttl` default 30m, `max-size` default 500) and can be
+disabled without a code change. Background: `PROJECT.md` "Exact-match response cache".
+
+### Embeddable, department-scoped chat widget (`com.aigre.embed`)
+
+A department's existing website can embed AIGRE's chat with one script tag
+(`frontend/public/embed.js`). The script adds a floating button that opens an iframe
+of `GET /embed/chat?department=<id>`, which serves the same Angular app with retrieval
+scoped to that department's corpus. Because the chat runs *inside* the iframe, on
+AIGRE's own origin, the host site needs no CORS changes. The control is framing:
+`EmbedChatController` sends `Content-Security-Policy: frame-ancestors <allowed origins>`
+built per department from the `embed-origins` allowlist, which an ADMIN manages via
+`/admin/departments/{id}/embed-origins`. An unregistered site gets
+`frame-ancestors 'none'`, so the browser refuses to render the panel. A dedicated
+security filter chain drops `X-Frame-Options: DENY` for `/embed/**` only. Background:
+`PROJECT.md` "Floating chat widget + embeddable, department-scoped chat".
+
+### Department onboarding (`com.aigre.admin`)
+
+Adding a department needs no code change or redeploy. `POST /admin/departments`
+(ADMIN only) takes the department's id, name, short name, jurisdiction notes (which feed
+the classifier prompt) and a public `sourceUrl`. `PdfCrawlService` extracts
+the PDF links from that page, and `DepartmentOnboardingService` downloads them into
+`test-data/documents/<ID>/`, ingests them with the department's metadata, inserts the
+department row, and refreshes the classifier's live list of departments. Staff accounts
+are deliberately out of scope: a new department starts with no employees. The how-to is
+[`DEPARTMENT_ONBOARDING.md`](DEPARTMENT_ONBOARDING.md); background in `PROJECT.md`
+"Onboard a new department from a public URL of PDFs".
+
+---
+
+## Deployment
+
+The same application runs in three shapes. Nothing in the code changes between them;
+every difference is an environment variable.
+
+```mermaid
+flowchart LR
+    subgraph Dev["Single machine (dev)"]
+        DevApp["mvn spring-boot:run<br/>:8085"] --> DevPG[("aigre-pg<br/>:5434")]
+        DevApp --> DevOllama["Ollama<br/>:11434"]
+        DevFE["ng serve :4200<br/>(proxied)"] --> DevApp
+    end
+
+    subgraph Split["Two machines (docker-compose.yml)"]
+        subgraph GPU["GPU machine"]
+            Ollama["Ollama :11434<br/>(LAN-exposed)"]
+        end
+        subgraph Box["Docker host (e.g. Unraid)"]
+            App["app<br/>host :8087"] --> PG[("postgres<br/>host :5434")]
+            Demo["embed-demo (nginx)<br/>host :5500"]
+            Tunnel["tunnel (cloudflared)<br/>optional profile"]
+        end
+        App -- "LAN" --> Ollama
+        Tunnel -- "aigre.&lt;domain&gt;" --> App
+        Tunnel -- "dmv-demo.&lt;domain&gt;" --> Demo
+    end
+```
+
+- **Single machine.** Postgres in a container, Ollama and the backend on the host. The
+  Angular dev server proxies to the backend, or the built frontend is copied into the
+  backend's static resources so everything is one origin (`RUNNING.md` steps 1–5).
+- **Two machines.** Ollama stays on the GPU machine. `docker-compose.yml` runs the app
+  (image from GHCR), Postgres and the mock DMV site on any Docker host. Per-deployment
+  values come from `.env` (template: `.env.example`):
+
+  | `.env` variable | Becomes | Purpose |
+  |---|---|---|
+  | `AIGRE_OLLAMA_BASE_URL` | `OLLAMA_BASE_URL` | Where the app reaches Ollama |
+  | `AIGRE_LAN_ORIGIN` | first entry of `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS` | The app's own LAN origin; without it, browsers' module-script requests get CORS-403'd |
+  | `AIGRE_JWT_SECRET` | `SECURITY_JWT_SECRET` | Signing key for employee and citizen tokens |
+  | `AIGRE_APP_PUBLIC_ORIGIN` | second CORS entry, and the demo's `AIGRE_API_ORIGIN` | The app's public hostname, when tunnelled |
+  | `CLOUDFLARE_TUNNEL_TOKEN` | `TUNNEL_TOKEN` | Connector token for the named tunnel |
+
+- **Public (optional).** The `tunnel` compose profile runs `cloudflared` against a
+  named Cloudflare tunnel with two hostnames. The app needs its own public hostname,
+  not just the demo site, because the browser loads `embed.js` and the iframe from the
+  app's origin. This exposes the employee dashboard and admin API too, so the seeded
+  password and JWT key must be replaced first.
+
+Runbook: `RUNNING.md` "Splitting across two machines". Background and the faults hit
+on first bring-up: `PROJECT.md` "Two-machine split".
 
 ---
 
@@ -894,12 +1003,12 @@ Full detail lives in `PROJECT.md`; the headline items:
   See [`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`](FUTURE_MULTI_AGENCY_ROADMAP.md)
   for a phased plan.
 - **Employee auth is real (Spring Security + JWT, department-scoped, role-gated) but
-  demo-grade**: all 12 seeded accounts share one password, the signing secret is a
-  fixed value in `application.yml` rather than a secrets manager, and there's no
-  refresh-token flow (an 8-hour token, then a re-login) — see `RUNNING.md` for the
-  seeded credentials.
-- **The workflow graph writes to Postgres directly** rather than calling the MCP tools
-  from §4 as actual tool-use — the MCP server and the agent workflow are both built,
-  but not yet wired to each other.
+  demo-grade**: all 13 seeded accounts share one password, the signing key comes from an
+  environment variable (`SECURITY_JWT_SECRET`, random per boot if unset) rather than a
+  secrets manager, and there's no refresh-token flow (an 8-hour token, then a
+  re-login). See `RUNNING.md` for the seeded credentials.
+- **Two commit paths** — the workflow's `commit()` goes through the MCP
+  `update_grievance_status` tool, but the plain `POST /grievances` intake path
+  (`GrievanceIntakeService`) still writes directly.
 - **Business-hours-unaware SLA calendar** — `SlaCalculator` uses flat calendar-hour
   arithmetic, not a business-hours calendar.
