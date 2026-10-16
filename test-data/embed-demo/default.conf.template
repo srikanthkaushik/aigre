@@ -11,6 +11,9 @@ server {
         # Point the page's default AIGRE instance at this deployment's app.
         sub_filter '<meta name="aigre-api" content="http://localhost:8085">'
                    '<meta name="aigre-api" content="${AIGRE_API_ORIGIN}">';
+        # Scope the widget: a department id, or empty for an agency-wide widget.
+        sub_filter '<meta name="aigre-department" content="DMV">'
+                   '<meta name="aigre-department" content="${AIGRE_EMBED_DEPARTMENT}">';
         sub_filter_once on;
         add_header Cache-Control "no-cache";
     }

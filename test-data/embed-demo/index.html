@@ -5,6 +5,9 @@
 <!-- Default AIGRE instance to embed. The Docker image rewrites this from AIGRE_API_ORIGIN
      (see default.conf.template); ?api= on the page URL overrides it either way. -->
 <meta name="aigre-api" content="http://localhost:8085">
+<!-- Which routing unit the widget is scoped to. Empty = agency-wide (needs aigre.domain.agency-wide-embed
+     on the app, as in the dmv profile). The Docker image rewrites it from AIGRE_EMBED_DEPARTMENT. -->
+<meta name="aigre-department" content="DMV">
 <title>NH Division of Motor Vehicles — POC embed test</title>
 <style>
   :root {
@@ -241,7 +244,9 @@
 
     var s = document.createElement('script');
     s.src = api + '/embed.js';
-    s.setAttribute('data-department', 'DMV');
+    var deptMeta = document.querySelector('meta[name="aigre-department"]');
+    var department = deptMeta ? deptMeta.content : 'DMV';
+    if (department) s.setAttribute('data-department', department);
     document.body.appendChild(s);
   })();
 </script>
