@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Default AIGRE instance to embed. The Docker image rewrites this from AIGRE_API_ORIGIN
+     (see default.conf.template); ?api= on the page URL overrides it either way. -->
+<meta name="aigre-api" content="http://localhost:8085">
 <title>NH Division of Motor Vehicles — POC embed test</title>
 <style>
   :root {
@@ -216,9 +219,31 @@
 </main>
 
 <footer>
-  POC test page — served from localhost:5500 for AIGRE embed-widget testing purposes only.
+  POC test page — for AIGRE embed-widget testing purposes only.
 </footer>
 
-<script src="http://localhost:8085/embed.js" data-department="DMV"></script>
+<!--
+  Which AIGRE instance to embed: ?api= on the page URL if given, else the aigre-api meta tag
+  (local dev server by default, set from AIGRE_API_ORIGIN when served from the Docker image).
+  A real department site would just hardcode the <script src> instead.
+-->
+<script>
+  (function () {
+    var meta = document.querySelector('meta[name="aigre-api"]');
+    var api = (meta && meta.content) || 'http://localhost:8085';
+    try {
+      var param = new URLSearchParams(window.location.search).get('api');
+      if (param) {
+        var url = new URL(param);
+        if (url.protocol === 'http:' || url.protocol === 'https:') api = url.origin;
+      }
+    } catch (e) { /* malformed ?api= -- keep the default */ }
+
+    var s = document.createElement('script');
+    s.src = api + '/embed.js';
+    s.setAttribute('data-department', 'DMV');
+    document.body.appendChild(s);
+  })();
+</script>
 </body>
 </html>

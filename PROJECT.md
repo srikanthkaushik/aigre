@@ -2857,6 +2857,240 @@ as worth checking rather than assuming:
 - `ChatControllerTest` (3/3) reconfirmed green after the prompt-wording fix,
   since it exercises the exact prompt string being changed.
 
+## Exact-match response cache for `/chat/stream`
+
+Every chat question previously did a fully live round trip on every call --
+an embedding call, a hybrid pgvector+FTS search, up to `rag.retrieval.
+initial-k` (15) separate LLM rerank calls, and a live streaming chat
+completion -- with nothing memoized, even for two citizens asking the exact
+same FAQ. Built `ChatResponseCache` (`com.aigre.chat`, backed by Caffeine,
+newly added to `pom.xml` -- no caching infrastructure of any kind existed in
+the codebase before this) to short-circuit that whole path on a repeated
+question.
+
+**Exact-match, deliberately not semantic.** Keyed on `(normalized question,
+department)` -- trim/collapse-whitespace/lowercase, not an embedding
+similarity comparison. This project's own "cosine can't judge relevance"
+lesson (an irrelevant chunk scored 0.789 outscoring a relevant one at 0.788)
+applies just as much to deciding whether two *questions* are "the same" as to
+comparing documents, so a semantic cache was ruled out for this pass rather
+than risk serving a confidently-wrong cached answer to a superficially
+similar but actually-different question.
+
+**Two eligibility rules, enforced in `ChatController`, not the cache itself:**
+- **Personalized (citizen-recognized) requests bypass the cache entirely --
+  no read, no write.** A returning citizen's own recent-grievance summary
+  gets spliced into the prompt (see "Agentic memory" above), and there's no
+  signal distinguishing "the answer actually used that personal data" from
+  "answered a general policy question anyway" other than whether
+  `citizenContext` resolved non-null. Bypassing outright avoids ever leaking
+  one citizen's cached answer to another, or serving a stale grievance-status
+  blurb after their status changes.
+- **Tool-triggering answers are never cached.** Any response where
+  `onToolExecuted` fired (a live `get_grievance_status`/`check_sla_status`/
+  `find_duplicate_chain` call) reflects mutable per-grievance DB state,
+  decided only *after* generation starts -- `SseTokenStreamBridge` tracks
+  this per-stream and the write-back callback checks it before caching.
+
+**Cache-hit replay is an instant full-text reveal**, not a simulated
+token-by-token trickle: one `token` SSE event carrying the whole cached
+answer, then the `sources` event -- the existing frontend's accumulate-as-
+you-go parsing needed zero changes, and the speed win is visibly obvious
+rather than faked as a normal stream.
+
+**Invalidated on corpus reset, not just TTL.** `CorpusIngestionService.
+reset()` calls `chatCache.invalidateAll()` immediately after
+`embeddingStore.removeAll()` -- a cached answer can cite a document the
+corpus is about to no longer have. TTL (`chat.cache.ttl`, default 30m) is a
+backstop for narrower edits that don't go through a full reset.
+`chat.cache.enabled` can kill the cache outright without a redeploy.
+
+**A real bug found and fixed while wiring this in, unrelated to caching
+logic itself.** The first version restructured `ChatController.stream()`
+into `Mono.fromCallable(() -> citizenContext(...)).flatMapMany(...)` --
+`citizenContext()` legitimately returns `null` for the (overwhelmingly
+common) anonymous case, and `Mono.fromCallable` treats a null-returning
+`Callable` as completing **empty**, so `flatMapMany` never ran at all. Caught
+immediately by running the live `ChatControllerTest` suite: even the
+pre-existing, untouched `ragOnlyQuestionNeverTriggersAToolCall` test started
+failing with zero SSE events returned. Fixed by wrapping in
+`Optional.ofNullable(...)` before the `Mono` boundary -- the same class of
+null-Mono trap this file's own gotchas table already warns about elsewhere,
+just a new instance of it.
+
+**Verified live, not just unit-tested:** `ChatResponseCacheTest` (9 cases --
+normalization, department-as-key including the `null` case, TTL expiry,
+`enabled: false`, `invalidateAll()`) needs no Spring context and runs in
+under a second. `ChatControllerTest` extended with 3 live cases against real
+Postgres + Ollama: repeating the identical anonymous question hits the cache
+on the second call (`aigre.chat.cache{result="hit"}` increments, retrieval
+and the chat call are skipped); a citizen-recognized request bypasses the
+cache on both of two identical calls (`result="bypass"` both times, never
+`hit`); a grievance-ID status question that triggers a tool call is never
+cached even when repeated verbatim (`result="miss"` both times). All 6 tests
+in that file pass (173s live run). A full corpus `reset()` genuinely wiping
+the cache is verified separately in a new,
+**deliberately-not-run-by-default** `CorpusIngestionServiceCacheInvalidationTest`
+(`mvn test -Dtest=CorpusIngestionServiceCacheInvalidationTest`) -- kept out
+of `ChatControllerTest` specifically so a routine `mvn test` isn't silently
+made much slower by a full 108-document re-ingest, the same reasoning
+`RagEvalSuiteTest`'s own javadoc already documents for a different expensive
+suite. Passed in 35s, corpus correctly re-ingested (108 docs) as a side
+effect, same as the documented manual recovery step elsewhere in this file.
+
+## Two-machine split: Ollama on the GPU box, everything else on Unraid
+
+Every service so far ran on one machine. The user has a second box (Unraid
+NAS — plenty of RAM, a Docker host) with **no GPU**, so the split is: Ollama
+(`qwen2.5:7b` rerank/chat, `qwen3:8b` classification, `nomic-embed-text`
+embeddings — all GPU-bound) stays on the GPU machine, reached over the LAN;
+Postgres/pgvector and the Spring Boot app itself (frontend baked in, same
+static-resource approach as the Cloudflare-tunnel single-origin setup) move
+to Unraid as containers. No Dockerfile/docker-compose/.dockerignore existed
+anywhere in the repo before this — all three are new. Cloudflare Tunnel was
+explicitly skipped for this pass (LAN-only access); the existing dev workflow
+on the GPU machine (`mvn spring-boot:run`, `application.yml` defaults) is
+untouched — every Unraid-specific value is an env-var override at
+container-run time, relying on Spring's relaxed binding (`ollama.base-url` →
+`OLLAMA_BASE_URL`, `spring.datasource.url` → `SPRING_DATASOURCE_URL`).
+
+**Real bug found and fixed — same class as the Cloudflare-tunnel CORS bug,
+new trigger.** `SecurityConfig.corsConfigurationSource()` hardcoded its
+allowed-origin list to `http://localhost:*` and `https://*.trycloudflare.com`.
+Browsers send an `Origin` header for the Angular build's own
+`<script type="module">` requests even on a genuinely same-origin load — that
+was the exact mechanism that broke every JS asset when the app was first
+reached through a Cloudflare quick tunnel instead of localhost (see "Single-
+origin static hosting + Cloudflare Tunnel" above). The identical failure mode
+recurs for `http://<unraid-ip>:8087`: neither existing pattern matches a bare
+LAN IP origin, so Spring Security's CORS filter would 403 every asset request
+before any `permitAll` rule is reached, rendering a blank page. Fixed by
+externalizing the pattern list to `security.cors.allowed-origin-patterns`
+(comma-separated, `SecurityConfig.java`), defaulting to the exact same two
+values so the GPU machine's behavior doesn't change at all — Unraid's
+`docker-compose.yml` supplies its own LAN origin via
+`SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS` instead of a third hardcoded pattern
+being added to the source. `corsConfigurationSource()` moved from a
+zero-arg `@Bean` method to one taking a `@Value`-injected `List<String>`
+parameter; `securityWebFilterChain()` (which previously called
+`corsConfigurationSource()` directly as a same-class method call) now takes
+the bean as a constructor-style parameter instead, since the direct call
+site no longer compiles once the method requires an argument.
+
+**`Dockerfile`: three stages, builds the frontend inside Docker rather than
+requiring the manual `ng build` + copy step from `docs/RUNNING.md` first** —
+reproducible from a bare checkout on Unraid, doesn't depend on a developer
+having pre-baked `src/main/resources/static/` (which is gitignored and empty
+on a fresh clone). Node stage builds Angular, a `maven:3.9-eclipse-temurin-21`
+stage builds the jar with the frontend copied into `static/` before
+`mvn package` (no `mvnw` wrapper exists in this repo, so a Maven-preinstalled
+image is used directly), and an `eclipse-temurin:21-jre-alpine` runtime stage
+runs it. Alpine is safe for all three stages — the dependency tree
+(LangChain4j, LangGraph4j, Spring AI, Tika, the Postgres driver, jjwt) is
+pure-JVM, no native/glibc requirement found. `test-data/` is explicitly
+copied into the runtime image too, since `CorpusIngestionService`/
+`DepartmentOnboardingService` resolve `rag.ingest.corpus-path` via
+`Path.of(...)` against the JVM's working directory at runtime, not the
+classpath — omitting it would make `/ingest/reset` silently no-op instead of
+erroring.
+
+**Build on the GPU machine, push to GHCR, pull on Unraid.** Originally the
+compose `app` service built from a source checkout on Unraid, to avoid a
+registry. That ran into Unraid's missing buildx (below), and the classic
+builder workaround still meant keeping a checkout on Unraid. The image is now
+built on the GPU machine's Docker Desktop (`linux/amd64`, same as Unraid),
+pushed as `ghcr.io/srikanthkaushik/aigre-app` (`latest` plus the short git
+SHA), and compose only references `image:`. Unraid needs only the compose
+file. GHCR packages start private: either flip visibility or `docker login
+ghcr.io` on Unraid with a `read:packages` PAT.
+
+**Postgres: migrate, don't rebuild from `schema.sql`.** The existing
+`aigre-pg` container holds the full 108-doc/543-chunk corpus, 91 labeled
+complaints, seed rows, and the live-onboarded DMV/PRD departments (see the
+open item below) — the user chose a full `pg_dump --format=custom` /
+`pg_restore` migration into the new Unraid Postgres container over
+re-running `schema.sql` + `seed.sql` + corpus ingestion from scratch, so none
+of that is lost. `CREATE EXTENSION vector` has to run on the fresh container
+*before* the restore, since `pg_restore` recreates `vector`-typed columns
+that require the extension already registered.
+
+**Unraid can't build the image.** Unraid's bundled Docker lacks buildx >=
+0.17, so `docker compose build` fails outright (`compose build requires buildx
+0.17.0 or later`). A `DOCKER_BUILDKIT=0 docker build` on Unraid worked, but
+was superseded by the GHCR flow above. Installing buildx by hand was
+rejected: Unraid's root filesystem lives in RAM, so the plugin would vanish
+on every reboot without a boot-script hook. Postgres (`aigre-pg-unraid`, `pgvector/pgvector:pg16`)
+stays in compose as the `postgres` service, but with a bind mount to
+`/mnt/user/appdata/aigre/postgres` instead of a named volume, so Unraid's
+appdata backups cover it and the data survives `compose down`. It was briefly
+moved out to a hand-run `docker run` container on an external `aigre`
+network, then brought back so one compose file describes the whole Unraid
+deployment. The bind-mount path is unchanged, so data restored into the
+hand-run container carries over. The app reaches it as `postgres:5432` and
+waits on its healthcheck via `depends_on`. An
+existing non-pgvector Postgres on Unraid was considered and skipped: it
+would need the extension plus role and ownership setup as superuser.
+
+**Ollama LAN exposure on the GPU machine (Windows)**: `OLLAMA_HOST=0.0.0.0:
+11434` as a persistent (Machine-scope, not just current-shell) environment
+variable, plus a Windows Firewall inbound rule scoped to Unraid's specific
+LAN IP rather than `0.0.0.0/0` — Ollama has no built-in auth, so the rule
+should stay as narrow as the actual client set. Verified from the Unraid box
+itself, not the GPU machine (which would succeed via loopback regardless of
+whether the bind/firewall change actually worked).
+
+**First live bring-up (2026-10-15): three faults, none in the app.**
+`NoRouteToHostException: Host is unreachable` from the container was a
+stale IP: the GPU box's DHCP lease had moved `.68` → `192.168.4.106`, and
+Unraid's `ip neigh` showed `INCOMPLETE` for the old address. The container
+network was ruled out first (its route table only defaulted via
+`172.30.0.1`; the compose network is now pinned to `172.30.0.0/24` anyway).
+The same check found Ollama not running and `OLLAMA_HOST` unset on the GPU
+box, and that the scoped "Ollama LAN (Unraid only)" firewall rule had never
+been created — LAN access actually came from Windows' auto-created
+`ollama.exe` program rule (Allow, any remote, Private profile), which is
+broader than intended. Fix: reserve both IPs in the router. Unraid is
+`192.168.5.34` (LAN is a `/22`, so `192.168.4.0`–`7.255`). Then chat
+streamed but `sources[]` was empty: the dump had never been restored, and
+`spring.sql.init.mode: always` had already run `schema.sql` on first boot
+(6 seeded departments, 0 `rag_documents`), so the restore needs
+`pg_restore --clean --if-exists` with the app stopped. Post-restore:
+1369 chunks, 8 departments including DMV/PRD; EQ-001 answers from the DOT
+SOP with citations. The answer also pulled from the *superseded* v1 SOP
+(10-day vs v2's 5-day). That's a retrieval-quality issue, not a deployment
+one, and it applies on the dev box too.
+
+**Embed demo hosted on Unraid too.** The mock DMV site (`test-data/embed-demo`)
+is the compose `embed-demo` service, built as a separate nginx image
+(`ghcr.io/srikanthkaushik/aigre-embed-demo`) and served on Unraid port 5500.
+It must stay a different origin from the app, or the embed proves nothing about
+framing or CSP. The page's default AIGRE origin lives in an
+`<meta name="aigre-api">` tag. The image's nginx `sub_filter` rewrites it from
+`AIGRE_API_ORIGIN`, so one image works for any deployment, and `?api=` on the
+URL still overrides it. `AIGRE_API_ORIGIN` must be the app's *browser-facing*
+origin (`http://192.168.5.34:8087`), not `app:8085`, because the browser loads
+`embed.js` and the iframe directly. `http://192.168.5.34:5500` is registered
+as a DMV embed origin in the Unraid database only, not in the dev database.
+Verified end to end on 2026-10-15: chat works from the Unraid-hosted page.
+
+**Public access: named Cloudflare tunnel on the user's own domain (2026-10-16).**
+This replaces the brief quick-tunnel pass (random trycloudflare URLs, one tunnel per
+origin). One `cloudflared` service (compose profile `tunnel`, token in `.env` as
+`CLOUDFLARE_TUNNEL_TOKEN`) publishes two dashboard-configured hostnames:
+`dmv-demo.<domain>` → `embed-demo:80` and `aigre.<domain>` → `app:8085`. The app
+must be public as well, since the browser loads `embed.js` and the iframe from the
+app's origin. `AIGRE_APP_PUBLIC_ORIGIN` in `.env` drives both the CORS list and the
+demo's default `aigre-api` origin. Exposing the app also exposes the dashboard and
+admin API. Two mitigations are already done: the JWT secret now comes from
+`AIGRE_JWT_SECRET` in `.env`, because the committed `application.yml` default would
+let anyone forge an ADMIN token; and the runbook has a step to replace the shared
+`Demo1234!` password. Cloudflare Access on the whole app hostname was rejected,
+because the chat iframe would need a third-party Access cookie. Access on the
+employee and admin paths only is the next hardening step if the URL circulates.
+
+Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
+"Splitting across two machines (Unraid deployment)" section.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct
@@ -2904,7 +3138,10 @@ as worth checking rather than assuming:
 - DMV/PRD missing from `schema.sql` — see "DMV title-correction
   misclassification" above. Both only exist in this dev DB via live
   onboarding; a fresh database built from `schema.sql` alone won't have
-  either department at all.
+  either department at all. **Not regressed by the Unraid deployment** (see
+  "Two-machine split" below) — that migration is a full `pg_dump`/
+  `pg_restore` of the existing dev database, not a `schema.sql`-only
+  rebuild, so both departments' rows carry across intact.
 - RAG isolation by department — **built for chat, see "Floating chat
   widget + embeddable, department-scoped chat" above**
   (`docs/FUTURE_MULTI_AGENCY_ROADMAP.md`'s Phase 2 named this exact gap:

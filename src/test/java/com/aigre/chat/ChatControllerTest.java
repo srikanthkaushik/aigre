@@ -110,15 +110,100 @@ class ChatControllerTest {
         assertThat(toolCallCount("get_grievance_status")).isEqualTo(before + 1);
     }
 
+    /**
+     * Repeats the same RAG-only question (never grievance-ID shaped, so a tool call never fires --
+     * same guarantee ragOnlyQuestionNeverTriggersAToolCall relies on) and expects the second call
+     * to be served from ChatResponseCache instead of re-running retrieval + the chat LLM call.
+     * Uses phrasing distinct from every other test's question text so cache state from another
+     * test (which may run first, in any order) can't produce a stray hit here.
+     */
+    @Test
+    void repeatingTheExactSameAnonymousQuestionIsServedFromCacheOnTheSecondCall() {
+        String question = "How long does DOT have to repair a reported pothole once it's submitted, per the cache test?";
+
+        double missBefore = cacheResultCount("miss");
+        double hitBefore = cacheResultCount("hit");
+
+        streamChat(question);
+        assertThat(cacheResultCount("miss")).isEqualTo(missBefore + 1);
+        assertThat(cacheResultCount("hit")).isEqualTo(hitBefore);
+
+        List<ServerSentEvent<String>> secondCall = streamChat(question);
+        assertThat(cacheResultCount("hit")).isEqualTo(hitBefore + 1);
+        assertThat(cacheResultCount("miss")).isEqualTo(missBefore + 1);
+        assertThat(secondCall).anyMatch(e -> "token".equals(e.event()));
+        assertThat(secondCall).anyMatch(e -> "sources".equals(e.event()));
+    }
+
+    /**
+     * A citizen recognized via citizenToken must never read from or write to the shared cache,
+     * even asking the identical question twice -- see ChatController's class javadoc for why
+     * (the answer may reflect that citizen's own live grievance data).
+     */
+    @Test
+    void personalizedQuestionsAlwaysBypassTheCacheEvenWhenRepeated() {
+        GrievanceIntakeResponse submitted = intakeService.submit(new GrievanceIntakeRequest(
+                "There's a broken streetlight on Elm Street that's been out for two weeks.",
+                "Cache Test Citizen", "cache-test-citizen@example.com", null));
+        assertThat(submitted.citizenToken()).isNotNull();
+
+        String question = "What is the status of my most recent complaint, for the cache bypass test?";
+
+        double bypassBefore = cacheResultCount("bypass");
+        double hitBefore = cacheResultCount("hit");
+
+        streamChat(question, submitted.citizenToken());
+        streamChat(question, submitted.citizenToken());
+
+        assertThat(cacheResultCount("bypass")).isEqualTo(bypassBefore + 2);
+        assertThat(cacheResultCount("hit")).isEqualTo(hitBefore);
+    }
+
+    /**
+     * Tool-triggering answers reflect live, mutable per-grievance state, so they must never be
+     * cached regardless of repetition. Live-LLM tool-call triggering is the same class of
+     * variance statusQuestionAboutARealGrievanceTriggersALiveToolCall already documents -- re-run
+     * before assuming a regression if this flakes.
+     */
+    @Test
+    void toolTriggeringAnswersAreNeverCachedEvenWhenTheSameQuestionRepeats() {
+        GrievanceIntakeResponse submitted = intakeService.submit(new GrievanceIntakeRequest(
+                "There's a large pothole on Maple Street that's been there for three weeks.",
+                null, null, null));
+        String question = "What is the status of grievance " + submitted.id() + "?";
+
+        double missBefore = cacheResultCount("miss");
+        double hitBefore = cacheResultCount("hit");
+
+        streamChat(question);
+        streamChat(question);
+
+        assertThat(cacheResultCount("hit")).isEqualTo(hitBefore);
+        assertThat(cacheResultCount("miss")).isEqualTo(missBefore + 2);
+    }
+
+    private double cacheResultCount(String result) {
+        var counter = meterRegistry.find("aigre.chat.cache").tag("result", result).counter();
+        return counter == null ? 0.0 : counter.count();
+    }
+
     private double toolCallCount(String toolName) {
         var counter = meterRegistry.find("aigre.chat.tool_calls").tag("tool", toolName).counter();
         return counter == null ? 0.0 : counter.count();
     }
 
     private List<ServerSentEvent<String>> streamChat(String question) {
+        return streamChat(Map.of("question", question));
+    }
+
+    private List<ServerSentEvent<String>> streamChat(String question, String citizenToken) {
+        return streamChat(Map.of("question", question, "citizenToken", citizenToken));
+    }
+
+    private List<ServerSentEvent<String>> streamChat(Map<String, String> body) {
         return webClient.post()
                 .uri("/chat/stream")
-                .bodyValue(Map.of("question", question))
+                .bodyValue(body)
                 .exchange()
                 .expectStatus().isOk()
                 .returnResult(new ParameterizedTypeReference<ServerSentEvent<String>>() {})

@@ -1,5 +1,6 @@
 package com.aigre.ingestion;
 
+import com.aigre.chat.ChatResponseCache;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.Metadata;
@@ -92,20 +93,27 @@ public class CorpusIngestionService {
 
     private final EmbeddingModel embeddingModel;
     private final EmbeddingStore<TextSegment> embeddingStore;
+    private final ChatResponseCache chatCache;
     private final Path corpusPath;
 
     public CorpusIngestionService(
             EmbeddingModel embeddingModel,
             EmbeddingStore<TextSegment> embeddingStore,
+            ChatResponseCache chatCache,
             @Value("${rag.ingest.corpus-path}") String corpusPath) {
         this.embeddingModel = embeddingModel;
         this.embeddingStore = embeddingStore;
+        this.chatCache = chatCache;
         this.corpusPath = Path.of(corpusPath);
     }
 
     /** Wipes and reseeds the declared test-data/ corpus. Never called at arbitrary runtime — only via the reset endpoint. */
     public IngestionSummary reset() {
         embeddingStore.removeAll();
+        // A cached chat answer can cite a document the corpus no longer has, or one that's about
+        // to be replaced -- invalidate immediately, not just on successful completion, since the
+        // corpus is already untrustworthy from this point regardless of how reset() finishes.
+        chatCache.invalidateAll();
 
         if (!Files.isDirectory(corpusPath)) {
             return new IngestionSummary(0, corpusPath.toString());

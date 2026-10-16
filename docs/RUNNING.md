@@ -196,6 +196,255 @@ instead, which requires a free Cloudflare account with that domain's nameservers
 
 ---
 
+## Splitting across two machines (Unraid deployment, optional)
+
+Ollama needs a GPU to be usable — the rerank pass alone does up to `rag.retrieval.
+initial-k` (15) LLM calls per chat question. If you have a second box (e.g. an Unraid
+NAS) with RAM and a Docker host but **no GPU**, keep Ollama on the GPU machine and move
+everything else — Postgres and the app itself (frontend baked in, same as the
+single-origin setup above) — onto the second box as containers.
+
+**What runs where:**
+
+| | Machine A (GPU) | Machine B (Unraid / Docker host) |
+|---|---|---|
+| Ollama (`qwen2.5:7b`, `qwen3:8b`, `nomic-embed-text`) | ✅ | — |
+| Postgres/pgvector | — | ✅ (container) |
+| Spring Boot app + baked-in frontend | — | ✅ (container) |
+
+**a) Expose Ollama on the LAN from Machine A** (Windows, elevated PowerShell):
+
+```powershell
+[Environment]::SetEnvironmentVariable("OLLAMA_HOST", "0.0.0.0:11434", "Machine")
+# Then restart Ollama (quit + relaunch the tray app, or restart its service) for
+# OLLAMA_HOST to take effect.
+New-NetFirewallRule -DisplayName "Ollama LAN (Unraid only)" -Direction Inbound -Protocol TCP -LocalPort 11434 -RemoteAddress <unraid-ip> -Action Allow
+```
+
+Scope the firewall rule to Machine B's specific LAN IP, not `0.0.0.0/0` — Ollama has no
+built-in auth. Verify from Machine B itself (not Machine A, which would succeed via
+loopback regardless of the firewall rule):
+
+```
+curl http://<machineA-lan-ip>:11434/api/tags
+```
+
+A 200 listing `qwen2.5:7b`, `qwen3:8b`, and `nomic-embed-text` confirms both the bind
+and the firewall rule are correct.
+
+**Reserve both machines' IPs in the router (DHCP reservation).** `OLLAMA_BASE_URL`,
+`SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS` and the firewall rule all hardcode LAN IPs. If
+Machine A's lease moves, the app fails with `java.net.NoRouteToHostException: Host is
+unreachable` — on Machine B, `ip neigh show <machineA-ip>` reports `INCOMPLETE` (nothing
+answers ARP at that address). Check `ipconfig` on Machine A before suspecting Docker.
+
+**b) Start Postgres on Machine B and migrate the existing corpus/data into it.**
+
+Postgres is the `postgres` service in `docker-compose.yml` (container name
+`aigre-pg-unraid`). Copy just `docker-compose.yml` onto Machine B (no source checkout
+needed — the app image comes from GHCR, step c), then from its folder there (Unraid
+terminal), start only the database:
+
+```
+mkdir -p /mnt/user/appdata/aigre/postgres
+docker compose up -d postgres
+docker exec aigre-pg-unraid pg_isready -U aigre -d aigre
+```
+
+The data lives in a bind mount under `/mnt/user/appdata/aigre/postgres`, so Unraid's
+appdata backup tooling covers it and it survives `docker compose down` and container
+recreation. `5434:5432` is only for reaching it from outside Docker (pgAdmin, `psql`
+from Machine A) — the app container talks to it as `postgres:5432` on the compose
+network.
+
+> If you previously started `aigre-pg-unraid` by hand with `docker run`, remove it
+> first (`docker rm -f aigre-pg-unraid`) — the container name would otherwise clash.
+> It used the same bind-mount path, so the restored data carries over and you can skip
+> the dump/restore below. The old `aigre` network is no longer used
+> (`docker network rm aigre`).
+
+Then dump the existing database on Machine A:
+
+```powershell
+docker exec aigre-pg pg_dump -U aigre -d aigre --format=custom --file=/tmp/aigre.dump
+docker cp aigre-pg:/tmp/aigre.dump ./aigre.dump
+```
+
+Transfer `aigre.dump` to Machine B (SMB share, `scp`, USB stick — whatever's available),
+then restore it there:
+
+```
+docker exec aigre-pg-unraid psql -U aigre -d aigre -c "CREATE EXTENSION IF NOT EXISTS vector;"
+docker cp ./aigre.dump aigre-pg-unraid:/tmp/aigre.dump
+docker exec aigre-pg-unraid pg_restore -U aigre -d aigre --clean --if-exists --no-owner --no-privileges /tmp/aigre.dump
+```
+
+`--clean --if-exists` matters if the app container has **ever** started against this
+database: `spring.sql.init.mode: always` runs `schema.sql` on every boot, which creates
+the tables and seeds the six base departments — a plain `pg_restore` then fails on
+existing objects and duplicate keys. Stop the app first (`docker compose stop app`).
+
+Verify the restore before starting the app container:
+
+```
+docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT count(*) FROM rag_documents;"
+docker exec aigre-pg-unraid psql -U aigre -d aigre -c "SELECT id FROM departments;"
+```
+
+Expect `rag_documents` ≈1369 (the 543-chunk base corpus plus the DMV/PRD onboarded
+documents; 0 means the restore didn't run — chat still answers, but with `sources[]`
+empty) and `departments` to include `DMV`/`PRD` alongside the six
+`schema.sql`-seeded ones — those two only exist via live onboarding (see `PROJECT.md`'s
+"DMV/PRD missing from `schema.sql`" open item), so a fresh `schema.sql`-only rebuild
+would silently drop them; a full `pg_dump`/`pg_restore` carries them across intact.
+
+**c) Build and push the app image (Machine A), then run on Machine B.** The image is
+built on Machine A and pushed to GHCR; Unraid only pulls it. (Unraid's bundled Docker
+lacks buildx 0.17+, so `docker compose build` can't run there.) On Machine A, from the
+repo root, once logged in (`docker login ghcr.io` with a GitHub PAT that has
+`write:packages`):
+
+```cmd
+for /f %s in ('git rev-parse --short HEAD') do set SHA=%s
+docker build -t ghcr.io/srikanthkaushik/aigre-app:latest -t ghcr.io/srikanthkaushik/aigre-app:%SHA% .
+docker push ghcr.io/srikanthkaushik/aigre-app:latest
+docker push ghcr.io/srikanthkaushik/aigre-app:%SHA%
+```
+
+The compose file also runs the mock DMV embed-demo site (`test-data/embed-demo`, a
+tiny nginx image) as the `embed-demo` service. Build and push it the same way, from
+the repo root. Rebuild it only when `test-data/embed-demo` changes:
+
+```cmd
+docker build -t ghcr.io/srikanthkaushik/aigre-embed-demo:latest -t ghcr.io/srikanthkaushik/aigre-embed-demo:%SHA% test-data\embed-demo
+docker push ghcr.io/srikanthkaushik/aigre-embed-demo:latest
+docker push ghcr.io/srikanthkaushik/aigre-embed-demo:%SHA%
+```
+
+It's served at `http://<unraid-ip>:5500`, and its default AIGRE instance comes from
+`AIGRE_API_ORIGIN` in compose (the app's browser-facing origin,
+`http://<unraid-ip>:8087`). Register its own origin as a DMV embed origin on the
+Unraid app once, the same way as the "Testing the embeddable chat widget" step a below
+but against `http://<unraid-ip>:8087` with `{"origin": "http://<unraid-ip>:5500"}`.
+Without that, the chat button appears but the panel stays blank. `aigre-embed-demo`
+is a separate GHCR package, so it starts private too.
+
+GHCR packages start **private**. Either make `aigre-app` public (GitHub → Packages →
+aigre-app → Package settings → Change visibility), or log in on Machine B once with a
+PAT that has `read:packages`: `docker login ghcr.io -u srikanthkaushik`.
+
+On Machine B, fill in `OLLAMA_BASE_URL` and `<unraid-ip>` in `docker-compose.yml`, then
+(the app waits on the `postgres` healthcheck via `depends_on`):
+
+```
+docker compose pull
+docker compose up -d
+```
+
+To deploy a new build: rebuild and push on Machine A, then `docker compose pull &&
+docker compose up -d` on Machine B. Unraid's Compose Manager plugin works against this
+file as-is. The image is `linux/amd64`, built on Machine A's Docker Desktop, which
+matches Unraid.
+
+The app is then reachable at `http://<unraid-ip>:8087` (host port 8087, since 8086 was taken on Unraid; the container still listens on 8085) — `application.yml`'s own
+defaults (`localhost` Postgres/Ollama) are untouched, so Machine A's existing `mvn
+spring-boot:run` dev workflow keeps working exactly as documented in steps 1–5 above,
+completely independent of this deployment.
+
+> **Don't skip `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS`.** Browsers send an `Origin`
+> header for the Angular build's `<script type="module">` requests even on a genuinely
+> same-origin load. Without this env var set to Machine B's own origin, Spring
+> Security's CORS filter 403s those requests before any `permitAll` rule is reached and
+> the page loads blank — the same bug class already hit and fixed for the Cloudflare
+> tunnel case above, this time triggered by a LAN IP origin instead of a
+> `trycloudflare.com` one.
+
+**d) JWT secret (required).** The app service reads `SECURITY_JWT_SECRET` from
+`AIGRE_JWT_SECRET` in a `.env` file next to `docker-compose.yml` on Machine B, and
+`docker compose` refuses to start without it. The `application.yml` default is
+committed and baked into the image, and anyone holding it can forge an ADMIN token.
+
+```
+echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
+```
+
+**e) Exposing the embed demo on your own domain (optional, testing only).** One named
+Cloudflare tunnel publishes two stable hostnames. The app needs its own hostname,
+because the browser loads `embed.js` and the chat iframe from the app's origin, not the
+demo's. The tunnel exposes **the whole app**, including the employee dashboard and
+admin API.
+
+*In the Cloudflare dashboard:* Zero Trust → Networks → Tunnels → **Create a tunnel** →
+Cloudflared, name it (e.g. `aigre-unraid`), and copy the connector token from the
+install command it shows. Under the tunnel's **Public hostnames**, add:
+
+| Subdomain | Service |
+|---|---|
+| `dmv-demo.<domain>` | `HTTP` → `embed-demo:80` |
+| `aigre.<domain>` | `HTTP` → `app:8085` |
+
+The service addresses are compose service names, resolved from inside the `cloudflared`
+container on the compose network. Cloudflare creates the DNS records itself.
+
+Gotchas from the first setup:
+- **The dashboard shows an install command, not a token.** Pick the Docker tab and copy
+  the `eyJ...` string after `--token`. Don't run the command: a standalone container
+  can't resolve `embed-demo` or `app`. The dashboard waits for the compose `tunnel`
+  service to connect before you can continue.
+- **The routes tab is called "Published application routes"** in newer dashboards
+  ("Public Hostname" in older ones). The single "Service URL" field needs the scheme:
+  `http://embed-demo:80`. If it rejects container names, use `http://<unraid-ip>:5500`
+  and `http://<unraid-ip>:8087`. Routes under "Private networks" create no public DNS.
+  `NXDOMAIN` for the subdomain means no route was saved.
+- **Unraid's Compose Manager plugin keeps its own `.env`.** Set it via the stack's
+  **Edit Stack → Env File**, or in
+  `/boot/config/plugins/compose.manager/projects/<stack>/.env`. If the stack logs say
+  `required variable AIGRE_JWT_SECRET is missing a value`, the plugin isn't seeing it.
+
+*On Machine B:*
+
+```
+# 1. Add to .env (next to AIGRE_JWT_SECRET):
+cat >> .env <<'ENV'
+CLOUDFLARE_TUNNEL_TOKEN=<token from the dashboard>
+AIGRE_APP_PUBLIC_ORIGIN=https://aigre.<domain>
+ENV
+
+# 2. Allow the demo's public origin to frame DMV's chat (admin login on the LAN).
+read -rsp "ops.admin password: " PW; echo
+TOKEN=$(curl -s -X POST http://localhost:8087/auth/login -H "Content-Type: application/json" \
+  -d "{\"username\":\"ops.admin\",\"password\":\"$PW\"}" | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
+curl -s -X POST http://localhost:8087/admin/departments/DMV/embed-origins \
+  -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
+  -d '{"origin":"https://dmv-demo.<domain>"}'
+
+# 3. Recreate app + embed-demo with the public origin, and start the tunnel.
+docker compose --profile tunnel up -d
+docker logs aigre-tunnel 2>&1 | grep -i "registered tunnel connection" | head -2
+```
+
+Testers open `https://dmv-demo.<domain>`. No `?api=` is needed, because the page
+defaults to `AIGRE_APP_PUBLIC_ORIGIN`. Stop the tunnel with
+`docker compose --profile tunnel stop tunnel`.
+
+**Before sharing the URL:** replace the shared seeded password (`Demo1234!`) on every
+employee account. `seed.sql` isn't re-run at boot, so the change persists:
+
+```
+read -rsp "New employee password: " PW; echo
+HASH=$(docker run --rm httpd:2.4-alpine htpasswd -nbBC 10 "" "$PW" | tr -d ':\n')
+docker exec aigre-pg-unraid psql -U aigre -d aigre \
+  -c "UPDATE department_employees SET password_hash = '$HASH' WHERE username IS NOT NULL;"
+```
+
+With stable hostnames you can also put Cloudflare Access (Zero Trust → Access →
+Applications) in front of the app's employee and admin paths. Don't put it on the whole
+app hostname: the chat iframe would then need an Access cookie on a third-party origin,
+which browsers increasingly block. Every public chat message runs on Machine A's GPU,
+and there is no rate limiting.
+
+---
+
 ## Testing the embeddable chat widget (optional)
 
 The citizen portal's floating chat can also be embedded on an *external* website via
@@ -242,6 +491,11 @@ nothing about the CORS/framing story):
 cd test-data\embed-demo
 npx http-server -p 5500
 ```
+
+To point the demo at a different AIGRE instance, such as the Unraid deployment, pass its
+origin as `?api=`: `http://localhost:5500/?api=http://<unraid-ip>:8087`. With no `?api=`
+it defaults to `http://localhost:8085`. The demo page's own origin, `http://localhost:5500`,
+must be registered (step a) on *that* instance.
 
 **c) Open `http://localhost:5500` in a browser.** A floating chat button appears
 bottom-right — that's `embed.js`, injected by the demo page's own `<script>` tag, not
@@ -344,6 +598,7 @@ config changes needed either direction.
 | Ollama | 11434 (Ollama's default) | `ollama.base-url` in `application.yml` |
 | Frontend dev server | 4200 (or next free port) | `ng serve --port <n>` |
 | Embed-widget demo page (optional) | 5500 | `npx http-server -p <n>` — any unused port, must differ from AIGRE's own |
+| Unraid deployment: app + Postgres (optional) | 8085 / 5434 | same ports as above, via `docker-compose.yml` on Machine B |
 
 ---
 

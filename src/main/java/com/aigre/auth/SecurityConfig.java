@@ -1,5 +1,6 @@
 package com.aigre.auth;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -62,9 +63,10 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, JwtService jwtService) {
+    public SecurityWebFilterChain securityWebFilterChain(
+            ServerHttpSecurity http, JwtService jwtService, CorsConfigurationSource corsConfigurationSource) {
         return http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
@@ -132,23 +134,31 @@ public class SecurityConfig {
      * Single source of truth for CORS now -- previously a WebFluxConfigurer bean
      * (com.aigre.config.WebConfig, removed), which stopped mattering once Spring Security's own
      * filter chain sits in front of every request: WebFlux-level CORS mapping runs too late for a
-     * preflight request that Security has already rejected. Allows any localhost port (not just
-     * one hardcoded port) since `ng serve` falls back to the next free port when its default is
-     * already taken by an unrelated project on this machine.
+     * preflight request that Security has already rejected. Default pattern list allows any
+     * localhost port (not just one hardcoded port) since `ng serve` falls back to the next free
+     * port when its default is already taken by an unrelated project on this machine.
      *
-     * <p>Also allows any *.trycloudflare.com origin -- browsers fetch `<script type="module">`
-     * (what the Angular build emits) in CORS mode, sending an Origin header even for genuinely
-     * same-origin requests. Spring's CorsProcessor 403s outright (empty body, before the request
-     * even reaches the permitAll rules below) if that Origin isn't in this list, which is exactly
-     * what broke every JS asset when the app was reached through a Cloudflare quick tunnel instead
-     * of localhost -- the random *.trycloudflare.com subdomain wasn't allowed. The subdomain
-     * changes every `cloudflared` restart but the trycloudflare.com suffix doesn't, so a wildcard
-     * pattern here doesn't need updating each time.
+     * <p>Also allows any *.trycloudflare.com origin by default -- browsers fetch
+     * `<script type="module">` (what the Angular build emits) in CORS mode, sending an Origin
+     * header even for genuinely same-origin requests. Spring's CorsProcessor 403s outright (empty
+     * body, before the request even reaches the permitAll rules below) if that Origin isn't in
+     * this list, which is exactly what broke every JS asset when the app was reached through a
+     * Cloudflare quick tunnel instead of localhost -- the random *.trycloudflare.com subdomain
+     * wasn't allowed. The subdomain changes every `cloudflared` restart but the trycloudflare.com
+     * suffix doesn't, so a wildcard pattern here doesn't need updating each time.
+     *
+     * <p>Externalized to {@code security.cors.allowed-origin-patterns} (comma-separated,
+     * defaulting to the two values above) rather than hardcoded, because the identical failure
+     * mode recurs for any deployment reached by a plain LAN IP/hostname instead of localhost or a
+     * trycloudflare.com subdomain -- e.g. a docker-compose deployment on a separate box reached as
+     * {@code http://<lan-ip>:8085}. Overriding via SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS lets each
+     * deployment add its own origin without editing this list.
      */
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource(
+            @Value("${security.cors.allowed-origin-patterns}") List<String> allowedOriginPatterns) {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:*", "https://*.trycloudflare.com"));
+        config.setAllowedOriginPatterns(allowedOriginPatterns);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

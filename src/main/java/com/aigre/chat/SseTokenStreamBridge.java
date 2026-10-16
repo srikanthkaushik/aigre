@@ -26,16 +26,32 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class SseTokenStreamBridge {
 
+    /**
+     * Notified once on a successful completion, with the full ChatResponse and whether any tool
+     * fired during the stream -- lets a caller decide whether to cache the answer (ChatController)
+     * without this class needing to know about caching itself. Never invoked on error.
+     */
+    @FunctionalInterface
+    public interface CompletionListener {
+        void onComplete(ChatResponse response, boolean toolWasCalled);
+    }
+
     private final Sinks.Many<ServerSentEvent<String>> sink;
     private final Timer.Sample sample;
     private final MeterRegistry meterRegistry;
+    private final CompletionListener completionListener;
     private final AtomicBoolean firstTokenSeen = new AtomicBoolean(false);
+    private final AtomicBoolean toolWasCalled = new AtomicBoolean(false);
 
     public SseTokenStreamBridge(
-            Sinks.Many<ServerSentEvent<String>> sink, Timer.Sample sample, MeterRegistry meterRegistry) {
+            Sinks.Many<ServerSentEvent<String>> sink,
+            Timer.Sample sample,
+            MeterRegistry meterRegistry,
+            CompletionListener completionListener) {
         this.sink = sink;
         this.sample = sample;
         this.meterRegistry = meterRegistry;
+        this.completionListener = completionListener;
     }
 
     public void attach(TokenStream tokenStream) {
@@ -55,11 +71,13 @@ public class SseTokenStreamBridge {
     }
 
     private void onToolExecuted(ToolExecution toolExecution) {
+        toolWasCalled.set(true);
         meterRegistry.counter("aigre.chat.tool_calls", "tool", toolExecution.request().name()).increment();
     }
 
     private void onCompleteResponse(ChatResponse completeResponse) {
         sample.stop(Timer.builder("aigre.chat.stream_duration").tag("outcome", "success").register(meterRegistry));
+        completionListener.onComplete(completeResponse, toolWasCalled.get());
         sink.tryEmitComplete();
     }
 

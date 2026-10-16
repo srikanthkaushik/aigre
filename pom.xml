@@ -78,6 +78,14 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Exact-match chat response cache (ChatResponseCache): plain in-process cache, matching
+             this project's existing style of direct objects over framework abstractions (no
+             spring-boot-starter-cache/@Cacheable used anywhere else). -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.2.4</version>
+        </dependency>
 
         <!-- JWT issuance/validation for employee auth (com.aigre.auth) -->
         <dependency>

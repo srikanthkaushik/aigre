@@ -1,0 +1,114 @@
+# Unraid deployment (or any second, non-GPU box) -- see docs/RUNNING.md
+# "Splitting across two machines" and PROJECT.md "Two-machine split" for the
+# full writeup, the Postgres setup/migration runbook, and the Ollama
+# LAN-exposure steps on the GPU machine.
+#
+# Fill in <unraid-ip> below before running. The app image is pulled from
+# GHCR, so Unraid needs only this file -- no source checkout:
+#   docker login ghcr.io                 # only while the package is private
+#   mkdir -p /mnt/user/appdata/aigre/postgres
+#   docker compose up -d postgres        # then restore the dump (step b)
+#   docker compose up -d
+
+networks:
+  default:
+    # Pinned to a fixed range clear of the LAN (192.168.4.0/22) and the
+    # other networks on the Unraid host.
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: aigre-pg-unraid
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: aigre
+      POSTGRES_USER: aigre
+      POSTGRES_PASSWORD: aigre_dev
+    ports:
+      # Only for reaching it from outside Docker (pgAdmin, psql from the GPU
+      # machine) -- the app uses postgres:5432 on the compose network.
+      - "5434:5432"
+    volumes:
+      # Bind mount under appdata so Unraid's appdata backup tooling covers it,
+      # and the data survives `docker compose down` / container recreation.
+      - /mnt/user/appdata/aigre/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aigre -d aigre"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    # Built on the dev machine and pushed to GHCR (docs/RUNNING.md step c) --
+    # Unraid just pulls it. Unraid's Docker lacks buildx >= 0.17, so
+    # `docker compose build` can't run there anyway.
+    image: ghcr.io/srikanthkaushik/aigre-app:latest
+    container_name: aigre-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Service name on the compose network -- container port 5432, not the
+      # 5434 host mapping.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aigre
+      SPRING_DATASOURCE_USERNAME: aigre
+      SPRING_DATASOURCE_PASSWORD: aigre_dev
+      # GPU machine's LAN address -- see docs/RUNNING.md for the OLLAMA_HOST +
+      # firewall steps that make this reachable from Unraid.
+      OLLAMA_BASE_URL: "http://192.168.4.106:11434"
+      # This box's own LAN origin -- without this, the Angular build's own
+      # <script type="module"> requests get CORS-403'd by Spring Security
+      # before any permitAll rule is reached (same bug class as the
+      # Cloudflare-tunnel CORS fix, see SecurityConfig.corsConfigurationSource).
+      # Replaces application.yml's default list. The second entry is the app's public
+      # hostname behind the Cloudflare tunnel (AIGRE_APP_PUBLIC_ORIGIN in .env); when that's
+      # unset it falls back to repeating the LAN origin, which is harmless.
+      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087,${AIGRE_APP_PUBLIC_ORIGIN:-http://192.168.5.34:8087}"
+      # The application.yml default is committed and baked into the image -- anyone holding
+      # it can forge an ADMIN JWT. Set a deployment-only value in .env next to this file:
+      #   echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
+      # Rotating it logs out employees and invalidates citizen-recognition tokens.
+      SECURITY_JWT_SECRET: "${AIGRE_JWT_SECRET:?set AIGRE_JWT_SECRET in .env next to docker-compose.yml}"
+    ports:
+      - "8087:8085"
+
+  embed-demo:
+    # Mock DMV website embedding the chat widget from a different origin
+    # (test-data/embed-demo, built and pushed to GHCR like the app image).
+    image: ghcr.io/srikanthkaushik/aigre-embed-demo:latest
+    container_name: aigre-embed-demo
+    restart: unless-stopped
+    environment:
+      # The app as the *browser* reaches it -- not app:8085 on the compose network. The
+      # public tunnel hostname when one is configured, so the page works from the internet;
+      # the LAN origin otherwise. ?api= on the page URL still overrides either.
+      AIGRE_API_ORIGIN: "${AIGRE_APP_PUBLIC_ORIGIN:-http://192.168.5.34:8087}"
+    ports:
+      # The page's origin is then http://192.168.5.34:5500, which must be registered
+      # as a DMV embed origin on the app, or the chat panel renders blank.
+      - "5500:80"
+
+  # Named Cloudflare tunnel publishing two hostnames on your own domain, both configured
+  # in the Cloudflare dashboard (Zero Trust -> Networks -> Tunnels -> Public hostnames):
+  #   <demo-subdomain>.<domain> -> http://embed-demo:80
+  #   <app-subdomain>.<domain>  -> http://app:8085   (needed: the demo's chat loads from it)
+  # The tunnel's connector token goes in .env as CLOUDFLARE_TUNNEL_TOKEN. This exposes the
+  # whole app, not just chat -- see docs/RUNNING.md. Opt-in via a profile:
+  #   docker compose --profile tunnel up -d
+  tunnel:
+    image: cloudflare/cloudflared:2026.9.1
+    container_name: aigre-tunnel
+    profiles: ["tunnel"]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      # ":-" not ":?" -- compose interpolates every service even when this profile is off,
+      # and a required variable would block plain `docker compose up` without a tunnel.
+      TUNNEL_TOKEN: "${CLOUDFLARE_TUNNEL_TOKEN:-}"
+    depends_on:
+      - app
+      - embed-demo
