@@ -51,7 +51,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class ComplaintEvalHarnessTest {
 
-    private static final Path EVAL_FILE = Path.of("test-data/grievances/eval-complaints.jsonl");
+    // Overridable so the same harness measures another domain profile, e.g. the DMV bureaus:
+    //   mvn test -Dtest=ComplaintEvalHarnessTest -Dspring.profiles.active=dmv
+    //     -Dspring.datasource.url=jdbc:postgresql://localhost:5434/aigre_dmv
+    //     -Daigre.eval.complaints=test-data/dmv/grievances/eval-complaints.jsonl
+    private static final Path EVAL_FILE =
+            Path.of(System.getProperty("aigre.eval.complaints", "test-data/grievances/eval-complaints.jsonl"));
 
     @Autowired
     private GrievanceIntakeService intakeService;

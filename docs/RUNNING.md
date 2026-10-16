@@ -469,6 +469,69 @@ and there is no rate limiting.
 
 ---
 
+## Running the DMV profile (NH DMV bureaus, optional)
+
+The `dmv` profile routes complaints to five NH Division of Motor Vehicles bureaus instead of
+the city departments (see `ARCHITECTURE.md` "Domain profiles"). It uses its **own
+database**, so the city data is untouched and you can switch between the two.
+
+**Locally (CMD, with `aigre-pg` and Ollama running):**
+
+```
+docker exec aigre-pg psql -U aigre -d aigre -c "CREATE DATABASE aigre_dmv"
+docker exec aigre-pg psql -U aigre -d aigre_dmv -c "CREATE EXTENSION IF NOT EXISTS vector"
+
+set SPRING_PROFILES_ACTIVE=dmv
+set SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5434/aigre_dmv
+mvn spring-boot:run
+```
+
+The first boot creates the schema and the five bureaus. Then, in a second window:
+
+```
+docker exec -i aigre-pg psql -U aigre -d aigre_dmv < test-data/dmv/sql/seed.sql
+curl -s -X POST http://localhost:8085/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ops.admin\",\"password\":\"Demo1234!\"}"
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
+```
+
+The seed adds 2 employees per bureau plus `ops.admin` (password `Demo1234!`) and 8 sample
+grievances. Ingestion loads the 16 rule chapters in `test-data/dmv/documents` (see
+`test-data/dmv/corpus-manifest.md`). `curl http://localhost:8085/departments` should list
+`DEALER`, `DL`, `FR`, `REG` and `TITLE`, and the UI should say "Bureau". Unset both
+variables to go back to the city.
+
+**Adding documents later:** drop files into a bureau's folder under
+`test-data/dmv/documents/` (any format Tika reads), note them in the manifest, and re-run
+the ingest call above.
+
+**On the two-machine deployment:** set these in `.env` (or the Compose Manager Env File),
+then create the database once and redeploy:
+
+```
+AIGRE_PROFILE=dmv
+AIGRE_DB_NAME=aigre_dmv
+AIGRE_EMBED_DEPARTMENT=
+```
+
+```
+docker exec aigre-pg-unraid psql -U aigre -d aigre -c "CREATE DATABASE aigre_dmv"
+docker exec aigre-pg-unraid psql -U aigre -d aigre_dmv -c "CREATE EXTENSION IF NOT EXISTS vector"
+docker compose up -d
+```
+
+Then load the seed (`docker cp` it into `aigre-pg-unraid` and run it with `psql -d aigre_dmv`),
+run the ingest with an admin token, register the demo site's origin under any bureau
+(an empty `AIGRE_EMBED_DEPARTMENT` makes the demo widget agency-wide, framed by every
+registered origin), and replace the seeded password as in step e.
+
+**Measuring it:** the DMV evals run against the DMV database:
+
+```
+mvn test -Dtest=ComplaintEvalHarnessTest,DmvRagEvalSuiteTest -Dspring.profiles.active=dmv -Dspring.datasource.url=jdbc:postgresql://localhost:5434/aigre_dmv -Daigre.eval.complaints=test-data/dmv/grievances/eval-complaints.jsonl
+```
+
+---
+
 ## Testing the embeddable chat widget (optional)
 
 The citizen portal's floating chat can also be embedded on an *external* website via

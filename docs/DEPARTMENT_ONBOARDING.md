@@ -7,6 +7,11 @@ needs no code change or redeploy. See `PROJECT.md`'s "Onboard a new
 department from a public URL" for the full build history and the two real
 bugs found while shipping this; this doc is the operational how-to.
 
+Under the `dmv` domain profile the routing units are DMV **bureaus**, but they're the same
+`departments` rows, so everything here applies unchanged. A new bureau is onboarded exactly
+like a new department, and its documents land in its own folder under the profile's corpus
+path (`test-data/dmv/documents/<ID>/`). See `ARCHITECTURE.md` "Domain profiles".
+
 ## What this does, in one call
 
 `POST /admin/departments` — given a department code/name and a public URL

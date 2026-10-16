@@ -14,6 +14,7 @@ bolt-on feature.
 - [Where AI is used](#where-ai-is-used-the-core-of-this-doc)
 - [Backend components](#backend-components)
 - [Deployment](#deployment)
+- [Domain profiles](#domain-profiles)
 - [Data flow: key journeys](#data-flow-key-journeys)
 - [Data model](#data-model)
 - [Frontend architecture](#frontend-architecture)
@@ -754,6 +755,44 @@ flowchart LR
 
 Runbook: `RUNNING.md` "Splitting across two machines". Background and the faults hit
 on first bring-up: `PROJECT.md` "Two-machine split".
+
+---
+
+## Domain profiles
+
+The routing unit ("department") is data, so the same code serves different agencies. A
+Spring profile swaps everything agency-specific. With no profile, the app is the city
+demo; with `dmv`, it routes complaints to the bureaus of the NH Division of Motor
+Vehicles. Code, APIs and tables still say "department" in both; only the words shown to
+people change.
+
+| Piece | City (default) | `dmv` profile | Where it's chosen |
+|---|---|---|---|
+| Routing units | 6 city departments | 5 DMV bureaus (`REG`, `DL`, `FR`, `TITLE`, `DEALER`) | `spring.sql.init.data-locations`: `seed/city/` or `seed/dmv/departments.sql` |
+| Classifier prompt | City framing, hazard rubric, city examples | DMV framing, fraud/"can't drive" rubric, bureau-boundary examples; city services are *not actionable* | `aigre.domain.classifier-prompt`: `prompts/<profile>/classifier.txt` |
+| Policy corpus | `test-data/documents/` | `test-data/dmv/documents/` (NH Saf-C rule chapters) | `rag.ingest.corpus-path` |
+| UI wording | "Department", city tagline and chat suggestions | "Bureau", DMV tagline and suggestions | `aigre.domain.*`, served by `GET /app-config` to `AppConfigService` |
+| Unscoped embed | Not allowed (`frame-ancestors 'none'`) | Allowed, framed by every registered origin | `aigre.domain.agency-wide-embed` |
+| Database | `aigre` | its own, e.g. `aigre_dmv` | `SPRING_DATASOURCE_URL` |
+
+Why a profile rather than editing the city data: the city setup is what the existing
+tests, labeled eval set and demo database were built against, so it stays intact and
+switching back is two environment variables. Each profile needs its **own database**:
+grievances, employees and embedded chunks all reference that profile's department ids.
+
+Gotchas:
+- **The classifier prompt is agency-specific, not just the department list.** The city
+  prompt marks "state government matters" as not actionable, which is exactly what a
+  state DMV is.
+- **The city prompt is pinned by hash.** `ClassifierPromptTemplateTest` checks
+  `prompts/city/classifier.txt` against the text its accuracy was measured with. The
+  loader normalises CRLF, because git on Windows may check it out that way.
+- **`schema.sql` no longer inserts departments.** Seeding moved to the per-profile data
+  file, so a non-city database doesn't get the six city rows back on every boot.
+
+A new profile is a `seed/<name>/departments.sql`, a `prompts/<name>/classifier.txt`, a
+corpus folder with one subfolder per unit, and an `application-<name>.yml` setting the
+properties above.
 
 ---
 
