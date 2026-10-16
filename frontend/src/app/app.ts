@@ -1,4 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
+import { AppConfigService } from './core/app-config.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
@@ -27,6 +28,8 @@ const THEME_ICONS = { light: 'light_mode', dark: 'dark_mode', system: 'brightnes
   styleUrl: './app.scss'
 })
 export class App {
+  readonly appConfig = inject(AppConfigService);
+
   readonly theme = inject(ThemeService);
   readonly themeIcon = computed(() => THEME_ICONS[this.theme.preference()]);
 

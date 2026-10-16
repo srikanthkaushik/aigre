@@ -1,7 +1,7 @@
 <div class="trends-toolbar">
   <mat-button-toggle-group [value]="scope()" (change)="scope.set($event.value)">
     <mat-button-toggle value="department">{{ department() | departmentName }}</mat-button-toggle>
-    <mat-button-toggle value="all">All Departments</mat-button-toggle>
+    <mat-button-toggle value="all">All {{ appConfig.unitLabelPlural() }}</mat-button-toggle>
   </mat-button-toggle-group>
 
   <mat-button-toggle-group [value]="windowDays()" (change)="windowDays.set($event.value)">
@@ -56,7 +56,7 @@
         </ng-container>
         @if (scope() === 'all') {
           <ng-container matColumnDef="department">
-            <th mat-header-cell *matHeaderCellDef>Department</th>
+            <th mat-header-cell *matHeaderCellDef>{{ appConfig.unitLabel() }}</th>
             <td mat-cell *matCellDef="let issue">{{ issue.department | departmentName }}</td>
           </ng-container>
         }

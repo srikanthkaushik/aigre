@@ -26,9 +26,9 @@
         @if (department()) {
           <p>Ask about {{ department() | departmentName }}'s policies, services, or how something is handled.</p>
         } @else {
-          <p>Ask about department policies, SLAs, or how something is handled.</p>
+          <p>Ask about {{ appConfig.unitLabelLower() }} policies, SLAs, or how something is handled.</p>
           <div class="example-chips">
-            @for (q of exampleQuestions; track q) {
+            @for (q of appConfig.chatSuggestions(); track q) {
               <button class="example-chip" (click)="askExampleQuestion(q)">{{ q }}</button>
             }
           </div>

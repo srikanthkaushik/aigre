@@ -33,7 +33,7 @@
           <dt>Duplicate of</dt>
           <dd><code>{{ detail.duplicateOfId }}</code></dd>
         }
-        <dt>Department</dt>
+        <dt>{{ appConfig.unitLabel() }}</dt>
         <dd>{{ detail.department | departmentName }}</dd>
         <dt>Category</dt>
         <dd>{{ detail.category ?? '—' }}</dd>
@@ -114,7 +114,7 @@
       @if (auth.isSupervisor()) {
         <div class="grid-3">
           <mat-form-field appearance="outline">
-            <mat-label>Department</mat-label>
+            <mat-label>{{ appConfig.unitLabel() }}</mat-label>
             <mat-select [(ngModel)]="reviewDepartment">
               <mat-option value="">(keep as-is)</mat-option>
               @for (d of data.departments; track d) {

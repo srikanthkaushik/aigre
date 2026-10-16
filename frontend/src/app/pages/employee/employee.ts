@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { AppConfigService } from '../../core/app-config.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -42,6 +43,8 @@ const PAGE_SIZE = 10;
   styleUrl: './employee.scss'
 })
 export class Employee implements OnInit, AfterViewInit {
+  readonly appConfig = inject(AppConfigService);
+
   private readonly departmentService = inject(DepartmentService);
 
   readonly pageSize = PAGE_SIZE;
@@ -101,7 +104,7 @@ export class Employee implements OnInit, AfterViewInit {
 
   get departmentLabel(): string {
     if (!this.auth.isAdmin()) return this.department;
-    return this.departmentFilter() || 'All Departments';
+    return this.departmentFilter() || `All ${this.appConfig.unitLabelPlural()}`;
   }
 
   onDepartmentFilterChange(department: string): void {

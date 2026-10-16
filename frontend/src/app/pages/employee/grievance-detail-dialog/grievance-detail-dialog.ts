@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit, signal } from '@angular/core';
+import { inject, Component, Inject, OnInit, signal } from '@angular/core';
+import { AppConfigService } from '../../../core/app-config.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -40,6 +41,8 @@ export interface GrievanceDetailDialogData {
   styleUrl: './grievance-detail-dialog.scss'
 })
 export class GrievanceDetailDialog implements OnInit {
+  readonly appConfig = inject(AppConfigService);
+
   readonly detail = signal<GrievanceWorkflowResponse | null>(null);
   readonly submitting = signal(false);
   readonly error = signal<string | null>(null);

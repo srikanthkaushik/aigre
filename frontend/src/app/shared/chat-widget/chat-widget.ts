@@ -1,4 +1,5 @@
-import { Component, input, signal } from '@angular/core';
+import { inject, Component, input, signal } from '@angular/core';
+import { AppConfigService } from '../../core/app-config.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,19 +16,13 @@ interface ChatMessage {
   streaming?: boolean;
 }
 
-const DEFAULT_EXAMPLE_QUESTIONS = [
-  'How long does DOT have to repair a reported pothole?',
-  'Who do I contact if a street light has been out for two weeks?',
-  "What are my rights if my landlord hasn't fixed a heating outage?"
-];
-
 /**
  * Extracted from the old citizen.ts "Ask a Question" tab, verbatim behavior -- now reusable by
  * both the site-wide floating launcher (FloatingChat, unscoped) and the embeddable per-department
  * widget (EmbedChat, /embed/chat). department() being set restricts answers to that department's
- * own RAG corpus (ChatController/RetrievalService); the generic example questions below reference
- * DOT/landlord policy and wouldn't make sense for e.g. a DMV-scoped embed, so they're skipped in
- * that case in favor of a generic empty state.
+ * own RAG corpus (ChatController/RetrievalService). The example questions come from the domain
+ * profile (AppConfigService.chatSuggestions) and span the whole agency, so they're skipped for a
+ * department-scoped widget in favor of a generic empty state.
  */
 @Component({
   selector: 'app-chat-widget',
@@ -36,12 +31,13 @@ const DEFAULT_EXAMPLE_QUESTIONS = [
   styleUrl: './chat-widget.scss'
 })
 export class ChatWidget {
+  readonly appConfig = inject(AppConfigService);
+
   readonly department = input<string | null>(null);
 
   question = '';
   readonly chatting = signal(false);
   readonly messages = signal<ChatMessage[]>([]);
-  readonly exampleQuestions = DEFAULT_EXAMPLE_QUESTIONS;
 
   constructor(private readonly api: ApiService) {}
 

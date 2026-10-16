@@ -1,8 +1,8 @@
 <main class="landing">
   <div class="hero">
-    <span class="eyebrow">AIGRE · City Services · AI-Assisted</span>
+    <span class="eyebrow">AIGRE · {{ appConfig.agencyName() }} · AI-Assisted</span>
     <h1>AI Grievance Resolution Engine</h1>
-    <p class="subtitle">Submit, track, and resolve city service complaints — classified, prioritized, and routed automatically, with a person always in the loop when it matters.</p>
+    <p class="subtitle">{{ appConfig.tagline() }}</p>
   </div>
 
   <div class="cards">
@@ -28,7 +28,7 @@
           <mat-icon>assignment_ind</mat-icon>
         </div>
         <h2>Employee Dashboard</h2>
-        <p>Review pending classifications and manage your department's queue.</p>
+        <p>Review pending classifications and manage your {{ appConfig.unitLabelLower() }}'s queue.</p>
       </mat-card-content>
       <mat-card-actions align="end">
         <a mat-flat-button color="primary" routerLink="/employee">
