@@ -3168,6 +3168,29 @@ domain. `tmp/` and `*.dump` are gitignored. `Demo1234!` and `aigre_dev` stay
 committed on purpose: they're documented dev/demo values, and public deployments
 must change the employee password (see `docs/RUNNING.md`).
 
+**Found during the same audit: three endpoints were public, and the tunnel put them on
+the internet.** `SecurityConfig` had `permitAll` on `/ingest/**`, `/mcp/**` and
+`/actuator/**`, all set during local-only milestones. Once the app was tunnelled, I
+confirmed with harmless probes against the public hostname that `POST /ingest/reset`
+answered (its no-`confirm` 400 means `?confirm=true` would have wiped and re-embedded
+the corpus), the MCP `initialize` handshake succeeded (so `update_grievance_status` and
+`reopen_grievance` were callable by anyone, with no login), and `/actuator/prometheus`
+returned 200. The tunnel was stopped, then:
+- `/ingest/**` is ADMIN-only.
+- `/actuator/health` stays public; every other actuator endpoint is ADMIN-only.
+- `/mcp/**` accepts loopback connections only, via a `loopbackOnly` access rule on the
+  TCP peer address. The citizen chat's MCP client calls `http://localhost:<port>/mcp`
+  from inside the same JVM or container, so it's unaffected. Tunnel, proxy and LAN
+  traffic is refused. `server.forward-headers-strategy` is unset, so `X-Forwarded-For`
+  can't spoof loopback.
+
+Verified locally: anonymous ingest and prometheus get 401; AGENT ingest gets 403;
+ADMIN ingest without `confirm` gets 400 (allowed, refused safely). MCP over
+`localhost` gets 200, and over the LAN IP gets 401 even with a spoofed
+`X-Forwarded-For: 127.0.0.1`. A live chat question about a real grievance still makes
+its `get_grievance_status` tool call. MCP-level auth is the open item if an external
+agent ever needs network access.
+
 Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 "Splitting across two machines (Unraid deployment)" section.
 

@@ -439,10 +439,13 @@ Checkpointing is Postgres-backed (LangGraph4j's `PostgresSaver`, reusing the app
 **What it does**: exposes 5 grievance operations (`get_grievance_status`,
 `check_sla_status`, `find_duplicate_chain`, `update_grievance_status`,
 `reopen_grievance`) as MCP (Model Context Protocol) tools via Spring AI's MCP
-server (Streamable HTTP transport), so an external agent could call them the
-same way a human uses the REST API.
+server (Streamable HTTP transport), so an agent can operate on grievances the same way a
+human uses the REST API. MCP carries no employee login, and two of the tools write, so
+`/mcp` accepts **loopback connections only**: an agent on the same host works, anything
+arriving through a tunnel, proxy or another container is refused. Opening it wider would
+need MCP-level authentication first.
 
-The tools have two in-app consumers as well as any external agent. The workflow's
+The tools have two in-app consumers. The workflow's
 `commit()` node performs its status transition through
 `GrievanceMcpTools.updateGrievanceStatus()` rather than its own SQL. The citizen chat is
 given the 3 read-only tools through a LangChain4j MCP client pointed back at this app,
@@ -623,7 +626,8 @@ field, alongside its WARN log line — a log line alone isn't queryable, and
 "how often is this actually happening" is exactly the kind of thing that
 shouldn't be guessed.
 
-All of the above are visible at `/actuator/metrics/<name>` and, since
+All of the above are visible at `/actuator/metrics/<name>` (ADMIN token required;
+only `/actuator/health` is public) and, since
 `micrometer-registry-prometheus` is on the classpath, scraped in Prometheus
 exposition format at `/actuator/prometheus` — the latter was listed in
 `management.endpoints.web.exposure.include` from day one but the actual
@@ -645,8 +649,8 @@ of which exists in this repo).
 | `com.aigre.workflow` | The LangGraph4j agent graph, its Spring Boot wiring, and the pause/resume REST endpoints |
 | `com.aigre.retrieval` | Hybrid retrieval + LLM rerank over the pgvector policy corpus |
 | `com.aigre.chat` | The SSE streaming chat endpoint (`ChatController`) that composes retrieval + grounded generation, the tool-calling `CitizenChatAssistant`, and the exact-match `ChatResponseCache` |
-| `com.aigre.ingestion` | Corpus ingestion (`POST /ingest/reset`) — loads `test-data/documents/**` into pgvector with `department`/`source` metadata |
-| `com.aigre.tools` | MCP tool definitions over the grievance systems-of-record |
+| `com.aigre.ingestion` | Corpus ingestion (`POST /ingest/reset`, ADMIN only) — loads `test-data/documents/**` into pgvector with `department`/`source` metadata |
+| `com.aigre.tools` | MCP tool definitions over the grievance systems-of-record, served at `/mcp` to loopback callers only (the app's own chat client) |
 | `com.aigre.query` | Read-side REST for the frontend: status lookup, filtered listing, and trend aggregation — deliberately separate from the MCP tool surface |
 | `com.aigre.sla` | `SlaCalculator` — a pure function, no LLM, priority → due-date |
 | `com.aigre.config` | Provider selection (`LlmProviderConfig`), pgvector store setup (`RagConfig`), the citizen chat's self-referential MCP client (`McpClientConfig`, `LazyGrievanceToolProvider`), serving the built SPA (`SpaWebFluxConfig`), and the centralized error-body `@RestControllerAdvice` (`ApiExceptionHandler`) |

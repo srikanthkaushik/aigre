@@ -106,8 +106,12 @@ documents load but those departments don't exist until onboarded (see `PROJECT.m
 "DMV/PRD missing from `schema.sql`" open item):
 
 ```
-curl -X POST "http://localhost:8085/ingest/reset?confirm=true"
+curl -s -X POST http://localhost:8085/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ops.admin\",\"password\":\"Demo1234!\"}"
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
 ```
+
+The reset is ADMIN-only: the first command logs in as the seeded `ops.admin` (step 4a
+must have run) and prints a `token`; paste it in place of `<ADMIN_TOKEN>`.
 
 This **wipes and reloads** the entire `rag_documents` table — safe to re-run any time
 the corpus changes, but don't run it against a database you don't want reset.

@@ -107,8 +107,9 @@ including the actual prompts and measured accuracy numbers, is in
    system.
 4. **MCP tool server** — 5 grievance operations (status lookup, SLA check, duplicate
    chain walk, status update, reopen) exposed over the real Model Context Protocol
-   (Streamable HTTP), so an external agent could operate on the system the same way a
-   human uses the dashboard.
+   (Streamable HTTP), so an agent can operate on the system the same way a human uses
+   the dashboard. The citizen chat uses the read-only ones itself; the endpoint accepts
+   loopback connections only, since MCP carries no login.
 
 Plus two cross-cutting concerns: a **PII redaction guardrail** on every citizen
 free-text field, and **observability** (every LLM/retrieval call timed and tagged under
@@ -319,9 +320,10 @@ ollama pull nomic-embed-text
 # 3. Backend (starts on :8085)
 mvn spring-boot:run
 
-# 4. Seed data (operational rows + RAG policy corpus)
+# 4. Seed data (operational rows + RAG policy corpus; the reset needs an ADMIN token)
 docker exec -i aigre-pg psql -U aigre -d aigre < test-data/sql/seed.sql
-curl -X POST "http://localhost:8085/ingest/reset?confirm=true"
+curl -s -X POST http://localhost:8085/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ops.admin\",\"password\":\"Demo1234!\"}"
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
 
 # 5. Frontend (starts on :4200)
 cd frontend && npm install && npm start

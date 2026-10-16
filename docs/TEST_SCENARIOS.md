@@ -64,7 +64,7 @@ fixture rows. Running it wipes whatever real corpus was loaded via `POST
 back:
 
 ```
-curl -X POST "http://localhost:8085/ingest/reset?confirm=true"
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
 ```
 
 This bit the running application for real during development — chat citations
