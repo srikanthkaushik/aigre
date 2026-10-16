@@ -1,0 +1,27 @@
+# Domain profile: NH Division of Motor Vehicles, routed by bureau. Activate with
+# SPRING_PROFILES_ACTIVE=dmv, against its own database (e.g. .../aigre_dmv) -- the city demo data
+# and the DMV data don't share one. See docs/ARCHITECTURE.md "Domain profiles".
+spring:
+  sql:
+    init:
+      data-locations: classpath:seed/dmv/departments.sql
+
+rag:
+  ingest:
+    # One folder per bureau (folder name = department id), plus SHARED/ for cross-bureau rules.
+    # Add documents later by dropping files into a bureau's folder and re-running /ingest/reset.
+    corpus-path: test-data/dmv/documents
+
+aigre:
+  domain:
+    classifier-prompt: classpath:prompts/dmv/classifier.txt
+    agency-name: NH Division of Motor Vehicles
+    tagline: Report a problem with a title, registration, license, suspension, dealer or inspection — routed to the right DMV bureau automatically, with a person always in the loop when it matters.
+    footer: A DMV services demonstration portal
+    unit-label: Bureau
+    unit-label-plural: Bureaus
+    chat-suggestions:
+      - How do I get a duplicate title if mine was lost?
+      - What do I need to restore my license after a suspension?
+      - What happens if my car fails its state inspection?
+    agency-wide-embed: true

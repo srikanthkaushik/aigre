@@ -1,0 +1,1421 @@
+CHAPTER Saf-C 7500 FINANCIAL RESPONSIBILITY
+
+REVISION NOTE :
+
+Document #13938, effective 4-24-24, established a new Chapter Saf-C 7500 titled Financial Responsibility by adopting new rules or readopting and renumbering, or readopting with amendment and renumbering, various existing rules formerly in Chapter Saf-C 200 titled Procedural and Hearings Rules in Part Saf-C 205 titled Reissuance of License or Registration , Part Saf-C 207 titled Financial Responsibility Hearing Requirements , Part Saf-C 208 titled Accident Reports, Hearings , Part Saf-C 211 titled Protested Checks , and Part Saf-C 212 titled Uniform Point System . The former rule numbers are indicated in the source notes.
+
+The rules formerly in Chapter Saf-C 200 which were last filed in Document #10395-B, effective 8-15-13, did not expire on 8-15-23 but were extended pursuant to RSA 541-A:14-a until replaced by the rules in Document #13938, effective 4-24-24.
+
+Document #13938 adopted the following new rules in the Parts indicated:
+
+PART Saf-C 7501 PURPOSE
+Saf-C 7501.01 Purpose .
+
+PART Saf-C 7502 DEFINITIONS
+Saf-C 7502.01 Definitions.
+
+PART Saf-C 7503 REISSUANCE OF LICENSE OR REGISTRATION
+Saf-C 7503.09 Restoration: Underage Influence of Alcohol or Drugs .
+
+PART Saf-C 7506 PERIODIC PAYMENTS
+Saf-C 7506.01 Definitions .
+Saf-C 7506.02 Request for Periodic Payment Hearing .
+Saf-C 7506.03 Scope of Hearing .
+Saf-C 7506.04 Burden of Proof .
+Saf-C 7506.05 Content of Periodic Payment Order .
+Saf-C 7506.06 Notification of Hearing Decisions.
+Saf-C 7506.07 Review of Periodic Payment Order .
+Saf-C 7506.08 Review Hearing Decision .
+Saf-C 7506.09 Default of Periodic Payment .
+Saf-C 7506.10 Additional Requirement When License Holder is a Minor .
+
+Document #13938 also adopted Saf-C 7508.10, titled Approval of Driver Attitude Program , previously effective 11-19-07 as Saf-C 212.10 in Document #9031, and expired 11-19-15, as indicated in the source note for Saf-C 212.10.
+
+PART Saf-C 7501 PURPOSE
+
+Saf-C 7501.01 Purpose . The purpose of these rules is to set forth:
+
+(a) Scope of hearings for financial responsibility at the division of motor vehicles;
+
+(b) Motor vehicle accident reporting requirements;
+
+(c) A uniform point system for identifying frequent violators of traffic laws;
+
+(d) The approval process for driver improvement courses; and
+
+(e) The approval process for driver attitude courses.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+PART Saf-C 7502 DEFINITIONS
+
+Saf-C 7502.01 Definitions . Whenever used in these rules, the following terms shall be construed as set forth below, unless a different meaning is clearly stated within the text:
+
+(a) "Accident" means "accident" as defined in RSA 259:1-a;
+
+(b) "Accident evaluator" means an individual who conducts a detailed review and examination of motor vehicle and police accident reports to determine compliance with the provisions of the New Hampshire financial responsibility law, RSA 264;
+
+(c) "Complaint" means a written statement submitted by a person, association, partnership, corporation, state agency, or any other legal entity that sets forth specific allegations and requests administrative action by the department;
+
+(d) "Commissioner" means the commissioner of the New Hampshire department of safety or their designee;
+
+(e) "Conviction" means conviction as defined in RSA 259:14. The term includes a finding, as determined by the court, of guilty continued for sentencing, or placed on file with a finding of guilty;
+
+(f) "Dealer" means "dealer" as defined in RSA 259:18;
+
+(g) "Department" means "department" as defined in RSA 259:19;
+
+(h) "Director" means "director" as defined in RSA 259:20, or their designee;
+
+( i ) "Division" means "division" as defined in RSA 259:22;
+
+(j) "Driver" means "driver" as defined in RSA 259:25;
+
+(k) "Financial responsibility administrator" means the individual designated to assist the director for the purpose of administration of the motor vehicle financial responsibility law, RSA 264;
+
+(l) "Habitual offender" means "habitual offender" as defined in RSA 259:39;
+
+(m) "Hearings examiner" means the individual designated by the department to hold administrative hearings;
+
+(n) "Judgment" means "judgment" as defined in RSA 259:46;
+
+(o) "License" means "license" as defined in RSA 259:48;
+
+(p) "Licensee" means a person to whom a license, as defined in (o) above, has been granted;
+
+(q) "Motor vehicle" means "motor vehicle" as defined in RSA 259:60;
+
+(r) "Non-resident" means "non-resident" as defined in RSA 259:67;
+
+(s) "Owner" means "owner" as defined in RSA 259:72;
+
+(t) "Party" means each person named or admitted as a person who has an interest in the subject matter of the administrative hearing held hereunder and necessary to the conduct of such hearing;
+
+(u) "Permit" means any and all documents conveying privileges, such as but not limited to inspection stickers, dynamite permits, non-driver's identification, school bus permits, dealer privileges, and inspection privileges, issued by the department;
+
+(v) "Person" means "person" as defined in RSA 259:74;
+
+(w) "Resident" means "resident" as defined in RSA 259:88;
+
+(x) "Revocation" means "revocation" as defined in RSA 259:90;
+
+(y) "Security agreement" means "security agreement" as defined in RSA 259:97;
+
+(z) "SR-22 certificate" means a uniform document filed by an insurance company pursuant to RSA 264:21 and RSA 259:9 that certifies the policyholder is insured for New Hampshire's minimum liability requirements under RSA 264;
+
+(aa) "SR-26 certificate" means a uniform document filed by the insurance company that provides notice that the SR-22 certificate issued to the policyholder has been canceled;
+
+(ab) "State" means "state" as defined in RSA 259:106;
+
+(ac) "Suspension means "suspension" as defined in RSA 259:107;
+
+(ad) "Uninsured motor vehicle" means "uninsured motor vehicle" as defined in RSA 259:117;
+
+(ae) "Vehicle" means "vehicle" as defined in RSA 259:122;
+
+( af ) "Way" means "way" as defined in RSA 259:125; and
+
+(ag) "Working days" means days exclusive of Saturdays, Sundays, and state and federal holidays.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+PART Saf-C 7503 REISSUANCE OF LICENSE OR REGISTRATION
+
+Saf-C 7503.01 Request for Restoration .
+
+(a) Any person whose driver's license, privilege to operate a motor vehicle, or motor vehicle registration has been revoked or suspended, shall prior to seeking restoration, comply with the administrative requirements contained in the disposition of their hearing. Restoration shall not occur until evidence is on file documenting full compliance with all the requirements outlined in the hearing.
+
+(b) When any license has been suspended under RSA 263:56-a or when any suspension or revocation is for a period greater than 15 calendar days, said license shall not be restored until the fee specified in RSA 263:42, V, has been paid.
+
+(c) Pursuant to RSA 265-A:22, a person shall not have their license restored until all their obligations resulting from their arrest and conviction are met.
+
+(d) No person shall have their license restored if there are other revocations or suspensions in effect under any other statute, rule, or regulation, including reciprocity agreements and requirements.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; (formerly Saf-C 220.01) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 205.01) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.02 Restoration: Reckless Driving . Any person whose driver's license or driving privilege has been revoked pursuant to RSA 265:79, shall have such license or privilege restored if the following conditions are met:
+
+(a) The period of revocation imposed by the court has expired;
+
+(b) In a case involving reciprocity, the revocation imposed by the department has expired;
+
+(c) Any revoked license has been physically surrendered to the division as required or the respondent has notified the department that the license was lost or stolen;
+
+(d) There is no evidence of continued driving of a motor vehicle in this state during the revocation period;
+
+(e) A license application and fee are on file with the division if the driver's license has expired or if the revokee is a new resident;
+
+(f) The fee, required pursuant to RSA 263:42, V, has been paid;
+
+(g) The person's record has been reviewed to assure complete compliance with applicable statutes and rules;
+
+(h) All court fines have been paid and defaults cleared; and
+
+( i ) There are no other revocations or suspensions in effect under any other statute or rule including reciprocity agreements and requirements.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5274, eff 11-20-91; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; (formerly Saf-C 220.02) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 205.02) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.03 Restoration: Possession of Drugs . Prior to such restoration, the hearings examiner shall make further inquiry into the person's fitness to drive if they have evidence that such person has a drug abuse problem which might affect their ability to drive a motor vehicle safely.
+
+Source. #3170, eff 12-31-85; #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.03); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; (formerly Saf-C 220.03) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 205.03) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.04 Restoration: Influence of Alcohol or Drugs . Any person whose driver's license or operating privilege has been revoked pursuant to RSA 265-A:2 or RSA 265-A:3, or RSA 263:65 for an out of state conviction shall have such license or privilege restored upon meeting the following requirements:
+
+(a) The period of revocation imposed by the court has expired;
+
+(b) Any revoked license has been physically surrendered to the division as required, or the person has notified the department that the license was lost or stolen;
+
+(c) A license application and fee are filed with the division if the revoked New Hampshire license expired or if the revokee is a new resident;
+
+(d) The fee required by RSA 263:42, V, has been paid;
+
+(e) All court fines have been paid and defaults cleared;
+
+(f) The person s file reflects documentation of successful completion of an approved alcohol education program;
+
+(g) A negative alcohol evaluation report pursuant to Saf-C 1016.02 is on file;
+
+(h) All requirements imposed by the court in conjunction with its findings have been complied with, including but not limited to:
+
+(1) Driver certification; or
+
+(2) Professional counseling;
+
+( i ) Proof of financial responsibility in the form of an SR-22 certificate is on file; and
+
+(j) There are no other revocations or suspensions in effect under any other statute, rule, or regulation including reciprocity agreements and requirements.
+
+Source. #3170, eff 12-31-85; #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.04); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; (formerly Saf-C 220.04) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 205.04) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.05 Restoration to Persons Found Not Guilty of Driving While Intoxicated . Upon receipt of a court abstract indicating that the person has been found not guilty in superior or district court, Saf-C 7503.03 shall not apply and such license or driving privilege revoked pursuant to RSA 265-A:2 or RSA 265-A:3-a shall be restored provided there are no other active suspensions or revocations in effect under any other statute or rule including reciprocity agreements and requirements.
+
+Source. #3170-a, eff 12-31-85; #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.05); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; (formerly Saf-C 220.05) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 205.05) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.06 Restoration: Implied Consent or Administrative License Suspension .
+
+(a) Any person whose license or privilege to drive a motor vehicle in this state has been suspended pursuant to RSA 265-A:30 or RSA 265-A:14, shall have such license or privilege restored upon compliance with the requirements set forth in (b) below.
+
+(b) Pursuant to (a) above, a person s license shall be restored if:
+
+(1) The period of the original suspension imposed by the department has expired unless the original order was modified at the hearing;
+
+(2) Any license suspended by the department has been physically surrendered or the respondent has notified the department that the license was lost or stolen;
+
+(3) The fee required pursuant to RSA 263:42, V, has been paid;
+
+(4) A review of the person s record discloses total compliance with applicable statutes and rules; and
+
+(5) There are no other revocations or suspensions in effect under any other statute or rule including reciprocity agreements and requirements.
+
+Source. #3170, eff 12-31-85; #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5274, eff 11-20-91; amd by #5688, eff 8-20-93; amd by #6068, eff 7-28-95; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.06); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; (formerly Saf-C 220.06) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 205.06) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.07 Denial of Restoration in Certain Cases: Implied Consent or Administrative License Suspension .
+
+(a) Saf-C 7503.05 notwithstanding, a hearing examiner shall deny restoration of a license or driving privilege revoked pursuant to RSA 265-A:30 or RSA 265-A:14, if:
+
+(1) Any court, department, division, or administrative action has imposed an additional revocation of license or driving privileges;
+
+(2) The person has failed to comply with financial responsibility requirements; or
+
+(3) Physical or mental impairment exists that could result in immediate harm to the public should the person s license be restored.
+
+(b) In a case as prescribed by (a)(1) above, the revocation shall run consecutively with the revocation issued pursuant to RSA 265-A:14. Under no circumstances shall said revocations run concurrently.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #5687, eff 8-20-93; amd by #5688, eff 8-20-93; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.07); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; (formerly Saf-C 220.07) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 205.07) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.08 Restoration or Reapplication: Medical Evidence .
+
+(a) In the event that a person's license or driving privilege has been suspended or revoked, or an application denied due to a medical condition, the following shall be required from such person prior to restoring said license or privilege:
+
+(1) A current statement of case history;
+
+(2) A current medical evaluation by the treating physician, physician assistant, or advanced practice registered nurse covering:
+
+a. Diagnosis;
+
+b. Treatment;
+
+c. Prognosis;
+
+d. Relationship to the patient's driving ability; and
+
+e. Evidence the person has been symptom-free, for a minimum of 12 months, of the medical condition which led to the existing license or driving privilege suspension; and
+
+(3) Any other relevant evidence as to the medical condition of the applicant which relates to their ability to drive a motor vehicle.
+
+(b) In lieu of the medical evaluation pursuant to (a)(2) above, a person may submit a medical evaluation stating there is no evidence of reoccurrence of the condition which led to the existing medical suspension and that any treatment program, including medication, does not render the person a hazard to public safety or incapable of safe operation of a vehicle.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 204.08); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 205.08) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7503.09 Restoration: Underage Influence of Alcohol or Drugs .
+
+(a) The holder of a youth operator s license who is convicted of an offense under RSA 265-A:43, RSA 265-A:2, or RSA 265-A:3 shall not be eligible for reissuance of a license prior to the age of 21 unless the person satisfies the director, after an administrative hearing, that:
+(1) The person will drive in a safe manner if the license is issued;
+
+(2) The requirements of Saf-C 7503.04 have been met;
+
+(3) There are no outstanding suspension(s) to be served under RSA 263:14, III, RSA 265-A:14, or any other suspensions in effect; and
+
+(4) The person did not drive a motor vehicle in violation of the existing suspension order.
+
+(b) The hearings examiner shall order the installation of an interlock ignition system as a restriction on the license in accordance with RSA 263:14, V or Saf-C 6512.06.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+PART Saf-C 7504 FINANCIAL RESPONSIBILITY HEARING REQUIREMENTS
+
+Saf-C 7504.01 Insurance Certificates .
+
+(a) An SR-22 certificate filed pursuant to any law or rule shall include:
+
+(1) The insured's name and date of birth;
+
+(2) The insured's address;
+
+(3) The name of the insurance company;
+
+(4) The policy number;
+
+(5) The effective date of the policy; and
+
+(6) The type of coverage in effect.
+
+(b) An SR-26 certificate filed pursuant to any law or rule shall include:
+
+(1) The insured's name and date of birth;
+
+(2) The insured's address;
+
+(3) The name of the insurance company;
+
+(4) The policy number;
+
+(5) The effective date of the policy; and
+
+(6) The effective date of the cancellation or termination of the policy.
+
+Source. #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss by #6337, eff 9-25-96; ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04 ; ss by #10395-B, eff 8-15-13; (formerly Saf-C 222.01) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 207.01) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.02 Homicide or Assault with a Motor Vehicle .
+
+(a) Upon receipt of an abstract of the record of conviction of a person for homicide or assault arising out of the driving of a vehicle, the financial responsibility administrator shall forward or cause to be forwarded to that person a notice of action by first class United States mail or hand service advising the person of:
+
+(1) The requirement to file proof of financial responsibility in the form of an SR-22 certificate; and
+
+(2) The department's intent to suspend such person's license and registration certificate and plates 30 days subsequent to the issuance of said notice of intent if there is noncompliance with (a) above.
+
+(b) The financial responsibility administrator or hearings examiner shall, upon request, issue an amended notice allowing the person an additional 10 days in which to comply with the filing requirement.
+
+(c) In the event such person, as described in paragraph (a) fails to file proof of financial responsibility, the financial responsibility administrator shall suspend such person's license and registration certificate and plates.
+
+(d) Whenever the SR-22 certificate is filed with the director prior to the effective date of suspension, no suspension shall occur.
+
+(e) In the event the SR-22 certificate is filed subsequent to suspension, all applicable rules and statutes shall be complied with to effectuate restoration.
+
+(f) The provisions of this section shall be of general application but shall not supersede any court imposed suspension or revocation or insurance filing or action taken pursuant to Saf-C 1018.
+
+Source. #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04 ; ss by #10395-B, eff 8-15-13; (formerly Saf-C 222.02) (see Revision Note #2 at chapter heading for Saf-C 200); ss by #13938, eff 4-24-24 (formerly Saf-C 207.02) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.03 Failing to Stop and Report an Accident .
+
+(a) Upon receipt of an abstract of the record of conviction of a person for failing to stop and report when involved in an accident, the financial responsibility administrator shall forward or cause to be forwarded to the person a notice of action by first class United States mail or hand service advising the person of:
+
+(1) The requirement to file proof of financial responsibility in the form of an SR-22 certificate; and
+
+(2) The department's intent to suspend such person's license and registration certificate and plates 30 days subsequent to the issuance of said notice of intent if there is noncompliance with (1) above.
+
+(b) The financial responsibility administrator or hearings examiner shall upon request, issue an amended notice allowing the person an additional 10 days in which to comply with the filing requirement.
+
+(c) In the event such person, as described in paragraph (a), fails to file proof of financial responsibility, the financial responsibility administrator shall suspend such person's license and registration certificate and plates.
+
+(d) Whenever the SR-22 certificate is filed with the director prior to the effective date of suspension, no suspension shall occur.
+
+(e) In the event the SR-22 certificate is filed subsequent to suspension, all applicable rules and statutes shall be complied with to effectuate restoration.
+
+(f) The provisions of this section shall be of general application but shall not supersede any court imposed suspension or revocation or insurance filing.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.03) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.04 Four or More Speeding Convictions .
+
+(a) Upon receipt of abstracts of the record of convictions of a person for 4 or more speeding convictions, based on violations within the same calendar year, the financial responsibility administrator shall forward or cause to be forwarded to the person a notice of action by first class United States mail or hand service advising the person of:
+
+(1) The requirement to file proof of financial responsibility in the form of an SR-22 certificate; and
+
+(2) The department's intent to suspend such person's license and registration certificate and plates 30 days subsequent to the issuance of said notice of intent if there is noncompliance with (1) above.
+
+(b) The financial responsibility administrator or hearings examiner shall, upon request, issue an amended notice allowing the person an additional 10 days in which to comply with the filing requirement.
+
+(c) In the event such person, as described in paragraph (a), fails to file proof of financial responsibility, the financial responsibility administrator shall suspend such person's license and registration certificate and plates.
+
+(d) Whenever the SR-22 certificate is filed with the director prior to the effective date of suspension, no suspension shall occur.
+
+(e) In the event the SR-22 certificate is filed subsequent to suspension, all applicable rules and statutes shall be complied with to effectuate restoration.
+
+(f) The provision of this section shall be of general application but shall not supersede any court imposed suspension or revocation or insurance filing or action taken pursuant to Saf-C 7508.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.03); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.04) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.05 Reckless Driving .
+
+(a) Upon receipt of an abstract of the record of conviction of a person for the second time for driving a vehicle in a reckless manner within 5 years, based on the date of violation, the financial responsibility administrator or hearing examiner shall forward, or cause to be forwarded to the person, a notice of action by first class United States mail or hand service advising the person of:
+
+(1) The requirement to file proof of financial responsibility in the form of an SR-22 certificate; and
+
+(2) The department's intent to suspend such person's license and registration certificate and plates 30 days subsequent to the issuance of said notice of intent if there is noncompliance with (1) above.
+
+(b) The financial responsibility administrator or hearing examiner shall, upon request, issue an amended notice allowing the person an additional 10 days in which to comply with the filing requirement.
+
+(c) In the event such person, as described in paragraph (a), fails to file proof of financial responsibility, the financial responsibility administrator shall suspend such person's license and registration certificate and plates.
+
+(d) Whenever the SR-22 certificate is filed with the director prior to the effective date of suspension, no suspension shall occur.
+
+(e) In the event the SR-22 certificate is filed subsequent to suspension, all applicable rules and statutes shall be complied with to effectuate restoration.
+
+(f) The provisions of this section shall be of general application but shall not supersede any court imposed suspension or insurance filing requirement.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.04); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.05) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.06 Owner or Non-Owner Designation Required .
+
+(a) Whenever proof of financial responsibility is required, it shall be furnished, in duplicate, by an SR-22 certificate pursuant to RSA 264:21 and RSA 259:9. An SR-22 certificate shall not contain a cancellation date.
+
+(b) The certificate shall clearly set forth whether the type of coverage afforded is:
+
+(1) If owner coverage, whether it is applicable to any vehicles owned; or
+
+(2) If non-owner applicable to any non-owned vehicle.
+
+(c) Whenever proof of financial responsibility is canceled, the insurance company shall furnish the department with an SR-26 certificate that shall effectively cancel any SR-22 filings from that company bearing identical policy number(s).
+
+(d) All such certificates shall contain an official signature of the insurer.
+
+(e) The department shall not be responsible for verifying the authenticity of the signatures on the SR-22 or SR-26 certificates.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.05); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.06) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.07 Decertified Habitual Offenders . Notwithstanding Saf-C 7504.12(a), the requirement to file proof of financial responsibility shall be terminated by a hearings examiner or the financial responsibility administrator after 3 years from the habitual offender s date of eligibility for driver s license or operating privileges, as determined at the decertification hearing.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.06); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.07) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.08 Restoration of Registration . Restoration shall be based on the type of filing made. In cases where non-owner's coverage is filed, registration of a vehicle shall not be permitted and active registration shall be suspended until evidence of owner coverage on any such vehicle is filed with the director.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.07); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss moved by #8230-B, eff 12-17-04 (formerly Saf-C 207.07); ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.08) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.09 Cancellation of Coverage . On receipt of an insurer's intention to cancel a person's proof of financial responsibility in the form of an SR-26, the commissioner shall:
+
+(a) Forward or cause to be forwarded a notice of action to the named insured advising them of such cancellation; and
+
+(b) Advise the named insured that their license and registration shall be suspended 20 days after the issuance of such notice if an SR-22 certificate is not filed within that period.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 206.08); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss moved by #8230-B, eff 12-17-04 (formerly Saf-C 207.08); ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.09) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.10 Notice of Suspension .
+
+(a) In the event a suspension of license or registration or both is effected due to a failure to file an SR-22 certificate as required, the financial responsibility administrator shall forward, or cause to be forwarded, a notice of suspension to the address of record of such person by first class mail.
+
+(b) In such letter, the suspended licensee or registrant shall be directed to surrender their license and registration certificate and registration plates.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (formerly Saf-C 206.09); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss moved by #8230-B, eff 12-17-04 (formerly Saf-C 207.09); ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.10) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.11 Failure to Surrender License, Plates, Registration . In the event a person is advised by letter to surrender their license or registration certificate and plates, and such person fails to comply, the financial responsibility administrator or hearing examiner shall, after 15 working days from the effective date of the suspension or revocation, forward a pickup order to a law enforcement officer to retrieve such items.
+
+Source. #5274, eff 11-20-91; ss by #5688, eff 8-20-93; ss and moved by #6337, eff 9-25-96 (formerly Saf-C 206.10); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss moved by #8230-B, eff 12-17-04 (formerly Saf-C 207.10); ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.11) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7504.12 Cancellation of Requirement for Proof of Financial Responsibility .
+
+(a) The requirement to file proof of financial responsibility shall be terminated by a hearings examiner or the financial responsibility administrator after 3 years from the date of accident involvement, final conviction, or administrative action requiring such proof.
+
+(b) The filing period shall be extended for a period of 3 years from the date of a record of the following subsequent activities:
+
+(1) Uninsured accident involvement;
+
+(2) A conviction under RSA 259:39, I, with a violation date occurring during the required filing period;
+
+(3) Any administrative action resulting from a hearing, imposing the filing of an SR-22 certificate;
+
+(4) An unsatisfied judgment that resulted from an uninsured motor vehicle accident;
+
+(5) Certification as an habitual offender; and
+
+(6) Other actions, pursuant to RSA 264:2 and RSA 264:3, which require furnishing proof of financial responsibility.
+
+(c) A person convicted of driving while intoxicated second offense or subsequent offense shall file proof of financial responsibility for 3 years from the date of eligibility for restoration.
+
+(d) If an individual is in default of an agreement pursuant to Saf-C 7505.12, that person shall not be relieved from the SR-22 filing requirement until the agreed amount has been paid in full.
+
+(e) The financial responsibility administrator or hearing examiner shall notify the named insured and the insurance company when an SR-22 filing is no longer required.
+
+Source. #8230-B, eff 12-17-04 (formerly Saf-C 207.11); ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 207.12) (see Revision Note at chapter heading for Saf-C 7500)
+
+PART Saf-C 7505 ACCIDENT REPORTS, HEARINGS
+
+Saf-C 7505.01 Uniform Police Traffic Accident Report . The report of investigation of accidents required pursuant to RSA 264:26, shall be completed by the police officer and submitted to the division on form DSMV-159 Uniform Police Traffic Accident Report , (Rev. 4/2024).
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 207.01); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 208.01) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.02 Operator's Report of Accident . A person required by RSA 264:25 to report an accident shall complete and submit form DSMV 400 Motor Vehicle Accident Report , (4/2024) , to the division.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 207.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 208.02) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.03 Failure to File Accident Report . If a person fails to file an accident report as required under RSA 264:3 and RSA 264:25, the financial responsibility administrator shall forward or cause to be forwarded by first class mail a notice of suspension of license and registration to the person s last known address.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 207.03); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 208.03) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.04 Late Report After Suspension . If an accident report in compliance with RSA 264:3, RSA 264:25, RSA 264:26, and these rules is received subsequent to the action required by Saf-C 7505.03, the license and registration of the person required to submit such accident report shall be restored, unless an examination of such person s file by the financial responsibility administrator or a hearings examiner shows that the person s license or registration or both has been suspended on other grounds and that the criteria for restoration of such license or registration based upon such other grounds have not been satisfied.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 207.04); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 208.04) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.05 Evaluation of Accident Reports .
+
+(a) Upon receipt of any accident report, the department's accident evaluator shall:
+
+(1) Review the accident report and any related documentation submitted;
+
+(2) Determine if the operator, at the time of the accident, was self-insured, based upon evidence on file with the department;
+
+(3) Determine if the owner had in effect, at the time of the accident, an automobile liability policy with respect to the vehicle involved in the accident;
+
+(4) Determine whether the operator or owner had in effect at the time of the accident any other form of coverage;
+
+(5) Determine whether the vehicle at the time of the accident was legally parked;
+
+(6) Determine whether the owner of the vehicle at the time of the accident was:
+
+a. The United States government;
+
+b. The state; or
+
+c. A city or town; and
+
+(7) Determine whether the driver was a town police officer or state employee while on official duty.
+
+(b) If the review in (a) above results in a conclusion that there is a reasonable possibility of judgment against the uninsured motorist in any civil litigation, then the reviewer shall establish the security requirement in the amount sufficient to satisfy any judgment.
+
+(c) The security requirement shall be accepted in only one of the following forms:
+
+(1) A standard interest bearing savings account in the exact amount specified, accompanied by a signed order of withdrawal;
+
+(2) A certified check or money order for the exact amount specified; or
+
+(3) Cash for the exact amount specified.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 207.05); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by#10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 208.05) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.06 Computation of Security Requirement Amount .
+
+(a) In the event that security is deemed to be required, pursuant to Saf-C 7505.05(b), the amount of such security shall reflect a reasonable prediction of the extent of personal injury and property damage costs.
+
+(b) The following criteria shall be considered in determining the predicted cost from personal injury:
+
+(1) The description of the injury;
+
+(2) The probable length of recovery time;
+
+(3) The age of the injured party;
+
+(4) All medical, dental, and hospital costs;
+
+(5) The prospects of disability; and
+
+(6) The severity of property damage in relation to the described injury.
+
+(c) Notwithstanding (b)(1) through (b)(6), the dollar amount shall not exceed the provisions specified in RSA 264:20.
+
+(d) Information for making a determination pursuant to (a) above, shall be obtained from:
+
+(1) Medical or dental reports;
+
+(2) Schedules for approximate costs of injuries and physical disabilities; and
+
+(3) Schedules from health and accident insurance companies.
+
+(e) The amount of security required due to property damage shall be on the basis of one or more of the following:
+
+(1) Repair estimates, one or more;
+
+(2) Current new or used car guides; and
+
+(3) Initial or supplemental estimates from a repair facility or automotive body shop as obtained and submitted from the involved parties.
+
+(f) Notwithstanding (d)(1) through (d)(3), the dollar amount shall not exceed the provision specified in RSA 264:20.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #6068, eff 7-28-95; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 207.06); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 208.06) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.07 Non-Response for Information Needed to Determine Security Requirement . If a person fails to respond within 20 days to the request from an evaluator or the financial responsibility administrator for the information necessary to determine the amount of the required security, the financial responsibility administrator or accident evaluator shall utilize the criteria under Saf-C 7505.06 (e) to determine an amount of security. This amount shall be adjusted upon the submission of documentation substantiating actual cost of the repair or replacement to property.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (formerly Saf-C 207.061); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 208.07) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.08 Notice of Security Requirement .
+
+(a) In the event security is determined to be required from a driver or owner, the department shall forward a notice to the appropriate person(s).
+
+(b) The notice in (a) above shall include:
+
+(1) The reason(s) for the imposition of the requirement;
+
+(2) The amount of security required;
+
+(3) Request for a hearing instructions regarding the person's eligibility for hearing;
+
+(4) A statement as to the department's intention to suspend the license and registration for failure to deposit security as required;
+
+(5) A statement as to the department's intention to suspend the license and registration for failure to file proof of financial responsibility in the form of an SR-22 certificate; and
+
+(6) A statement indicating that absent good cause, no hearing shall be held if requested after 30 days from the date the notice was issued.
+
+(c) For the purposes of (b)(6) above, good cause shall be determined in accordance with Saf-C 203.22(b).
+
+Source. #6337, eff 9-25-96 (from Saf-C 207.07); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 208.08) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.09 Failure to Deposit Security: Suspension .
+
+(a) After 30 days from the issuance of the notice required in Saf-C 7505.08, the financial responsibility administrator shall suspend the license and registration or non-resident driving privileges of the person named in the notice unless:
+
+(1) Security in the required amount and form has been deposited and proof of financial responsibility has been filed in the form of an SR-22 certificate clearly setting forth whether the type of coverage is owner or non-owner;
+
+(2) The request for hearing has been received by the department; or
+
+(3) The named party has presented evidence of a release, covenant not to sue, or final adjudication of non-liability.
+
+(b) If a hearing is requested, the hearings examiner shall determine the amount of security required to be posted pursuant to Saf-C 7505.06. If security and financial responsibility are required, the hearings examiner shall suspend the license and registration of the person 30 days from the date of their decision unless or until the requirements are met.
+
+(c) The scope of the hearing shall be limited to:
+
+(1) Whether the respondent or the respondent's vehicle was involved in an accident on the date alleged in the notice of suspension;
+
+(2) Whether appropriate insurance was in effect at the time of the accident;
+
+(3) Whether the accident was reportable under RSA 264:25; and
+
+(4) Whether based on the evidence presented by the respondent, there exists doubt as to whether a judgment would be obtained, taking into consideration the provisions of RSA 507:7-d.
+
+Source. #6337, eff 9-25-96 (from Saf-C 207.08); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 208.09) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.10 Withdrawal of Security Requirement .
+
+(a) Security deposits shall be withdrawn in any of the following instances:
+
+(1) By assignment of any part or all of the deposit of security to a party in whose favor judgment is obtained as deemed necessary by the court order;
+
+(2) A settlement between the parties wherein assignment and release forms are executed; or
+
+(3) After a 2 year period has elapsed since the accident, and there is no evidence of suit against the depositor.
+
+(b) Any request for withdrawal of the deposit of security shall be made in writing to the department.
+
+Source. #6337, eff 9-25-96 (from Saf-C 207.09); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 208.10) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.11 Unsatisfied Judgments .
+
+(a) Upon receipt of a court judgment that is unsatisfied that resulted from an uninsured accident, the financial responsibility administrator shall issue a suspension order effective 30 days subsequent to the date of notice. This notice shall include a copy of the court's judgment and advise the recipient of their right to request a hearing.
+
+(b) The scope of such a hearing shall be limited to:
+
+(1) Whether the recipient is the same person named in the court's decision; and
+
+(2) Whether the accident, if in-state, was reportable under RSA 264:25.
+
+Source. #6337, eff 9-25-96 (from Saf-C 207.10); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 208.11) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7505.12 Failure to Pay an Agreement with a Creditor .
+
+(a) Pursuant to RSA 264:11, a debtor who fails to pay any installment as specified in an agreement with a creditor shall have their license, driving privileges, and registration suspended. Upon receipt of notification of non-payment of agreement, the financial responsibility administrator shall issue a suspension order effective 10 days subsequent to the date of the notice. The notice shall advise the recipient of their right to request a hearing.
+
+(b) The scope of the hearing shall be limited to:
+
+(1) Whether the recipient entered into a security release agreement with the aggrieved party or parties; and
+
+(2) Whether the recipient is in compliance with the agreement.
+
+Source. #6337, eff 9-25-96 (from Saf-C 207.11); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 208.12) (see Revision Note at chapter heading for Saf-C 7500)
+
+PART Saf-C 7506 PERIODIC PAYMENTS
+
+Saf-C 7506.01 Definitions .
+
+(a) Inability to pay for the purposes of this part means the license holder has income at or below the current levels established and posted by the U.S. Department of Health and Human Services, Office of the Assistant Secretary for Planning and Evaluation Poverty Guidelines, available at: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines .
+
+(b) Income , for the purposes of (a) above, shall not include any funds due a license holder from execution, levy, attachment, garnishment, or other legal process.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.02 Request for Periodic Payment Hearing .
+
+(a) A license holder subject to suspension of license and certificate of registration and surrender of registration plates pursuant to RSA 264:3 and subject to paying security as required by RSA 264:4 and these rules, may request a hearing to establish inability to pay the security required in full and establish a periodic payment schedule.
+
+(b) In order to be considered, a license holder shall complete and submit a financial affidavit form, DMV 648 Affidavit of Assets and Liabilities , effective 4/2024, supplied by the division along with the request for a hearing to:
+
+Bureau of Hearings
+NH Department of Safety
+33 Hazen Drive
+Concord, NH 03305
+
+(c) The DMV 648 Affidavit of Assets and Liabilities form, effective 4/2024, shall be notarized.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.03 Scope of Hearing .
+
+(a) The scope of hearing shall be limited to whether the license holder has the ability to pay the security amount in full, and if not:
+
+(1) Amount of periodic payment;
+
+(2) Frequency of payments; and
+
+(3) Duration of payments.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.04 Burden of Proof. The eligibility for periodic payments shall be based upon the information provided on the license holder s financial affidavit and any testimony provided at the hearing. If the license holder demonstrates an inability to pay the security amount in full, a periodic payment schedule shall be established.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.05 Content of Periodic Payment Order . A periodic payment order shall include the following information:
+
+(a) License holder name;
+
+(b) License holder address;
+
+(c) Customer identification number;
+
+(d) Total dollar amount of payments;
+
+(e) Periodic payment amount;
+
+(f) Payment duration;
+
+(g) Number of payments; and
+
+(h) A statement notifying the license holder that failure to make any payment according to the payment schedule shall result in the suspension of the license holder s driver s license, certificate of registration, and license plates of any vehicles owned by the license holder.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.06 Notification of Hearing Decisions . The license holder and creditor shall be notified of all hearings, as well as the decisions rendered in any hearing under this part.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.07 Review of Periodic Payment Order .
+
+(a) Pursuant to RSA 264:4-a, V, a license holder ordered to make periodic payments may request a review of the order upon change in their financial circumstances. A license holder shall demonstrate a change in financial conditions by completing and submitting a DMV 648 Affidavit of Assets and Liabilities form, effective 4/2024.
+
+(b) Pursuant to RSA 264:4-a, IV, a license holder, their legal counsel, or creditor, may request a review of the order no sooner than 6 months after the date of the order.
+
+(c) A review hearing shall be scheduled if the request conforms with this part.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.08 Review Hearing Decision . As a result of the review hearing, the director shall take one of the following actions:
+
+(a) Leave the existing order in place;
+
+(b) Amend the existing order by changing the payment amount, duration, or frequency; or
+
+(c) Rescind the order.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.09 Default of Periodic Payment . If a default of payment occurs, the division shall mail a letter to the license holder at the address on file and the provisions of RSA 264:12 and Saf-C 7505.09 shall apply.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7506.10 Additional Requirement When License Holder is a Minor . When a license holder is a minor, the parent or legal guardian shall appear at any hearings, and if the minor or parent is unable to pay the security amount in full, periodic payments may be ordered consistent with this part.
+
+Source. #13938, eff 4-24-24 (see Revision Note at chapter heading for Saf-C 7500)
+
+PART Saf-C 7507 PROTESTED CHECKS
+
+Saf-C 7507.01 Business Office .
+
+(a) When any check in payment of a license, vehicle registration, title, permit, or fee is returned to the department's business office as uncollectible:
+
+(1) The check shall not be redeposited; and
+
+(2) The business office shall forward an advisory letter to the signatory which contains:
+
+a. Notification that the check has been returned and the reason;
+
+b. Notification that the check cannot be redeposited;
+
+c. A request for restitution of the full amount of the check in addition to the penalty authorized by RSA 6:11-a;
+
+d. Notification that if the license is suspended for more than 15 days, the statutory restoration fee, in addition to restitution of the full amount of the check and penalty, shall be paid before the license shall be restored;
+
+e. Notification that if the license has been under suspension for more than 15 days, payment of the statutory restoration fee shall be included in addition to restitution for the full amount of the check and payment of the penalty;
+
+f. Notification that payment shall be made by certified check, money order, or cash;
+
+g. Notification that if payment is sent by mail, it shall be by certified check or money order;
+
+h. Notification that payment shall be payable to State of New Hampshire - MV, and sent to:
+
+Department of Safety
+Business Office
+James H. Hayes Building
+23 Hazen Drive
+Concord, N.H. 03305
+
+i . Notification that unless payment is received within 20 working days from the date of the letter, or a hearing is requested, action shall be initiated to suspend any license, vehicle registration, title, permit, or any combination thereof, which has been obtained by the signatory or any other person by issuance of the returned check, together with the driving privileges of said person where appropriate.
+
+(b) The department shall accept a second personal check in satisfaction of the uncollectible check amount plus any penalties if the business office determines that:
+
+(1) The individual's record indicates that there is no more than one returned check in the previous 12 month period in any transaction with the department;
+
+(2) It would be inefficient and impractical to refuse the second personal check because the individual has mistakenly presented or mailed a second personal check; or
+
+(3) The individual's bank indicates that the account that the second personal check is drawn on has sufficient funds to satisfy the amount of the check.
+
+(c) A hearing may be requested in writing, and if received prior to the effective date of suspension, it shall preclude the suspension from taking effect.
+
+(d) The person requesting the hearing, pursuant to (c) above, shall have the burden of proving by a preponderance of the evidence that the person:
+
+(1) Is not indebted to the department; or
+
+(2) Has paid to the department the full amount of the returned check, the penalty authorized by RSA 6:11-a, and any applicable statutory restoration fee.
+
+(e) At the conclusion of a hearing, a hearings examiner shall suspend any license, vehicle registration, title, permit, or any combination thereof which was obtained by issuance of the returned check in any case in which it is found that the signatory of the returned check or any other person who obtained any of the foregoing items by the issuance thereof:
+
+(1) Is indebted to the department as a result of the returned check; and
+
+(2) Has not paid to the department the full amount of the returned check, the penalty authorized by RSA 6:11-a, and any applicable statutory restoration fee.
+
+(f) All licenses, vehicle registrations, plates and decals, titles, and permits suspended under this rule shall be returned to the department immediately following the effective date of suspension. Notice of this requirement shall be included in any suspension order issued.
+
+(g) Any item suspended under this rule shall be restored upon receipt of restitution of the full amount of the returned check, together with any penalty owed to the department, provided there are no other suspensions and or revocations in effect, and further provided no additional penalties are applicable pursuant to RSA 263:12, RSA 263:64-a, or RSA 265:4.
+
+(h) Restoration shall not become effective until notice is given by the financial responsibility administrator and is received by the person against whom the suspension was issued.
+
+Source. #4207, eff 1-16-87; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 210.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 211.01) (see Revision Note at chapter heading for Saf-C 7500)
+Saf-C 7507.02 Municipalities .
+
+(a) When any check in payment of a permit fee is returned to a municipality as uncollectible because of insufficient funds, the procedure set forth in this section shall be followed.
+
+(b) A written complaint shall be executed against the registrant by the designated municipal official. The complaint shall be filed on form RDMV 306 Administrative Complaint , (Rev. 4/2024).
+
+(c) The written complaint shall be filed with the financial responsibility administrator and sent to:
+
+Division of Motor Vehicles
+Financial Responsibility
+23 Hazen Drive
+Concord, New Hampshire, 03305
+
+(d) The financial responsibility administrator shall generate a suspension notice to take effect in 10 days from the date of the notice, which shall indicate that:
+
+(1) A hearing may be requested in writing and if such request is made it shall preclude suspension from taking effect; and
+
+(2) If a hearing is requested, the registrant shall have the burden of proving, by a preponderance of the evidence, that they have made restitution of the full amount of the returned check and have paid any protest fees assessed by the municipality to which the returned check was issued.
+
+(e) At the conclusion of a hearing, a hearings examiner shall continue suspension of the registration certificate and number plates of the registrant in any case in which it is found that the person had not made full restitution of the returned check, or paid any protest fees assessed by the municipality to which the returned check was issued.
+
+(f) Any suspension issued under this section shall remain in effect until the financial responsibility administrator receives written evidence which conclusively establishes that:
+
+(1) Restitution of the full amount of the returned check has been made to the municipality;
+
+(2) Payment of any protest fees has been made to the municipality; and
+
+(3) There are no other suspensions and or revocations in effect and further provided no additional penalties are applicable pursuant to RSA 263:12, RSA 263:64-a, or RSA 265:4.
+
+Source. #4207, eff 1-16-87; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 210.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 211.02) (see Revision Note at chapter heading for Saf-C 7500)
+
+PART Saf-C 7508 UNIFORM POINT SYSTEM
+
+Saf-C 7508.01 Purpose . The purpose of these rules is to create a rational and uniform system for identifying habitually reckless or negligent drivers and habitual or frequent violators of traffic laws governing the movement of vehicles.
+
+Source. #4207, eff 1-16-87; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 211.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 212.01) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.02 Assessment of Points: Suspensions .
+
+(a) Any person under 18 years of age who accumulates the number of demerit points specified below, in accordance with Saf-C 7508.04 shall be subject to the following suspension period:
+
+(1) For 6 demerit points in one calendar year, up to 3 months;
+
+(2) For 12 demerit points in 2 consecutive calendar years, up to 6 months;
+
+(3) For 18 demerit points in 3 consecutive calendar years, up to one year.
+
+(b) Any person 18 to under 21 years of age who accumulates the number of demerit points specified below, in accordance with Saf-C 7508.04, shall be subject to the following suspension period:
+
+(1) For 9 demerit points in one calendar year, up to 3 months;
+
+(2) For 15 demerit points in 2 consecutive calendar years, up to 6 months;
+
+(3) For 21 demerit points in 3 consecutive calendar years, up to one year.
+
+(c) Any person 21 years of age or older who accumulates the number of demerit points specified below, in accordance with Saf-C 7508.04 shall be subject to the suspension period specified:
+
+(1) For 12 demerit points in one calendar year, up to 3 months;
+
+(2) For 18 demerit points in 2 consecutive calendar years, up to 6 months;
+
+(3) For 24 demerit points in 3 consecutive calendar years, up to one year.
+
+(d) For the purpose of assessing the points as specified in Saf-C 7508.03, the violation date, not the conviction date, shall be used to determine whether the appropriate number of points have been obtained within a particular calendar year.
+
+(e) When 2 or more convictions result from a single incident, the commissioner shall assess points for one offense only, if the offenses are assigned different demerit points, the offense having the greater point value shall be used.
+
+(f) Any person convicted under the laws of another state, of any violation which would have constituted a violation specified in Saf-C 7508.03 if committed in New Hampshire, shall be assessed the number of points specified in that section.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; ss and moved by #6337, eff 9-25-96 (from Saf-C 211.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-1; ss by #13938, eff 4-24-24 (formerly Saf-C 212.02) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.03 Demerit Points . Upon conviction, the following demerit points shall be assessed for the corresponding violation:
+
+(a) One demerit point for a conviction of violating:
+
+(1) RSA 261:59, operating without possession of a registration certificate;
+
+(2) RSA 266:5, failure to obey inspection requirements; or
+
+(3) RSA 263:35, failure to obtain a New Hampshire driver's license;
+
+(b) Two demerit points for a conviction of violating:
+
+(1) RSA 261:40, unregistered vehicle;
+
+(2) RSA 263:1-a, allowing an improper person to operate a motor vehicle;
+
+(3) RSA 263:2, failure to display or produce a license for inspection by an officer;
+
+(4) RSA 263:85, allowing an improper person to drive a commercial motor vehicle;
+
+(5) RSA 263:13, failure to abide by license restrictions;
+
+(6) RSA 263:92, operating a motor vehicle with the improper class of license;
+
+(7) RSA 263:30, operating without a motorcycle license;
+
+(8) RSA 265:3, obedience required to a police officer;
+
+(9) RSA 265:102, littering;
+
+(10) RSA 263:33, operate moped without a driver s license;
+
+(11) RSA 264:31, failure to report injury to dog or cat; or
+
+(12) RSA 265:112, failure to display parking lights;
+
+(c) Three demerit points for a conviction of violating:
+
+(1) RSA 265:9, disobedience to any required traffic control device;
+
+(2) RSA 265:21, limitations on driving to left of center of roadway;
+
+(3) RSA 265:23, one-way roadways and roadways and rotary traffic islands;
+
+(4) RSA 265:24, driving on roadways laned for traffic;
+
+(5) RSA 265:25, following too closely;
+
+(6) RSA 265:26, driving on divided ways;
+
+(7) RSA 265:26-a, driving on a sidewalk;
+
+(8) RSA 265:28, failure to yield the right of way;
+
+(9) RSA 265:29, vehicle turning left;
+
+(10) RSA 265:30, failure to obey yield sign;
+
+(11) RSA 265:31, failure to obey stop and yield signs;
+
+(12) RSA 265:32, vehicle entering way from private road or driveway;
+
+(13) RSA 265:33, failure to yield to authorized emergency vehicles;
+
+(14) RSA 265:37 or RSA 265:41, failure to use due care;
+
+(15) RSA 265:45, failure to signal turn;
+
+(16) RSA 265:48-51, improper conduct at a railroad crossing;
+
+(17) RSA 265:60-67, speeding when the conviction is for speeding under 25 miles per hour above the posted speed limit;
+
+(18) RSA 261:75 or RSA 261:77, misuse of plates;
+
+(19) RSA 265:94, illegal backing;
+
+(20) RSA 265:95, obstruction of driver's view;
+
+(21) RSA 265:96, opening and closing vehicle doors improperly;
+
+(22) RSA 265:99, coasting;
+
+(23) RSA 265:100, following fire apparatus too closely;
+
+(24) RSA 265:106, carrying passengers in truck not so designed;
+
+(25) RSA 265:109, failure to display lights;
+
+(26) RSA 261:176, misuse or failure to display plates;
+
+(27) RSA 262:40-c, abandoned vehicles;
+
+(28) RSA 263:14, youth operator;
+
+(29) RSA 261:178, suspended registration;
+
+(30) RSA 265:17, approaching vehicles;
+
+(31) RSA 265:120, riding upon motorcycles; or
+
+(32) RSA 265:122, motorcycle requirement;
+
+(d) Four demerit points for a conviction of violating:
+
+(1) RSA 263:1, license required;
+
+(2) RSA 265:16, failure to drive on the right hand side of the road;
+
+(3) RSA 265:18, RSA 265:19 or RSA 265:20, improper passing;
+
+(4) RSA 265:22, yellow line violation;
+
+(5) RSA 265:60 - 67, speeding, when the conviction is for speeding of 25 miles per hour or more above the posted speed limit;
+
+(6) RSA 263:63, driving without giving proof of financial responsibility;
+
+(7) RSA 265:79-b, negligent driving;
+
+(8) RSA 265:6-a, highway construction and maintenance;
+
+(9) RSA 265:15, interference with traffic devices;
+
+(10) RSA 265:57, driving school buses; or
+
+(11) RSA 265:79-c, use of mobile electronic devices while driving; and
+
+(e) Six demerit points for a conviction of violating:
+
+(1) RSA 261:61, improper use of registration;
+
+(2) RSA 262:3, false report of theft;
+
+(3) RSA 262:7 or RSA 262:10, changed or removed vehicle identification;
+
+(4) RSA 630:3, negligent homicide, resulting from the operation of a motor vehicle;
+
+(5) RSA 630:2, manslaughter resulting from the operation of a motor vehicle;
+
+(6) RSA 262:8, concealing identity of vehicle ;
+
+(7) RSA 262:13, possession of master keys;
+
+(8) RSA 262:23, driving after suspension;
+
+(9) RSA 263:12, prohibited activities relative to license or nondriver identification card;
+
+(10) RSA 262:16, inspection sticker or registration decal modified or forged;
+
+(11) RSA 265:54, school bus violation;
+
+(12) RSA 262:1, alteration of title;
+
+(13) RSA 262:12, taking without owner's consent;
+
+(14) RSA 262:17, odometer tampering;
+
+(15) RSA 263:57-a, lending an operator's license to an underage person to purchase an alcoholic beverage;
+
+(16) RSA 263:64, driving after revocation or suspension;
+
+(17) RSA 264:25, conduct after an accident;
+
+(18) RSA 265:4, disobeying a police officer;
+
+(19) RSA 265:75, racing;
+
+(20) RSA 265:79, reckless driving;
+
+(21) RSA 265-A:43, driving a motor vehicle while in possession of drugs;
+
+(22) RSA 265-A:2, driving while under the influence of drugs or liquor;
+
+(23) RSA 265-A:3, aggravated driving while intoxicated;
+
+(24) RSA 265:79-a, vehicular assault;
+
+(25) RSA 265:115, transporting explosives;
+
+(26) RSA 265:117, transporting hazardous materials; or
+
+(27) RSA 265-A:37, circumventing ignition interlock.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 211.03); amd by #7564, eff 9-27-01; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; amd by #9724, eff 6-15-10; ss by #10395-B, eff 8-15-13; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 212.03) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.04 Notice and Hearing .
+
+(a) The department shall send notice by first class mail or hand deliver to the licensee an order that the licensee appear before the department to determine why that person's license or operating privileges should not be suspended for the period specified.
+
+(b) If, after a hearing, the commissioner determines that the licensee has a sufficient number of points to warrant a suspension for the period specified in Saf-C 7508.02, the commissioner shall suspend that license for the period specified and shall further require proof of financial responsibility when said suspension period specified is 6 or more months.
+
+(c) Nothing contained herein shall prohibit the commissioner or director from requiring proof of financial responsibility pursuant to RSA 264:2 and Saf-C 7504.
+
+(d) Demerit point hearings shall not be scheduled for individuals who qualify under section Saf-C 1016.04 above unless:
+
+(1) The individual has 3 or more offenses; or
+
+(2) The total demerit points qualify the individual for a suspension of 6 months or longer.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 211.04); amd by #7349, eff 8-22-00; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 212.04) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.05 Warning Notice .
+
+(a) The department shall, absent any computer failure, mail warning letters through first class United States mail to individuals as they accumulate point system convictions.
+
+(b) Notwithstanding (a) above, failure of a person to receive such a letter shall not prohibit further action against the person's license.
+
+Source. #6337, eff 9-25-96 (from Saf-C 211.05); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 212.05) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.06 Reduction of Points .
+
+(a) Any person who has accumulated at least 3 points under the provisions of these rules shall, only for suspension purposes pursuant to Saf-C 7508.02, have the most recent point assessment total reduced by 3 points if they can prove to the division they have successfully completed a driver improvement course which meets the requirements established under Saf-C 7508.07 or they have successfully completed a driver attitude course which meets the requirements established under Saf-C 7508.08.
+
+(b) An original completion certificate shall constitute proof of successful completion of a driver improvement or driver attitude course.
+
+(c) To be eligible for the point reduction, the course shall have been completed within the period for which the points are being assessed provided however, that such reductions shall be applied retroactively but shall not be applied prospectively.
+
+(d) No person shall have their point total reduced by more than 3 points during any 3 complete consecutive calendar year period.
+
+(e) Such a point total reduction shall not be reflected on the person s motor vehicle record so that total points are accurately reported as prescribed in Saf-C 7508.02.
+
+Source. #6337, eff 9-25-96 (formerly Saf-C 211.06); ss by #7349, eff 8-22-00; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 212.06) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.07 Driver Improvement Course .
+
+(a) To be eligible for the point reduction described in Saf-C 7508.06, a person shall successfully complete a New Hampshire driver improvement program which has been approved by the commissioner.
+
+(b) To be eligible for approval, a program shall:
+
+(1) Be administered and conducted by:
+
+a. A chartered and accredited chapter of the National Safety Council or an accredited public training agency certified and approved by the National Safety Council;
+
+b. Accredited American Automobile Association or Automobile Legal Association Motor Clubs or their agents;
+
+c. American Association of Retired Persons; or
+
+d. Commercial motor vehicle driver schools licensed under RSA 263:44;
+
+(2) Contain a minimum of 6 hours of instruction;
+
+(3) Incorporate audio-visual aids, providing that films, filmstrips, or video recordings shall not exceed 50 percent of the presentation time, including but not limited to:
+
+a. Films;
+
+b. Blackboards;
+
+c. Magnetic boards;
+
+d. Flip charts; and
+
+e. Slides when appropriate;
+
+(4) Provide an instructor preparation course to ensure competency in delivering the course;
+
+(5) Provide each instructor with an instructor's manual and each student with a student's workbook or manual, when necessary, to follow and participate in the course;
+
+(6) Provide a copy of a completion certificate designed for and capable of preventing fraud and forgery, and which verifies course completion;
+
+(7) Establish and maintain a record system compatible with the department's requirements for entry of completed certificates;
+
+(8) Provide for the maintenance of records for a period of 5 years;
+
+(9) Make the records available for inspection by an agent of the commissioner during normal business hours;
+
+(10) Establish appropriate lines of communication with the department in order to provide efficient administration of the course;
+
+(11) Provide and maintain a full-time operational office in New Hampshire for the operation and supervision of such courses; and
+
+(12) Charge a fee of not more than $50.00 per person.
+
+(c) For the purposes of (b)(2) above, the minimum 6 hours of instruction shall:
+
+(1) Consist of at least 4 hours of classroom instruction in those instances where behind-the-wheel training is utilized; and
+
+(2) Address the following subject areas:
+
+a. The concept of accident preventability including a discussion of the magnitude of traffic accident problems;
+
+b. Defensive driving techniques;
+
+c. Alcohol and drug use as an accident factor;
+
+d. The risk factors involved in driver attitude and behavior such as speeding, reckless driving, and improper lane use; and
+
+e. Traffic laws in New Hampshire.
+
+(d) Any person wishing to establish an approved driver improvement program shall submit to the commissioner an application containing the following information:
+
+(1) The name, address, and telephone number of the organization and any affiliations or licenses necessary to satisfy (b)(1) above;
+
+(2) A complete description of the program as outlined in (b) above;
+
+(3) A list of all instructors who shall be teaching as part of the program, including their:
+
+a. Names;
+
+b. Dates of birth;
+
+c. Addresses;
+
+d. Educational background; and
+
+e. Work experience; and
+
+(4) A complete description of the record system that the program will use to satisfy (b)(8) and (b)(9) above.
+
+(e) An agent of the commissioner shall observe any course approved under this section if the agent needs to determine compliance with paragraph (b) above.
+
+(f) The commissioner shall, after a hearing, revoke approval for any course which does not follow the requirements of paragraph (b) above.
+
+Source. #6337, eff 9-25-96 (formerly Saf-C 211.07); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 212.07) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.08 Driver Attitude Program .
+
+(a) Except as provided herein, the commissioner shall require proof of successful completion of the New Hampshire driver attitude program before restoring the license of any person who has:
+
+(1) Been ordered to complete the driver attitude program by a justice of the district court;
+
+(2) Been ordered, after an administrative hearing before the department concerning their driving record, to complete a driver attitude program; or
+
+(3) Had their license revoked pursuant to RSA 262:18-26.
+
+Source. #6337, eff 9-25-96 (formerly Saf-C 211.08); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 212.08) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.09 Waiver . Pursuant to RSA 263:56-e, II, the commissioner shall waive the provisions of Saf-C 7508.08, upon written request of the person if the request demonstrates:
+
+(a) That no programs are offered within a 30 mile radius of the person's residence;
+
+(b) That no programs are offered during the period of time between the order to attend the program and the date from which the person is eligible for license restoration; or
+
+(c) The person has completed a driver improvement course within 30 days of having been required to attend the driver attitude program.
+
+Source. #6337, eff 9-25-96 (formerly Saf-C 211.09); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13938, eff 4-24-24 (formerly Saf-C 212.09) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.10 Approval of Driver Attitude Program .
+
+(a) To be eligible for approval, a driver attitude program shall:
+
+(1) Follow a course format that contains a minimum of 6 hours and a maximum of 8 hours of instruction which shall include the following subject areas:
+
+a. State and local traffic laws and regulations;
+
+b. Driver behavior self-assessment;
+
+c. Selecting and planning effective driving behavior; and
+
+d. Emphasis on acceptance of individual responsibility for driving related choices and outcomes;
+
+(2) Incorporate audio-visual aids provided that films, filmstrips, or video recordings shall not exceed 50 percent of the presentation time, including but not limited to:
+
+a. Films;
+
+b. Blackboards;
+
+c. Flip charts; and
+
+d. Slides;
+
+(3) Provide an instructor preparation course to ensure competency in delivering the course;
+
+(4) Provide each instructor with an instructor manual and each student with a workbook or manual, when necessary, to follow and participate in the course;
+
+(5) Provide a copy of a completion certificate designed for and capable of preventing fraud and forgery and which verifies course completion;
+
+(6) Establish and maintain a record system compatible with the department's requirements for entry of completed certificate;
+
+(7) Provide for the maintenance of records for a period of 5 years and the records shall be made available for inspection by an agent of the commissioner during established business hours;
+
+(8) Establish appropriate lines of communication with the department in order to provide efficient administration of the course;
+
+(9) Provide and maintain a full-time operational office in New Hampshire for the operation and supervision of such courses;
+
+(10) Establish location(s) for the courses throughout the state;
+
+(11) Have a permanently established administrative office in New Hampshire; and
+
+(12) Charge a fee of not more than $75.00 per person.
+
+(b) An agent of the commissioner shall observe any course approved under this section if the agent needs to determine compliance with (a).
+
+(c) The commissioner shall, after a hearing, revoke approval for any course which does not follow the requirements of paragraph (a).
+
+Source. #6337, eff 9-25-96 (formerly Saf-C 211.10); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #9031, eff 11-19-07 , EXPIRED: 11-19-15
+
+New. #13938, eff 4-24-24 (formerly Saf-C 212.10) (see Revision Note at chapter heading for Saf-C 7500)
+
+Saf-C 7508.11 Application for Approval of Driver Attitude Program . Any person wishing to establish an approved driver attitude program shall submit to the commissioner an application containing the following information:
+
+(a) The name, address , and telephone number of the organization and any affiliation or license necessary to satisfy Saf-C 7508.10;
+
+(b) A complete description of the program as outlined in Saf-C 7508.10(a);
+
+(c) A list of all instructors who shall be teaching as part of the program, including their names, dates of birth, addresses, educational background, and work experience; and
+
+(d) A complete description of the record system that the program will use to satisfy Saf-C 7508.10(a)(7).
+
+Source. #6337, eff 9-25-96 (formerly Saf-C 211.11); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13938, eff 4-24-24 (formerly Saf-C 212.11) (see Revision Note at chapter heading for Saf-C 7500)
+
+APPENDIX
+
+Rule
+Statute
+
+Saf-C 7501
+RSA 264:1
+
+Saf-C 7502.01
+RSA 264:1
+
+Saf-C 7503.01
+RSA 21-P:14, IV; RSA 265-A:22;
+
+Saf-C 7503.01(a)
+RSA 264:1
+
+Saf-C 7503.01(b)
+RSA 263:42, V
+
+Saf-C 7503.01(c)
+RSA 265-A:22
+
+Saf-C 7503.01(d)
+RSA 263-56-a, IV; RSA 541-A:30-a, III
+
+Saf-C 7503.02
+RSA 265:79; RSA 541-A:30-a, III
+
+Saf-C 7503.03
+RSA 263:56, I(d)
+
+Saf-C 7503.04
+RSA 263:42, V
+
+Saf-C 7503.05
+RSA 265-A:27
+
+Saf-C 7503.06
+RSA 265-A:30; RSA 265-A:14;
+RSA 541-A:30-a, III
+
+Saf-C 7503.07(a)
+RSA 263:46; RSA 263:56
+
+Saf-C 7503.07(b)
+RSA 265-A:14
+
+Saf-C 7503.08
+RSA 263:56, I(d) & III(b)
+
+Saf-C 7503.09
+RSA 263:14, V
+
+Saf-C 7504.01
+RSA 264:4; RSA 264:21
+
+Saf-C 7504.02 - Saf-C 7504.05
+RSA 264:2, I
+
+Saf-C 7504.06
+RSA 264:21
+
+Saf-C 7504.07
+RSA 262:19
+
+Saf-C 7504.08
+RSA 264:2; RSA 264:3
+
+Saf-C 7504.09
+RSA 264:21, I
+
+Saf-C 7504.10
+RSA 264:2; RSA 264:3; RSA 541-A:31, III
+
+Saf-C 7504.11
+RSA 264:2; RSA 264:3
+
+Saf-C 7504.12
+RSA 264:7, II
+
+Saf-C 7505.01
+RSA 264:26
+
+Saf-C 7505.02
+RSA 264:25
+
+Saf-C 7505.03 and Saf-C 7505.04
+RSA 264:1; RSA 264:25
+
+Saf-C 7505.05
+RSA 264:3
+
+Saf-C 7505.06
+RSA 264:4; RSA 264:20
+
+Saf-C 7505.07
+RSA 264:1; RSA 264:4; RSA 264:20
+
+Saf-C 7505.08 (a)(c)
+RSA 264:1
+
+Saf-C 7505.09
+RSA 264:7
+
+Saf-C 7505.10
+RSA 264:8 and RSA 264:11
+
+Saf-C 7505.11
+RSA 264:12
+
+Saf-C 7505.12
+RSA 264:11
+
+Saf-C 7506.01
+RSA 541-A:7; RSA 264:4-a
+
+Saf-C 7506.02
+RSA 541-A:30-a, III(a); RSA 264:4-a
+
+Saf-C 7506.03
+RSA 264:4-a
+
+Saf-C 7506.04
+RSA 264:1
+
+Saf-C 7506.05
+RSA 264:4-a
+
+Saf-C 7506.06
+RSA 264:4-a
+
+Saf-C 7506.07
+RSA 264:1
+
+Saf-C 7506.08
+RSA 264:4-a, IV
+
+Saf-C 7506.09
+RSA 2 64:1
+
+Saf-C 7506.10
+RSA 264:12
+
+Saf-C 7507
+RSA 6:11-a
+
+Saf-C 7508.01 - Saf- C 7508.07
+RSA 263:56, II
+
+Saf-C 7508.08
+RSA 263:56-e
+
+Saf-C 7508.09
+RSA 263:56-e, II
+
+Saf-C 7508.10(a) and (b)
+RSA 263:56-e. III
+
+Saf-C 7508.10(c)
+RSA 264:1
+
+Saf-C 7508.11
+RSA 263:56-e

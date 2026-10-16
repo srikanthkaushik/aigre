@@ -1,0 +1,1803 @@
+CHAPTER Saf -C 2000 DEALER REGISTRATION RULES
+
+Statutory Authority: 21-P:14, III(v), (w), (x), (y), (z), (aa), (bb); RSA 261:97.
+
+PART Saf -C 2001 DEFINITIONS
+
+Saf -C 2001.01 Applicant means a person intending to fulfill statutory and administrative requirements for issuance of a valid automotive recycling, retail vehicle, repairer, transporter, utility, or auto wholesale dealer license or registration.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.01); amd by #5502, eff 11-12-92; amd by #6024, eff 4-26-95; amd by #6572, INTERIM, eff 9-2-97, EXPIRED 12-31-97; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.02 Automotive recycling dealer means junk motor vehicle dealer as defined in RSA 236:112, V(c) and RSA 259:47.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.04); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.03 Auto wholesale dealer means auto wholesale dealer as defined in RSA 259:5-a. The term includes wholesale dealer .
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.07); amd by #5502, eff 11-12-92; ss by #6663, eff 1-1-98, EXPIRED:
+1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.04 Commissioner means commissioner as defined in RSA 259:13.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.09); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.05 Department means department as defined in RSA 259:19.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.10); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.06 Dealer means dealer as defined in RSA 259:18.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.11); amd by #5502, eff 11-12-92; amd by #6572, INTERIM, eff 9-2-97, EXPIRED 12-31-97; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98 ; ss by #6663, eff 1-1-98, EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.07 Demonstration purposes means to permit a customer to operate a vehicle for the purposes of a test drive.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.12); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-9, EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.08 Director means director as defined in RSA 259:20.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.13); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.09 Division means division as defined in RSA 259:22.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.14); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.10 Established place of business means established place of business as defined in RSA 259:29-a.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.15); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.11 Full-time employee means an employee of a dealer who works at least 35 hours per week, as demonstrated by W-2 payroll records.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.16); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED:
+1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2001.10); ss by #11028, eff 1-29-16
+
+Saf -C 2001.12 Motor vehicle business means motor vehicle business as defined in RSA 259:60-a.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.17); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2001.11); ss by #11028, eff 1-29-16
+
+Saf -C 2001.13 Person means a natural person, corporation, partnership, association, firm, or other legally recognized entity.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.18); amd by #5502, eff 11-12-92; ss by #6663, eff 1-1-98; EXPIRED:
+1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2001.12); ss by #11028, eff 1-29-16
+
+Saf -C 2001.14 Personal use means operation of a motor vehicle with dealer plates for reasons not directly connected with the business.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.19); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2001.13); ss by #11028, eff 1-29-16
+
+Saf -C 2001.15 Regular business hours means business conducted at least 35 hours per week.
+
+Source. #5251, eff 10-21-91; ss by #6604, INTERIM, eff
+10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2001.14); ss by #11028, eff 1-29-16
+
+Saf -C 2001.16 Retail vehicle dealer means retail vehicle dealer as defined in RSA 259:89-a.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1101.20); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2001.15); ss by #11028, eff 1-29-16
+
+Saf -C 2001.17 Repairer means repairer as defined in RSA 259:87.
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2001.16); ss by #11028, eff 1-29-16
+
+Saf -C 2001.18 Single business location means an approved business location housing one business and any annexes in the same city or town which do not require a separate license or certificate of registration.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.19 Change of ownership means a change in ownership of a dealer s business.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.20 Transporter means transporter as defined in RSA 259:114.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.21 Utility dealer means utility dealer as defined in RSA 259:121.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2001.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2001.22 Valid consignment agreement means a written contract in which a dealer agrees to sell a vehicle for the registered or legal owner.
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf - C 2001.23 Vehicle inspection report means the official, clearly legible printed report approved by the department containing the test results for the safety and emissions inspection.
+
+Source. #11028, eff 1-29-16
+
+PART Saf -C 2002 GENERAL ADMINISTRATION
+
+Saf -C 2002.01 Forms .
+
+(a) All forms may be obtained in person, by telephone, by mail or electronically, from the Dealer Desk, Division of Motor Vehicles, 23 Hazen Drive, Concord, N.H., 03305, or at any motor vehicle substation.
+
+(b) Whenever a person is required to complete a form, the following shall apply:
+
+(1) Forms shall be filled out completely;
+
+(2) Forms shall be typewritten or completed in a legible manner; and
+
+(3) Forms requiring a signature shall require such person to certify, by the individual's signature that the information on the form is true and correct to the best of the individual's knowledge and belief, subject to the penalty for making unsworn false statements under RSA 641:3.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1102.01(b)); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2002.02 Incomplete Forms .
+
+(a) All forms shall be reviewed by the division in accordance with RSA 541-A:29.
+
+(b) The submitting party shall be notified of any apparent errors or omissions and allowed to resubmit the form to the division.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1102.02); amd by #5502, 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.05), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2002.03 Failure to Comply with Statute or Rule .
+
+(a) In the event an applicant fails to comply with an applicable statute or rule, the application shall be denied.
+
+(b) The applicant shall be notified of the reason(s) for the denial.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1102.03); amd by #5502, 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.09), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2002.04 Lost or Stolen Plates . A person governed by these rules shall immediately report a lost or stolen registration plate or temporary plate to the local police department, and within 5 days thereafter, an owner, partner, member, officer or director listed on the application shall contact the division of motor vehicles in writing to provide the local police case number and shall also apply for a replacement plate in accordance with the procedures set forth in Saf -C 516.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1102.04); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2001.12), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2002.03); ss by #11028, eff 1-29-16
+
+Saf -C 2002.05 Disqualification for Licensure . In addition to all other requirements for licensure and registration in these rules, an applicant for licensure or registration shall meet the following requirements:
+
+(a) Applicant has had no previous record of misdemeanor or felony criminal convictions for extortion, forgery, fraud related crimes, theft, or embezzlement in the past 10 years;
+
+(b) Applicant has not been suspended more than once for a violation of dealer laws or regulations in this or any other jurisdiction;
+
+(c) Applicant has never had its authorization to operate as a dealer revoked in this or any other jurisdiction; and
+
+(d) The applicant has paid any and all fines related to these rules in full.
+
+Source. #11028, eff 1-29-16
+
+PART Saf -C 2003 RETAIL VEHICLE DEALERS
+
+Saf -C 2003.01 Applicant for Retail Vehicle Dealer License .
+
+(a) An applicant for a retail vehicle dealer license or registration shall be the owner of the business, or in the case of a corporation, partnership or other legal entity, a person with specific written authorization to sign the application.
+
+(b) The applicant shall be 18 years of age or older.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1103.02); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.02 Application for Retail Vehicle Dealer License .
+
+(a) An applicant for a retail vehicle dealer license shall complete and submit form RDMV 735 (rev 12/15) to the department.
+
+(b) A separate form RDMV 735 shall be filed for each established place of business.
+
+(c) Pursuant to RSA 261:103-a, I(k), each person listed on the application as a member, partner, officer, or director of the applicant shall provide a certified copy of his or her criminal record.
+
+(d) Pursuant to RSA 261:103-a, I(k), the applicant shall provide a statement stating whether the applicant has ever been subject to a civil judgment connected with a motor vehicle business .
+
+(e) If the applicant does not have facilities at the established place of business to service or repair motor vehicles, the applicant shall provide at least one service agreement with a service or repair garage which is a licensed inspection facility within a reasonable distance of the applicant s established place of business, in accordance with RSA 261:103-a, I(e).
+
+(f) If the business location is leased, the applicant shall submit a legible copy of the current, valid lease agreement.
+
+(g) The applicant shall list the names of all persons authorized to purchase temporary plates on behalf of the established place of business.
+
+(h) For each established place of business, the applicant shall obtain a separate bond in accordance with the requirements of RSA 261:98.
+
+( i ) Pursuant to RSA 261:103-a, I(h), the applicant shall certify that the established place of business will comply with all state and federal laws and rules pertaining to the selling, financing and titling of motor vehicles.
+
+(j) The applicant shall submit the appropriate fee to the department, pursuant to RSA 261:103-a, II, along with the application.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1103.03); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.03 Structural Requirements for Retail Vehicle Dealer License .
+
+(a) Pursuant to RSA 259:29-a, a dealer shall have an established place of business. This shall mean, except where otherwise provided, a permanent, enclosed commercial building located within this state, easily accessible and open to the public at all reasonable times, and at which the business of a dealer may be lawfully carried on in accordance with the terms of all applicable building codes, zoning, and other land-use regulatory ordinances.
+
+(b) The following requirements shall also be met:
+
+(1) The retail vehicle dealer shall have a business location where that dealer conducts sales during the days and hours of operation as stated on the application;
+
+(2) The business location required by (1), above, shall be a permanent physical structure that has at least 750 square feet or is primarily dedicated to the business of selling vehicles; and
+
+(3) The business location shall clearly and conspicuously display the business name of the dealer in letters no less than 10 inches in height, unless prohibited by local zoning.
+
+(c) The business signage required by (b)(3), above, shall be clearly visible from a traveling vehicle on the adjacent public way, unless an obstruction exists which cannot be remedied.
+
+(d) More than one dealer located in one enclosed building shall be clearly separated by a permanent physical wall. Each shall have an independent separate exterior entrance for the public.
+
+(e) No more than one dealer shall be permitted within one business location without a clearly defined portion of space with definite boundaries and signage so as not to confuse the public.
+
+(f) The prohibition in (e) above shall not apply to more than one DMV licensed business within one business location if the business name and owners are the same for both businesses.
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.04 Local Notification and Approval .
+
+(a) Upon receipt of a completed form RDMV 735, the department shall notify the town/city clerk in the municipality where the business is located.
+(b) The department shall allow a minimum of 10 working days for the local government to advise whether or not the applicant s business conforms with or is in conflict with existing zoning, building code or other land-use regulatory requirements.
+
+(c) Except as provided by RSA 261:103-a, IX, in the event the local government fails to advise the department that the applicant is in compliance with the requirements of (b) above, a retail vehicle dealer license shall not be issued until the department receives notification of compliance from the local government.
+
+(d) In the event the local government advises the department that the applicant is not in compliance with the requirements of (b) above, a retail vehicle dealer license shall not be issued, and the department shall notify the applicant, in writing, of the applicant s responsibility to contact the appropriate local board or officials.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2001.07), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.05 Investigation .
+
+(a) An individual authorized by the director shall contact the applicant, at his/her place of business, to determine if the applicant meets the requirements of RSA 261:103-a and Saf -C 2003.03.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2001.10), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.06 Issuance of Retail Vehicle Dealer License .
+
+(a) The department shall issue a retail vehicle dealer license when the dealer:
+
+(1) Completes and submits a completed form RDMV 735, along with the appropriate fee, pursuant to RSA 261:103-a, II;
+
+(2) Meets the requirements of RSA 259:89-a and 261:103-a;
+
+(3) Obtains a bond pursuant to RSA 261:98;
+
+(4) Meets local approval, pursuant to Saf -C 2003.04; and
+
+(5) Has successfully passed an investigation pursuant to Saf -C 2003.05.
+
+(b) The retail vehicle dealer shall prominently display the original dealer license or a legible copy of the original dealer license to the public at the established place of business at all times.
+
+(c) Pursuant to RSA 261:103-a, VI, a retail vehicle dealer license shall not be transferred, borrowed, sold, or leased to any other person, business or location and shall not be altered or modified in any manner.
+
+(d) A retail vehicle dealer license shall be presented to an individual authorized by the director upon demand or surrendered to the department, if required, after a hearing.
+
+(e) A retail vehicle dealer license shall not be issued if any person listed on the application is currently under suspension or revocation for a violation of dealer laws or rules.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2001.11), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.07 Attendance at Dealer Overview Session .
+
+(a) Except as otherwise provided in RSA 261:103-a, VIII, upon issuance of a retail vehicle dealer license, at least one of the owners, partners or officers listed in Saf -C 2003.02(c)(4) and all applicable representatives shall attend and participate in one session of the department s dealer overview session, which is held at 23 Hazen Drive, Concord, NH, or such other location as the director shall determine. Each retail vehicle dealer shall also be required to attend refresher sessions of the dealer overview session, as necessary.
+
+(b) In the event a retail vehicle dealer is deficient in any area necessary to conduct business, the director shall require the dealer to undergo re-training at the weekly dealer school.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2002.03), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.08 Renewal of Retail Vehicle Dealer License .
+
+(a) All retail vehicle dealer licenses shall expire biennially on March 31 st .
+
+(b) In order to renew a retail vehicle dealer license, each retail vehicle dealer shall:
+
+(1) Complete and submit a completed form RDMV 735 to the department, pursuant to Saf -C 2003.02;
+
+(2) Pay the appropriate fee, pursuant to RSA 261:103-a, II; and
+
+(3) Inform the department of any unreported change in the ownership or location of the business.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2002.04), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.09 Application for Retail Vehicle Dealer Registration .
+
+(a) Any licensed retail vehicle dealer may apply for a retail vehicle dealer registration.
+
+(b) Each applicant for a retail vehicle dealer registration shall complete and submit form RDMV 735 to the department, pursuant to Saf -C 2003.02.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2003.02); ss by #11028, eff 1-29-16
+
+Saf -C 2003.10 Issuance of Retail Vehicle Dealer Registration .
+
+(a) The department shall issue a retail vehicle dealer registration when the licensed dealer:
+
+(1) Completes and submits a completed form RDMV 735, pursuant to Saf -C 2003.02;
+
+(2) Meets the requirements of RSA 261:103-a;
+
+(3) Has been issued a retail vehicle dealer license, pursuant to Saf -C 2003.06;
+
+(4) Meets the requirements of Saf -C 2003.05; and
+
+(5) Has paid the fee required by RSA 261:141, III(u).
+
+(b) In order to curtail misuse of retail vehicle dealer registration plates, the department shall issue only the number of plates reasonably necessary to a dealer s business, as indicated by the following factors:
+
+(1) Number of motor vehicles sold or currently in inventory;
+
+(2) Number of full time employees which are assigned dealer-owned vehicles;
+
+(3) Number of service trucks or tow trucks operated by the dealer; and
+
+(4) Number of family members domiciled in the dealer s household.
+
+(c) A dealer may request additional plates or return plates to the department during the year if any of the factors in (b) above, change.
+
+(d) A newly licensed retail vehicle dealer shall not be issued additional plates until 120 days after the date the original number of plates was authorized.
+
+(e) The department shall reduce the number of plates issued to a dealer, upon receipt of any information that the factors set forth in (b) above have decreased, after an investigation by an individual authorized by the director.
+
+(f) A dealer who has had the number of plates issued by the department reduced pursuant to (e) above shall be provided an opportunity for an administrative hearing in accordance with the provisions of PART Saf -C 2010.
+
+(g) A retail vehicle dealer registration shall not be issued if any person listed on the application is currently under suspension or revocation for a violation of dealer laws or rules.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.11 Renewal of Retail Vehicle Dealer Registration .
+
+(a) All retail vehicle dealer registrations shall expire biennially on March 31 st .
+
+(b) In order to renew a retail vehicle dealer registration, each retail vehicle dealer shall:
+
+(1) Submit a completed form RDMV 735 to the department, pursuant to Saf -C 2003.02;
+
+(2) Inform the department of any unreported change in the ownership or location of the business;
+
+(3) Provide an inventory of all plates issued to the dealer, listed in alphabetical sequence;
+
+(4) Provide a list of any lost or stolen plates, pursuant to Saf -C 2002.04; and
+
+(5) Has paid the fee required by RSA 261:141, III(u).
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2003.12 Use of Retail Vehicle Dealer Plates .
+
+(a) An owner, member, partner, officer, or director of the dealer shall know the location and user of each dealer plate. If a dealer plate is used for personal use pursuant to RSA 261:111, I, the dealer shall also know the vehicle to which it is assigned.
+
+(b) A dealer plate shall be properly displayed on the rear of the vehicle in the space provided by the manufacturer in accordance with RSA 261:176.
+
+(c) A dealer plate shall only be displayed on vehicles owned by the dealer, unless the vehicle is consigned to the dealership for sale, and is evidenced by a notarized written consignment agreement, or unless the vehicle is being demonstrated or transported in connection with service or sales.
+
+(d) Pursuant to RSA 261:111, IV, a dealer may loan or charge a fee for the use of a dealer-registered vehicle only when such vehicle is being operated by a customer whose vehicle is being serviced or repaired by the dealer and its use is for the customer s convenience.
+
+(e) Pursuant to RSA 266:1, IV, vehicles owned by a dealer shall not be exempt from state inspection requirements, except that a new vehicle which has been delivered in this state with a certificate of origin, shall be exempt from inspection requirements until it is sold at retail, as specified in RSA 266:1 VIII.
+
+(f) A retail vehicle dealer may use the dealer registration on the ways of this state when transporting the vehicle from a place of purchase to the dealer s place of business if the vehicle bears a valid inspection sticker from any state unless a clear violation of RSA 266:1 is apparent from visual observation.
+
+(g) The windshield of a vehicle owned by a dealer shall not be obstructed by windshield advertising while being driven upon a way, in accordance with the provisions of RSA 265:95, III.
+
+(h) For the purposes of RSA 261:111, II, marked not for hire means that the driver side and passenger side doors are marked not for hire with lettering 3 inches in height or more.
+
+( i ) Retail vehicle dealer plates shall only be used in accordance with the requirements of RSA 261:111.
+
+(j) In the event of a reduction in plate allowance, subject plates shall be surrendered to the department within 10 days of the official notification.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2003.03); ss by #11028, eff 1-29-16
+
+Saf -C 2003.13 Temporary Plates .
+
+(a) Pursuant to RSA 261:109, I, the department shall issue temporary plates to a dealer.
+
+(b) Pursuant to RSA 261:141, I (c), a fee shall be paid to the department prior to the issuance of any temporary plate.
+
+(c) All temporary plates shall be issued sequentially in quantities of 10. Dealers shall account for temporary plates still in the possession of the dealer before requesting additional temporary plates.
+
+(d) Temporary plates shall be issued to authorized persons listed in Saf -C 2003.02(g).
+
+(e) Any person who appears at the counter shall provide his or her proper identification before obtaining any temporary plates.
+
+(f) For the purposes of (e) above, proper identification shall include:
+
+(1) Driver license;
+
+(2) Military card;
+
+(3) Passport; or
+
+(4) Non-driver identification card, as long as it contains a photograph.
+
+(g) Notwithstanding (d) above, temporary plates shall be sold at the counter to persons not authorized to purchase temporary plates, as long as the person produces a written request containing the date of the transaction and the signature of an authorized person, which is on file with the department.
+
+(h) Purchases paid by check shall be drawn from the dealer s account unless the purchaser provides a requisition signed by the dealer or other authorized person designated on the current application on file.
+
+( i ) The dealer shall provide the buyer with a temporary plate and temporary registration certificate which contains the following information:
+
+(1) Date of issuance;
+
+(2) Buyer s name, signature, address and date of birth;
+
+(3) Seller s name, signature and dealer number;
+
+(4) Name of person completing the certificate; and
+
+(5) Make, type, model, color, type of fuel used, odometer reading, vehicle identification number, and number of cylinders of vehicle.
+
+(j) Pursuant to RSA 261:110, the dealer shall distribute the temporary registration certificate as follows:
+
+(1) The white copy of the certificate shall be forwarded to the department within 10 days;
+
+(2) The yellow copy of the certificate shall be forwarded to the buyer; and
+
+(3) The pink copy of the certificate shall be retained at the dealer s authorized business location for a minimum period of 3 years.
+
+(k) Upon issuance of a temporary registration certificate, the dealer shall affix a temporary plate on the rear of the vehicle in the space provided by the manufacturer. The dealer shall designate the date of issuance on the temporary plate, as follows:
+
+(1) A minimum of the first 3 letters of the month of issuance shall be printed;
+
+(2) The day of issuance shall be printed using 2 digits, with single digit dates preceded by a zero; and
+
+(3) The year of issuance shall be printed with a minimum of the last 2 digits of the year.
+
+(l) A dealer shall issue temporary registration certificates and temporary plates to those out of state residents whose state recognizes such registrations.
+
+(m) A dealer who does not issue a temporary registration certificate and temporary plate to an out-of-state resident pursuant to (l) above shall provide notification of the sale to the director on the form DSMV 938 (rev 12/15).
+
+(n) The dealer shall distribute the form in (m) above as follows:
+
+(1) The original shall be forwarded to the department;
+
+(2) A copy shall be forwarded to the out-of-state resident; and
+
+(3) A copy shall be retained at the dealer s authorized business location for a minimum period of 3 years.
+
+(o) Pursuant to RSA 261:56 and RSA 261:57, no dealer shall issue a temporary registration certificate or temporary plate more than once to the same buyer on the same vehicle.
+
+(p) No dealer shall issue a temporary plate or temporary registration certificate to a vehicle unless:
+
+(1) The vehicle is in compliance with all New Hampshire inspection requirements; and
+
+(2) A valid inspection sticker is affixed to the windshield as defined in RSA 266:1, IV.
+
+(3) If the affixed inspection sticker is attributable to an inspection performed by or on behalf of the dealer, the original official vehicle inspection report (VIR) shall be provided to the buyer; and
+
+(4) The dealer shall provide to the buyer an original official vehicle inspection report (VIR) for an inspection performed by or on behalf of the dealer following the sale, pursuant to RSA 266:1, IV.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2003.04); ss by #11028, eff 1-29-16
+
+Saf -C 2003.14 Record of Transferred Vehicles .
+
+(a) All dealers shall maintain a record of each transfer of ownership of a vehicle as defined in RSA 261:14, 261:15 and Saf -C 1903.02 .
+
+(b) For model year 2000 vehicles or newer, a copy of the title shall be retained. Each shall include the following:
+
+(1) Identity of the vehicle transferred;
+
+(2) Date of transfer;
+
+(3) Buyer s name, address, and signature; and
+
+(4) Seller s name and signature.
+
+(c) Each record shall include all transfers of vehicles at wholesale.
+
+(d) Each record shall be maintained by the dealer for a minimum period of 3 years at the approved established place of business.
+
+(e) For title exempt vehicles, a copy of the bill of sale shall be retained. Each bill of sale shall include the date of sale, vehicle make, model, vehicle identification number, model year, year of manufacture, type of body, number of cylinders, name and address of purchaser, and name, signature and address of seller.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2003.05); ss by #11028, eff 1-29-16
+
+Saf -C 2003.15 Notice of Sale of Vehicle That Failed Inspection .
+
+(a) Pursuant to RSA 266:8 and RSA 266:59-b, VI, a dealer who sells a motor vehicle at retail that fails to comply with either state safety or emissions state inspection requirements shall submit failed inspection related items on form RDMV 950, Notice of Sale of Unsafe Motor Vehicle (rev. 10/20) or form RDMV 950A, Notice of Sale of Vehicle that Does Not Pass OBD II Emissions Testing (rev. 10/20), respectively, and shall complete and file the form with the department.
+
+(b) By signing the RDMV 950 or RDMV 950A form, the dealer shall certify that the information on the form is correct, subject to the penalty for making unsworn false statements under RSA 641:3.
+
+(c) By signing the RDMV 950 form, the dealer shall make the following certification: I also acknowledge that this vehicle will not pass a New Hampshire inspection, is unsafe for operation and cannot be driven on the ways of this state until the safety defects listed above are corrected.
+
+(d) By signing the RDMV 950A form, the buyer shall make the following acknowledgment: I have read and acknowledge the above statement and understand the vehicle will not receive a full state inspection sticker until it passes emissions. If the vehicle fails the emissions re-test, the dealer (seller) [Agrees] [Does Not Agree] (Circle one) to complete, or have another entity complete, the emissions repair necessary to allow the vehicle to pass the emissions test. There is only one 60-day repair period that expires on the date printed in the upper right portion of the accompanying VIR.
+
+(e) Before the buyer makes the acknowledgment in (d) above, the parties shall agree as to whether the dealer as the seller agrees or does not agree to complete, or have another entity complete, the emissions repair necessary to allow the vehicle to pass the emissions test if the vehicle fails the emissions retest, and to indicate the dealer s agreement or non-agreement within the acknowledgment.
+
+(f) The dealer shall distribute such forms as follows:
+
+(1) The white copy of the form shall be forwarded to the department within 5 days of the date of the sale;
+
+(2) The yellow copy of the form shall be forwarded to the buyer; and
+
+(3) The pink copy of the form shall be retained at the dealer s authorized business location for a minimum period of 3 years.
+
+(g) Dealers shall not issue temporary plates for unsafe vehicles.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2003.06); ss by #11028, eff 1-29-16; ss by #13134, eff 11-23-20
+
+Saf -C 2003.16 Dealer Plates on Trucks for Demonstration Purposes .
+
+(a) Dealer plates shall be affixed to any truck with a gross vehicle weight in excess of 10,000 pounds being used to transport goods for demonstration purposes for a period not to exceed 72 hours.
+
+(b) Each dealer who affixes a dealer plate to a truck pursuant to (a) above shall submit a form DSMV 156 to the department.
+
+(c) Each dealer shall furnish the following on DSMV 156:
+
+(1) Name and address of potential buyer;
+
+(2) Name and address of dealer;
+
+(3) Dealer plate number;
+
+(4) Date and time of issuance;
+
+(5) Make, type, model year, color and vehicle identification number of truck being demonstrated; and
+
+(6) Signature of dealer or authorized agent.
+
+(d) A copy of DSMV 156 shall be:
+
+(1) Carried in the cab of the truck being demonstrated; and
+
+(2) Displayed upon request of any law enforcement officer or agent of the director.
+
+(e) The dealer shall distribute form DSMV 156 within 5 days of the date of issuance as follows:
+
+(1) A copy shall be retained at the dealer s authorized business location for a minimum period of 3 years; and
+
+(2) A copy shall be forwarded to the department.
+
+(f) No dealer plate shall be issued to a truck for demonstration purposes pursuant to this section unless the truck is in compliance with all state inspection requirements.
+
+(g) There shall be no extension of the 72 hour period.
+
+(h) A dealer registration shall not be issued more than once in any 12-month period to the same person or business for the purposes of demonstrating the same truck, in accordance with RSA 261:111, VII.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2003.07); ss by #11028, eff 1-29-16
+
+Saf -C 2003.17 Dealer Plates on Trucks on Loan for Service Purposes .
+
+(a) Dealer plates shall be affixed to any truck with a gross vehicle weight in excess of 10,000 pounds, when driven, in a loaded or unloaded condition, by a customer whose truck is being serviced or repaired by the dealership, for a period not to exceed 72 hours or more than once in a 12 month period by the same customer.
+
+(b) Each dealer who affixes a dealer plate to a truck pursuant to (a) above shall submit form DSMV 155 to the department.
+
+(c) Each dealer shall furnish the following on DSMV 155:
+
+(1) Name and address of customer using the loaned truck;
+
+(2) Name and address of dealer;
+
+(3) Dealer number;
+
+(4) Dealer plate number;
+
+(5) Date and time of issuance;
+
+(6) Make; type; model year; color and vehicle identification number of truck being loaned;
+
+(7) Signature of dealer or authorized agent; and
+
+(8) A certification by the dealer that the dealer has an ownership interest in the vehicle.
+
+(d) A copy of DSMV 155 shall be:
+
+(1) Carried in the cab of the truck being loaned; and
+
+(2) Displayed upon request of any law enforcement officer or agent of the director.
+
+(e) The dealer shall distribute DSMV 155 within 5 days of issuance as follows:
+
+(1) A copy shall be retained at the dealer s authorized business location for a minimum period of 3 years; and
+
+(2) A copy shall be forwarded to the department.
+
+(f) There shall be no extension of the 72 hour period.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2003.08); ss by #11028, eff 1-29-16
+
+PART Saf -C 2004 AUTO WHOLESALE DEALERS
+
+Saf -C 2004.01 Application for Auto Wholesale Dealer License .
+
+(a) An applicant for an auto wholesale dealer license shall complete and submit a completed form RDMV 735 to the department, pursuant to Saf -C 2003.02.
+
+(b) A separate application RDMV 735 shall be filed for each established place of business.
+
+(c) Pursuant to RSA 261:103-a, I(k), each person listed on the application as a member, partner, officer, and director of the applicant shall provide a certified copy of his or her criminal record.
+
+(d) Pursuant to RSA 261:103-a, I(k), the applicant shall provide a statement whether the applicant has ever been subject to a civil judgment connected with a motor vehicle business.
+
+(e) If the business location is leased, the applicant shall submit a legible copy of the current, valid lease agreement.
+
+(f) For each established place of business, the applicant shall obtain a separate bond in accordance with the requirements of RSA 261:98.
+
+(g) Pursuant to RSA 261:103-a, I(h), the applicant shall certify that the established place of business will comply with all state and federal laws and rules pertaining to the selling, financing and titling of motor vehicles.
+
+(h) The applicant shall submit the appropriate fee to the department, pursuant to RSA 261:103-a, II, along with the application.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1104.01); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16; ss by #11028, eff 1-29-16
+
+Saf -C 2004.02 Issuance of Auto Wholesale Dealer License.
+
+(a) The department shall issue an auto wholesale dealer license when:
+
+(1) The applicant submits a completed application form RDMV 735, along with the appropriate fee, pursuant to RSA 261:103-a, II;
+
+(2) The applicant meets the requirements of RSA 259:5-a and RSA 261:103-a;
+
+(3) The applicant obtains a bond pursuant to RSA 261:98;
+
+(4) The applicant meets local approval, pursuant to Saf -C 2003.04; and
+
+(5) When an individual authorized by the director determines, after an investigation, that the applicant meets the requirements of RSA 259:5-a and RSA 261:103-a.
+
+(b) The auto wholesale dealer shall prominently display the original dealer license or a legible copy of the original dealer license to the public at the established place of business at all times.
+
+(c) Pursuant to RSA 261:103-a VI, an auto wholesale dealer license shall not be transferred, borrowed, sold or leased to any other person, business or location and shall not be altered or modified in any manner.
+
+(d) An auto wholesale dealer license shall be presented to any individual authorized by the director upon demand or surrendered to the department, if required, after a hearing.
+
+(e) An auto wholesale dealer license shall not be issued if any person listed on the application is currently under suspension or revocation for a violation of dealer laws or rules.
+
+(f) Upon issuance of an auto wholesale dealer license, the auto wholesale dealer shall attend the dealer overview session in accordance with the requirements of Saf -C 2003.07.
+
+(g) An applicant whose established place of business is a residence as set forth in RSA 259:29-a, II shall conduct the auto wholesale business in which he/she is engaged at that particular location as defined in RSA 259:76.
+
+(h) Mo r e than one dealer located in one enclosed building shall be clearly separated by a permanent physical wall. Each shall have an independent separate exterior entrance for the public or an independent entrance onto a common area within the building.
+
+( i ) No more than one dealer shall be permitted within one business location without a clearly defined portion of space with definite boundaries and signage so as not to confuse the public.
+
+(j) The prohibition in ( i ) above shall not apply to more than one DMV licensed business within one business location if the business name and owners are the same for both businesses.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1104.02); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss by #6663, eff 1-1-98, EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16 (from Saf -C 2004.01); para (h) amd by #12177, eff 5-18-17
+
+Saf -C 2004.03 Renewal of Auto Wholesale Dealer License . All auto wholesale dealer licenses shall expire biennially on March 31 st and shall be renewed in accordance with the requirements of Saf -C 2003.08(b).
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2004.02); ss by #11028, eff 1-29-16 (from Saf -C 2004.05)
+
+Saf -C 2004.04 Application for Auto Wholesale Dealer Registration .
+
+(a) Any licensed auto wholesale dealer may apply for an auto wholesale dealer registration, pursuant to RSA 261:140-a.
+
+(b) Each applicant for an auto wholesale dealer registration shall submit a completed form RDMV 735 to the department, pursuant to Saf -C 2003.02.
+
+(c) Each applicant for an auto wholesale dealer registration shall have proper signage in accordance with RSA 261:140-a, II.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16 (from Saf -C 2004.03)
+
+Saf -C 2004.05 Issuance of Auto Wholesale Dealer Registration .
+
+(a) The department shall issue an auto wholesale dealer registration when the dealer:
+
+(1) Submits a completed form RDMV 735, pursuant to Saf -C 2003.02 and Saf -C 2004.04;
+
+(2) Meets the requirements of RSA 261:103-a and RSA 261:140-a;
+
+(3) Has been issued an auto wholesale dealer license, pursuant to Saf -C 2004.02;
+
+(4) Meets the requirements of Saf -C 2004.02(a)(5); and
+
+(5) Has paid the fee required by RSA 261:141, III(u).
+
+(b) In order to curtail misuse of auto wholesale dealer registration plates, the department shall issue only the number of plates reasonably necessary to a dealer s business, as indicated by the following factors:
+
+(1) Volume of business; and
+
+(2) Number of employees transporting vehicles pursuant to RSA 261:140-b.
+
+(c) A wholesale dealer may request additional plates or return plates to the department during the year if any of the factors in (b) above, change.
+
+(d) A newly licensed auto wholesale dealer shall not be issued additional plates until 120 days after the date the original number of plates was authorized.
+
+(e) The department shall reduce the number of plates issued to an auto wholesale dealer upon receipt of any information that the factors set forth in (b) above have decreased, after an investigation by a highway patrol and enforcement officer or other law enforcement officer authorized by the director.
+
+(f) A dealer who has had the number of plates issued by the department reduced pursuant to (e) above shall be provided the opportunity for an administrative hearing in accordance with the requirements of PART Saf -C 2010.
+
+(g) A wholesale dealer registration shall not be issued if any person listed on the application is currently under suspension or revocation for a violation of dealer laws or rules.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16; ss by #11028, eff 1-29-16 (from Saf -C 2004.04)
+
+Saf -C 2004.06 Renewal of Auto Wholesale Dealer Registration . All auto wholesale dealer registrations shall expire biennially on March 31 st and shall be renewed in accordance with the requirements of Saf -C 2003.11(b).
+
+Source. #8966, eff 8-23-07 (formerly Saf-C 2004.03); ss by #11028, eff 1-29-16 (from Saf -C 2004.05)
+
+Saf -C 2004.07 Use of Auto Wholesale Dealer Plates .
+
+(a) An owner, member, partner, officer or director of the auto wholesale dealer shall know the location and user of each dealer plate as well as the vehicle to which it is assigned.
+
+(b) A dealer plate shall be visibly displayed on the rear of the vehicle in the space provided by the manufacturer in accordance with RSA 261:176.
+
+(c) Pursuant to RSA 266:1, IV, vehicles owned by an auto wholesale dealer shall not be exempt from state inspection requirements, except for vehicles transported from a place of purchase to the dealer s place of business if the vehicle bears a valid inspection sticker from any state unless a clear violation of RSA 266:1 is apparent from visual observation.
+
+(d) Auto wholesale dealer plates shall only be used in accordance with the requirements of RSA 261:140-b as follows:
+
+(1) Auto wholesale vehicle registration shall be used for motor vehicle business purposes only, on vehicles owned by the auto wholesale dealer which are being transported to the auto wholesale dealer s place of business, to another location for mechanical service, or to wholesale or retail dealer. Such registration shall not be used for the retail demonstration of any vehicles;
+
+(2) Personal use of auto wholesale dealer vehicle registration shall be prohibited;
+
+(3) Vehicles owned by the auto wholesale dealer which are designed for and engaged in day to day business activities, including but not limited to the transportation of freight or merchandise, such as wreckers, service trucks, and auto parts delivery trucks, shall not use auto wholesale registrations; and
+
+(4) The auto wholesale dealer shall not loan auto wholesale dealer number plates to any other person.
+
+Source. #11028, eff 1-29-16 (from Saf -C 2004.06)
+
+PART Saf -C 2005 AUTOMOTIVE RECYCLING DEALERS
+
+Saf -C 2005.01 Application for Automotive Recycling Dealer Registration .
+
+(a) An applicant for an automotive recycling dealer registration shall complete and submit an application form RDMV 710 (rev 12/15) along with appropriate fee to the department.
+
+(b) If the business location is leased, the applicant shall submit a legible copy of the current, valid lease agreement.
+
+(c) For each established place of business, the applicant shall obtain a separate bond in accordance with the requirements of RSA 261:98.
+
+(d) Each person listed on the application as a member, partner, officer, or director of the applicant shall provide a certified copy of his/her criminal record.
+
+(e) The applicant shall provide a statement whether the applicant has ever been subject to a civil judgment connected with a motor vehicle business.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1105.01); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2004.01, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2005.02 Issuance of Automotive Recycling Dealer Registration .
+
+(a) The department shall issue an automotive recycling dealer registration when:
+
+(1) The applicant submits a completed form RDMV 710 to the department, pursuant to Saf -C 2005.01(a), along with the appropriate fee;
+
+(2) The applicant meets the requirements of RSA 259:47 and RSA 261:123;
+
+(3) The applicant obtains a bond, pursuant to RSA 261:98;
+
+(4) The applicant meets local approval, pursuant to Saf -C 2003.04, as well as a certificate of approval from the town/city, pursuant to RSA 236:115;
+
+(5) An individual authorized by the director determines, after an investigation, that the applicant meets the requirements of RSA 259:47 and RSA 261:123; and
+
+(6) The applicant has paid the fee required by RSA 261:141, III(v).
+
+(b) In order to curtail misuse of automotive recycling dealer registration plates, the department shall issue only the number of plates reasonably necessary to a dealer s business, as indicated by the following factors:
+
+(1) Number of motor vehicles owned by the dealer engaged in the business; and
+
+(2) Number of employees operating vehicles owned by the dealer in furtherance of the business;
+
+(c) A dealer may request additional plates or return plates to the department during the year if any of the factors in (b) above, change.
+
+(d) A newly licensed automotive recycling dealer shall not be issued additional plates until 120 days after the date the original number of plates was authorized.
+
+(e) The department shall reduce the number of plates issued to a dealer, upon receipt of any information that the factors set forth in (b) above have decreased, after an investigation by an individual authorized by the director.
+
+(f) A dealer who has had the number of plates issued by the department reduced pursuant to (e) above shall be provided an opportunity for an administrative hearing in accordance with the provisions of PART Saf -C 2010.
+
+(g) An automotive recycling dealer registration shall not be issued if any person listed on the application is currently under suspension or revocation for a violation of dealer laws or rules.
+
+(h) More than one dealer located in one enclosed building shall be clearly separated by a permanent physical wall. Each shall have an independent separate exterior entrance for the public.
+
+( i ) No more than one dealer shall be permitted within one business location without a clearly defined portion of space with definite boundaries and signage so as not to confuse the public.
+
+(j) The prohibition in ( i ) above shall not apply to more than one DMV licensed business within one business location if the business name and owners are the same for both businesses.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1105.02); amd by #6294, eff 7-23-96; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2004.02) , EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2005.03 Renewal of Automotive Recycling Dealer Registration . All automotive recycling dealer registrations shall expire biennially on March 31st and shall be renewed in accordance with the requirements of Saf -C 2003.11(b).
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2005.04 Use of Automotive Recycling Dealer Plates .
+
+(a) An owner, member, partner, officer, or director of the automotive recycling dealer shall know the location and user of each dealer plate as well as the vehicle to which it is assigned.
+
+(b) A dealer plate shall be visibly displayed on the rear of the vehicle in the space provided by the manufacturer in accordance with RSA 261:176.
+
+(c) Any vehicle driven by an automotive recycling dealer on a public way shall display a current state inspection sticker.
+
+(d) Automotive recycling dealer plates shall only be used in accordance with the requirements of RSA 261:128 and RSA 261:129. Any other use shall be considered misuse for the purposes of RSA 261:177 and RSA 261:61.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2005.05 Record of Vehicles and Parts .
+
+(a) Pursuant to RSA 261:131, at the time of purchase, sale, exchange, or receipt for the purpose of sale of any secondhand motor vehicle or parts, a dealer shall record:
+
+(1) The name and address of the seller or transferor;
+
+(2) The name and address of the buyer or transferee;
+
+(3) The name and address of the owner; and
+
+(4) If it is a motor vehicle:
+
+a. The engine number;
+
+b. The vehicle identification number;
+
+c. The number of the chassis; and
+
+d. A statement as to whether any number or mark on the vehicle has been obliterated, changed or defaced.
+
+(b) The automotive recycling dealer shall maintain the record described in (a) above for a minimum period of 7 years from the date of the first entry.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+PART Saf -C 2006 REPAIRERS
+
+Saf -C 2006.01 Repairer .
+
+(a) The department shall use the following criteria to determine whether a repairer is actively and regularly engaged in business pursuant to RSA 259:87:
+
+(1) The amount and percentage of total income generated at any single business location;
+
+(2) The volume of business generated at any single business location; and
+
+(3) The percentage and amount of assets generated at any single business location.
+
+Source. #5502, eff 11-12-92; ss and moved by #6663, eff
+1-1-98 (from Saf-C 2005), EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2006.02); ss by #11028, eff 1-29-16
+
+Saf -C 2006.02 Application for Repairer Registration .
+
+(a) An applicant for a repairer registration shall submit a completed form RDMV 720 (rev 12/15) to the department.
+
+(b) If the business location is leased, the applicant shall submit a legible copy of the current, valid lease agreement.
+
+(c) Each person listed on the application as a member, partner, officer, or director of the applicant shall provide a certified copy of his/her criminal record.
+
+(d) The applicant shall provide a statement whether the applicant has ever been subject to a civil judgment connected with a motor vehicle business.
+
+(e) If the applicant does not have facilities at the established place of business to service or repair motor vehicles, the applicant shall provide at least one service agreement with a service or repair garage which is a licensed inspection facility within a reasonable distance of the applicant s established place of business.
+
+(f) If seeking a supplemental repairer registration, the applicant shall certify that the established place of business will comply with all state and federal laws and rules pertaining to the selling, financing and titling of motor vehicles.
+
+(g) More than one dealer located in one enclosed building shall be clearly separated by a permanent physical wall. Each shall have an independent separate exterior entrance for the public.
+
+(h) No more than one dealer shall be permitted within one business location without a clearly defined portion of space with definite boundaries and signage so as not to confuse the public.
+
+( i ) The prohibition in (h) above shall not apply to more than one DMV licensed business within one business location if the business name and owners are the same for both businesses.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1106.01); amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2005), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2006.03 Issuance of Repairer Registration .
+
+(a) The department shall issue a repairer registration when:
+
+(1) The applicant submits a completed form RDMV 720 to the department, pursuant to Saf -C 2006.02(b);
+
+(2) The applicant meets the requirements of RSA 259:87 and RSA 261:136;
+
+(3) The applicant meets local approval, pursuant to Saf -C 2003.04;
+
+(4) An individual authorized by the director determines, after an investigation, that the applicant meets the requirements of RSA 259:87 and RSA 261:136; and
+
+(5) The applicant has paid the fee required by RSA 261:141, III(t).
+
+(b) In order to curtail misuse of repairer registration plates, the department shall issue only the number of plates reasonably necessary to a dealer s business, as indicated by the following factors:
+
+(1) The number of plates requested; and
+
+(2) The number of tow trucks or service vehicles owned by the repairer.
+
+(c) A repairer may request additional repair plates or return plates to the department during the year if any of the factors in (b) above, change.
+
+(d) A newly registered repairer shall not be issued additional plates until 120 days after the date the original number of plates was authorized.
+
+(e) The department shall reduce the number of plates issued to a repairer dealer, upon receipt of any information that the factors set forth in (b) above have decreased, after an investigation by an individual authorized by the director.
+
+(f) A repairer who has had the number of plates issued by the department reduced pursuant to (e) above shall be provided the opportunity for an administrative hearing in accordance with the requirements of PART Saf -C 2010.
+
+(g) A repairer registration shall not be issued if any person listed in Saf -C 2006.02(b)(4) is currently under suspension or revocation for a violation of dealer laws or rules.
+
+(h) More than one dealer located in one enclosed building shall be clearly separated by a permanent physical wall. Each shall have an independent separate exterior entrance for the public.
+
+( i ) No more than one dealer shall be permitted within one business location without a clearly defined portion of space with definite boundaries and signage so as not to confuse the public.
+
+(j) The prohibition in ( i ) above shall not apply to more than one DMV licensed business within one business location if the business name and owners are the same for both businesses.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff
+1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1106.02); amd by #5502, eff 11-12-92; ss and moved by #6663, eff 1-1-98 (from Saf-C 2005), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2006.04 Renewal of Repairer Registration . All repairer registrations shall expire biennially on March 31 st and renewed in accordance with the requirements of Saf -C 2003.11(b).
+
+Source. #6663, eff 1-1-98 (from Saf-C 2005), EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2006.05 Issuance of Supplemental Repair Registration Plates .
+
+(a) In order for a repairer to obtain a supplemental repair plate, the repairer shall:
+
+(1) Meet the requirements of Saf -C 2006.03;
+
+(2) Have a business location which is a permanent physical structure that has at least 750 square feet or is primarily dedicated to the business of selling vehicles;
+
+(3) Obtain a bond, pursuant to RSA 261:98;
+
+(4) Attend the dealer overview session in accordance with the requirements of Saf -C 2003.07; and
+
+(5) Pay the fee required by RSA 261:141, III(t).
+
+(b) A repairer shall be issued only one supplemental repair plate.
+
+(c) The supplemental repair plate shall be only used to demonstrate a rebuilt or repaired vehicle to a customer.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2005), EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2006.04); ss by #11028, eff 1-29-16
+
+Saf -C 2006.06 Misuse of Repair and Supplemental Repair Plates .
+
+(a) A repair plate or supplemental repair plate shall be visibly displayed on the rear of the vehicle in the space provided by the manufacturer in accordance with RSA 261:176.
+
+(b) An owner, member, partner, officer or director of the repairer shall know the location and user of each repair plate as well as the vehicle to which it is assigned.
+
+(c) Repair plates shall not be used for personal use.
+
+(d) Repair plates shall only be used by the repairer, his or her employee, or a customer whose vehicle is being repaired.
+
+(e) Repair plates shall only be used for service vehicles owned by the repairer, designed and equipped for the purpose of providing service, repair, or both directly connected with the repairer s business or on unregistered vehicles being serviced by the repairer.
+
+(f) Any vehicle driven by a repairer on a public way shall display a current state inspection sticker.
+
+(g) Repair plates shall only be used in accordance with the requirements of RSA 261:136-a through RSA 261:139. Any other use shall be considered misuse for the purposes of RSA 261:177 and RSA 261:61.
+
+(h) Service vehicles means tow trucks, wreckers, ramp trucks, pickup trucks, and cargo vans designed to carry cargo as their primary function, which are marked not for hire and are designed for and engaged in the day-to-day business activities of the repairer, including but not limited to the transportation of freight or merchandise, such as auto parts delivery trucks.
+
+( i ) For the purposes of RSA 261:136-a, II, a vehicle marked not for hire shall have the driver side and passenger side doors marked not for hire with lettering 3 inches in height or more.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2005), EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2006.05); ss by #11028, eff 1-29-16; ss by #12211, eff 6-16-17
+
+Saf -C 2006.07 Use of Supplemental Repair Plates . The supplemental repair plate shall be used to:
+
+(a) Transport a vehicle owned by the repairer from one location to the repairer business; or
+
+(b) Demonstrate a rebuilt or repaired vehicle to a customer.
+
+Source. #8966, eff 8-23-07 (from Saf -C 2006.05); ss by #11028, eff 1-29-16; ss by #11028, eff 1-29-16
+PART Saf -C 2007 TRANSPORTERS
+
+Saf -C 2007.01 Transporter .
+
+(a) Pursuant to RSA 259:114, the department shall issue a transporter registration to any applicant who:
+
+(1) Moves any motor vehicle owned by another person which requires registration for use upon a way for business purposes; or
+
+(2) Is engaged in the business of buying promissory notes secured by mortgages or conditional sales contracts who, in the regular course of such business, has occasion to repossess any vehicle.
+
+(b) For the purpose of determining whether an applicant is a transporter pursuant to RSA 259:114, the term business purposes means any commercial enterprise that involves the reconditioning, repossession, or exchange of motor vehicles.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1107.01); ss by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2006), EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2007.02 Application for Transporter Registration .
+
+(a) An applicant for a transporter registration shall complete and submit an application RDMV 725 (rev 12/15) to the department.
+
+(b) If the business location is leased, the applicant shall submit a legible copy of the current, valid lease agreement.
+
+(c) Each person listed on the application as a member, partner, officer, or director of the applicant shall provide a certified copy of his or her criminal record.
+
+(d) The applicant shall provide a statement whether the applicant has ever been subject to a civil judgment connected with a motor vehicle business.
+
+Source. #2233, eff 12-31-82; ss by #2949, eff 1-7-85, EXPIRED 1-7-91
+
+New. #5251, eff 10-21-91 (formerly Saf-M 1107.02); amd by #5502, eff 11-12-92; amd by #6572, INTERIM, eff 9-2-97, EXPIRED 12-31-97; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2006) , EXPIRED: 1-1-05
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2007.03); ss by #11028, eff 1-29-16
+
+Saf -C 2007.03 Issuance of Transporter Registration .
+
+(a) The department shall issue a transporter registration when:
+
+(1) The applicant submits a completed form RDMV725 to the department, pursuant to Saf -C 2007.02;
+
+(2) The applicant meets the requirements of RSA 259:114 and RSA 261:114;
+
+(3) The applicant meets local approval, pursuant to Saf -C 2003.04;
+
+(4) An individual authorized by the director determines, after an investigation, that the applicant meets the requirements of RSA 259:114 and RSA 261:114; and
+
+(5) The applicant has paid the fee required by RSA 261:141, III(y).
+
+(b) In order to curtail misuse of transporter registration plates, the department shall issue only the number of plates reasonably necessary to a dealer s business, as indicated by the following factors:
+
+(1) Volume of business; and
+
+(2) Number of employees transporting vehicles pursuant to RSA 259:114 and RSA 261:116.
+
+(c) A transporter may request additional transporter plates or return plates to the department during the year if any of the factors in (b) above, change.
+
+(d) A newly registered transporter shall not be issued additional plates until 120 days after the date the original number of plates was authorized.
+
+(e) The department shall reduce the number of plates issued to a transporter dealer, upon receipt of any information that the factors set forth in (b) above have decreased, after an investigation by an individual authorized by the director.
+
+(f) A transporter who has had the number of plates issued by the department reduced pursuant to (e) above shall be provided the opportunity for an administrative hearing in accordance with the requirements of PART Saf -C 2010.
+
+(g) A transporter registration shall not be issued if any person listed on the application is currently under suspension or revocation for a violation of dealer laws or rules.
+
+(h) More than one dealer located in one enclosed building shall be clearly separated by a permanent physical wall. Each shall have an independent separate exterior entrance for the public.
+
+( i ) No more than one dealer shall be permitted within one business location without a clearly defined portion of space with definite boundaries and signage so as not to confuse the public.
+
+(j) The prohibition in ( i ) above shall not apply to more than one DMV licensed business within one business location if the business name and owners are the same for both businesses.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2006), EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2007.02); ss by #11028, eff 1-29-16
+
+Saf -C 2007.04 Renewal of Transporter Registration . All transporter registrations shall expire biennially on March 31st and renewed in accordance with the requirements of Saf -C 2003.11(b).
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2007.05 Use of Transporter Plates .
+
+(a) A transporter plate shall be visibly displayed on the rear of the vehicle in the space provided by the manufacturer in accordance with RSA 261:176.
+
+(b) An owner, member, partner, officer , or director of the transporter shall know the location and user of each transporter plate as well as the vehicle to which it is assigned and shall be operated only by the transporter or his or her employee.
+
+(c) Personal use shall be prohibited and transporter registration shall be used on motor vehicles not owned by the transporter.
+
+(d) A transporter shall not loan a number plate which have been assigned to them.
+
+(e) Any vehicle driven by a transporter on a public way shall display a current state inspection sticker.
+
+Source. #8966, eff 8-23-07 (from Saf-C 2007.03); ss by #11028, eff 1-29-16
+
+PART Saf -C 2008 UTILITY DEALERS
+
+Saf -C 2008.01 Utility Dealer .
+
+(a) The department shall issue a utility registration to any applicant engaged in the manufacture, purchase, sale, or exchange at wholesale or retail of travel or camp trailers, utility trailers, boat trailers, semi-trailers, tractors, farm equipment, construction equipment, chassis with special equipment, modular buildings, manufactured housing, or any combination thereof , or any person engaged in the lease or rental of storage trailers.
+
+(b) For the purpose of determining whether an applicant is a utility dealer pursuant to RSA 259:121, the term chassis with specialized equipment includes, but is not limited to, cement mixers, garbage trucks, tank trucks, well drillers, ladder trucks, storage trailers, boat trailers, and utility trailers.
+
+Source. #5251, eff 10-21-91; amd by #5502, eff 11-12-92; amd by #6604, INTERIM, eff 10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff 1-1-98 (from Saf-C 2007), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 ; ss by #11028, eff 1-29-16
+
+Saf -C 2008.02 Application for Utility Dealer Registration .
+
+(a) An applicant for a utility dealer registration shall complete and submit form RDMV 730 (rev 12/15) to the department, along with the appropriate fee, and shall meet the requirements as set forth in Saf -C 2008.01.
+
+(b) If the business location is leased, the applicant shall submit a legible copy of the current, valid lease agreement.
+
+(c) Each person listed on the application as a member, partner, officer, and director of the applicant shall provide a certified copy of his or her criminal record.
+
+(d) The applicant shall provide a statement whether the applicant has ever been subject to a civil judgment connected with a motor vehicle business.
+
+(e) If the applicant will be engaged in the manufacture, purchase, sale or exchange of any trailer with a gross vehicle weight in excess of 3,000 pounds, the applicant shall certify that the established place of business will comply with all state and federal laws and rules pertaining to the selling, financing and titling of motor vehicles.
+
+Source. #5251, eff 10-21-91; ss by #6572, INTERIM, eff
+9-2-97, EXPIRED 12-31-97; ss by #6604, INTERIM, eff
+10-18-97, EXPIRED 2-15-98; ss and moved by #6663, eff
+1-1-98 (from Saf-C 2007), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2008.01); ss by #11028, eff 1-29-16
+
+Saf -C 2008.03 Issuance of Utility Dealer Registration .
+
+(a) The department shall issue a utility dealer registration when:
+
+(1) The applicant submits a completed form RDMV 730 to the department, pursuant to Saf -C 2008.02(a);
+
+(2) The applicant meets the requirements of RSA 259:121, RSA 261:119, and Saf -C 2008.01;
+
+(3) If the applicant will be engaged in the manufacture, purchase, sale or exchange of any trailer with a gross vehicle weight in excess of 3,000 pounds, the applicant obtains a bond, pursuant to RSA 261:98;
+
+(4) The applicant meets local approval, pursuant to Saf -C 2003.04;
+
+(5) An individual authorized by the director determines, after an investigation, that the applicant meets the requirements of RSA 259:121 , RSA 261:119, and Saf -C 2008.01; and
+
+(6) The applicant has paid the fee required by RSA 261:141, III(z).
+
+(b) In order to curtail misuse of utility dealer registration plates, the department shall issue only the number of plates reasonably necessary to a dealer s business, as indicated by the following factors:
+
+(1) The number of plates requested; and
+
+(2) The number of vehicles currently in inventory.
+
+(c) A utility dealer may request additional utility dealer plates or return plates to the department during the year if any of the factors in (b) above, change.
+
+(d) A newly registered utility dealer shall not be issued additional plates until 120 days after the date the original number of plates was authorized.
+
+(e) The department shall reduce the number of plates issued to a utility dealer, upon receipt of any information that the factors set forth in (b) above have decreased, after an investigation by an individual authorized by the director.
+
+(f) A utility dealer who has had the number of plates issued by the department reduced pursuant to (e) above shall be provided the opportunity for an administrative hearing in accordance with the requirements of PART Saf -C 2010.
+
+(g) A utility dealer registration shall not be issued if any person listed on the application is currently under suspension or revocation for a violation of dealer laws or rules.
+
+(h) More than one dealer located in one enclosed building shall be clearly separated by a permanent physical wall. Each shall have an independent separate exterior entrance for the public.
+
+( i ) No more than one dealer shall be permitted within one business location without a clearly defined portion of space with definite boundaries and signage so as not to confuse the public.
+
+(j) The prohibition in ( i ) above shall not apply to more than one DMV licensed business within one business location if the business name and owners are the same for both businesses.
+
+(k) If the utility dealer will be engaged in the manufacture, purchase, sale or exchange of any trailer with a gross vehicle weight in excess of 3,000 pounds, the dealer shall attend the dealer overview session in accordance with the requirements of Saf -C 2003.07.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2007), EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 ss by #11028, eff 1-29-16
+
+Saf -C 2008.04 Renewal of Utility Dealer Registration . All utility dealer registrations shall expire biennially on March 31 st and shall be renewed in accordance with the requirements of Saf -C 2003.11(b).
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2008.05 Use of Utility Dealer Plates .
+
+(a) A utility dealer plate shall be visibly displayed on the rear of the vehicle in the space provided by the manufacturer in accordance with RSA 261:176.
+
+(b) An owner, member, partner, officer or director of the utility dealer shall know the location and user of each utility dealer plate as well as the vehicle to which it is assigned.
+
+(c) Utility plates shall only be used as follows:
+
+(1) A utility plate may be used for moving non-motorized vehicles, modular buildings, or chassis with specialized equipment for business purposes, including but not limited to delivery, demonstration, sale, or repair;
+
+(2) A utility plate may be used by a manufacturer or dealer of boats or boat trailers, or his or her employees or agents contracted by the manufacturer or dealer, for the transportation of boats in the ordinary course of business, which shall include the sale, demonstration, delivery, and repair of such boats;
+
+(3) A utility plate may be used by a manufacturer or dealer of boats or boat trailers, or his or her employees or agents contracted by the manufacturer or dealer, on a boat trailer not owned or leased by the manufacturer or dealer if used for the purpose of transporting a boat or boat trailer to and from his or her place of business for repair or service;
+
+(4) A utility plate may be used by a manufacturer, dealer, or installer of manufactured housing, or his or her employees or agents contracted by the manufacturer, dealer, or installer, on a manufactured housing chassis owned or not owned by the manufacturer, dealer, or installer if used solely for the purpose of transporting manufactured housing to and from his or her place of business for sale or installation;
+
+(5) Any vehicle driven by a utility dealer shall display a current New Hampshire state inspection sticker unless the vehicle has been delivered in the State with a Certificate of Origin as defined in RSA 266:1 VIII;
+
+(6) Utility plates shall not be loaned or assigned to any other person; and
+
+(7) Personal use shall be prohibited.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2007), EXPIRED:
+1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2008.03); ss by #11028, eff 1-29-16
+
+Saf -C 2008.06 Supplemental Utility Dealer Plate .
+
+(a) In order for a utility dealer to obtain a supplemental utility dealer plate, the utility dealer shall:
+
+(1) Meet the requirements of Saf -C 2008.03;
+
+(2) H ave an established place of business, that is a permanent, enclosed commercial building located within this state, easily accessible and open to the public at all reasonable times, and at which the business of a dealer may be lawfully carried on in accordance with the terms of all applicable building codes, zoning, and other land-use regulatory ordinances, and that shall also:
+
+a. Be a business location where the retail vehicle dealer conducts sales during normal business hours;
+
+b. Be a business location with a permanent physical structure that has at least 750 square feet or is primarily dedicated to the business of selling vehicles; and
+
+c. Be a business location that clearly and conspicuously displays the business name of the dealer in letters no less than 10 inches in height, unless prohibited by local zoning;
+
+d. Be a business location whose signage described in c., above, shall be clearly visible from a traveling vehicle on the adjacent public way, unless an obstruction exists which cannot be remedied; and
+
+(3) Obtain a bond, pursuant to RSA 261:98; and
+
+(4) Attend the dealer overview session in accordance with the requirements of Saf -C 2003.07.
+
+(b) A utility dealer shall be issued only one supplemental utility dealer plate.
+
+(c) The supplemental utility dealer plate shall be used for the sole purpose of allowing a customer to test drive a motor vehicle taken in trade, pursuant to RSA 261:121, II.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+PART Saf -C 2009 BUSINESS OPERATIONS
+
+Saf -C 2009.01 Days and Hours of Operation .
+
+(a) Each business governed by these rules shall maintain regular business hours as defined in Saf -C 2001.15.
+
+(b) Each business governed by these rules shall set forth its regular business hours on the applicable application form. The business owner shall promptly inform the department, in writing, of any changes in its regular business hours, except if the hours are being extended.
+
+(c) A business governed by these rules that will be temporarily closed for business for longer than one consecutive week at a time, shall notify the department, in writing, no later than 30 days prior to the date of temporary closure.
+
+(d) A business governed by these rules closed pursuant to (c) above, shall inform the department of the name and telephone number of at least one person who will be available during the period of closure for the department to contact, in the event it is necessary to do so.
+
+Source. #6572, INTERIM, eff 9-2-97, EXPIRED12-31-97
+
+New. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2009.02 Change of Ownership .
+
+(a) Each business owner, partner , and officer listed on the applicable application form shall notify the department, in writing, of any pending change in the ownership of the business, no later than 30 days prior to the effective date.
+
+(b) If a business governed by these rules transfers ownership as defined in Saf -C 2001.19:
+
+(1) No dealer plates or temporary registration plates shall be used in any manner subsequent to the date of transfer of ownership unless approved by the department in circumstances when a small number of plates are necessary for inventory liquidation;
+
+(2) All dealer plates, registration plates, temporary registration plates, certificates of registration , and all DMV supplied forms shall be surrendered to the department on the date of transfer of ownership; and
+
+(3) If the items listed in (b)(2) above are not surrendered, no new application shall be approved: and
+
+(4) A person who commences business prior to obtaining approval shall be subject to an administrative hearing.
+
+Source. #6572, INTERIM, eff 9-2-97, EXPIRED12-31-97
+
+New. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2009.03 Change of Location .
+
+(a) Each business owner, partner , and officer listed on the applicable application form shall notify the department, in writing, of any pending change of business location, no later than 30 days prior to the effective date.
+
+(b) A new application for the particular business governed by these rules shall be completed to reflect the proposed location of the business site.
+
+(c) If all the business owners, partners or officers of the business are remaining the same, a financial statement pursuant to Saf -C 2003.02(d) and criminal record pursuant to Saf -C 2003.02(e) shall not be required as part of the application set forth in (b) above.
+
+(d) Upon receipt of the particular application in (b) above, the procedures set forth in Saf -C 2003.04 and Saf -C 2003.05 shall be conducted.
+
+(e) Except as otherwise provided in RSA 261:103-a, IX, no business shall be conducted at the new location until approval is obtained by the department for the particular business in accordance with these rules.
+
+(f) If a person commences business prior to obtaining approval pursuant to (e) above, he/she shall be subject to an administrative hearing.
+
+(g) The scope of the hearing in (f) above shall be whether the person has operated business at an unapproved location.
+
+(h) The minimum period of suspension for a violation of (e) above shall be 14 days, utilizing the criteria set forth in Saf -C 2010.03.
+
+Source. #6572, INTERIM, eff 9-2-97, EXPIRED12-31-97
+
+New. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2009.04 Closing or Discontinuance of Business .
+
+(a) Business shall cease in the event of the following:
+
+(1) The owner relocates without notification, vacates, abandons , or discontinues the business;
+
+(2) The owner of the business has died;
+
+(3) The business privileges to operate have been revoked after a hearing; or
+
+(4) A transfer of ownership pursuant to Saf -C 2009.02 has occurred.
+
+(b) After any of the circumstances set forth in (a) above occurs, all items shall be surrendered to the department in accordance with the requirements of Saf -C 2009.02(b).
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2009.05 Notice Required .
+
+(a) Each business governed by these rules shall notify the department, in writing, of the following:
+
+(1) Lost or stolen registration plates;
+
+(2) Any person formerly authorized to purchase temporary plates on behalf of the business who is no longer employed by the particular business;
+
+(3) Changes in the mailing address, but not in physical location of the business, that might affect mailings to the business from the department;
+
+(4) Any change in the company name, corporate structure , or ownership; or
+
+(5) Any change in local government approval pursuant to Saf -C 2003.04.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2009.06 Inspection of Records .
+
+(a) Any records required to be maintained pursuant to state law or these rules shall be available for inspection by an individual authorized by the director during regular business hours at the dealer s established place of business.
+
+(b) A dealer who has multiple established places of business may request approval from the department to have records for those locations pursuant to (a) above maintained at one of those established business locations.
+
+(c) The director shall deny the request of a dealer pursuant to (b) above if:
+
+(1) The requesting dealer has previously had such approval revoked, whether or not the previous approval involved the same business locations; or
+
+(2) The requesting dealer is currently under suspension or revocation for a violation of dealer laws or rules.
+
+(d) The director shall revoke such approval if:
+
+(1) The dealer maintains its records as described in (b) in a way that makes such records not reasonably available for inspection as described in (a); or
+
+(2) The approval was granted in error.
+
+(e) Any dealer requesting or receiving the approval described in (b) shall keep the director informed of the location in which the records of multiple business locations are to be kept.
+
+(f) In the event that a business location whose records have been maintained at another business location is audited by an individual authorized by the director, a dealer shall make such records available at the audited location, if the audited location is more than 15 miles away from the location at which the records are kept.
+
+Source. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+Saf -C 2009.07 Leased Business Locations . If the holder of any dealer license issued pursuant to these rules operates in a leased location, such license holder shall maintain a valid, written lease agreement for the duration of the license and shall provide the division with a legible copy of any and all such leases during the duration of the license.
+
+Source. #11028, eff 1-29-16
+
+PART Saf -C 2010 ADMINISTRATIVE HEARINGS
+
+Saf -C 2010.01 Administrative Hearing .
+
+(a) For the purposes of this section, dealer means retail vehicle dealer, auto wholesale dealer, automotive recycling dealer, repairer, transporter, or utility dealer.
+
+(b) Upon receipt of information as specified in RSA 261:177, the director shall provide the dealer with an opportunity for an administrative hearing.
+
+(c) Hearings shall be conducted in accordance with the provisions of Saf -C 203.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2009.01), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2009.01); ss by #11028, eff 1-29-16
+
+Saf -C 2010.02 Scope of Hearing . The scope of the hearing shall be limited to a determination of whether the dealer violated any provision of the dealer laws or these rules.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2009.02), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2009.02); ss by #11028, eff 1-29-16
+
+Saf -C 2010.03 Hearing Sanction .
+
+(a) After a hearing and upon a finding that a dealer has violated any provision of the dealer laws or these rules, a hearings examiner shall suspend or revoke the dealer s license, if applicable, and/or registration or shall impose an administrative fine as set forth in Saf -C 2011.
+
+(b) A hearings examiner shall determine the appropriate sanction based on the following factors:
+
+(1) The severity of the offense;
+
+(2) The number of offenses committed; and
+
+(3) Whether the dealer committed prior offenses.
+
+(c) A hearings examiner, after making a determination that an owner, partner or officer of a business is in violation of any provision of the dealer laws or these rules, may prohibit said owner, partner or officer from opening any other type of dealership for a period of time not to exceed 5 years.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2009.03), EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2009.03); ss by #11028, eff 1-29-16
+
+Saf -C 2010.04 Appeal of Administrative Hearing .
+
+(a) Any appeal from an administrative hearing shall be in accordance with the provisions of RSA 541.
+
+(b) Any appeal filed pursuant to this section shall not stay the suspension or revocation of the dealer s license and/or registration, as applicable.
+
+Source. #6663, eff 1-1-98 (from Saf-C 2009.04, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07; ss by #11028, eff 1-29-16
+
+PART Saf -C 2011 ADMINISTRATIVE FINES
+
+Saf -C 2011.01 Administrative Fines .
+
+(a) For the purposes of this section, violation means one or more infractions cited as a result of a single review of a dealer or single motor vehicle stop of a vehicle displaying dealer plates on a specific date.
+
+(b) For the purposes of establishing a subsequent violation, the subsequent violation shall have occurred within 3 years from the date of the final administrative disposition of the previous violation.
+
+(c) Pursuant to RSA 261:177, I(c), a fine imposed by a hearings examiner shall not take effect unless approved by the commissioner.
+
+(d) Administrative fines shall not be held in abeyance unless approved by the commissioner pursuant to RSA 261:177, I(c).
+
+(e) Any fine shall be paid in full within 30 days of receipt of the written order of the hearings examiner.
+
+(f) For the purposes of (e) above, an order shall be sent first class mail and receipt shall be presumed to have occurred 3 days after the order is mailed.
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2010.01); ss by #11028, eff 1-29-16
+
+Saf -C 2011.02 Payment of Fines .
+
+(a) Fines may be paid by mail or in person.
+
+(b) In the event a fine is paid in person, it shall be made to the department at 33 Hazen Drive , Concord , NH 03305 . Payment shall be made in the form of cash, a personal check, cashier s check or money order.
+
+(c) In the event a fine is paid by mail, it shall be mailed to:
+
+Department of Safety
+Administrative Fine Payment
+James H. Hayes Building
+33 Hazen Drive
+Concord , NH 03305
+
+Payment shall be made in the form of a personal check, cashier s check or money order.
+
+(d) For the purposes of (b) and (c) above, all checks or money orders shall be made payable to NH Department of Safety or New Hampshire Department of Safety .
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2010.02); ss by #11028, eff 1-29-16
+
+Saf -C 2011.03 Protested Checks .
+
+(a) When any check is in payment of a fine and returned to the department as uncollectible:
+
+(1) The check shall not be redeposited; and
+
+(2) The business office shall forward an advisory letter to the signer of the check which contains:
+
+a. Notification that the check has been returned and the reason;
+
+b. Notification that the check cannot be redeposited;
+
+c. A request for restitution of the full amount of the check in addition to the penalty authorized by RSA 6:11-a;
+
+d. Notification that payment shall be made by certified check, money order or cash.
+
+e. Notification that payment made by mail shall be by certified check or money order; and
+
+f. Notification that payment shall be made payable to State of New Hampshire Administrative Fine Payment and addressed to:
+
+Department of Safety
+Business Office
+James H. Hayes Building
+33 Hazen Drive
+Concord , NH 03305
+
+(b) Nothing contained in this rule shall preclude the department from:
+
+(1) Pursuant to Saf -C 211.01, suspending any dealer plate registered to a dealer that issued a bad check; or
+
+(2) Pursuant to RSA 638:4, seeking criminal prosecution of any person or dealer that issued a bad check.
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2010.03); ss by #11028, eff 1-29-16
+
+Saf -C 2011.04 Nonpayment of Fines .
+
+(a) If the fine is not paid within 30 days of receipt of the order, the department shall send notice to the dealer to appear at an administrative hearing to show cause why all dealer plates should not be suspended for non-payment of the administrative fine.
+
+(b) The hearing shall be scheduled no earlier than 14 days from the date of the notice in (a) above.
+
+(c) In the event the hearings examiner finds that a dealer has not paid its administrative fine, all of the dealer plates shall be suspended pending receipt by the department of the administrative fine paid in full.
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2010.04); ss by #11028, eff 1-29-16
+
+Saf -C 2011.05 Appeal of an Administrative fine .
+
+(a) Any appeal from an administrative fine shall be in accordance with the provisions of RSA 541.
+
+(b) An appeal filed pursuant to this section shall not suspend payment of the fine.
+
+(c) In the event a fine is overturned on appeal, the department shall, pursuant to the court s order, refund the fine within 30 working days of the receipt of the court s order.
+
+Source. #6663, eff 1-1-98, EXPIRED: 1-1-06
+
+New. #8569, INTERIM, eff 2-18-06, EXPIRED: 8-17-06
+
+New. #8966, eff 8-23-07 (from Saf-C 2010.04); ss by #11028, eff 1-29-16
+
+APPENDIX
+
+Rule
+Specific State Statute the Rule Implements
+
+Saf -C 2001.01
+RSA 541-A:7
+
+Saf -C 2001.02
+RSA 236:112, V(c); RSA 259:47
+
+Saf -C 2001.03
+RSA 259:5-a
+
+Saf -C 2001.04
+RSA 259:13
+
+Saf -C 2001.05
+RSA 259:19
+
+Saf -C 2001.06
+RSA 259:18
+
+Saf -C 2001.07
+RSA 541-A:7
+
+Saf -C 2001.08
+RSA 259:20
+
+Saf -C 2001.09
+RSA 259:22
+
+Saf -C 2001.10
+RSA 259:29-a
+
+Saf -C 2001.11
+RSA 541-A:7
+
+Saf -C 2001.12
+RSA 259:60-a
+
+Saf -C 2001.13 Saf -C 2001.15
+RSA 541-A:7
+
+Saf -C 2001.16
+RSA 259:89-a
+
+Saf -C 2001.17
+RSA 259:87
+
+Saf -C 2001.18 Saf -C 2001.20
+RSA 541-A:7
+
+Saf -C 2001.21
+RSA 259:114
+
+Saf -C 2001.22
+RSA 259:121
+
+Saf -C 2002.01
+RSA 541-A:16, I(a)
+
+Saf -C 2002.02
+RSA 541-A:16, I(b); RSA 541-A:29
+
+Saf -C 2002.03
+RSA 541-A:16, I(b)
+
+Saf -C 2002.04
+RSA 261:96
+
+Saf -C 2002.05
+RSA 261:103-a; RSA 261:104; RSA 261:113; RSA 261:115;
+RSA 261:120; RSA 261:123; RSA 261:125; RSA 261:136;
+RSA 261:140-a;
+
+Saf -C 2003.01 Saf -C 2003.14
+RSA 259:29-a; RSA 259:89-a; RSA 261:98-101;
+RSA 261:103-a; RSA 261:104; RSA 261:106; RSA 261:109;
+RSA 261:110; RSA 261:111; RSA 266:8
+
+Saf -C 2003.15
+RSA 266:8; RSA 266:59-b, VI; RSA 358-F:2; RSA 358-F:3
+
+Saf -C 2004
+RSA 259:5-a; RSA 259:29-a; RSA 261:98 - 101; RSA 261:103-a; RSA 261:140-a -:140-d
+
+Saf -C 2004.02(h)
+RSA 259:5-a; RSA 259:29-a; RSA 261:103-a;
+RSA 261:140-a - 140-d
+
+Saf -C 2005
+RSA 236:112, V(c); RSA 259:47; RSA 261:98 - 101;
+RSA 261:123 - 129; RSA 261:131
+
+Saf -C 2006
+RSA 259:87; RSA 261:98 - 101; RSA 261:136 - 139
+
+Saf -C 2006.06
+RSA 259:87; RSA 261:136 - 139
+
+Saf -C 2007
+RSA 259:114; RSA 261:114 - 118
+
+Saf -C 2008
+RSA 259:121; RSA 261:98 - 101; RSA 261:119 - 122
+
+Saf -C 2009
+RSA 261:103-a; RSA 261:104; RSA 261:113; RSA 261:115;
+RSA 261:120; RSA 261:123; RSA 261:125; RSA 261:136;
+RSA 261:140-a;
+
+Saf -C 2010 Saf -C 2011
+RSA 261:177; RSA 541-A:31

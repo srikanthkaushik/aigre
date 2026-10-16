@@ -1,0 +1,518 @@
+CHAPTER Saf -C 2800 ADMINISTRATIVE LICENSE SUSPENSION
+
+Statutory Authority: RSA 21-P:14, IV(r)
+
+PART Saf -C 2801 PURPOSE AND SCOPE
+
+Saf -C 2801.01 Purpose .
+
+(a) The purpose of these rules is to set forth the administrative requirements to implement the mandate of RSA 21-P:14, IV (r), to establish a system to suspend or revoke motor vehicle licenses or driving privileges pursuant to RSA 265-A:30 through RSA 265-A:32.
+
+(b) A person whose privilege to drive in New Hampshire has been suspended or revoked pursuant to RSA 265-A:30 through RSA 265-A:32 shall, if eligible, be:
+
+(1) Given a temporary driving permit valid for the notice period; and
+
+(2) Notified of his or her rights to an administrative review or hearing.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss and moved by #8782-A, eff 1-1-07 (formerly Saf -C 2802.01); ss by #10888, eff 7-16-15
+
+Saf -C 2801.02 Scope .
+
+(a) Pursuant to RSA 265-A:30, a person shall be subject to an administrative license suspension if he or she has been arrested for driving, operating or attempting to operate an OHRV, driving or attempting to drive a vehicle upon the ways of this state, or operating or attempting to operate a boat upon the public waters of this state under the influence of intoxicating liquor or controlled drugs, prescription drugs, over-the-counter drugs or any other chemical substances, natural or synthetic or any combination of intoxicating liquor and drugs and if:
+
+(1) He or she refuses a test as provided in RSA 265-A:14;
+
+(2) He or she submits to a test described in RSA 265-A:4 which discloses an alcohol concentration of 0.08 or more; or
+
+(3) In the case of a person under the age of 21, he or she submits to a test described in RSA 265-A:4 which discloses an alcohol concentration of 0.02 or more.
+
+(b) This chapter shall not apply to commercial vehicle operators while operating a commercial vehicle.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss and moved by #8782-A, eff 1-1-07 (formerly Saf -C 2802.02); ss by #10888, eff 7-16-15
+
+PART Saf -C 2802 DEFINITIONS
+
+Saf -C 2802.01 "Alcohol concentration" means "alcohol concentration" as defined in RSA 259:3-b.
+
+Source. #5538, eff 1-1-93; amd by #5670, eff 7-19-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss and moved by #8782-A, eff 1-1-07 (formerly Saf -C 2801.01); ss by #10888, eff 7-16-15
+
+Saf -C 2802.02 "Department" means the New Hampshire department of safety.
+
+Source. #5538, eff 1-1-93; amd by #5767, eff 1-1-94; amd by #6102, INTERIM, eff 10-24-95, EXPIRES 2-21-96; amd by #6169, eff 1-24-96; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss and moved by #8782-A, eff 1-1-07 (formerly Saf -C 2801.02); ss by #10888, eff 7-16-15
+
+Saf -C 2802.03 Error of law means the incorrect application of any relevant law or rule to the administrative license suspension review or hearing specified by RSA 265-A:31.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.021); ss by #10888, eff 7-16-15
+
+Saf -C 2802.04 "License" means "license" as defined in RSA 259:48.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.03); ss by #10888, eff 7-16-15
+
+Saf -C 2802.05 OHRV means OHRV as defined in RSA 265-A:1, III.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.031); ss by #10888, eff 7-16-15
+
+Saf -C 2802.06 Operate when applied to OHRV administrative license suspension, means operate as defined in RSA 215-A:1, VII.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.032); ss by #10888, eff 7-16-15
+
+Saf -C 2802.07 Recommendation means the report issued by a hearings examiner following an administrative review or hearing specified in RSA 265-A:31, III. The term includes ruling as used in RSA 265-A:33 and these rules.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.04); ss by #10888, eff 7-16-15 (from Saf -C 2802.05)
+
+Saf -C 2802.08 Review as used in RSA 265-A:33 means the director s review of a hearings examiner s recommendation as specified by law.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.05); ss by #10888, eff 7-16-15 (from Saf -C 2802.06)
+
+Saf -C 2802.09 "Suspension" means "suspension" as defined in RSA 259:107.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.06); ss by #10888, eff 7-16-15 (from Saf -C 2802.07)
+
+Saf -C 2802.10 Sworn report means paragraph V of form DSMV 426 submitted by a law enforcement officer and signed by a justice of the peace, notary public, or commissioner of deeds, before whom the law enforcement officer personally appeared and recognized his or her obligation to tell the truth but does not include a requirement that the law enforcement officer raise his or her right hand and take a formal oath.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2801.07); ss by #10888, eff 7-16-15 (from Saf -C 2802.08)
+
+Saf -C 2802.11 "Test" or "tests" means physical examinations and chemical tests as described in RSA 265-A:4.
+
+Source. #10888, eff 7-16-15 (from Saf -C 2802.09)
+
+Saf -C 2802.12 "Working days" means calendar days exclusive of Saturdays, Sundays, and state and federal holidays.
+
+Source. #10888, eff 7-16-15 (from Saf -C 2802.10)
+
+PART Saf -C 2803 GENERAL ADMINISTRATION
+
+Saf -C 2803.01 Order of Suspension .
+
+(a) Pursuant to RSA 265-A:30, a person who has been arrested for driving, operating or attempting to operate an OHRV, driving or attempting to drive a vehicle upon the ways of this state, or operating or attempting to operate a boat upon the public waters of this state under the influence of intoxicating liquor or controlled drugs, prescription drugs, over-the-counter drugs or any other chemical substances, natural or synthetic or any combination of intoxicating liquor and drug shall be served immediate notice of license suspension, effective 30 days after the date of service, by the law enforcement officer on form DSMV 426 if he or she:
+
+(1) Refuses the request of a law enforcement officer to submit to a test or tests; or
+
+(2) Submits to a test or tests and the test(s) disclosed an alcohol concentration of 0.08 or more or, in the case of a person under the age of 21, an alcohol concentration of 0.02 or more.
+
+(b) Upon serving immediate notice to the person, the law enforcement officer shall take the person's New Hampshire driver license and, subject to the provisions of Saf -C 2803.04, issue a temporary driving permit on form DSMV 426, valid for the notice period.
+
+(c) The law enforcement officer shall provide the following information on form DSMV 426:
+
+(1) The date of service;
+
+(2) The date of arrest;
+
+(3) The person's name and, if applicable, any alias;
+
+(4) The person's date of birth;
+
+(5) The person's mailing address;
+
+(6) The driver license number;
+
+(7) The issuing state of the driver license;
+
+(8) If a New Hampshire license is not attached, the reason why it is not attached with the form; and
+
+(9) The law enforcement officer's signed, sworn report stating:
+
+a. That a test was requested pursuant to RSA 265-A:4 and that:
+
+1. The person refused to submit to testing; or
+
+2. The person submitted to testing but the results disclosed an alcohol concentration as specified in RSA 265-A:30; and
+
+b. In the case of a blood or urine test, the date the law enforcement officer received the results ; and
+
+c. The law enforcement officer s name and police department s mailing address.
+
+(d) The law enforcement officer shall give the person a copy of form DSMV 426 if serving immediate notice of license suspension, and mail the department's copy of form DSMV 426 with any confiscated New Hampshire driver license attached, to the department within 10 calendar days of the arrest.
+
+(e) A form DSMV 426 reflecting a breath test showing an alcohol concentration of 0.08 or 0.02, for a person under the age of 21, shall be returned to the submitting law enforcement agency without action.
+
+(f) If a form DSMV 426 is returned as specified in (e) above, a driver license submitted with the form shall be returned to the person, provided the license is not under suspension for any other reason.
+
+Source. #5538, eff 1-1-93; amd by #5670, eff 7-19-93; amd by #5763, eff 12-23-93; amd by #5767, eff 1-1-94; amd by #6102, INTERIM, eff 10-24-95, EXPIRES 2-21-96; amd by #6169, eff 1-24-96; ss by #6716, INTERIM, eff 4-1-98, EXPIRES: 7-30-98; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2803.02 Department's Notice of Suspension .
+
+(a) Upon receipt of form DSMV 426 from the law enforcement officer, the department shall mail a letter to the person as a confirmation of suspension.
+
+(b) The letter shall contain the following information:
+
+(1) The date the notice was issued;
+
+(2) The person's name;
+
+(3) The person's address;
+
+(4) The driver license number or New Hampshire identification number if a non-resident;
+
+(5) The date the suspension of driving privileges becomes effective; and
+
+(6) A statement regarding the person's opportunity for an administrative review or hearing.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2803.03 Test Results Which Are Not Available Immediately .
+
+(a) If the person submits to a test but the results are not available immediately, the law enforcement officer shall, within 5 working days of receipt of the results, submit both the person s and the department's copy of form DSMV 426 to the department with only parts I and V completed.
+
+(b) Pursuant to RSA 265-A:30, IV, upon receipt of the law enforcement officer's sworn report, the department shall:
+
+(1) Mail a letter, by first class mail, to the person to serve as official notice of license suspension, effective 30 days after the date of service; and
+
+(2) If applicable, indicate in the letter the designated place the person shall surrender his or her valid New Hampshire driver license.
+
+(c) Upon receipt of the person's valid New Hampshire driver license, the department shall issue the person a temporary driving permit that is valid for the balance of the notice period. Pursuant to RSA 265-A:30, IV, a person shall be presumed to have been served 3 days after mailing of the notice.
+
+Source. #5538, eff 1-1-93; amd by #5670, eff 7-19-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2803.04 Temporary Driving Permit .
+
+(a) Temporary driving permits shall become invalid if:
+
+(1) The permit is detached from form DSMV 426;
+
+(2) The permit is defaced or mutilated;
+
+(3) A suspension or revocation takes effect within the period of issue; or
+
+(4) A valid New Hampshire driver license has an expiration date which takes effect within the period of issue and the person has not filed a renewal application accompanied by the prescribed fee.
+
+(b) Temporary driving permits shall not be issued if:
+
+(1) The person is already under suspension or revocation;
+
+(2) The person is not licensed;
+
+(3) The person holds an out-of-state license; or
+
+(4) The person presently holds a temporary driving permit issued under Saf -C 2800, Administrative License Suspension.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2803.05 Out-of-State Drivers .
+
+(a) Pursuant to RSA 265-A:30, V, all provisions of this chapter shall apply to out-of-state drivers except:
+
+(1) The out-of-state driver license shall not be confiscated; and
+
+(2) A temporary driving permit shall not be issued.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2803.06 Duplicate Licenses Prohibited . Any person who has been served an order of suspension shall not be issued a duplicate New Hampshire driver license during the 30 day notice period, and shall be subject to the penalties of all laws and administrative rules regarding unsworn falsification, if he or she attempts to do so. Otherwise, the submission of applications for duplicate licenses shall be governed by the provisions of Saf -C 1011.05.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2803.07 Withdrawal of Sworn Report .
+
+(a) A sworn report may be withdrawn by the law enforcement agency on the following conditions:
+
+(1) In conjunction with a plea of guilty or nolo contendere to a violation resulting in a conviction of RSA 265-A:2 or RSA 265-A:3;
+
+(2) In conjunction with a plea of guilty or nolo contendere to a violation resulting in a conviction of RSA 630:2 or RSA 630:3; or
+
+(3) The law enforcement agency has made an error of law.
+
+(b) Unless the law enforcement agency has made an error of law, withdrawal of the sworn report shall only be effective upon the acceptance by the circuit or superior court of a plea, as set forth in Saf -C 2803.07(a)(1) or (2).
+
+(c) Withdrawal of a sworn report shall not affect the applicability of RSA 265-A:32 and suspensions based on a sworn report alleging a refusal of implied consent shall be given the effect required by RSA 265-A:14.
+
+(d) All requests for withdrawals submitted pursuant to this rule shall be submitted by one of the following means:
+
+(1) By first class mail, postage pre-paid, in writing to:
+
+Department of Safety
+Bureau of Hearings
+33 Hazen Drive
+Concord , NH 03305
+
+(2) By facsimile at (603) 271-6653; or
+
+(3) E-mail at safety-hearings@dos.nh.gov .
+
+(e) For the purposes of (a)(3) above, the factual or legal basis for the allegation of error of law shall be reviewed and approved by a hearings examiner or the sworn report shall not be approved for withdrawal.
+
+Source. #6716, INTERIM, eff 4-1-98, EXPIRES: 7-30-98; ss by #6824, eff 7-28-98; ss by #8376, eff 6-20-05; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+PART Saf -C 2804 ADMINISTRATIVE REVIEW AND HEARINGS
+
+Saf -C 2804.01 Request for Administrative Review or Hearing .
+
+(a) Pursuant to RSA 265-A:31, I(a), any person whose driver license or driving privilege has been suspended may request in writing either an administrative review or hearing, but not both. Such a request shall not delay, postpone or otherwise interrupt the effective date of the suspension.
+
+(b) A request for an administrative review or hearing, pursuant to (a) above, shall be made by only one of the following methods:
+
+(1) By first class mail, postage pre-paid, to:
+
+Department of Safety
+Bureau of Hearings
+33 Hazen Drive
+Concord , NH 03305
+
+(2) By facsimile at (603) 271-6653; or
+
+(3) E-mail at safety-hearings@dos.nh.gov .
+
+(c) If the request is for an administrative review, the request may be accompanied by any statement or other evidence which the person wants the department to consider in determining whether sufficient cause exists to sustain the order of suspension.
+
+(d) Those grounds, which shall be limited to those set forth in RSA 265-A:31, II(a)-(f), upon which the person seeks to have the order of suspension rescinded, that are not raised in the request for an administrative review or hearing shall be deemed to have been waived.
+
+(e) If the request is for a hearing, the person shall indicate whether he or she desires to have the law enforcement officer present at the hearing. Failure to so indicate shall mean that the person has waived the right to have the law enforcement officer present.
+
+(f) The person shall mail a copy of the request for an administrative review or hearing to the law enforcement officer at the police department's address. Upon receipt of the copy of the request for an administrative review or hearing, the law enforcement officer may submit to the department any statements, reports or other evidence which he or she wants a hearings examiner to consider during the review or hearing.
+
+(g) If whether a test or tests was properly administered is one of the issues to be challenged at the hearing, the request for a hearing shall include a notice requiring the attendance of the person who conducted the test(s). In the instance of a blood or urine test, the attendance of the certifying scientist or criminalist at the hearing shall fulfill this requirement. Failure to include a notice shall be deemed a waiver to require such attendance at the hearing.
+
+(h) Requests that do not meet the conditions of Saf -C 2804.01(a), (d) or (f) shall be deemed to be incomplete and shall be returned to the person with an explanation. The department shall deny in writing any untimely requests.
+
+Source. #5538, eff 1-1-93; amd by #5615, eff 4-20-93; amd by #5763, eff 12-23-93; ss by #6824, eff 7-28-98; ss by #8376, eff 6-20-05; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.02 Scheduling of Hearings .
+
+(a) A person requesting a hearing pursuant to Saf -C 2804.01 shall be notified, in the same manner as the person requested a hearing pursuant to Saf -C 2804.01(b) above, of the date, time and location of the hearing. A copy of the notification shall be mailed to the law enforcement officer who signed part V of form DSMV 426.
+
+(b) The hearing shall be scheduled within 20 days from receipt of the request unless a continuance is requested as follows:
+
+(1) A request for a continuance shall be granted subject to the provisions of Saf -C 203.06;
+
+(2) The request for a continuance by the person shall not delay, postpone or otherwise interrupt the effective date of the suspension; and
+
+(3) The request for a continuance by the law enforcement officer shall mean the person s driver license or driving privilege shall be restored, if otherwise eligible, until the next scheduled hearing date or for a period of 21 days, whichever occurs first.
+
+(c) Notwithstanding Saf -C 2804.02(b)(3) above, an individual, if eligible, shall be restored pursuant to this rule only once.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by 8376, eff 6-20-05; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.03 Failure to Appear at Hearing .
+
+(a) Pursuant to RSA 265-A:31, I(c), if the person requesting the hearing fails to appear without good cause shown, the right to a hearing shall be waived.
+
+(b) Under no circumstances shall the appearance of a person's attorney waive the requirement of the person's presence, as stated in (a) above.
+
+(c) Whenever the person requesting the hearing or the law enforcement officer, if his or her presence has been requested, fails to appear at the hearing the hearings examiner shall issue an order which:
+
+(1) Continues the hearing for 10 days;
+
+(2) Allows the person or law enforcement officer 10 days to show good cause for their failure to appear; and
+
+(3) Specifies whether the person s driver license or driving privilege is restored during the continuation.
+
+(d) For the purposes of (c)(2) above good cause shall include:
+
+(1) Serious illness;
+
+(2) Hospitalization;
+
+(3) Incarceration;
+
+(4) Death of a family member; or
+
+(5) Any other unforeseeable circumstance beyond the party's control that results in the party's absence from the scheduled hearing.
+
+Source. #5811, eff 4-19-94; ss by #6716, INTERIM, eff 4-1-98, EXPIRES: 7-30-98; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.04 Conduct of Hearing .
+
+(a) A hearing shall be held in accordance with the provisions of Saf -C 200.
+
+(b) Notwithstanding (a) above, where the procedures set forth in Saf -C 200 are duplicative or in conflict with the provisions of this chapter, the procedures set forth in this chapter shall take precedence.
+
+(c) An administrative hearing held pursuant to the provisions of this chapter shall be limited to no more than one hour. A hearings examiner shall grant additional time only if he or she determines that it is necessary to fully develop the facts or to insure that all relevant evidence has been received on those grounds challenged pursuant to RSA 265-A:31, II(a)-(f).
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.05 Determination of Jurisdiction .
+
+(a) At the beginning of the administrative review or hearing as specified in Saf -C 2804.06, below, the hearings examiner shall determine whether the department has jurisdiction.
+
+(b) If there is a sworn report as defined in Saf -C 2802.08, the department shall have jurisdiction and proceed immediately as specified in Saf -C 2804.06.
+
+(c) If the report does not meet the requirements of (b), above, the hearings examiner shall immediately dismiss the report for lack of jurisdiction.
+
+Source. #6716, INTERIM, eff 4-1-98, EXPIRES: 7-30-98; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.06 Scope of Administrative Review or Hearing . The scope of the administrative review or hearing shall be limited to those grounds set forth in RSA 265-A:31, II(a)-(f).
+
+Source. #5538, eff 1-1-93; ss by #6716, INTERIM, eff 4-1-98, EXPIRES: 7-30-98; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.07 Evidence Required for Alcohol Concentration Test(s) .
+
+(a) If the presence of the person who conducted the alcohol concentration test(s) is waived, pursuant to Saf -C 2804.01 (g), then the results of the test(s) issued pursuant to RSA 265-A:4 shall be deemed conclusive evidence that the test(s) was accurate and properly administered.
+
+(b) If the presence of the person who conducted the test(s) is not waived, the following documents or testimony shall be admissible to show that the test(s) was accurate and properly administered:
+
+(1) If a breath test:
+
+a. Testimony from the law enforcement officer that he or she is certified to operate the breath test instrument, or a copy of his or her certification card;
+
+b. A copy of the preventive maintenance check form filled out by the forensic breath testing supervisor who performed the last preventive maintenance check on the breath test instrument in question prior to the time of the test at issue; and
+
+c. A copy of the breath test instrument printout which shows that the instrument operated properly and captured the required samples after the waiting period; and
+
+(2) If a blood test:
+
+a. A copy of the blood specimen collection form filled out and signed by the person who took the sample for the test in question, pursuant to Saf -C 6402.02; and
+
+b. A copy of the transmittal slip for the person s blood specimen; and
+
+c. A copy of the certifying scientist or criminalist s report of the test result.
+
+(c) If any of the documents or testimony set forth in (b) above are not produced at the hearing, then the suspension or revocation shall not be sustained.
+
+Source. #5538, eff 1-1-93; amd by #5615, eff 4-20-93; amd by #5763, eff 12-23-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.08 Recommendation Following Administrative Review or Hearing .
+
+(a) Pursuant to RSA 265-A:31, III, the recommendation of the hearings examiner shall be issued within 15 calendar days of the date of the request for administrative review or the conclusion of the hearing.
+
+(b) The recommendation shall take effect immediately.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #7173, INTERIM, eff 1-1-00, EXPIRES: 5-1-00; ss by #7241, eff 5-1-00; ss by #8782-A, eff 1-1-07; ss by #10888, eff 7-16-15
+
+Saf -C 2804.09 Requirements for Review Pursuant to RSA 265-A:33 .
+
+(a) Pursuant to RSA 265-A:33, the person whose license has been suspended or revoked or the law enforcement officer may petition the director for a review of the recommendation.
+
+(b) The petition shall be filed within 10 calendar days of the hearings examiner's recommendation.
+
+(c) No petition shall be accepted by the director unless it:
+
+(1) Is on 8 x 11 inch white paper printed on one side;
+
+(2) Is double spaced with one inch margins on the top, bottom, right and left of the page;
+
+(3) Is in black image writing or type of at least 12 point font;
+
+(4) Is no more than 2 pages in length;
+
+(5) Specifically identifies the:
+
+a. Error of law, including a citation to the relevant law or rule; and/or
+
+b. Factual error, including a concise explanation of why the recommendation cannot be sustained by the facts presented at the hearing; and
+
+(6) Includes certification that the law enforcement officer or the person whose license has been suspended or revoked, as appropriate, has been notified as specified by (e).
+
+(d) A copy of the hearings examiner s recommendation shall be submitted with the petition. No other evidence shall be submitted.
+
+(e) The petitioner shall notify the law enforcement officer or the person whose license has been suspended or revoked, as appropriate, via US postal service first class prepaid mail or hand delivery of the petition for review.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #7173, INTERIM, eff 1-1-00, EXPIRES: 5-1-00; ss by #7241, eff 5-1-00; ss and moved by #8782-A, eff 1-1-07 (formerly Saf -C 2804.081); ss by #10888, eff 7-16-15
+
+Saf -C 2804.10 Action on Petitions for Review .
+
+(a) The director shall review petitions within 10 days of receipt and issue his or her decision within 10 days of review as specified by RSA 265-A:33.
+
+(b) The director shall not consider any new evidence during the review.
+
+(c) If the director finds it is more likely than not that the recommendation:
+
+(1) Contains an error of law or lacks facts that could reasonably sustain the recommendation, then the director shall grant the petition; and
+
+(2) Has no error of law or lack of facts supporting the recommendation, then the director shall deny the petition.
+
+(d) Upon granting a petition for review, the director shall return the recommendation to the bureau of hearings, with a detailed written statement of what specific error(s) or law or fact(s) shall be reviewed at the remanded hearing, as follows:
+
+(1) Where there is an error of law, the hearing shall be assigned to a different hearings examiner.
+
+(2) Where there is a lack of facts that could reasonably sustain the recommendation, the hearing shall be assigned to the same hearings examiner.
+
+(e) The detailed written statement issued by the director in (d), shall constitute the scope of the new hearing in (d)(1) or (2).
+
+(f) At the agreement of the law enforcement officer and the person whose license has been suspended or revoked, the hearing required in (d)(1) or (2) may be waived and the case submitted by affidavit, in the case where there is a lack of facts that could reasonably sustain the recommendation, or through memoranda of law in the case of an error of law, where permitted by state law.
+
+(g) A hearing shall be scheduled within 15 days of the return of the recommendation to the bureau of hearings.
+
+(h) The recommendation of the hearings examiner shall be issued within 15 calendar days of the date of the remanded hearing.
+
+( i ) At the agreement of the law enforcement officer and the person whose license has been suspended or revoked, the hearing may be conducted via telephone, where permitted by state law.
+
+Source. #5538, eff 1-1-93; ss by #6824, eff 7-28-98; ss by #8666, INTERIM, eff 7-16-06, EXPIRES: 1-12-07; ss and moved by #8782-A, eff 1-1-07 (formerly Saf -C 2804.082); ss by #10888, eff 7-16-15
+
+Saf -C 2804.11 Limitation . Petitions for review shall be limited to one from the law enforcement officer and one from the person whose license has been suspended or revoked, per administrative review or hearing.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2804.083); ss by #10888, eff 7-16-15
+
+Saf -C 2804.12 Effect of Granting a Petition on License .
+
+(a) If the petitioner s license or privilege to operate a motor vehicle is under suspension as a result of a hearings examiners recommendation, then the license or privilege to operate shall be restored, upon payment of any fees required by law, if the director orders a new hearing pursuant to Saf -C 2804.10.
+
+(b) If a driver s license or privilege to operate was restored as a result of a hearings examiner s recommendation then the driver s license or privilege to operate shall be suspended if the director orders a new hearing pursuant to Saf -C 2804.10.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2804.084); ss by #10888, eff 7-16-15
+
+Saf -C 2804.13 Appeal .
+
+(a) The recommendation resulting from an administrative review or hearing shall be final 10 days after its issuance, unless a petition for review is filed pursuant to RSA 265-A:33.
+
+(b) If a petition for review is filed, then:
+
+(1) The director s denial shall make the recommendation final; or
+
+(2) The recommendation of the hearings examiner on the remanded issues shall be final 10 days after issuance, unless a review petition is filed by the law enforcement officer or the person whose license has been suspended or revoked.
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2804.09); ss by #10888, eff 7-16-15
+
+Saf -C 2804.14 Correspondence . All reports, statements, and correspondence concerning administrative license suspensions, shall be mailed to:
+
+ALS
+Department of Safety
+P.O. Box 27
+Concord , NH 03302-0027 .
+
+Source. #8782-A, eff 1-1-07 (formerly Saf -C 2804.10); ss by #10888, eff 7-16-15
+
+APPENDIX
+
+Rule
+Specific State Statue the Rule Implements
+
+Saf -C 2801
+RSA 541-A:7
+
+Saf -C 2802
+RSA 541-A:7
+
+Saf -C 2803.01(a)-(b)
+RSA 265-A:31, III
+
+Saf -C 2803.01(c)
+RSA 541-A:7
+
+Saf -C 2803.01(d)-(f)
+RSA 265-A:31, III
+
+Saf -C 2803.02
+RSA 265-A:31, III
+
+Saf -C 2803.03 2803.04
+RSA 265-A:31, IV
+
+Saf -C 2803.05
+RSA 265-A:31, V
+
+Saf -C 2803.06
+RSA 265-A:31
+
+Saf -C 2803.07
+RSA 265-A:31
+
+Saf -C 2804.01
+RSA 265-A:32, I(a); 541-A:16, I(b)(2)
+
+Saf -C 2804.02
+RSA 265-A:32, I(c); 541-A:16, I(b)(2)
+
+Saf -C 2804.03 2804.08
+RSA 265-A:32; 541-A:16, I(b)(2)
+
+Saf -C 2804.09 - 2804.13
+RSA 265-A:33; 541-A:16, I(b)(2)
+
+Saf -C 2804.14
+RSA 541-A:16, I(b)(2)
+
+Saf -C 2805.01-2805.03
+RSA 541-A:7
+
+Saf-C 2805.04
+RSA 265-A:30
