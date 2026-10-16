@@ -69,6 +69,15 @@ Starts on **port 8085**. Confirm with:
 curl http://localhost:8085/actuator/health
 ```
 
+**Employee sessions and restarts.** With no `SECURITY_JWT_SECRET` set, the backend logs a
+WARN and signs tokens with a random key per run, so every restart logs employees out and
+drops returning-citizen recognition. To keep sessions across dev restarts, set a key of
+your own before starting the backend. Never commit one:
+
+```
+set SECURITY_JWT_SECRET=<output of: openssl rand -base64 32>
+```
+
 **Windows note**: `mvn spring-boot:run` spawns two `java.exe` processes (the Maven
 launcher and the actual app). If you need to kill and restart it, find the real one
 first:
@@ -333,13 +342,19 @@ GHCR packages start **private**. Either make `aigre-app` public (GitHub → Pack
 aigre-app → Package settings → Change visibility), or log in on Machine B once with a
 PAT that has `read:packages`: `docker login ghcr.io -u srikanthkaushik`.
 
-On Machine B, fill in `OLLAMA_BASE_URL` and `<unraid-ip>` in `docker-compose.yml`, then
-(the app waits on the `postgres` healthcheck via `depends_on`):
+On Machine B, copy `.env.example` next to `docker-compose.yml` as `.env` and fill it
+in: `AIGRE_OLLAMA_BASE_URL` (Machine A's Ollama), `AIGRE_LAN_ORIGIN` (Machine B's own
+`http://<unraid-ip>:8087`) and `AIGRE_JWT_SECRET` (step d). With Unraid's Compose
+Manager plugin, paste the same lines into the stack's **Edit Stack → Env File**
+instead. Then (the app waits on the `postgres` healthcheck via `depends_on`):
 
 ```
 docker compose pull
 docker compose up -d
 ```
+
+`docker compose` stops with `required variable ... is missing a value` until every
+required `.env` value is set. That's deliberate: the file holds no personal defaults.
 
 To deploy a new build: rebuild and push on Machine A, then `docker compose pull &&
 docker compose up -d` on Machine B. Unraid's Compose Manager plugin works against this
@@ -351,21 +366,23 @@ defaults (`localhost` Postgres/Ollama) are untouched, so Machine A's existing `m
 spring-boot:run` dev workflow keeps working exactly as documented in steps 1–5 above,
 completely independent of this deployment.
 
-> **Don't skip `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS`.** Browsers send an `Origin`
+> **Why `AIGRE_LAN_ORIGIN` is required.** Compose feeds it into
+> `SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS`. Browsers send an `Origin`
 > header for the Angular build's `<script type="module">` requests even on a genuinely
-> same-origin load. Without this env var set to Machine B's own origin, Spring
+> same-origin load. Without Machine B's own origin in that list, Spring
 > Security's CORS filter 403s those requests before any `permitAll` rule is reached and
 > the page loads blank — the same bug class already hit and fixed for the Cloudflare
 > tunnel case above, this time triggered by a LAN IP origin instead of a
 > `trycloudflare.com` one.
 
 **d) JWT secret (required).** The app service reads `SECURITY_JWT_SECRET` from
-`AIGRE_JWT_SECRET` in a `.env` file next to `docker-compose.yml` on Machine B, and
-`docker compose` refuses to start without it. The `application.yml` default is
-committed and baked into the image, and anyone holding it can forge an ADMIN token.
+`AIGRE_JWT_SECRET` in `.env`, and `docker compose` refuses to start without it.
+Without a configured key the app would fall back to a random key per boot, logging
+every employee out on each container restart. No key is committed: this repo is
+public, and an older committed value is compromised, so never reuse it. Generate one:
 
 ```
-echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
+openssl rand -base64 32
 ```
 
 **e) Exposing the embed demo on your own domain (optional, testing only).** One named
@@ -376,7 +393,8 @@ admin API.
 
 *In the Cloudflare dashboard:* Zero Trust → Networks → Tunnels → **Create a tunnel** →
 Cloudflared, name it (e.g. `aigre-unraid`), and copy the connector token from the
-install command it shows. Under the tunnel's **Public hostnames**, add:
+install command it shows. Under the tunnel's **Published application routes** (older
+dashboards: **Public hostnames**), add:
 
 | Subdomain | Service |
 |---|---|
@@ -399,16 +417,14 @@ Gotchas from the first setup:
 - **Unraid's Compose Manager plugin keeps its own `.env`.** Set it via the stack's
   **Edit Stack → Env File**, or in
   `/boot/config/plugins/compose.manager/projects/<stack>/.env`. If the stack logs say
-  `required variable AIGRE_JWT_SECRET is missing a value`, the plugin isn't seeing it.
+  `required variable AIGRE_... is missing a value`, the plugin isn't seeing it.
 
 *On Machine B:*
 
 ```
-# 1. Add to .env (next to AIGRE_JWT_SECRET):
-cat >> .env <<'ENV'
-CLOUDFLARE_TUNNEL_TOKEN=<token from the dashboard>
-AIGRE_APP_PUBLIC_ORIGIN=https://aigre.<domain>
-ENV
+# 1. Set these two in .env (or the Compose Manager Env File); both are in .env.example:
+#      CLOUDFLARE_TUNNEL_TOKEN=<token from the dashboard>
+#      AIGRE_APP_PUBLIC_ORIGIN=https://aigre.<domain>
 
 # 2. Allow the demo's public origin to frame DMV's chat (admin login on the LAN).
 read -rsp "ops.admin password: " PW; echo

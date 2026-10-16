@@ -31,3 +31,8 @@ scratch/
 # Env files (never commit secrets)
 .env
 .env.*
+!.env.example
+
+# Database dumps and scratch output (tmp/ holds pg_dump files)
+tmp/
+*.dump

@@ -3041,7 +3041,7 @@ whether the bind/firewall change actually worked).
 
 **First live bring-up (2026-10-15): three faults, none in the app.**
 `NoRouteToHostException: Host is unreachable` from the container was a
-stale IP: the GPU box's DHCP lease had moved `.68` → `192.168.4.106`, and
+stale IP: the GPU box's DHCP lease had moved to a new address, and
 Unraid's `ip neigh` showed `INCOMPLETE` for the old address. The container
 network was ruled out first (its route table only defaulted via
 `172.30.0.1`; the compose network is now pinned to `172.30.0.0/24` anyway).
@@ -3049,8 +3049,7 @@ The same check found Ollama not running and `OLLAMA_HOST` unset on the GPU
 box, and that the scoped "Ollama LAN (Unraid only)" firewall rule had never
 been created — LAN access actually came from Windows' auto-created
 `ollama.exe` program rule (Allow, any remote, Private profile), which is
-broader than intended. Fix: reserve both IPs in the router. Unraid is
-`192.168.5.34` (LAN is a `/22`, so `192.168.4.0`–`7.255`). Then chat
+broader than intended. Fix: reserve both IPs in the router. Then chat
 streamed but `sources[]` was empty: the dump had never been restored, and
 `spring.sql.init.mode: always` had already run `schema.sql` on first boot
 (6 seeded departments, 0 `rag_documents`), so the restore needs
@@ -3068,8 +3067,8 @@ framing or CSP. The page's default AIGRE origin lives in an
 `<meta name="aigre-api">` tag. The image's nginx `sub_filter` rewrites it from
 `AIGRE_API_ORIGIN`, so one image works for any deployment, and `?api=` on the
 URL still overrides it. `AIGRE_API_ORIGIN` must be the app's *browser-facing*
-origin (`http://192.168.5.34:8087`), not `app:8085`, because the browser loads
-`embed.js` and the iframe directly. `http://192.168.5.34:5500` is registered
+origin (`http://<unraid-ip>:8087`), not `app:8085`, because the browser loads
+`embed.js` and the iframe directly. `http://<unraid-ip>:5500` is registered
 as a DMV embed origin in the Unraid database only, not in the dev database.
 Verified end to end on 2026-10-15: chat works from the Unraid-hosted page.
 
@@ -3087,6 +3086,24 @@ let anyone forge an ADMIN token; and the runbook has a step to replace the share
 `Demo1234!` password. Cloudflare Access on the whole app hostname was rejected,
 because the chat iframe would need a third-party Access cookie. Access on the
 employee and admin paths only is the next hardening step if the URL circulates.
+
+**Secrets audit (2026-10-16): the repo is public.** I scanned the full git history
+for API keys, private keys and tokens (Anthropic, GitHub, AWS, Slack, Google,
+`eyJ…`) and found none. No `.env`, dump, log or credential file was ever committed,
+and the GHCR images are private. The one real leak was the JWT signing secret in
+`application.yml`. It's removed, and the old value must be treated as compromised:
+rotate it anywhere it's still in use. History was not rewritten, because rotation
+is the fix. `security.jwt.secret` is now empty by default, and
+`com.aigre.auth.JwtKeyConfig` builds one shared `jwtSigningKey` bean: the
+configured key, or a random one per boot with a WARN. That reverses the earlier
+"fixed key so dev restarts don't log everyone out" decision, because a public repo
+can't hold a shared key. Set `SECURITY_JWT_SECRET` locally to keep dev sessions
+across restarts. Per-deployment compose values (Ollama URL, LAN origin, public
+origin, tunnel token, JWT secret) moved to `.env`, with a committed
+`.env.example`, so `docker-compose.yml` no longer carries personal IPs or a
+domain. `tmp/` and `*.dump` are gitignored. `Demo1234!` and `aigre_dev` stay
+committed on purpose: they're documented dev/demo values, and public deployments
+must change the employee password (see `docs/RUNNING.md`).
 
 Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 "Splitting across two machines (Unraid deployment)" section.
@@ -3170,5 +3187,7 @@ Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 ## Full plan
 The complete Milestone-0 plan (domain model, routing/escalation scenarios,
 correctness table, test-data spec with eval questions, day-one scaffold
-checklist) lives at:
-`C:\Users\srika\.claude\plans\read-kickoff-md-and-new-project-instruct-serialized-goblet.md`
+checklist) was a working document outside this repo and isn't published. Its
+substance lives on in `kickoff.md` (the brief), `test-data/eval-questions.md`
+and `test-data/corpus-manifest.md` (the test-data spec), and
+`docs/TEST_SCENARIOS.md` (the routing scenarios).
