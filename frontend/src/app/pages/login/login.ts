@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { inject, Component, signal } from '@angular/core';
+import { AppConfigService } from '../../core/app-config.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +16,8 @@ import { AuthService } from '../../core/auth.service';
   styleUrl: './login.scss'
 })
 export class Login {
+  readonly appConfig = inject(AppConfigService);
+
   username = '';
   password = '';
   readonly loading = signal(false);

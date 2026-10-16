@@ -1,4 +1,5 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { AppConfigService } from '../../../core/app-config.service';
 import { DatePipe } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -103,6 +104,8 @@ const SENTIMENT_LABELS: { key: SentimentKey; label: string }[] = [
   styleUrl: './trends.scss'
 })
 export class Trends {
+  readonly appConfig = inject(AppConfigService);
+
   readonly department = input.required<string>();
 
   readonly scope = signal<Scope>('department');

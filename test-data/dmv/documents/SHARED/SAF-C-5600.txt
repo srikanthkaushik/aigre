@@ -1,0 +1,710 @@
+CHAPTER Saf-C 5600 CONFIDENTIALITY OF MOTOR VEHICLE RECORDS
+
+Statutory Authority: RSA 260:14, XII
+
+PART Saf-C 5601 DEFINITIONS
+
+Saf-C 5601.01 "Application" means a request for a registration, certificate, license or other privilege or right that the division is authorized to issue. The term includes official forms, as well as any supporting documents and/or correspondence related to the application.
+
+Source. #6403, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.02 "Certificate of authority" means a letter issued by a person who is authorized to obtain motor vehicle record information, appointing an agent to act on his/her behalf for a specific purpose allowed by RSA 260:14 and a specific time period .
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.03 "Commissioner" means the commissioner of the department of safety, or his or her designee .
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.04 "Department" means the New Hampshire department of safety.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.05 "Division" means the division of motor vehicles of the department of safety.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.06 Express consent means express consent as defined by RSA 260:14, V(c)(2).
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.07 "Law enforcement agency" includes a sheriff or deputy sheriff of any county, a state police officer, a constable or police officer of any city or town, an official of any jail or corrections institution, a conservation officer, a probation or parole officer, or any federal law enforcement officer.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.08 "Legitimate business" means "legitimate business" as defined by RSA 260:14, I(d).
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5601.09 "Motor vehicle records" means "motor vehicle records" as defined in RSA 260:14, I(a).
+
+Source. #7361, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.10 Motor vehicle market research means research conducted by a legitimate business that analyzes statistical data, but not personal information, related to the sale and marketing of motor vehicles.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.11 Named person means the name of a person submitted to the department for record information, except when it means a registration number or vehicle identification number is submitted for the name of the registered or titled owner of the vehicle.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.12 Official business means business which is conducted by a government agency, including executive, judicial, and legislative branches, to fulfill its statutory or constitutional responsibilities.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.13 "Person" means "person" as defined in RSA 260:14, I(b).
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.14 "Personal information" means "personal information" as defined in RSA 260:14, I(c).
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.141 "Personal representative" as used in RSA 260:14, I(b), means a person who manages the legal affairs of another, by evidence of a power attorney, appointment by a court of competent jurisdiction, or representation of an attorney-client relationship.
+
+Source. #7626, EXEMPT, eff 1-17-02
+
+Saf-C 5601.15 "Proof of identity" means, for the purposes of RSA 260:14, III, RSA 260:14, IV and 260:14, V(a), a valid drivers license with a photograph if licensed, a valid photo identification card, a passport, a birth certificate, or an identification card issued by a law enforcement agency or place of employment.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.16 Research activities as used in RSA 260:14, V(a)(4), means analysis of only statistical or non-personal information contained in motor vehicle records by a legitimate business for purposes related to motor vehicles or drivers.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, eff 1-1-02
+
+Saf-C 5601.17 Self-insured entity means businesses such as car rental companies, fleet rental companies, or other motor vehicle related business as determined by the commissioner.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5601.18 Transfer or transferred means the provision by an authorized requestor pursuant to RSA 260:14 of any motor vehicle record information to any other person. Transfer or transferred does not include the provision of information from an agent to his or her principal, where such exchange is specifically authorized by law.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by EXEMPT, #7621, eff 1-1-02
+
+PART Saf-C 5602 PROCEDURES FOR OBTAINING MOTOR VEHICLE RECORDS
+
+Saf-C 5602.01 Where to Obtain Information .
+
+(a) Motor vehicle records are maintained at the Department of Safety, Division of Motor Vehicles, 23 Hazen Drive, Concord, NH.
+
+(b) Mail requests shall be sent to Department of Safety, Division of Motor Vehicles, 23 Hazen Drive, ATTN: Records, Concord, NH, 03305.
+
+(c) Requests may be made in person at any Division of Motor Vehicles location.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152 EXEMPT, eff 12-31-20
+
+Saf-C 5602.02 Form and Payment Required . Any authorized person requesting motor vehicle record information shall submit the appropriate form and payment prior to the department s release of information.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5602.03 Counter Service . The Department will accept requests for information at its counters and will process requests as soon as possible.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152 EXEMPT, eff 12-31-20
+
+Saf-C 5602.04 Person Requesting their Own Record .
+
+(a) A person who is requesting his/her own information shall complete form DSMV 505, by providing his or her name, address, date of birth, and specifying what information s/he wants to receive by checking the appropriate box.
+
+(b) The person requesting his or her own motor vehicle record shall execute DSMV 505 under penalties of unsworn falsification.
+
+(c) In addition to a properly completed DSMV 505, the person shall provide proof of identity if requesting information in person.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5602.05 Person Authorizing Another to Obtain their Record . A person who wishes to grant permission to another person to obtain the motor vehicle record information shall complete form DSMV 505. Pursuant to RSA 260:14, VII, the form shall be notarized.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5602.06 RSA 260:14, III: Government Requests .
+
+(a) Pursuant to RSA 260:14, III, motor vehicle records may be requested by a state, political subdivision of a state, the federal government, a law enforcement agency, or pursuant to a court order, on a case-by-case basis for use in official business.
+
+(b) For the purposes of (a) above, and pursuant to RSA 260:14, III, "court order" means an order of a New Hampshire court with proper jurisdiction which compels the department to release specific motor vehicle record information for official business of the court, except where prohibited by RSA 260:14.
+
+(c) The commissioner shall deny the request if he determines that the requested records :
+
+(1) May be used for purposes other than for official business;
+
+(2) Constitute an unwarranted invasion of privacy;
+
+(3) Disclosure would be contrary to the public interest; or
+
+(4) Cannot be generated because the Department does not have the resources to process the request.
+
+(d) Notwithstanding any rule to the contrary, the commissioner may require any additional information he may deem necessary prior to releasing any motor vehicle record.
+
+(e) The commissioner shall release only that portion of the motor vehicle record that he determines is necessary to fulfill the request.
+
+(f) All requests shall be submitted to: Department of Safety, Division of Motor Vehicles, Director's Office, 23 Hazen Drive, Concord, NH 03305 or via email to dos.dmv.admin@dos.nh.gov.
+
+(g) All written requests shall include the name and signature of the individual requesting the motor vehicle record and the reason the record is being sought.
+
+(h) Except for court orders, all requests shall be submitted in writing on official agency letterhead. The request shall include a description of the information sought, the official business for which it will be used, and the signature of the individual making the request.
+
+( i ) Requests pursuant to RSA 260:14, III, shall not be submitted by an agent of a state, political subdivision of a state, the federal government, or law enforcement agency.
+
+(j) Pursuant to RSA 260:14, III, any information released under this section shall not be transferred or otherwise made available to any other person or entity not listed in RSA 260:14, III.
+
+(k) Notwithstanding (j) above, a state, political subdivision of a state, the federal government, or law enforcement agency may be authorized by the commissioner, pursuant to RSA 260:14, VIII, to release a person's name, age or motor vehicle offenses only for use in official business.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152 EXEMPT, eff 12-31-20
+
+Saf-C 5602.07 General Procedures for Requests by Authorized Users of MV Records Pursuant to RSA 260:14, V(a)(1)-(7), (9) and (10) .
+
+(a) Requestors authorized to obtain motor vehicle record information shall complete form DSMV 505.
+
+(b) Requests may be submitted by mail or in-person, unless the requestor has established an account with the Department. Upon availability, requests may be e-mailed to fr@dos.nh.gov.
+
+(c) If an agent authorized by law is requesting information on behalf of an authorized user then s/he shall have on file at the department a certificate of authority or submit a certificate of authority with the request as specified in Saf-C 5603.
+
+(d) For the purposes of RSA 260:14, V(a)(2):
+
+(1) A request pursuant to RSA 260:14, V(a)(2) shall be made by a party of the civil or criminal proceeding or an attorney representing a party of the civil or criminal proceeding;
+
+(2) For the purposes of (d)(1) above, the attorney shall submit a signed cover letter on the attorney s firm s letterhead. Where the attorney s name is not listed on the firm letterhead, the requesting attorney shall provide his or her bar identification number;
+
+(3) Motor vehicle records shall not be released for pre-litigation discovery;
+
+(4) If a request is being made for executing service of process, the requestor shall also provide the department with any of the following:
+
+a. A prepared writ; or
+
+b. A document from the court, postal office, sheriff department or service of processor that service of process could not be executed;
+
+(5) If a request is being made for the purposes of a civil or criminal proceeding in a court of proper jurisdiction, the requestor shall provide on DSMV 505 the docket number of the case and the name of the court where the action lies;
+
+(6) If a request is being made for the purposes of an administrative or arbitral proceeding, the requestor shall provide documentation from the agency or arbitral body of an upcoming hearing.
+
+(e) For the purposes of RSA 260:14, V(a)(3), similar institution may include any entity that in the normal course of business provides loans to individuals or other entities.
+
+(f) For the purposes of RSA 260:14, V(a)(5) and pursuant to RSA 260:14, VI(a) a towing company may not use an agent to obtain motor vehicle records under this provision.
+
+(g) For the purposes of RSA 260:14, V(a)(6), the requestor shall set forth on DSMV 505 the stated purpose under RSA 260:14, V(a), the request is being made.
+
+(h) For the purposes of RSA 260:14, V(a)(10), the requestor shall first provide written notice to the person who is the subject of the record being obtained.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152 EXEMPT, eff 12-31-20
+
+Saf-C 5602.08 Bulk Requests .
+
+(a) The following authorized users may request bulk records from the department:
+
+(1) Motor vehicle manufacturers, or their authorized agents, for the purposes specified in RSA 260:14, IV(a)(1);
+
+(2) Insurance companies authorized to write automobile policies in New Hampshire , self-insured entities, or their authorized agents for the purposes specified in RSA 260:14, IV(a)(2);
+
+(3) Legitimate businesses as defined in Saf-C 5601.08, for the purposes specified in RSA 260:14, V(a)(1), (4), (8) and (9), but subject to the limitations of RSA 260:14, VI; and
+
+(4) Life insurance companies authorized to write life insurance policies in New Hampshire, or their authorized agents for the purposes specified in RSA 260:14, V(a)(10).
+
+(b) Requestors shall complete form DSMV 494 and submit it to the department along with the materials required in Saf-C 5602.09(a).
+
+(c) Upon receipt of form DSMV 494 and the materials required by Saf-C 5602.09(a), the commissioner shall review the request to determine whether it should be approved. If the request is approved by the commissioner pursuant RSA 260:14 and these rules, then the requestor shall comply with Saf-C 5602.09(b). If the request is not approved under RSA 260:14 and these rules, then the requestor shall be notified that the request is denied.
+
+(d) The commissioner shall determine the scope and mode of access to motor vehicle records based on the information submitted in form DSMV 494.
+
+(e) All requestors authorized to obtain motor vehicle records pursuant to (a)(4) above shall comply with Saf-C 5602.07(h).
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152 EXEMPT, eff 12-31-20
+
+Saf-C 5602.09 Bulk User Requirements .
+
+(a) Any bulk users authorized pursuant to Saf-C 5602.08(c), shall complete the following requirements prior to receiving any motor vehicle record information:
+
+(1) Provide a copy of the bulk user s data privacy and security policy;
+
+(2) Provide the department with a list of all users of the information. Include a spreadsheet listing Customer Name, Address, Customer Contact Name, Email Address, and Phone Number. For each customer, indicate the statutorily authorized use under which motor vehicle records will be obtained. Such list shall not be a public record subject to disclosure pursuant to RSA 91-A;
+
+(3) Certify compliance with RSA 260:14;
+
+(4) Provide the most recent copy of an Independent Service Auditor s Report related to the suitability of design and operating effectiveness of controls relevant to security, confidentiality, availability, processing integrity, and privacy (AICPA SOC 2, Type II Report);
+
+(5) Provide a copy of certificate of good standing from the New Hampshire secretary of state s office as well as secretary of state from a state where the company is registered; and
+
+(6) Provide a certificate of authority if the bulk user will be acting as an authorized agent.
+
+(b) If a request is approved, then the requester shall:
+
+(1) Complete the bulk data use agreement;
+
+(2) Submit a certificate of authority or a certificate of vote providing authorization to enter into contracts on behalf of your company.
+
+(3) Provide a copy of the form that the requestor will require all users to complete, prior to granting access to New Hampshire motor vehicle records, that will certify the users compliance with RSA 260:14 and these rules. The form shall include a conspicuous notice to the subsequent user that they are prohibited from reselling, transferring, or assigning any motor vehicle record information unless it is authorized by RSA 260:14, VI(b) and complies with RSA 260:14, VI(c); and
+
+(4) Submit the appropriate fee.
+
+(c) The bulk data user agreement shall be in effect for 3 years from the date of the commissioner's approval. An annual recertification will be approved by the department upon a submission of the following:
+
+(1) A completed annual recertification form, DSMV 494A,
+
+(2) An annual administrative fee,
+
+(3) Certification of compliance with RSA 260:14,
+
+(4) Updated SOC 2, Type II Report
+
+(5) Copy of certificate of good standing from the New Hampshire secretary of state s office as well as secretary of state from a state where the company is registered,
+
+(6) Current certificate of authority if the bulk user will be acting as an authorized agent,
+
+(7) Any fee increases during the 3 year period shall be applicable to the requestor.
+
+(d) The bulk data user shall immediately report to the department any data breaches or any information pertaining to the records provided by the department.
+
+(e) Any changes to any items that have been approved by the division, must be requested in writing on the bulk applicant s letterhead for approval. Records may not be shared with customers who were not on the list submitted with the bulk data user s approved application until specifically authorized by the department.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20
+
+Saf-C 5602.10 Bulk User Requirements: Multiple Use Authorization .
+
+(a) Pursuant to RSA 260:14, XV(a) the commissioner may approve requests from a legitimate business for multiple uses of motor vehicle records if the commissioner determines that the request is in compliance with RSA 260:14.
+
+(b) Requestors shall also post a bond if required by the commissioner. The amount of the bond shall be determined by the commissioner based on the volume of use, number of clients, and requestor's data privacy and security policy.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20
+
+PART Saf-C 5603 CERTIFICATE OF AUTHORITY
+
+Saf-C 5603.01 Certificate of Authority for Agents or Employees .
+
+(a) Whenever a request for a motor vehicle record is made by an authorized agent or employee of an entity authorized to receive motor vehicle driver records, pursuant to RSA 260:14, an original, valid certificate of authority shall be on file with the department.
+
+(b) The certificate of authority filed by an agent or employee may be valid for up to a one year period, unless a shorter period of time is set forth by the principal on the certificate of authority or unless revoked by the principal.
+
+(c) If the certificate of authority for an agent or employee is revoked prior to its expiration date, the principal shall be responsible for notifying, in writing, the director of motor vehicles at 23 Hazen Drive, Concord, NH 03305.
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02 ; ss by #13152, EXEMPT, eff 12-31-20
+
+Saf-C 5603.02 Form for Certificate of Authority for Agents or Employees .
+
+(a) The certificate of authority for agents shall be:
+
+(1) On the principal's letterhead;
+
+(2) Indicate the name of the agent or employee;
+
+(3) If the agent is a corporation, partnership, or other legal entity, the letter shall indicate the name(s) of the individuals from the agent-entity authorized to receive records for the agent;
+
+(4) The period of time the authorization is valid for, but not to exceed one year; and
+
+(5) Signature of the principal, or if a legal entity, signature of the director, officer, or branch manager for the principal.
+
+(b) Notwithstanding any rule to the contrary, for the purposes of RSA 260:14, V(a), a certificate of authority shall be provided for each request for a motor vehicle record of a named person. Bulk users authorized by Saf-C 5602.08(a), however, do not need to submit a certificate of authority for each request.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20
+
+PART Saf-C 5604 ACCOUNTS FOR FREQUENT REQUESTORS
+
+Saf-C 5604.01 Eligibility .
+
+(a) Any person or government agency authorized by RSA 260:14 to obtain motor vehicle record information may have an account at the department from which fees for information shall be automatically deducted.
+
+(b) Accounts may be established if a person expects to make more than 20 requests in a one year period.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, eff 12-31-20
+
+Saf-C 5604.02 Account Set-Up .
+
+(a) A person shall contact the Department of Safety, Division of Administration, Business Office at 33 Hazen Drive, Concord, NH 03305 or accountsreceivable@dos.nh.gov to set up an account.
+
+(b) A person establishing an account shall provide their name, mailing and legal address, date of birth, company name, and phone number.
+
+(c) The department shall issue a unique four number personal identification number (PIN) for use by the account holder or a person authorized pursuant to 5604.03, when requesting information via fax or telephone. An account holder may cancel his/her PIN and obtain a new number by contacting the business office as specified in (a), above.
+
+(d) A minimum of $100.00 deposit shall be made to establish the account.
+
+(e) The department shall notify the account holder when the balance is less than $25.00.
+
+Source. #6403, EXEMPT, eff 1-1-97; rpld and ss by #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20
+
+Saf-C 5604.03 Authorizing Employees or Agents to Use Account .
+
+(a) An account holder may authorize an employee or agent to use a prepaid account by submitting a certificate of authority as specified in Saf-C 5603.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+PART Saf-C 5605 ADDITIONAL PROVISIONS
+
+Saf-C 5605.01 Legitimate Business . Whether a particular entity is a "legitimate business" as defined in Saf-C 5601.07 and RSA 260:14 shall be subject to the commissioner's determination.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.02 Pre-Employment or Employment Screening . RESERVED
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; rpld by #13152, EXEMPT, eff 12-31-20
+
+Saf-C 5605.03 Named Persons .
+
+(a) In all instances in RSA 260:14, V(a) which require that a request be made for a "named person's motor vehicle records", the requestor must submit the following information for the person whose record is being requested:
+
+(1) The name of the person; and
+
+(2) The date of birth.
+
+(b) Notwithstanding (a) above, a request may be made based upon the vehicle registration or vehicle identification number if the requestor needs the information for purposes specified in RSA 260:14, V(a)(5).
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #7626, EXEMPT, eff 1-17-02
+
+Saf-C 5605.04 Towing Companies . Notwithstanding any rule to the contrary, any request for a motor vehicle record for the purposes authorized by RSA 260:14, V(a)(5) shall be made by the owner, officer or director of the towing company.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.05 Bulk Distribution . For purposes of RSA 260:14, V(a)(8), disclosures for bulk distribution for surveys, marketing or solicitations shall be made via electronic media or in printed list or label format and only if a minimum number of 250 names is requested, unless otherwise approved by the commissioner.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.06 Court Orders . "An order of a court or agency", pursuant to RSA 260:14, V(a)(2), shall be construed to mean orders other than an order to disclose as provided in RSA 260:14, III, and shall be construed to mean orders such as but not limited to:
+
+(1) Entries of judgment;
+
+(2) Support orders; or
+
+(3) Writs of service endorsed by the court.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.07 Research . For purposes of RSA 260:14, V(a)(4), disclosures to legitimate businesses for research activities or statistical reports as defined in Saf-C 5601.07, shall be made only via electronic media and only if a minimum number of 250 names is requested, unless otherwise approved by the Commissioner.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7527, eff EXEMPT, 7-7-01
+
+Saf-C 5605.08 Accidents .
+
+(a) Any individual who is involved in a motor vehicle accident, either as an owner, operator or passenger of a vehicle involved in an accident, pedestrian hit by a vehicle, or owner of property damaged by a motor vehicle accident, shall be entitled to obtain a copy of the accident report filed at the division of motor vehicles, so long as all other requirements set forth by law and these rules have been met.
+
+(b) For the purposes of this section, if an owner, operator, passenger or any individual or pedestrian died as a result of the motor vehicle accident, an attorney who is admitted to practice in this state and who certifies to the department that s/he represents the decedent s estate or next of kin related to the motor vehicle accident, shall be entitled to receive the accident report once the attorney has completed the certification requirement on DSMV 505.
+
+(c) Nothing in this section shall prohibit parties of an accident from transferring personal and insurance information to one another at the scene of the accident.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.09 Media Inquiries . The department may disclose to the media, for journalistic purposes, a person's name, age and motor vehicle offenses. Requests from the media for such information shall be made to the commissioner, assistant commissioner or the director of motor vehicles. Except for such disclosures to the media, RSA 260:14, VIII shall not constitute authorization for the department to disclose the information to any person not the subject of the records.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.10 Release of Information About Habitual Offenders and Persons Convicted of Driving While Intoxicated . The commissioner shall have the discretion to release to the public lists of persons found to be habitual offenders or convicted of driving while intoxicated. The lists may contain the following information:
+
+(1) Name;
+
+(2) Age; and
+
+(3) City or town of residence (but not street address).
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.11 Release of Information About Drivers Involved in Motor Vehicle Crashes Involving Injury or Death . The commissioner shall have the discretion to release to the public the following information regarding individuals who are involved in motor vehicle crashes involving injury or death:
+
+(1) Name;
+
+(2) Age; and
+
+(3) Motor vehicle offenses.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.12 Release of Information During Hearings Conducted by the Department of Safety . Information inserted in motor vehicles files such as reports of hearings examiners or any other orders issued by a hearings examiner, shall not be considered information which is prohibited from disclosure under RSA 260:14.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.13 Microfiche . The department shall not release or distribute motor vehicle driver records on microfiche.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.14 Fees . Motor vehicle drivers' records shall be released upon payment of the proper fees, unless previous acceptable arrangements have been made.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.15 Acknowledgment of Signature by a Justice of the Peace or a Notary Public . A notary public or justice of the peace acknowledging a person's signature, pursuant to these rules, shall not be the same person designated as the authorized recipient of another person's motor vehicle records, or the same person consenting to the release of his/her motor vehicle record.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.16 Unsworn Falsification Requirement . Unless otherwise prescribed by these rules, all forms and applications shall be executed under penalty of unsworn falsification.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.17 Commissioner's Discretion .
+
+(a) The commissioner may refuse to release records which are requested pursuant to RSA 260:14 in any particular case if he determines that such a release may be contrary to the public interest or would constitute an unwarranted invasion of privacy.
+
+(b) The commissioner may accept faxed requests for information, and all faxed opt-outs shall be honored.
+
+(c) The commissioner is authorized to obtain such further information as he shall deem necessary prior to releasing any motor vehicle drivers' records.
+
+(d) The commissioner shall have the authority to determine what mode of access a requestor may use to obtain motor vehicle records.
+
+(e) The commissioner shall have the authority to charge any requestor, including government requests, for motor vehicle records.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.18 Waiver . A person may submit a written request to the commissioner for a waiver from the administrative requirements prescribed by these rules. The written request shall indicate all factual information and reasons in support of why the commissioner should approve the waiver.
+
+Source. #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.19 Bar From Receipt of Motor Vehicle Records .
+
+(a) Pursuant to RSA 260:14, XIV, the commissioner may bar any person who violates any portion of RSA 260:14 from receiving motor vehicle record information for a period not to exceed 5 years.
+
+(b) The person alleged to have violated RSA 260:14, shall be provided with an opportunity for a hearing.
+
+(c) The hearing notice shall include a citation of the specific provisions of RSA 260:14 and these rules that are alleged to have been violated.
+
+(d) The sole issue at the hearing shall be whether it is more probable than not that the person violated RSA 260:14 or these rules.
+
+(e) The length of the bar shall be based on the facts and circumstances in the case, including:
+
+(1) Extent and duration of violation;
+
+(2) Whether the violation was flagrant and repetitive; and
+
+(3) In the case of a bulk purchaser, whether motor vehicle record information was released to the public domain.
+
+(f) The bar imposed by this rule shall be in addition to any other penalties or remedies available under RSA 260:14.
+
+(g) After the period of bar has run, the person shall request, in writing to the commissioner, that his or her access, as permitted by RSA 260:14, to motor vehicle records be restored.
+
+Source. #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.20 Parking Violations . If otherwise permitted by law and these rules, motor vehicle records shall be released for parking violations only if the requestor provides all of the following information:
+
+(1) Date of parking violation
+
+(2) License plate of vehicle;
+
+(3) Make of vehicle; and
+
+(4) Plate type.
+
+Source. #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.21 Auto Insurance Companies or Self-Insured Entities . For the purpose of a motor vehicle record being requested pursuant to RSA 260:14, IV(a)(2), an insurance company that is authorized to write automobile insurance policies in New Hampshire, or a self-insured entity, or their authorized agent shall not obtain or use a motor vehicle record for use in connection with a claims investigation activity, anti-fraud activity, rating or underwriting that is not related to a motor vehicle insurance policy.
+
+Source. #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.22 Life Insurance Companies . For the purpose of a motor vehicle record being requested pursuant to RSA 260:14, V(a)(10), a life insurance company authorized to write life insurance policies in New Hampshire, or its authorized agent, shall not obtain or use a motor vehicle record for use in connection with a claims investigation activity, anti-fraud activity, rating or underwriting that is not related to a life insurance policy.
+
+Source. #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5605.23 Written Authorization .
+
+(a) For the purposes of RSA 260:14, V(a)(10), a written authorization shall be submitted on letterhead.
+
+(b) The request shall contain the following:
+
+(1) Date of execution;
+
+(2) Name of life insurance company authorized to write life insurance policies in the state of New Hampshire , or its authorized agent;
+
+(3) The following information about the individual whose record is being sought:
+
+a. Name;
+
+b. Address;
+
+c. Date of birth;
+
+d. Driver license number; and
+
+e. Signature of the individual whose record is being sought.
+
+(c) Approved written authorization shall be retained by the life insurance company, or its authorized agent, for a period not less than 5 years.
+
+(d) A life insurance company, or its authorized agent, shall produce approved written authorization upon request by the department, or its authorized agent.
+
+Source. #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20
+
+PART Saf-C 5606 SCANNING, RECORDING, RETAINING OR STORING PERSONAL INFORMATION
+
+Saf-C 5606.01 Purpose . This part sets forth the procedures for obtaining approval by the department for the scanning, recording, retaining or storing of personal information from a license, pursuant to RSA 263:12, X.
+
+Saf-C 5606.02 Applicability .
+
+(a) Pursuant to RSA 263:12, X, nothing in this part shall prohibit a person from transferring, in non-electronic form or format, personal information contained on the face of a license to another person, provided that the consent of the license holder is obtained if the transfer is not to a law enforcement agency.
+
+(b) Nothing in this part is construed to prohibit the recording, retaining or storing of personal information that is obtained solely from a source independent from the driver s license, such as the individual him or herself, where the visual inspection of the driver s license is used to corroborate the personal information.
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5606.03 Definitions . For the purposes of this part, the following definitions shall apply:
+
+(a) Consent means conduct, express or implied, affirming an agreement to transfer personal information to another.
+
+(b) For the purpose of this section, financial institution means an organization in the business of holding financial assets, such as banks, investment companies, credit unions, savings banks, savings and loan associations, trust companies, building and loan associations or any depository institution as defined by the Federal Deposit Insurance Act, as amended, 12 U.S.C. section 1813(c)(1), doing business at a location in this state.
+
+(c) Recording means anything on which images or data or both are fixed or registered, including images or data transferred, regardless of form.
+
+(d) Retain means the routine collection and capture of data or images for purposes of creating a history or recall and access to the data.
+
+(e) Scanning means the transfer or reading of information or an image located in a magnetic stripe or bar coding on the back of a driver license.
+
+(f) Store means to preserve information or data in any medium for data collection, backup or archival purposes for an indefinite or definite period of time .
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5606.04 Unauthorized Use of Personal Information .
+
+(a) Pursuant to RSA 263:12, X, no person shall scan, record, retain, or store, in any electronic form or format, personal information obtained from any license, unless authorized by the department.
+
+(b) Pursuant to RSA 263:12, anyone who knowingly violates (b) above shall be guilty of a misdemeanor. In addition, a person may be subject to penalties as set forth in RSA 260:14.
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5606.05 Department Authorization to Scan Personal Information in Electronic Form or Format .
+
+(a) Notwithstanding any rule to the contrary, the department authorizes the scanning of personal information from any license in any electronic form or format so long as all the following conditions are met:
+
+(1) The equipment used to scan such personal information does not visibly identify any personal information, other than driver license number and name;
+
+(2) The equipment used to scan personal information does not retain, store or transfer any personal information, other than driver license number and name, for any period of time ; and
+
+(3) The equipment used to scan personal information does not store any personal information, other than driver license number and name, in a central repository, disaster recovery central repository, such as a cold site or hot site whether on-site or in a remote location.
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5606.06 Department Authorization to Financial Institutions, Insurance Companies and Legitimate Businesses to Record, Store or Retain Personal Information in Electronic Form or Format .
+
+(a) Notwithstanding any rule to the contrary, the department authorizes the recording, storing or retaining of personal information from any license in any electronic form or format by a financial institution, insurance company, or legitimate business as defined in RSA 260:14, I(d), if the financial institution, insurance company or legitimate business:
+
+(1) Is obtaining the information for use in the conduct of the business to verify the identity of the consumer or to prevent fraud;
+
+(2) Does not sell, rent, transfer or make the information available to another in violation of federal law and the provisions of RSA 260:14;
+
+(3) Does not use the personal information, in whole or in part, obtained from a license to create, combine or link with any other data on any database by the financial institution, insurance company, or legitimate business which is sold, rent, transferred or made available to another person in violation of federal law and the provisions of RSA 260:14; and
+
+(4) Is acting in compliance with applicable federal laws, including Health Insurance Portability and Accountability Act (P.L. 104-191), USA Patriot Act (P.L. 107-56), Gramm-Leach-Bliley Act (P.L. 106-102) and Fair Credit Reporting Act (15 U.S.C. 1681 et seq.).
+
+(b) Notwithstanding any rule to the contrary, the department authorizes any business entity in good standing and authorized to do business in New Hampshire, to record, store, retain or transmit to another business entity, personal information from a driver license so long as the business entities comply with all of the provision of Saf-C 5606.06(a) (1) (4), receive the consent of the license holder, and the personal information is being obtained under one of the following conditions only:
+
+(1) To effect, administer, or enforce a transaction requested or authorized by the person to whom the information pertains;
+
+(2) In connection with servicing or processing payment for a product or service requested or authorized by the person to whom the information pertains; and
+
+(3) For employment screening, so long as the personal information is not transferred, combined or linked with any other data on any database not controlled exclusively by the employer.
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5606.07 Department Authorization to Record, Store or Retain Personal Information in Electronic Form or Format for Employment Eligibility Verification .
+
+(a) Notwithstanding any rule to the contrary, the department authorizes the recording, storing or retaining of personal information from any license in any electronic form or format by an employer for the limited purpose of verifying the eligibility of an employee to work in the United States and if the employer:
+
+(1) Is acting in compliance with the Immigration Reform and Control Act of 1986, P.L. 99-063 (8 USC 1324a);
+
+(2) Does not sell, rent, transfer or make the information available to another person for the same or for any other use, other than law enforcement; and
+
+(3) Does not use the personal information, in whole or in part, obtained from a license to create, combine or link with any other data on any database not controlled exclusively by the employer.
+
+(b) Notwithstanding any rule to the contrary, the department authorizes the recording, storing or retaining of personal information from any license in any electronic form or format by a licensee authorized by the Nuclear Regulatory Commission, for the purpose of compliance with Nuclear Regulatory Commission access authorization regulations pursuant to 10 CFR Part 73.
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5606.08 Department Authorization to Scan, Record and Store Personal Information in Electronic Form or Format .
+
+(a) A person wishing to obtain department approval to scan, record and store personal information obtained from any license in any electronic form or format, not otherwise authorized by the department, shall submit their request in writing to the commissioner at:
+
+Department of Safety
+33 Hazen Drive
+Concord , NH 03305
+
+(b) The Commissioner shall review the request and make a determination , on a case-by-case basis, whether to grant authorization. In making such a determination, the Commissioner will review, at the minimum, the following:
+
+(1) Name and address of requestor;
+
+(2) If requestor is a corporation, the name and title of the individual making the request;
+
+(3) The number of individuals who will have access to the personal information;
+
+(4) The purpose for requiring the scanning, recording and storing of personal information in electronic form or format;
+
+(5) A copy of the requestor s privacy policy; and
+
+(6) Any additional information the requestor deems beneficial for the commissioner to render a decision.
+
+(c) The Commissioner may also require a properly executed criminal record release authorization form (Saf-C 5700) for each requestor and individual who will have access to personal information, pursuant to (b)(1) (3) above, to allow the department to conduct a criminal background check.
+
+(d) The commissioner may approve the request if:
+
+(1) The requestor is a legitimate business, and the commissioner is satisfied that the requestor s use of the personal information would not constitute an unwarranted invasion of privacy or a violation of RSA 260:14;
+
+(2) No individual or corporation subject to a criminal background check has been convicted of a felony or a crime involving dishonesty, such as fraud, misuse of information, or theft, that has not been annulled or pardoned; and
+
+(3) The commissioner shall set reasonable limits on the use of the personal information obtained under this section, including, that the applicant not use the personal information, in whole or in part, obtained from a license to create, combine or link with any other data on any database operated by the applicant, and the applicant shall not sell, rent, transfer or make the personal information available to another person.
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+Saf-C 5606.09 Audits . Any person that has been authorized to scan, record, retain, or store personal information in any electronic form or format shall be subject to audits by the department.
+
+Source. #7813, EXEMPT, eff 1-1-03
+
+PART Saf-C 5607 PREVENTING RELEASE OF MV RECORDS
+
+Saf-C 5607.01 Obtaining an 'Opt-Out' .
+
+(a) Pursuant to RSA 260:14, any person may request that the department not release their motor vehicle records for the purposes specified in RSA 260:14, V(a)(1)-(7) by completing form DSMV 506.
+
+(b) A person who requests an opt out shall also request a waiver from providing a social security number as specified by RSA 263:40-a.
+
+(c) The department is prohibited from granting the waiver in (b), above, to commercial driver licensees as specified in RSA 263:90.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5607.02 Processing Opt-Out .
+
+(a) Applicants for an opt out shall return form DSMV 506 to the Department of Safety, Division of Motor Vehicle, Attn: Assistant Director, 23 Hazen Drive, Concord, NH, 03305.
+
+(b) The Department shall process opt out forms within 40 days of receipt.
+
+(c) All opt out applications shall be confidential.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20
+
+Saf-C 5607.03 Removing Opt Out . A person may request that the Department remove the opt out by writing to Department of Safety, DMV, Attn: Assistant Director, 33 Hazen Drive , Concord , NH , 03305 , and including their name, date of birth, and address.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+Saf-C 5607.04 Express Consent .
+
+(a) Unless a person gives their express consent, the department shall not release motor vehicle records for the purposes specified in RSA 260:14, V(a)(8) and (9).
+
+(b) Express consent may be given by submitting in writing to the department a letter including the following information:
+
+(1) The person's name, address, and date of birth;
+
+(2) The motor vehicle record information that the department may release;
+
+(3) A statement that the person gives their express consent to the release of their motor vehicle record information for purposes specified in RSA 260:14, V(a)(8) and (9).
+
+(c) Once received, a letter giving a person's express consent to release of motor vehicle records shall remain in effect for two years. Nothing shall prevent the person from withdrawing his or her express consent at any time.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02
+
+PART Saf-C 5608 FEE SCHEDULE
+
+Saf-C 5608.01 Single Record Requests .
+
+(a) The following fees shall be charged for the specified document:
+
+(1) $20.00 for a certified copy of a driving record as specified in RSA 263:42, II;
+
+(2) $20.00 for a certified driver record provided to an insurance company as specified in RSA 260:15, II;
+
+(3) $17.00 for a non-certified driver record pursuant to RSA 260:15, II;
+
+(4) $20.00 for a certified copy of a registration as specified in RSA 263:42, II;
+
+(5) $5 for a current registration listing as specified by RSA 261:60, I and Saf-C 509.12;
+
+(6) $20 for a title search as specified by RSA 261:20, I(f);
+
+(7) $1 per page for accident reports with a minimum of $5; and
+
+(8) $1 for an insurance card filed in connection with an accident.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20; ss by #14423, EXEMPT, eff 11-6-25
+
+Saf-C 5608.02 Bulk Data Fees .
+
+(a) Bulk records are provided in electronic format.
+
+(b) The fees for bulk data shall be as specified in the fee schedule adopted by the Commissioner. The fee schedule shall be available from the Department of Safety, Division of Motor Vehicles, 23 Hazen Drive, Concord, NH 03305.
+
+(c) The commissioner shall have the final decision as to whether a requestor is charged a fee on a per record basis or charged an annual file fee.
+
+(d) The commissioner may waive or reduce fees for good cause.
+
+Source. #7361, EXEMPT, eff 9-1-00; ss by #7621, EXEMPT, eff 1-1-02; ss by #13152, EXEMPT, eff 12-31-20

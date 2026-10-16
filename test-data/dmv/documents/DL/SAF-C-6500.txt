@@ -1,0 +1,878 @@
+CHAPTER Saf -C 6500 ALCOHOL IGNITION INTERLOCK DEVICE
+
+Statutory Authority: RSA 265-A:36
+
+REVISION NOTE:
+
+Document #13448, effective 9-20-22, readopted with amendments Chapter Saf -C 6500 titled Alcohol Ignition Interlock Device and re-titled the chapter as Ignition Interlock Program. Document #13448 added new rules, deleted existing rules, and extensively reorganized and renumbered the rules that remained from the former Chapter Saf -C 6500.
+
+The prior filings affecting the former Chapter Saf -C 6500 included the following documents:
+
+#7996, eff 12-1-03
+#8110, eff 6-24-04
+#10082, eff 1-31-12
+
+Document #10082 contained the entire Chapter Saf -C 6500, but the rules did not expire on 1-31-22 since they were extended pursuant to RSA 541-A:14-a until replaced by the rules in Document #13448, effective 9-20-22.
+
+However, Document #13322, effective 12-30-21, had also adopted Chapter Saf -C 9900 titled Ignition Interlock Program as an emergency rule effective 12-30-21, which expired 6-28-22 pursuant to RSA 541-A:18, II. The emergency rule was intended to implement 2018, 1 22:4, which required, pursuant to RSA 265-A:36, IV-a, that all ignition interlock devices in use by 1-1-22 be an enhanced technology ignition interlock device as defined in RSA 259:28-b. The rules in Chapter Saf -C 6500 in Document #10082 did not provide for the licensure of approved providers of these enhanced devices. The Commissioner of the Department of Safety therefore found that Chapter Saf -C 9900 was necessary as an emergency rule pursuant to RSA 541-A:18, I, which was effective concurrently with Chapter Saf -C 6500 in Document #10082 until the emergency rule expired 6-28-22.
+
+Chapter Saf -C 6500 in Document #13448 replaces all prior filings on the ignition interlock program in the former Chapter Saf -C 6500 and former Chapter Saf -C 9900.
+
+PART Saf-C 6501 GENERAL PURPOSE
+
+Saf -C 6501.01 Purpose . The purpose of these rules is to adopt rules for the ignition interlock program, including but not limited to the approval of ignition interlock devices and for the licensing of approved interlock service providers.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6501.02 Scope .
+
+(a) These rules shall apply to all individuals who are court or department ordered to install ignition interlock devices and to interlock service providers for use in the state.
+
+(b) The requirements of these rules to ignition interlock service providers shall also apply to its third party providers, unless the context clearly indicates otherwise.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6502 DEFINITIONS
+
+PART Saf -C 6502 DEFINITIONS
+
+Saf -C 6502.01 Alcohol setpoint means the minimum alcohol concentration at which device will prevent a vehicle from starting or operating.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.02 BrAC means breath alcohol concentration.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.03 Commissioner means commissioner as defined in RSA 259:13, or designee.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.04 Department means department as defined in RSA 259:19.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.05 Director means director as defined in RSA 259:20.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.06 Division means division as defined in RSA 259:22.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.07 Enhanced technology ignition interlock device means enhanced technology interlock device as defined in RSA 259:28-b. The term includes device .
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.08 Interlock service provider means interlock service provider as defined in RSA 259:43-b. The term includes provider .
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.09 Lockout means the ability of the device to prevent a motor vehicle s engine from starting or operating.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.10 Rolling re-test or random re-test means a test or tests taken at unpredictable intervals of time after the first test that allows the starting or operation of a motor vehicle.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.11 Tampering means an unlawful act or attempt to disable or circumvent the legal operation of the device, to include providing samples other than the natural breath of the user, starting the motor vehicle via unconventional means without first taking and passing a breath test, or physically circumventing the device to disable or otherwise disconnect the device from its power source, or the manipulation of the camera, to include limiting the ability of the camera to take a photo of the operator of the vehicle.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.12 Third-party provider means any entity under contract with an interlock service provider to perform one or more of the provider s responsibilities under statute and these rules.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.13 User means the individual who is court- or department-ordered to install an ignition interlock device on any motor vehicle registered to that individual or used by that individual on a regular basis.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.14 Violation reset means a device feature that requires an unscheduled calibration of the device in response to any violation of Saf -C 6509.02.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6502.15 Violation setpoint means the minimum alcohol concentration at which a device records the breath test as a violation.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6503 APPROVAL OF INTERLOCK SERVICE PROVIDERS
+
+Saf -C 6503.01 Application for Licensing as an Approved Interlock Service Provider .
+
+(a) Any person wishing to become an approved interlock service provider shall complete and submit form FRMV 100 , Interlock Service Provider Application , revised 06/2022.
+
+(b) The applicant shall certify knowledge of the ignition interlock program and device requirements listed on the application and, if an initial applicant, the applicant s intent to comply prior to commencing operations, or, if a renewal applicant, the applicant s present compliance with those requirements, by indicating Yes or No on the Form FRMV 100, revised 06/2022.
+
+(c) FRMV 100, Interlock Service Provider Application , revised 06/2022 forms may be obtained in person, by mail, or electronically at https://www.nh.gov/safety/divisions/dmv/forms/index.htm from the division.
+
+(d) Completed application forms shall be submitted to the:
+
+Department of Safety
+Division of Motor Vehicles
+Financial Responsibility Bureau
+23 Hazen Drive
+Concord, NH 03305
+
+(e) All applications shall be reviewed by the division in accordance with RSA 541-A:29.
+
+(f) Applicants shall be notified of any apparent errors or omissions and allowed to resubmit the form to the division.
+
+(g) In the event an applicant fails to comply with applicable laws or rules, the application shall not be processed and the applicant shall be notified of the reason(s) for the rejection.
+
+(h) If the applicant is not a sole proprietorship, the person submitting the application shall provide along with the completed FRMV 100, Interlock Service Provider Application revised 06/2022, a notarized certificate of authority evidencing authority to bind the applicant, as well as a current certificate of good standing issued by the New Hampshire secretary of state.
+
+( i ) The applicant shall sign and date FRMV 100 Interlock Service Provider Application revised 06/2022 under the penalties of unsworn falsification pursuant to RSA 641:3.
+
+(j) By signing the form, the applicant is certifying that:
+
+(1) The information provided on the form is true and correct to the best of the applicant s knowledge and belief;
+
+(2) The applicant is familiar with, and will abide by, all applicable laws and rules; and
+
+(3) The applicant understands that a violation of law or rules shall be deemed sufficient cause for an administrative hearing and might result in sanctions imposed pursuant to applicable laws and these rules.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6503.02 Responsibilities of the Interlock Service Providers .
+
+(a) An interlock service provider shall maintain a presence throughout the state sufficient to perform all installation, calibration, maintenance, monitoring, and removal services for any and all users accepted by such providers as customers via fixed locations, mobile locations, or a combination of both. For the purposes of this paragraph, sufficient to perform means that any customer shall not be required to travel more than 100 miles or 2 hours, whichever is less, in order to obtain such services.
+
+(b) An interlock service provider shall provide periodic reports as determined by these rules, the court, or department, to the division s interlock coordinator and the court of jurisdiction.
+
+(c) An interlock service provider shall have the ability to provide a certificate of installation to the division s interlock coordinator and the vehicle s owner immediately upon installation of the device.
+
+(d) An interlock service provider shall furnish the user a copy of the agreement between the user and provider, including but not limited to:
+
+(1) A statement of all fees and charges;
+
+(2) Any warranty details;
+
+(3) Schedule of payments;
+
+(4) Any additional charges that may be incurred by the user; and
+
+(5) A list of items or services that may be available by the provider at no charge.
+
+(e) An interlock service provider shall have a standard agreement with any third-party providers, which shall include the following requirements:
+
+(1) The interlock service provider shall be required to provide the third-party provider with all necessary tools, test equipment, and manuals to perform the third-party provider s functions;
+
+(2) The third-party provider shall be required to perform any or all of the following functions:
+
+a. Install devices;
+
+b. Calibrate devices;
+
+c. Perform maintenance on devices;
+
+d. Removal of devices;
+
+e. Provide users with installation certificates; and
+
+f. Provide standardized training established by the interlock service provider to users regarding the proper use, cleaning, care, and maintenance of the device;
+
+(3) The interlock service provider shall furnish the third-party provider with standardized training materials to provide training to users;
+
+(4) The third-party provider shall be required to establish regular business hours during which a third-party provider shall be on site.
+
+(f) An interlock service provider shall establish a standard policy to address complaints against the provider or third party providers, which shall include at a minimum, the requirement that customer complaints shall be addressed and reasonable attempts made to sufficiently resolve such complaints within 5 business days of receipt.
+
+(g) The interlock service provider shall create an action plan, at the division s request, when the provider has been the subject of 5 or more complaints of a similar nature in a 3 month period, and the provider shall furnish a copy of the action plan to the division s interlock coordinator.
+
+(h) A n interlock service provider shall provide every user, and make available for every person operating a motor vehicle equipped with their device, a copy of the manufacturer s written or electronic instructions for the following:
+
+(1) Operating a motor vehicle equipped with the device;
+
+(2) Cleaning and caring for the device; and
+
+(3) Identifying and addressing vehicle malfunctions or repairs that might affect the device.
+
+( i ) An interlock service provider shall provide each user with a written or electronic operator s manual that includes instruction on all of the following:
+
+(1) How to use the system;
+
+(2) How to obtain service for the system;
+
+(3) How the alcohol retest feature works;
+
+(4) How drinking alcohol before a test may result in a failure; and
+
+(5) How the device shall not be removed except by an interlock service provider.
+
+(j) An interlock service provider shall be responsible for the collection of all fees from the user and any costs associated with the use of the device. Pursuant to RSA 265-A:36, VI(e), the provider shall maintain a reserve of the equivalent of 2% of the provider s gross receipts, excluding the purchase or rental cost of the device, during the previous calendar year ending December 31.
+
+(k) No interlock service provider shall install a device on any vehicle owned or operated by any of its employees or family members which is required to be installed by order of a court or the department.
+
+(l) An interlock service provider shall provide a 24-hour telephone number for emergency assistance in the event of device failure or malfunctioning.
+
+(m) The failure to meet the requirements of this chapter shall subject the provider to an administrative hearing pursuant to Saf -C 203 to show cause as to why their approval should not be suspended or further installation certificates rejected by the division.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6503.03 Approval of Interlock Service Provider .
+
+(a) Any approval of an interlock service provider shall be for a 2-year period, unless otherwise suspended or revoked to provide interlock service in the State of New Hampshire for failure to comply with rules or law.
+
+(b) An applicant who has been denied approval shall be provided an opportunity for an administrative hearing in accordance with Saf -C 203.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART SAF-C 6504 USER RESPONSIBILITIES
+
+Saf -C 6504.01 General Responsibilities . A user of an enhanced technology ignition interlock device shall:
+
+(a) Provide the division with a certificate of installation;
+
+(b) Comply with required device maintenance and calibrations;
+
+(c) Not engage in tampering with a device as defined per Saf -C 6502.10;
+
+(d) Notify the division of any of the following:
+
+(1) Change in interlock service provider;
+
+(2) Change of vehicle in which a device is installed;
+
+(3) If user has moved out of the state or has thereafter moved back into the state; or
+
+(4) Inability to operate a device; and
+
+(e) Provide the division with medical documentation of the user s inability to provide 1.5 L sample, if user asserts inability to provide 1.5 L sample; and
+
+(f) Provide the department a complete financial affidavit form Affidavit of Assets and
+Liabilities DSSP 358, if the user requests a hearing pursuant to Saf -C 6506.02 and Saf -C 6512.04 for financial hardship credit.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6504.02 Removal Responsibilities . A user of a device shall not remove a device without:
+
+(a) Completing the required installation period per the ignition interlock order and any extensions; and
+
+(b) Submitting a request to the division for the removal of enhanced technology ignition interlock devices as provided in Saf -C 6511.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6504.03 Customer Service Concerns and Complaints .
+
+(a) Users shall raise all concerns and complaints with the interlock service provider for resolution in the first instance.
+
+(b) Concerns and complaints that have been unable to be resolved in collaboration with the interlock service provider may be reported to the division s interlock coordinator.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART SAF-C 6505 MINIMUM STANDARDS FOR ENHANCED TECHNOLOGY IGNITION INTERLOCK DEVICES
+
+Saf -C 6505.01 Prohibition . No device may be leased, sold, installed, or used as part of the program pursuant to RSA 265-A:36 unless the model or type of device has been approved by the division in accordance with the following specifications and performance criteria:
+
+(a) All devices shall meet or exceed the following requirements for approval:
+
+(1) The device shall not impede the safe operation of a vehicle;
+
+(2) The device shall be capable of capturing and encoding digital or photographic images of the driver as the events occur and transmit data as events occur to the interlock service provider;
+
+(3) The device shall meet or exceed the specifications for performance and testing of the National Highway Traffic Safety Administration as published in Volume 78, No. 89 of the Federal Register, May 8, 2013 as noted in appendix B;
+
+(4) The device shall have an alcohol set point of .020 percent breath alcohol concentration;
+
+(5) The device shall prevent a driver from starting the vehicle when a breath test detects a BrAC of .020 or greater;
+
+(6) The device shall indicate by audible or visual means when a sufficient breath sample has been collected and indicate the result with only a pass or fail indication;
+
+(7) The device shall have a random retest feature requiring the driver to submit to random retest within random interval of time between 5 to 15 minutes after the driver has passed the initial breath test resulting in a successful start of a vehicle. Subsequent retests shall be required at random intervals ranging from 15 to 45 minutes from the previously required retest for the duration of travel;
+
+(8) The device shall lockout 5 days after either a missed calibration appointment or a violation reset occurs;
+
+(9) The device shall operate properly at all temperatures between -40 and 85 Celsius;
+
+(10) The device shall activate the vehicle s lights and horn or other unique visual and audible indicator when a required random retest is missed or failed;
+
+(11) The device shall be capable of recording data in its memory in such a manner that data cannot be erased and a hard copy can be printed;
+
+(12) The data recorder of the device shall protect the security of all recorded data in the event the power supply to the device is interrupted or the sample head is disengaged or disconnected; and
+
+(13) The device shall have warning label affixed to the unit that states the following:
+
+WARNING! ANY ACTUAL OR ATTEMPTED TAMPERING OR CIRCUMVENTION OF THIS DEVICE
+CAN SUBJECT YOU TO CRIMINAL AND CIVIL LIABILITY.
+
+(b) All d evices shall be calibrated for proper use and accuracy every 180 days, unless otherwise ordered by a court or the department, a required violation reset, or as required by these rules, or as required per manufacturer s specifications to maintain the proper use and operation of the device in compliance with the ignition interlock program.
+
+(c) The use of a mail or remote calibration system is prohibited. However, in the instance of a missed calibration appointment or a violation reset occurrence, an interlock service provider may override a vehicle in lockout remotely for the sole purpose of allowing the user to report to a service center for calibration or a violation reset within 5 days. Notwithstanding any rule to the contrary, a remote override to a user shall be provided only once a calendar year.
+
+(d) All devices shall indicate when a 1.5 L breath sample has been collected and shall indicate this by audible or visual means. The commissioner shall authorize interlock service providers to adjust the breath volume requirement to as low as 1.2 L upon receipt of documentation from a user s licensed medical care provider verifying the existence of an applicable medical condition that prevents the user from submitting a 1.5 L sample.
+
+(e) The following information shall be stored in the data recorder of the device:
+
+(1) The date and time of any use or attempted use of a vehicle to include engine start and stops and the BrAC of the user during those attempts whether successful or unsuccessful;
+
+(2) The date and time of any tampering of the device;
+
+(3) The date and time of any malfunctions of the device, to include the loss of power;
+
+(4) The date and time of any failures to provide retest samples;
+
+(5) The date that a service required message is issued to the user;
+
+(6) The date and time when any service is performed; and
+
+(7) The number of events in the data recording system.
+
+(f) No device shall be equipped with a mechanism that will allow the starting or operating of the motor vehicle without taking the alcohol breath test.
+
+(g) Devices shall be equipped with adequate electronic anti-tampering features which include, at a minimum, the following:
+
+(1) The ability for the device to retain its tamper detection capabilities when disconnected from the vehicle s power supply, or record that it was disconnected;
+
+(2) The ability for the device to retain its data memory when disconnected from the vehicle s power supply; and
+
+(3) When the device detects a condition that would be considered tampering, the device shall activate the vehicle s lights and horn or other unique visual and audible indicator.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6506 FINANCIAL HARDSHIP CREDIT
+
+Saf -C 6506.01 Financial Hardship Credit .
+
+(a) Notwithstanding Saf -C 6503.02(j), the interlock service provider shall provide installation and service to those users determined by the court or the department to be unable to pay the full cost of an interlock program.
+
+(b) For the purpose of providing hardship credit pursuant to RSA 265-A:36, VI (e), the interlock service provider shall reserve the equivalent of 2 percent of the provider's gross receipts, excluding the purchase or rental cost of the interlock device. Such credit and free service shall be reported, in writing and signed by the provider, annually to the department.
+
+(c) For the purpose of (b) above, "annually" means no later than 30 days after the yearly anniversary date of the approval of the interlock service provider.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6506.02 Requesting a Financial Hardship Credit from the Department .
+
+(a) If a user cannot afford to pay the full cost of the installation and services of the ignition interlock program, the user may request a hearing pursuant to Saf -C 203 to determine the user s eligibility for a credit of up to 75% of the cost of the installation and service, to be paid from the interlock service provider s dedicated fund described in RSA 265-A:36, VI(e).
+
+(b) In order to be considered, the user shall complete and submit a financial affidavit on the form, Affidavit of Assets and Liabilities , DSSP 358, prescribed by the bureau of hearings within 10 days of the request for a hearing.
+
+(c) In the event that the bureau of hearings determines the user to be eligible for a financial hardship credit, the user shall be responsible for paying the remaining balance of the cost of installation and service.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6507 INSTALLATION OF IGNITION INTERLOCK DEVICES
+
+Saf -C 6507.01 Installation of Enhanced Technology Ignition Interlock Device .
+
+(a) The interlock service provider shall not permit the user of the device to view the installation of the device.
+
+(b) At the initial device installation, the user shall be required to pass at least 3 breath tests on a functioning device to demonstrate the user s proficiency in the normal operation of the device. No interlock service provider shall install a device in a vehicle of a user who is unable to pass the breath test.
+
+(c) After installation of a device, the interlock service provider shall inspect the vehicle and device to ensure that the device is functioning properly, reliably, and accurately and that the device does not interfere with the normal operation of the motor vehicle.
+
+(d) The interlock service provider shall provide the user and the division with a certificate of installation that contains, at minimum, the following:
+
+(1) The date of the installation;
+
+(2) The name and address of the interlock service provider;
+
+(3) The name of the technician that installed the device;
+
+(4) The following motor vehicle information:
+
+a. License plate number;
+
+b. The year, make and model of the vehicle;
+
+c. Vehicle identification number; and
+
+d. The name of the vehicle owner(s);
+
+(5) The serial number of the device;
+
+(6) Handwritten or electronic initials of the technician indicating the device is in calibration;
+
+(7) Handwritten or electronic initials of the technician indicating the device and vehicle are functioning properly;
+
+(8) Handwritten or electronic initials of the technician indicating a camera is installed and positioned properly to capture the user of the device;
+
+(9) Initials of the user, acknowledging the following:
+
+a. Proper use of the device, maintenance, and service resolutions;
+
+b. An understanding of how to power on and off the device;
+
+c. Delivered and passed 3 breath samples;
+
+d. An understanding of violation causes and consequences;
+
+e. An understanding of the rolling re-test feature;
+
+f. An understanding of the lockout features and procedures; and
+
+g. An understanding that violations defined in Saf -C 6509 might result in extension of participation in the program and installation of the device.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6507.02 Certificate of Installation . Pursuant to RSA 265-A:36, I, and in addition to any other requirements for license reinstatement, a user shall provide the certificate of installation to the division prior to having the user s license restored.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6507.03 Driver License of Ignition Interlock Device User . Any driver license issued to a user shall be marked accordingly.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6508 RECORDKEEPING
+
+Saf -C 6508.01 Records .
+
+(a) The interlock service provider shall maintain records, as outlined in (b) below, during the installation period and for a period of 3 years after the removal of the device.
+
+(b) The following reports shall be maintained by the interlock service provider:
+
+(1) Orders to install;
+
+(2) Service, repair, and replace reports;
+
+(3) Noncompliance or tampering; and
+
+(4) Monitoring reports from the device s data recording system.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6509 VIOLATIONS
+
+Saf -C 6509.01 Ignition Interlock Program Extension Violations . It shall be a violation for a user subject to an ignition interlock order to engage in the following, which shall result in the extension of the ignition interlock order pursuant to Saf -C 6512.05(a):
+
+(a) Operating a vehicle not equipped with an enhanced technology ignition interlock device;
+
+(b) Tampering with the device in any way, including but not limited to any act that prevents the camera from capturing a clear and visible photo that identifies the operator;
+
+(c) Operating any vehicle when the device has been circumvented or tampered with;
+
+(d) Attempting to start a vehicle with an alcohol concentration of greater than .025;
+
+(e) Failing to take a retest; or
+
+(f) Taking a retest with an alcohol concentration greater than .025.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6509.02 Ignition Interlock Program Suspension Violations . It shall be a violation for a user subject to an ignition interlock order to engage in the following, which shall result in the suspension of the user s operating privileges pursuant to Saf -C 6512.05(b):
+
+(a) Failure to comply with any requirement for maintenance or calibration;
+
+(b) Showing a consistent pattern of failures to pass any breath test;
+
+(c) Evidence of tampering of the device, including but not limited to any act that prevents the camera from capturing a clear and visible photo that identifies the operator;
+
+(d) Unauthorized engine start without a passed breath test; or
+
+(e) Power to the device is disconnected for more than 15 minutes while the vehicle is running.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6510 REPORTING REQUIREMENTS
+
+Saf -C 6510.01 Availability of Reports . Interlock service providers shall make monitoring and violation reports available upon demand via the internet portal at all times, upon calibration and as violations occur, respectively, within the following timeframes:
+
+(a) An electronic violation alert shall be provided daily to the division within 24 hours of a violation;
+
+(b) Violation reports shall be available to the division within 15 days; and
+
+(c) Monitoring reports shall also be provided to the division within 24 hours of any calibration and every 60 days thereafter.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6510.02 Content of Violation Reports . Violation reports shall include at a minimum:
+
+(a) Photos supporting each breath test or attempt within the report;
+
+(b) The data captured from at least 5 breath attempts leading up to any violation and the data captured from the subsequent 5 events;
+
+(c) The date and time of each event listed;
+
+(d) The name, date of birth, and address of the user;
+
+(e) Driver license number and driver license state of the user;
+
+(f) The name, address, and telephone number of the interlock service provider;
+
+(g) The following vehicle information:
+
+(1 Make, model, and year;
+
+(2) Vehicle identification number; and
+
+(3) License plate number and state of issuance; and
+
+(h) Make, model and serial number of the device;
+
+( i ) Dates of the monitoring period;
+
+(j) The name, location, and telephone number of the interlock service provider who performed the calibration or event that identified the violation;
+
+(k) Any comments from the interlock service provider; and
+
+(l) Jurisdiction(s) for which the user is being monitored.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6510.03 Content of Monitoring Reports . Monitoring reports shall include at minimum:
+
+(a) A statement that the device:
+
+(1) Is calibrated;
+
+(2) Has been inspected and is functioning properly; and
+
+(3) Shows no evidence of tampering; and
+
+(b) The, date, time, and location of the next monitoring check;
+
+(c) The name, location, and telephone number of the interlock service provider;
+
+(d) Photos supporting each breath test or attempt within the report;
+(e) The date and time of each event listed;
+
+(f) The name, date of birth, and address of the user;
+
+(g) Driver license number and driver license state of the user;
+
+(h) The following vehicle information:
+
+(1) Make, model, and year;
+
+(2) Vehicle identification number;
+
+(3) License plate number and state of issuance; and
+
+(4) Odometer reading; and
+
+( i ) Calibration readings of the device;
+
+(j) Make, model, and serial number of the device;
+
+(k) Dates of the monitoring period;
+
+(l) Any comments from the interlock service provider; and
+
+(m) Jurisdiction(s) where the user is being monitored.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6510.04 Distribution of Violation and Monitor Reports .
+
+(a) The interlock service provider shall provide the user with a copy of each violation report or monitor report, upon request.
+
+(b) If a user is on probation, the interlock service provider shall submit a violation report to the user s probation officer and treatment provider, if applicable, upon request within 15 days. If a user is not on probation, the interlock service provider shall submit a violation report to the court of jurisdiction and the arresting agency, upon request within 15 days.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART Saf -C 6511 REMOVAL OF ENHANCED TECHNOLOGY IGNITION INTERLOCK DEVICE
+
+Saf -C 6511.01 Request for Removal of Enhanced Technology Ignition Interlock Device .
+
+(a) A user who has successfully satisfied the conditions associated with the device shall submit a request to the division for a removal certificate, pursuant to RSA 265-A:38-a.
+
+(b) A user shall submit their written request to either IIDHELPDESK@DOS.NH.GOV or:
+
+Department of Safety
+Division of Motor Vehicles
+Financial Responsibility Bureau
+23 Hazen Drive
+Concord, NH 03305.
+
+(c) The written request shall include the user s:
+
+(1) Full name;
+
+(2) Date of birth;
+
+(3) Driver s license number; and
+
+(4) Name of current interlock service provider.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6511.02 Division s Review of Request for Removal .
+
+(a) Upon receipt of a request for removal of a device, pursuant to Saf -C 6511.01, the division shall provide the user with a certificate of removal within 5 business days of the request if:
+
+(1) The expiration date of the ignition interlock order, as required by the court or department, including any extensions of time has elapsed;
+
+(2) The user does not qualify for an extension of the ignition interlock requirement pursuant to RSA 265-A:38-a;
+
+(3) The user does not have any court or administrative hearings pending regarding an allegation of having committed one or more ignition interlock device violations; and
+
+(4) The user does not have any alleged ignition interlock program violations for which a hearing has yet to be scheduled.
+
+(b) If a user is denied a certificate of removal because the department has determined that the user has committed an ignition interlock program violation, the user shall be notified of:
+
+(1) The reason for the denial; and
+
+(2) The user s right to a hearing, pursuant to Saf -C 203.
+
+(c) Pursuant to RSA 265-A:38-a, III, the device shall not be removed from the vehicle while such hearing is pending.
+
+(d) Pursuant to RSA 265-A:38-a, II, if the user has more than one interlock violation within the 120 days prior to the request for removal, the division shall order the user continue to have the device in any vehicle registered to or used by that person for an additional period of 120 days or until the user has been violation-free for such extended period, whichever is later.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6511.03 Removal of Enhanced Technology Ignition Interlock Device By Interlock Service Provider .
+
+(a) No interlock service provider shall remove a device without first obtaining a certificate of removal from the user.
+
+(b) The interlock service provider shall not permit the user of the device to view the removal of the device.
+
+(c) The interlock service provider shall restore the motor vehicle to a safe operating condition upon removal of the device.
+
+(d) An interlock service provider shall provide a user with a minimum of 15-day grace period for contract renewal pending the user s request for device removal.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6511.04 Notification of Noncompliance after Removal . If the division learns of an ignition interlock program violation within the preceding 120-day period after removal of the device, the department s interlock coordinator shall submit such findings to the bureau of hearings, which might, pursuant to Saf -C 203 and these rules, result in the reinstallation of the device.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6511.05 Unauthorized Removal of Device .
+
+(a) A device removed at the user s request without first obtaining a certificate of removal pursuant to these rules, shall be considered an unauthorized removal.
+
+(b) The interlock service provider shall provide a deinstallation certificate or other form of documentation of the unauthorized removal within 24 hours of deinstallation of the device to the division.
+
+(c) The user shall have their operating privileges suspended during the period of unauthorized removal and until such time the device is reinstalled.
+
+(d) Upon the device being reinstalled, the user shall have the interlock order extended by the days equivalent to the number of days that the device was not in place.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+PART SAF-C 6512 HEARINGS
+
+Saf -C 6512.01 Hearings . All hearings shall be conducted in accordance with Saf -C 203.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6512.02 Denial of Interlock Service Provider Approval Hearing . Pursuant to Saf -C 6503.03, the scope of the hearing for an applicant for interlock service provider approval shall be limited to:
+
+(a) Review of the evidence submitted pursuant to Saf -C 6503.02 and Saf -C 6503.03; and
+
+(b) Whether the division correctly determined that the applicant failed to comply with RSA 265-A:36 and these rules.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6512.03 Interlock Service Provider Compliance Hearing .
+
+(a) Any interlock service provider who fails to maintain compliance with these rules shall be subject to an administrative hearing which might, pursuant to Saf -C 203 and these rules, result in the suspension or revocation of the provider s approval, or further installation certificates being rejected by the division until such noncompliance is remedied.
+
+(b) The scope of the hearing shall be limited to whether the interlock service provider is in noncompliance with these rules.
+
+(c) The interlock service provider shall have the burden of proving the provider is in compliance with these rules.
+
+(d) The bureau of hearings shall provide its determination of the hearing to the division s interlock coordinator.
+
+(e) In imposing sanctions and the duration of sanctions, the hearing examiner shall consider the following factors in order to protect the integrity of the ignition interlock program and prevent any negative impact to the program, users, and motoring public:
+
+(1) The seriousness of the conduct;
+
+(2) Whether materially false or inaccurate information was provided by the provider;
+
+(3) The period of time for the provider to come into compliance with the applicable laws and rules;
+
+(4) Whether the provider assisted a user to circumvent or tamper with a device;
+
+(5) Whether there is a pattern of noncompliance issues by the provider;
+
+(6) Whether there exists potential harm to public safety by allowing the provider to operate; and
+
+(7) Any mitigating or extenuating circumstances.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6512.04 Financial Hardship Credit Hearing .
+
+(a) A user who is seeking a financial hardship credit pursuant to Saf -C 6506.02, may request a hearing on the matter before the bureau of hearings.
+
+(b) The scope of the hearing shall be limited to whether or not the user can afford to pay the cost for the installation and service of the ignition interlock program.
+
+(c) The user shall have the burden of proving that he or she is unable to pay the full cost of the ignition interlock program.
+
+(d) The bureau of hearings shall provide its determinations of eligibility for financial hardship credit to the department s interlock coordinator.
+
+(e) A user who is denied a financial hardship credit may appeal the decision pursuant to RSA 541.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+Saf -C 6512.05 User Compliance Hearings .
+
+(a) Any user who fails to maintain compliance with Saf -C 6509.01 shall be subject to an administrative hearing, after which any user that is found to have violated any of the provisions therein, shall have their duration in the ignition interlock program extended for each occurrence by:
+
+(1) 30 days for the first occurrence of any violation;
+
+(2) 60 days for the second occurrence of any violation;
+
+(3) 90 days for the third occurrence of any violation; and
+
+(4) 120 days for any fourth or subsequent occurrence of any violation and shall have their operating privileges suspended for no less than 3 months.
+
+(b) Any user who fails to maintain compliance with Saf -C 6509.02 shall be subject to an administrative hearing, after which any user that is found to have violated any of the provisions therein, shall have their operating privilege suspended for each occurrence by:
+
+(1) 60 days for any first occurrence of any violation;
+
+(2) 120 days for any second occurrence of any violation;
+
+(3) 180 days for any third occurrence of any violation; and
+
+(4) 12 months for any fourth or subsequent occurrence of any violation.
+
+(c) All operation privilege suspensions ordered pursuant to this section shall not run concurrent with any other ordered suspension.
+
+(d) The scope of the hearing shall be limited to whether the user committed the alleged violation.
+
+(e) Users shall have the burden of proving their compliance with the ignition interlock program requirements.
+
+(f) The bureau of hearings shall provide its determination of the hearing to the division s interlock coordinator.
+
+(g) For the purposes of this section and counting occurrences, each act or conduct that is recorded as a violation of the interlock order and these rules, shall be considered a single violation.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6512.06 Installation of Device .
+
+(a) Pursuant to RSA 265-A:36-a, the commissioner shall schedule a hearing to show cause why a person should not be ordered to install a device when the person s license or driving privilege was suspended or revoked:
+
+(1) Pursuant to RSA 262:19 or RSA 630:2, III, where alcohol has been involved;
+
+(2) As the result of a conviction of any offense under RSA 265-A:2, RSA 265-A:3, or RSA 265:79-a where alcohol was involved; or
+
+(3) As the result of a conviction of RSA 630:3, II.
+(b) For convictions under RSA 265-A:2, a hearing shall be scheduled if:
+
+(1) The person has a prior conviction for driving while intoxicated in this state or another state;
+
+(2) When a test administered to the person under the provisions of RSA 265-A:4 reveals a BAC of .16 or higher for a driver 21 years of age and older;
+
+(3) When the person has a prior test over the legal limit or a prior refusal to submit to the requested testing;
+
+(4) When the person has prior convictions on the record that involve alcoholic beverages or drugs, or administrative sanctions due to the possession or consumption of alcoholic beverages; or
+
+(5) When the person was under the age of 21 at the time of the incident that led to the driving while intoxicated convictions.
+
+(c) At the scheduled hearing, the person shall be allowed to present evidence to the hearing examiner as to whether the installation of the device is warranted. The device shall be ordered for a period of not less than 12 months and not more than 2 years if the hearing examiner finds that the safety of the person and other users of the highways would be enhanced by the installation of the device.
+
+(d) In making the determination in (c) above, the hearing examiner shall consider factors to include, but not limited to:
+
+(1) Evidence of an elevated BAC, if a test was involved;
+
+(2) The number of alcohol or drug related convictions and administrative suspensions on the person s driving record;
+
+(3) The age of the person at the time of the driving while intoxicated arrest;
+
+(4) Evidence of treatment since the date of the driving while intoxicated arrest;
+
+(5) The length of time between driving while intoxicated arrests; and
+
+(6) Whether safety of the driver and users of the highway would be enhanced by the installation of the device.
+
+(e) Notwithstanding this rule, no hearing shall be scheduled if the convicting court has already order the installation of a device as part of the person s sentence.
+
+(f) A person may appeal an order of the hearing examiner pursuant to RSA 541.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+Saf -C 6512.07 Denial of Certificate of Removal Hearing .
+
+(a) A user who is denied a certificate of removal may request a hearing, pursuant to Saf -C 203.
+
+(b) The scope of the hearing shall be to determine if, by a preponderance of the evidence, whether:
+
+(1) The user has committed an interlock violation, as defined by RSA 265-A:38-a, I (a)-( i ), within the preceding 120 days;
+
+(2) The expiration date of the ignition interlock order, including any extensions of time, has elapsed;
+
+(3) The user does not have any court or administrative hearings pending regarding an allegation of having committed one or more ignition interlock device violations; and
+
+(4) The user does not have any alleged ignition interlock program violations for which a hearing has yet to be scheduled.
+
+Source. (See Revision Note at chapter heading for Saf -C 6500) #13448, eff 9-20-22
+
+APPENDIX A
+
+RULE NUMBER
+STATUTE IMPLEMENTED
+
+Saf -C 6501
+RSA 541-A:7
+
+Saf -C 6502.01 and Saf -C 6502.02
+RSA 541-A:7
+
+Saf -C 6502.03
+RSA 259:13
+
+Saf -C 6502.04
+RSA 259:19
+
+Saf -C 6502.05
+RSA 259:20
+
+Saf -C 6502.06
+RSA 259:22
+
+Saf -C 6502.07
+RSA 259:28-b
+
+Saf -C 6502.08
+RSA 259:43-b
+
+Saf -C 6502.09 through Saf -C 6502.13
+RSA 541-A:7
+
+Saf -C 6503.01
+RSA 541-A:19-b
+
+Saf -C 6503.02
+RSA 265-A:36, V and VI
+
+Saf -C 6503.03(a)
+RSA 265-A:36, V and VI
+
+Saf -C 6503(b)
+RSA 541-A:30
+
+Saf -C 6504.01
+RSA 265-A:36, VI
+
+Saf -C 6504.02
+RSA 265-A:38-a
+
+Saf -C 6504.03
+RSA 265-A:36, VI
+
+Saf -C 6505
+RSA 265-A:36, V
+
+Saf -C 6506
+RSA 265-A:36, VI (e)
+
+Saf -C 6507.01
+RSA 265-A:36, VI
+
+Saf -C 6507.02 and Saf -C 6507.03
+RSA 265-A:36, I
+
+Saf -C 6508
+RSA 265-A:36, VI
+
+Saf -C 6509
+RSA 265-A:37 and RSA 265-A:38
+
+Saf -C 6510
+RSA 265-A:36, VI
+
+Saf -C 6511
+RSA 265-A:38-a
+
+Saf -C 6512
+RSA 541-A:30
+
+APPENDIX B
+
+Rule
+Title
+Obtain at:
+
+Saf -C 6501.03(a)(3)
+Model Specifications for Breath Alcohol Ignition Interlock Devices (BAIIDs), National Highway Traffic Safety Administration, Volume 78, No. 89 of the Federal Register, Notice 26849, May 8, 2013
+Breath Alcohol Ignition Interlock Device (BAIID) Model Specifications.pdf (dot.gov)

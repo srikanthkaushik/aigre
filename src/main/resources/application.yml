@@ -10,6 +10,8 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+      # Department (routing unit) rows for the active domain profile; application-dmv.yml swaps it.
+      data-locations: classpath:seed/city/departments.sql
   ai:
     mcp:
       server:
@@ -115,6 +117,25 @@ security:
   # login session. Reuses jwt.secret, not a separate key.
   citizen-token:
     expiration-days: 365
+
+# Domain profile: everything specific to the agency being served. These defaults are the city
+# demo; activate the dmv Spring profile (application-dmv.yml) for NH DMV bureaus. Routing units
+# stay "departments" in code and the database -- unit-label is only the word the UI shows.
+aigre:
+  domain:
+    classifier-prompt: classpath:prompts/city/classifier.txt
+    agency-name: City Services
+    tagline: Submit, track, and resolve city service complaints — classified, prioritized, and routed automatically, with a person always in the loop when it matters.
+    footer: A city services demonstration portal
+    unit-label: Department
+    unit-label-plural: Departments
+    chat-suggestions:
+      - How long does DOT have to repair a reported pothole?
+      - Who do I contact if a street light has been out for two weeks?
+      - What are my rights if my landlord hasn't fixed a heating outage?
+    # An /embed/chat with no department, framed by every department's registered origins. Off for
+    # the city: a site registered for one department shouldn't get a widget answering for all.
+    agency-wide-embed: false
 
 logging:
   level:

@@ -1,7 +1,7 @@
 <div class="page-container employee-page">
   <div class="page-header">
     <h1>Employee Dashboard</h1>
-    <p class="page-subtitle">Review pending classifications and manage your department's queue.</p>
+    <p class="page-subtitle">Review pending classifications and manage your {{ appConfig.unitLabelLower() }}'s queue.</p>
   </div>
 
   <div class="toolbar-row">
@@ -14,9 +14,9 @@
     </div>
     @if (auth.isAdmin()) {
       <mat-form-field appearance="outline" class="department-filter" subscriptSizing="dynamic">
-        <mat-label>Department</mat-label>
+        <mat-label>{{ appConfig.unitLabel() }}</mat-label>
         <mat-select [value]="departmentFilter()" (selectionChange)="onDepartmentFilterChange($event.value)">
-          <mat-option value="">All Departments</mat-option>
+          <mat-option value="">All {{ appConfig.unitLabelPlural() }}</mat-option>
           @for (dept of departmentOptions(); track dept) {
             <mat-option [value]="dept">{{ dept | departmentName }}</mat-option>
           }
@@ -77,7 +77,7 @@
             <td mat-cell *matCellDef="let item">{{ item.submittedAt | date: 'short' }}</td>
           </ng-container>
           <ng-container matColumnDef="department">
-            <th mat-header-cell *matHeaderCellDef>Department</th>
+            <th mat-header-cell *matHeaderCellDef>{{ appConfig.unitLabel() }}</th>
             <td mat-cell *matCellDef="let item">{{ item.department | departmentName }}</td>
           </ng-container>
           <ng-container matColumnDef="channel">
@@ -123,7 +123,7 @@
         } @else if (!departmentDataSource.data.length) {
           <div class="empty-state">
             <mat-icon>inbox</mat-icon>
-            <p>No grievances in this department's queue.</p>
+            <p>No grievances in this {{ appConfig.unitLabelLower() }}'s queue.</p>
           </div>
         }
         <table mat-table [dataSource]="departmentDataSource" [class.hidden]="!departmentDataSource.data.length">
@@ -132,7 +132,7 @@
             <td mat-cell *matCellDef="let item">{{ item.submittedAt | date: 'short' }}</td>
           </ng-container>
           <ng-container matColumnDef="department">
-            <th mat-header-cell *matHeaderCellDef>Department</th>
+            <th mat-header-cell *matHeaderCellDef>{{ appConfig.unitLabel() }}</th>
             <td mat-cell *matCellDef="let item">{{ item.department | departmentName }}</td>
           </ng-container>
           <ng-container matColumnDef="channel">

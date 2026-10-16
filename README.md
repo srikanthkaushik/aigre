@@ -72,6 +72,11 @@ workflow state rather than a bolted-on afterthought.
   optional department filter, instead of being scoped to one department like every
   other role.
 
+**Or for a state DMV:** a `dmv` profile swaps the city for the five bureaus of the NH
+Division of Motor Vehicles (Registration, Driver Licensing, Financial Responsibility,
+Title & Anti-Theft, Dealers & Inspections), with a corpus of the real NH motor vehicle
+rules. Same code; see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md#domain-profiles).
+
 Six departments are modeled with deliberate topic overlap (Transportation/Public Works,
 Health & Human Services/Education, Public Works/Housing, Environmental
 Protection/Public Works) specifically so the classifier has to make real judgment
@@ -417,6 +422,7 @@ which failures are expected LLM sampling variance rather than bugs.
 | Agentic memory: recognizing returning citizens in chat | ✅ Done |
 | Exact-match response cache for `/chat/stream` | ✅ Done |
 | Two-machine Docker deployment + Cloudflare tunnel | ✅ Done |
+| Domain profiles: NH DMV bureaus as an alternative to city departments | ✅ Done |
 
 Full narrative build log, including bugs found and how they were fixed, is in
 [`PROJECT.md`](PROJECT.md).

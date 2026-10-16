@@ -40,6 +40,8 @@ mvn test -Dtest=ClassName
 | `RetrievalEvalTest` | Integration (live Ollama) | Day-one retrieval smoke test — ⚠️ **destructive**, see warning below |
 | `RagEvalSuiteTest` | Integration (live Ollama, slow, ~9 min) | 34 labeled retrieval cases from `test-data/eval-questions.md` against the real hybrid-retrieval + rerank pipeline |
 | `ChatControllerTest` | Integration (real Postgres + live Ollama + real self-referential MCP client) | Citizen chat's MCP tool-calling, end to end: a deterministic check that only the 3 read-only tools are ever exposed to the model (`filterToolNames`, no LLM involved), a RAG-only question that must never trigger a tool call, and a status question about a just-submitted real grievance that must trigger exactly one live `get_grievance_status` call. See variance note below |
+| `ClassifierPromptTemplateTest` | Pure unit | Pins `prompts/city/classifier.txt` to the exact text its accuracy was measured with (SHA-256), and checks every profile's prompt has its two `%s` slots |
+| `DmvRagEvalSuiteTest` | Integration (live Ollama, `dmv` profile only) | 16 retrieval questions against the NH DMV rule corpus, each expecting a specific Saf-C chapter as the top result. Skipped unless run with `-Dspring.profiles.active=dmv` against the DMV database (`RUNNING.md` "Running the DMV profile") |
 | `PriorityTest` | Pure unit | Priority tier bumping (one tier up, `CRITICAL` stays `CRITICAL`), used by the reopen rule |
 | `JwtServiceTest` | Pure unit | Employee JWT round-trip, malformed token, wrong signing key and expired token all handled |
 | `ChatResponseCacheTest` | Pure unit | The `/chat/stream` exact-match cache: hit/miss, case and whitespace normalisation, per-department keys, TTL expiry, disabled mode, `invalidateAll()` |
@@ -51,6 +53,10 @@ mvn test -Dtest=ClassName
 | `GrievanceWorkflowDuplicateTest` | Integration (real Postgres, **mocked** classifier) | The same duplicate linking through the LangGraph4j workflow's `commit()` node. The two commit paths don't share code, so both are covered |
 | `EmailGrievancePollerTest` | Integration (real Postgres, embedded GreenMail mailbox, **mocked** classifier) | The email channel end to end: an unread message becomes a grievance, and the SEEN flag prevents reprocessing |
 | `CorpusIngestionServiceCacheInvalidationTest` | Integration (live Ollama, slow) | `POST /ingest/reset` clears the chat response cache. **Re-ingests the whole corpus**, so run it deliberately: `mvn test -Dtest=CorpusIngestionServiceCacheInvalidationTest` |
+
+`ComplaintEvalHarnessTest` also measures the DMV bureaus: point it at
+`test-data/dmv/grievances/eval-complaints.jsonl` (42 labeled DMV complaints, same scenario
+numbering) with `-Daigre.eval.complaints=...` under the `dmv` profile.
 
 Most integration tests expect the dev stack from `RUNNING.md` steps 1–4: `aigre-pg` on
 port 5434 with `seed.sql` loaded, and Ollama on 11434 for the "live Ollama" rows. Tests

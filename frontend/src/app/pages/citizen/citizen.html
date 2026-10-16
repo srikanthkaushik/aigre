@@ -1,7 +1,7 @@
 <div class="page-container citizen-page">
   <div class="page-header">
     <h1>Citizen Portal</h1>
-    <p class="page-subtitle">Submit a complaint, check its status, or ask about department policies.</p>
+    <p class="page-subtitle">Submit a complaint, check its status, or ask about {{ appConfig.unitLabelLower() }} policies.</p>
   </div>
 
   <mat-tab-group [(selectedIndex)]="selectedTabIndex" animationDuration="200ms">
@@ -131,7 +131,7 @@
             <ol class="steps">
               <li>
                 <mat-icon>psychology</mat-icon>
-                <span>An AI classifier reads your complaint and identifies the right department.</span>
+                <span>An AI classifier reads your complaint and identifies the right {{ appConfig.unitLabelLower() }}.</span>
               </li>
               <li>
                 <mat-icon>alt_route</mat-icon>
@@ -186,7 +186,7 @@
                 }
 
                 <dl>
-                  <dt>Department</dt>
+                  <dt>{{ appConfig.unitLabel() }}</dt>
                   <dd>{{ (s.departmentConfirmed ?? s.departmentPredicted) | departmentName }}</dd>
                   <dt>Category</dt>
                   <dd>{{ s.category ?? '—' }}</dd>

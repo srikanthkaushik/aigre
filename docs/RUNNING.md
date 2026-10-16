@@ -469,6 +469,135 @@ and there is no rate limiting.
 
 ---
 
+## Running the DMV profile (NH DMV bureaus, optional)
+
+The `dmv` profile routes complaints to five NH Division of Motor Vehicles bureaus instead of
+the city departments (see `ARCHITECTURE.md` "Domain profiles"). It uses its **own
+database**, so the city data is untouched and you can switch between the two.
+
+**Locally (CMD, with `aigre-pg` and Ollama running):**
+
+```
+docker exec aigre-pg psql -U aigre -d aigre -c "CREATE DATABASE aigre_dmv"
+docker exec aigre-pg psql -U aigre -d aigre_dmv -c "CREATE EXTENSION IF NOT EXISTS vector"
+
+set SPRING_PROFILES_ACTIVE=dmv
+set SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5434/aigre_dmv
+mvn spring-boot:run
+```
+
+The first boot creates the schema and the five bureaus. Then, in a second window:
+
+```
+docker exec -i aigre-pg psql -U aigre -d aigre_dmv < test-data/dmv/sql/seed.sql
+curl -s -X POST http://localhost:8085/auth/login -H "Content-Type: application/json" -d "{\"username\":\"ops.admin\",\"password\":\"Demo1234!\"}"
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
+```
+
+The seed adds 2 employees per bureau plus `ops.admin` (password `Demo1234!`) and 8 sample
+grievances. Ingestion loads the 16 rule chapters in `test-data/dmv/documents` (see
+`test-data/dmv/corpus-manifest.md`). `curl http://localhost:8085/departments` should list
+`DEALER`, `DL`, `FR`, `REG` and `TITLE`, and the UI should say "Bureau". Unset both
+variables to go back to the city.
+
+**Adding documents later:** drop files into a bureau's folder under
+`test-data/dmv/documents/` (any format Tika reads), note them in the manifest, and re-run
+the ingest call above.
+
+**On the two-machine deployment (Machine B, bash).** Run these from the stack's
+directory, so that `docker compose` reads the same `.env` that Compose Manager uses
+(`/boot/config/plugins/compose.manager/projects/<stack>/`).
+
+1. **Rebuild and push both images on Machine A** (step c). The app and the embed demo
+   both changed.
+2. **Replace the stack's `docker-compose.yml`** with the current one, via Edit Stack →
+   Compose File or from the repo. Keep reading only once
+   `grep -nE "AIGRE_PROFILE|AIGRE_DB_NAME|AIGRE_EMBED_DEPARTMENT" docker-compose.yml`
+   prints three lines. An older compose file silently ignores the three settings below,
+   and the app stays on the city profile and the `aigre` database.
+3. **Add these to the Env File:**
+   ```
+   AIGRE_PROFILE=dmv
+   AIGRE_DB_NAME=aigre_dmv
+   AIGRE_EMBED_DEPARTMENT=
+   ```
+4. **Create the database, then pull and recreate the stack:**
+   ```
+   docker exec aigre-pg-unraid psql -U aigre -d aigre -c "CREATE DATABASE aigre_dmv"
+   docker exec aigre-pg-unraid psql -U aigre -d aigre_dmv -c "CREATE EXTENSION IF NOT EXISTS vector"
+   docker compose pull app embed-demo
+   docker compose --profile tunnel up -d
+   ```
+5. **Check that the app booted the profile against the new database:**
+   ```
+   docker inspect aigre-app --format '{{range .Config.Env}}{{println .}}{{end}}' | grep -E "SPRING_PROFILES_ACTIVE|SPRING_DATASOURCE_URL"
+   curl -s http://localhost:8087/app-config
+   docker exec aigre-pg-unraid psql -U aigre -d aigre_dmv -c "SELECT id FROM departments ORDER BY id;"
+   ```
+   - **Expected:** `SPRING_PROFILES_ACTIVE=dmv`, a URL ending in `/aigre_dmv`, `"unitLabel":"Bureau"`
+     and the five bureaus.
+   - **Problem signs and fixes:**
+     - **No `SPRING_PROFILES_ACTIVE` line at all:** the compose file is still the old one
+       (go back to step 2).
+     - **`/aigre_dmv` but city wording, or six city departments:** the city profile booted
+       against the DMV database. Stop the app, drop and recreate `aigre_dmv` (step 4), fix
+       the env, and recreate the stack.
+     - **`relation "departments" does not exist`:** the app hasn't booted against
+       `aigre_dmv` yet.
+6. **Load the demo seed, and replace its password in the same sitting.** The seed gives
+   every account `Demo1234!`, and the tunnel may already be public. The seed is read from
+   the app image itself, so it matches the deployed version. `-1` with `ON_ERROR_STOP`
+   makes the load all-or-nothing, and re-running it is harmless (`ON CONFLICT DO NOTHING`).
+   ```
+   docker exec aigre-app cat /app/test-data/dmv/sql/seed.sql \
+     | docker exec -i aigre-pg-unraid psql -U aigre -d aigre_dmv -v ON_ERROR_STOP=1 -1
+
+   read -rsp "New employee password: " PW; echo
+   HASH=$(docker run --rm httpd:2.4-alpine htpasswd -nbBC 10 "" "$PW" | tr -d ':\n')
+   docker exec aigre-pg-unraid psql -U aigre -d aigre_dmv \
+     -c "UPDATE department_employees SET password_hash = '$HASH' WHERE username IS NOT NULL;"
+
+   docker exec aigre-pg-unraid psql -U aigre -d aigre_dmv \
+     -c "SELECT coalesce(department_id,'(admin)') AS bureau, count(*) FROM department_employees GROUP BY 1 ORDER BY 1;" \
+     -c "SELECT count(*) AS grievances FROM grievances;"
+   ```
+   - **Note `-d aigre_dmv`:** step e's command targets the city database.
+   - **Expected:** 2 employees per bureau, 1 admin, and 8 grievances (G0001–G0008). New
+     complaints continue from G0009.
+7. **Build the rule corpus** (16 chapters, about 3,310 chunks, embedded on Machine A's
+   GPU; allow several minutes). Use the new password:
+   ```
+   read -rsp "ops.admin password: " PW; echo
+   TOKEN=$(curl -s -X POST http://localhost:8087/auth/login -H "Content-Type: application/json" \
+     -d "{\"username\":\"ops.admin\",\"password\":\"$PW\"}" | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
+   curl -s --max-time 1800 -X POST -H "Authorization: Bearer $TOKEN" "http://localhost:8087/ingest/reset?confirm=true"
+   docker exec aigre-pg-unraid psql -U aigre -d aigre_dmv -c "SELECT count(*) FROM rag_documents;"
+   ```
+   If the count is zero, `docker logs aigre-app --tail 50` usually shows that Ollama at
+   `AIGRE_OLLAMA_BASE_URL` was unreachable.
+8. **Register the demo site's origin, in the same shell so `$TOKEN` is still set.**
+   Any bureau will do. With an empty `AIGRE_EMBED_DEPARTMENT` the demo widget is
+   agency-wide, so it can be framed by every registered origin. Origins registered in the
+   city database don't carry over.
+   ```
+   curl -s -X POST http://localhost:8087/admin/departments/REG/embed-origins \
+     -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
+     -d '{"origin":"https://dmv-demo.<domain>"}'
+   ```
+
+**Switching back to the city:** clear `AIGRE_PROFILE` and `AIGRE_DB_NAME`, set
+`AIGRE_EMBED_DEPARTMENT=DMV`, and run `docker compose --profile tunnel up -d`. Both
+databases keep their data and passwords. A later corpus reset only rebuilds
+`rag_documents`, and `seed.sql` never runs at boot.
+
+**Measuring it:** the DMV evals run against the DMV database:
+
+```
+mvn test -Dtest=ComplaintEvalHarnessTest,DmvRagEvalSuiteTest -Dspring.profiles.active=dmv -Dspring.datasource.url=jdbc:postgresql://localhost:5434/aigre_dmv -Daigre.eval.complaints=test-data/dmv/grievances/eval-complaints.jsonl
+```
+
+---
+
 ## Testing the embeddable chat widget (optional)
 
 The citizen portal's floating chat can also be embedded on an *external* website via

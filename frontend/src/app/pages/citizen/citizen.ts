@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { inject, Component, signal } from '@angular/core';
+import { AppConfigService } from '../../core/app-config.service';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -32,6 +33,8 @@ import { DepartmentNamePipe } from '../../core/department-name.pipe';
   styleUrl: './citizen.scss'
 })
 export class Citizen {
+  readonly appConfig = inject(AppConfigService);
+
   readonly selectedTabIndex = signal(0);
 
   // -- submit tab --

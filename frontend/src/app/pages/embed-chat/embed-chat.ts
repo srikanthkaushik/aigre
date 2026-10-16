@@ -1,4 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
+import { AppConfigService } from '../../core/app-config.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
@@ -20,6 +21,8 @@ import { DepartmentService } from '../../core/department.service';
   styleUrl: './embed-chat.scss'
 })
 export class EmbedChat {
+  readonly appConfig = inject(AppConfigService);
+
   private readonly route = inject(ActivatedRoute);
   private readonly departmentService = inject(DepartmentService);
 
@@ -29,7 +32,9 @@ export class EmbedChat {
 
   readonly status = computed<'loading' | 'valid' | 'invalid'>(() => {
     const dept = this.department();
-    if (!dept) return 'invalid';
+    // No department: an agency-wide widget, allowed only when the domain profile says so
+    // (aigre.domain.agency-wide-embed -- EmbedChatController enforces the same rule server-side).
+    if (!dept) return this.appConfig.agencyWideEmbed() ? 'valid' : 'invalid';
     if (this.departmentService.departments().length === 0) return 'loading';
     return this.departmentService.departmentIds().includes(dept) ? 'valid' : 'invalid';
   });

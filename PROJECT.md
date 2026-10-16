@@ -55,6 +55,7 @@
 - [Agentic memory: recognizing returning citizens in chat](#agentic-memory-recognizing-returning-citizens-in-chat)
 - [Exact-match response cache for `/chat/stream`](#exact-match-response-cache-for-chatstream)
 - [Two-machine split: Ollama on the GPU box, everything else on Unraid](#two-machine-split-ollama-on-the-gpu-box-everything-else-on-unraid)
+- [Domain profiles: NH DMV bureaus instead of city departments](#domain-profiles-nh-dmv-bureaus-instead-of-city-departments)
 - [Open items to revisit](#open-items-to-revisit)
 - [Full plan](#full-plan)
 
@@ -3193,6 +3194,91 @@ agent ever needs network access.
 
 Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 "Splitting across two machines (Unraid deployment)" section.
+
+## Domain profiles: NH DMV bureaus instead of city departments
+
+**Goal:** route complaints to the bureaus of a real state DMV rather than six city
+departments, without forking the code or losing the city demo.
+
+**Decisions (user's):**
+- DMV-only deployment: the bureaus replace the departments rather than sitting beside
+  them or under a new agency→bureau hierarchy.
+- Keep "department" in code, APIs and the database. "Bureau" is a configurable UI label.
+- Research a real DMV for the bureau list and corpus.
+- Use five of NH's seven bureaus. Pupil Transportation and Driver & Traffic Safety
+  Education were dropped as low-volume for citizen complaints.
+- Rules-only corpus for now, with room to add documents later.
+
+**Why a Spring profile (`dmv`), not editing the city data.** The routing unit was already
+data: `DepartmentDirectory` builds the classifier's DEPARTMENTS section from the table,
+ingestion tags each chunk's department from its folder name, and retrieval scoping,
+embed allowlists, employee assignment and duplicate detection all key off
+`departments.id`. What wasn't data was the agency itself:
+- **Classifier prompt:** framed "a city government", with a hazard rubric and city
+  few-shot examples. Its actionability rule marked "federal or state government
+  matters" not actionable, which would have rejected most DMV complaints outright.
+- **City department rows:** inserted by `schema.sql` on *every* boot
+  (`spring.sql.init.mode: always`).
+- **UI copy:** hardcoded "Department" and "City Services".
+
+Each became configuration:
+- `prompts/<profile>/classifier.txt`, chosen by `aigre.domain.classifier-prompt`.
+- `seed/<profile>/departments.sql`, chosen by `spring.sql.init.data-locations`.
+  `schema.sql` no longer inserts departments.
+- `aigre.domain.*` wording, served by a public `GET /app-config` and loaded by the
+  frontend's `AppConfigService`.
+
+The city stays the default profile, byte for byte. The prompt moved to a file exactly as
+the Java text block rendered it, and `ClassifierPromptTemplateTest` pins its SHA-256.
+The loader normalises CRLF, because `core.autocrlf=true` would otherwise silently alter
+the prompt on a Windows checkout. A city boot after the change still shows its eight
+departments, "Department" wording, and unchanged embed headers.
+
+**Bureaus come from the rule that defines them.** Saf-C 102.08(c) lists the division's
+bureaus. dmv.nh.gov returns 403 to scripted requests, including its PDFs, but the NH
+General Court publishes every Saf-C chapter as HTML (`gc.nh.gov/rules/state_agencies/`).
+That's the same source as the two DMV chapters already in the city corpus.
+Conversion: strip tags, unwrap the source's mid-paragraph hard wraps
+(which would otherwise fragment chunks), keep paragraph breaks. 16 chapters, about
+1.4 MB, filed under `REG`, `DL`, `FR`, `TITLE`, `DEALER` and `SHARED`; 3,310 chunks.
+Sources are listed in `test-data/dmv/corpus-manifest.md`.
+
+**Agency-wide embed.** The demo page embedded `department=DMV`, which no longer exists
+under the profile. Rather than invent a fake department, an embed with *no* department
+is now allowed when `aigre.domain.agency-wide-embed=true`, framed by the union of every
+registered origin; in a single-agency deployment they're all that agency's. It's off for
+the city, where it would let a site registered for one department frame a widget
+answering for all of them. Unknown department ids still get `frame-ancestors 'none'`.
+
+**Measured (local, `aigre_dmv` database, `qwen3:8b` classification):**
+- **Classification:** `ComplaintEvalHarnessTest` on 42 labeled DMV complaints scored
+  **40/42 (95.2%)**, one run.
+  - DMV-020 ("points for a dismissed ticket") went to DL instead of FR. It's arguable:
+    points are FR's per the bureau notes, but a citizen would call it a licensing issue.
+  - DMV-039, a pure compliment, went to DL instead of not actionable. That's a real
+    miss.
+- **Retrieval:** `DmvRagEvalSuiteTest` scored **12/16** top-1. All four misses lost to
+  the big general chapters:
+  - DQ-07 (interlock) → Saf-C 1000, which does cover the interlock restricted license,
+    so it's borderline. The program rules are in 6500.
+  - DQ-09 (how long an SR-22 must be kept) → Saf-C 1000, which only *defines* SR-22.
+  - DQ-12 (breath-test refusal) → Saf-C 1000, which mentions implied consent in passing.
+  - DQ-15 (dealer plates) → Saf-C 500's *automotive-recycling* dealer plates.
+  The expectations stay strict, so the suite reports the real number rather than being
+  tuned to pass. The likely fixes are plain-language bureau documents (which name topics
+  the way citizens ask) or splitting the two largest chapters, 500 and 1000.
+- **Live checks:**
+  - A pothole complaint comes back `NOT_ACTIONABLE`.
+  - A paid-but-unprocessed restoration routes to `FR` at `HIGH`.
+  - The duplicate-title question answers from Saf-C 1900 (form TDMV 18) plus the fee in
+    Saf-C 6200.
+
+**Open items:**
+- Retrieval misses above.
+- dmv.nh.gov's plain-language handbooks can only be added by hand (browser download).
+- The frontend's one unit test (`app.spec.ts`) was already failing before this change,
+  on `window.matchMedia` in the test environment (ThemeService). Untouched apart from
+  adding the HTTP test providers `AppConfigService` now needs.
 
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a

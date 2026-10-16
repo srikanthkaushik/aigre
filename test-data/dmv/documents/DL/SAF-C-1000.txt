@@ -1,0 +1,3078 @@
+CHAPTER Saf-C 1000 DRIVER LICENSING
+
+Statutory Authority: RSA 21-P:14, IV (a)-(g), (l), (n) & (o); RSA 263:10, II; RSA 263:41-b, V; RSA 263:64-b, IV
+
+REVISION NOTE :
+
+Document #13685, effective 8-5-23, adopted, repealed, readopted, or readopted with amendments all of the rules in Chapter Saf-C 1000 on driving licensing. These changes included renumbering of various existing rules within Chapter Saf-C 1000, and the readoption with amendment and renumbering of various existing rules in Part Saf-C 204, Part Saf-C 206, Part Saf-C 209, Part Saf-C 210, Part Saf-C 213, Part Saf-C 214, and Part Saf-C 215 in Chapter Saf-C 200 on procedures as rules in Part Saf-C 1016 through Part Saf-C 1022. The former rule numbers are indicated in the source notes. Document #13685 replaces all prior filings for rules in the former Chapter Saf-C 500.
+
+Document #13685 adopted or inserted the following new rules:
+
+PART Saf-C 1001 DEFINITIONS
+Saf-C 1001.11 defining licenses .
+Saf-C 1001.13 defining non-driver identification card .
+
+PART Saf-C 1019 PROCEDURES IN CASES OF PERSONAL INJURY ACCIDENTS
+OR SERIOUS PROPERTY DAMAGE ACCIDENTS
+Saf-C 1019.03 Summary of Findings .
+Saf-C 1019.04 Statement of Seriously Injured Party .
+Saf-C 1019.05 Decision of Hearing Examiner .
+
+Document #13521 repealed the following rules in the Parts indicated:
+
+PART Saf-C 1001 DEFINITIONS
+Saf-C 1001.16 defining walk-in .
+
+PART Saf-C 1002 LICENSE APPLICATION REQUIREMENTS
+
+Saf-C 1002.02 Application, Data Required .
+
+PART Saf-C 1008 RESTRICTED DRIVER LICENSES
+
+Saf-C 1008.02 Outside Mirrors .
+
+PART Saf-C 1011 GENERAL ADMINISTRATION
+
+Saf-C 1011.03 Change of Gender .
+
+PART Saf-C 1014 PROBLEM DRIVER POINTER SYSTEM
+Saf-C 1014.01 Purpose .
+Saf-C 1014.02 Definitions .
+Saf-C 1014.03 Individual Requests .
+Saf-C 1014.04 Employer s Request .
+Saf-C 1014.05 Fee .
+Saf-C 1014.06 Waiver of Fee .
+
+The former rule Saf-C 1011.14 titled Autism Spectrum Disorder (ASD) Indication in Document #12957, effective 12-23-19, Interim, expired 6-22-20 and was not adopted again.
+
+The former rule Saf-C 204.19 titled Suspension of Registration was not readopted with amendment and renumbered with other existing rules from Part Saf-C 204 as rules in Part Saf-C 1016 but was allowed to expire 8-15-23. The prior filings affecting the expired Saf-C 204.19 included the following documents:
+
+#6337, eff 9-25-96 (from Saf-C 203.19)
+#7349, eff 8-22-00
+#8174, INTERIM, eff 9-25-04
+#8230-B, eff 12-17-04
+#10395-B, eff 8-15-13, EXPIRED 8-15-23
+
+The prior filings affecting the repealed Saf-C 1001.16 included the following documents:
+
+#8109, eff 6-24-04
+#10176, eff 8-23-12
+
+The prior filings affecting the repealed Saf-C 1002.02 included the following documents:
+
+#2077, eff 7-4-82
+#2801, eff 8-3-84
+#4647, eff 7-19-89
+#4975, eff 11-13-90
+#6069, INTERIM, eff 7-28-95
+#6120, eff 11-22-95, EXPIRED: 11-22-03
+#7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+#8109, eff 6-24-04
+#10176, eff 8-23-12
+#12957, INTERIM, eff 12-23-19, EXPIRED: 6-22-20 in (a)(7)
+
+The prior filings affecting the repealed Saf-C 1008.02 included the following documents:
+
+#6265, eff 6-11-96, EXPIRED: 6-11-04
+#8109, eff 6-24-04
+#10176, eff 8-23-12
+
+The prior filings affecting the repealed Saf-C 1011.03 included the following documents:
+
+#8109, eff 6-24-04
+#10176, eff 8-23-12 (from Saf-C 1010.03)
+#10775, eff 1-29-15
+#12614, eff 8-23-18
+#12957, INTERIM, eff 12-23-19, EXPIRED: 6-22-20 in paragraph (c)
+
+The prior filings affecting the rules in the repealed Part Saf-C 1014 included the following documents:
+
+#8109, eff 6-24-04
+#10176, eff 8-23-12 (from Saf-C 1013)
+
+The rules which were last filed in Document #10176, effective 8-23-12, did not expire on 8-23-22 but were extended pursuant to RSA 541-A:14-a until Document #13685 was effective 8-5-23.
+
+PART Saf-C 1001 DEFINITIONS
+
+Saf-C 1001.01 "Applicant" means a person intending to fulfill statutory and administrative requirements to hold a valid New Hampshire driver license or non-driver identification card.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-97; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.02 "Appointment" means the scheduled examination(s) that are required to obtain a driver license.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.03 "Commissioner" means "commissioner" as defined in RSA 259:13.
+
+Source. #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176 eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.04 "Department" means "department" as defined in RSA 259:19.
+
+Source. #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.05 "Director" means "director" as defined in RSA 259:20.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, 7-19-89
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.03), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 ; ss by #13685, eff 8-5-23
+
+Saf-C 1001.06 "Division" means "division" as defined in RSA 259:22.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.04), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.07 "Driver license" means a license of any class to operate a motor vehicle issued by the state of New Hampshire.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.05), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-1212; ss by #13685, eff 8-5-23
+
+Saf-C 1001.08 "Examination" means a knowledge, road skills, and visual acuity test, or any combination thereof.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 1-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.06), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.09 "Eye doctor" means either a licensed ophthalmologist or a licensed optometrist.
+
+Source. #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.061), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.10 Legal address means specification of the location where a person makes his/her residence. The term does not include addresses consisting solely of a post office box number.
+
+Source. #10176, eff 8-23-12; ss by #13685, eff 8-5-23
+
+Saf-C 1001.11 License means license as defined in RSA 259:48, namely, any driver's license or any other license or permit to drive a vehicle issued under the laws of this state or a reciprocating state including:
+
+I. Any temporary or learner's permit;
+
+II. The privilege of an unlicensed person to learn to drive a motor vehicle as provided in RSA 263:25;
+
+III. The right of a nonresident to drive a vehicle in this state while holding a valid driver's license or permit issued by another state, territory or country whose drivers' licenses are recognized by this state; and
+
+IV. Any other privilege which any person, either resident or nonresident, may have to drive a vehicle in this state.
+
+Source. #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1001.12 "Mailing address" means specification of the location where a person regularly receives properly addressed mail via the U.S. postal service.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.08), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1001.11); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.11) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1001.13 Non-Driver Identification Card means a photo identification card issued to NH residents who do not qualify for or currently have a valid driver license.
+
+Source. #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1001.14 "Original driver license" means the first New Hampshire driver license issued to a person.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.08), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1001.11); ss by #13685, eff 8-5-23 (formerly Saf-C
+1001.12)
+
+Saf -C 1001.15 "Person" means a human being.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.10), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176; ss by #13685, eff 8-5-23 (formerly Saf-C 1001.13) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf -C 1001.16 "Residence" means "residence" as defined in RSA 21:6-a.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1001.11), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1001.14) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1001 .17 "Resident" means "resident" as defined in RSA 21:6.
+
+Source. #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1001.15) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1002 LICENSE APPLICATION REQUIREMENTS
+
+Saf-C 1002.01 Application Form .
+
+(a) The department shall furnish application form DSMV 450 Application for Driver License or non-Driver ID Card, (rev. 06/23) at the Division of Motor Vehicles, 23 Hazen Drive, Concord, N.H. 03305, at any substation, or online.
+
+(b) Each applicant shall submit form DSMV 450, in person to any substation or, if actively serving in the military, by mail to the following address:
+
+Division of Motor Vehicles
+Attn: Driver Licensing
+23 Hazen Drive
+Concord, N.H. 03305.
+
+(c) Applicants shall complete and submit form DSMV 450 to the division for each of the following:
+
+(1) Original driver license;
+
+(2) Renewal driver license;
+
+(3) Real ID compliant driver license or non-driver identification card;
+
+(4) Replacement driver license;
+
+(5) Original, renewal, or replacement non-driver identification card; and
+
+(6) Limited privilege license.
+
+(d) Applicants shall complete and submit form DSMV 637 Application for a Duplicate Driver License or Non-Driver ID Card, (rev. 06/23) to the division for a duplicate driver license or a duplicate non-driver identification card.
+
+(e) Applicants submitting either form DSMV 450 or DSMV 637 shall sign and date the form, and in doing so, shall certify the following under the penalties of unsworn falsification pursuant to RSA 641:3: By signing above, I certify that I have paid all resident taxes or Interest and Dividends Tax (RSA 77) for which I am liable, and, if required, insurance certificates are on file with the Director of Motor Vehicles. My driving privileges are not subject to or under disqualification, suspension or revocation by any jurisdiction (does not apply to non-driver ID). This application is signed under penalty of unsworn falsification pursuant to RSA 641:3.
+
+(f) Applicants shall not submit any documentation or information with their application that is not required by New Hampshire law or administrative rule.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; para. (c) amd by #12020, INTERIM, eff 10-26-16, EXPIRES: 4-24-17; para. (c) amd by #12162, eff 4-24-17; ss by #13685, eff 8-5-23; ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1002.02 Positive Identification Required .
+
+(a) If applying for an original Real ID compliant driver license or non-driver identification card, an applicant shall submit the required identity and residency documentation as listed on form DSMV 634A Identity and Residency Requirements (Federally compliant), (rev. 06/23).
+
+(b) If applying for an original non-Real ID compliant driver license or non-driver identification card, an applicant shall submit the required identity and residency documentation as listed on form DSMV 634B Identity and Residency Requirements (Not Federally compliant), (rev. 06/23).
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 ; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.03) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1002.03 Application Fee .
+
+(a) Each applicant shall submit a completed form DSMV 450 or form DSMV 637 with the statutory fee, pursuant to RSA 263:42, to the division.
+
+(b) Payment shall be made in the form of cash, check, money order, or credit cards.
+
+(c) Checks and money orders shall be made payable to "NH DMV". Alternative terms, including but not limited to "State of NH - Safety", "NH Department of Safety", "Treasurer - State of NH", or "Director of Motor Vehicles" shall not be cause for refusal, provided it does not lend itself to endorsement by any party other than the state of New Hampshire.
+
+(d) The fee required by this section shall be waived for members of the armed forces if the applicant meets the requirements of RSA 263:11 and (e) below.
+
+(e) Each applicant for a fee waiver shall complete and submit DSMV 76 Armed Forces Affidavit of Residency, (rev. 03/22) to the division, including:
+
+(1) An affidavit, by which an applicant shall certify their:
+
+a. Name and New Hampshire address of record;
+
+b. Branch of the armed forces;
+
+c. City or town where the applicant entered the armed forces;
+
+d. Certification that the applicant's tour of duty is for 2 or more years;
+
+e. Date on which tour of duty shall terminate;
+
+f. Certification that the applicant's driving privileges are not under suspension or revocation by any jurisdiction; and
+
+g. Service number and date of birth;
+
+(2) Signature of the applicant, made in the presence of a commissioned officer; and
+
+(3) Name, signature, address, phone number, and rank of a commissioned officer certifying that the applicant signed the affidavit in their presence.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.04) (see Revision Note at chapter heading or Saf-C 1000); ss by #13685, eff 8-5-23 (formerly Saf-C 1002.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1002.04 Requirements for Minor Applicant . In addition to the other requirements set forth in these rules, each applicant for a driver license who is under the age of 18 shall submit the following to the division:
+
+(a) A certificate of successful completion of an approved driver education program, pursuant to Saf-C 3100;
+
+(b) Certification of completion of 40 hours of additional supervised driving time, 10 hours of which shall occur at night, pursuant to RSA 263:19, II, under the supervision of a licensed parent, step parent, or legal guardian; or, if there is no licensed parent, step parent, or legal guardian, a licensed adult over the age of 25, on form DSMV 509, Certification of Additional Supervised Driving, (rev. 06/23);
+
+(c) A completed form DSMV 38 Parent or Guardian Authorization Certificate, (rev. 03/22), which shall include one of the following:
+
+(1) Written permission for the issuance of a driver license from the minor applicant's parent, step parent, or legal guardian, or, if there is no parent, step parent, or legal guardian, an adult who has assumed legal responsibility over the minor applicant;
+
+(2) A certified statement by an authorized insurance company representative that the minor applicant is insured; or
+
+(3) Proof of emancipation by marriage or pursuant to RSA 461-B; and
+
+(d) Any convictions or pending actions, pursuant to RSA 259:39.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.05) (see Revision Note at chapter heading or Saf-C 1000)
+
+Saf-C 1002.05 Requirements for Non-United States Citizen .
+
+(a) In addition to the other requirements set forth in these rules, each applicant for a driver license or non-driver identification card who is a non-United States citizen, shall submit the following to the division:
+
+(1) If temporarily residing in New Hampshire for the purpose of employment:
+
+a. Visa for employment in the name of the applicant, which may include the applicant s spouse or dependent;
+
+b. Valid I-94 card issued by Immigration and Customs Enforcement in the name of the applicant indicating date of entry into the United States, which may include the applicant s spouse or dependent;
+
+c. Social Security number identification card in the name of the applicant , evidence from the Social Security Administration that a social security number has been issued to the applicant, evidence from the Social Security Administration that the applicant is not eligible for a social security number, or W-2 bearing the applicant s issued social security number; and
+
+d. Proof of residency;
+
+(2) If temporarily residing in New Hampshire for the purpose of attending a learning institution:
+
+a. Visa for attending a learning institution in the name of the applicant, which may include the applicant s spouse or dependent;
+
+b. Valid I-94 card issued by Immigration and Customs Enforcement in the name of the applicant indicating date of entry into the United States, which may include the applicant s spouse or dependent;
+
+c. Valid I-20 form or DS-2019 form issued by Immigration and Customs Enforcement and completed by the learning institution in the name of the applicant authorizing attendance or that the applicant is a spouse or dependent;
+
+d. Valid optional practical training card in the name of the applicant, if training for a period of time after graduation from a learning institution;
+
+e. Social Security number identification card in the name of the applicant, evidence from the Social Security Administration that a social security number has been issued to the applicant, evidence from the Social Security Administration that the applicant is not eligible for a social security number, or W-2 bearing the applicant s issued social security number, if in New Hampshire for the purpose of d. above; and
+
+f. Proof of residency ; and
+
+(3) If a resident of New Hampshire pursuant to RSA 21:6:
+
+a. Social Security number identification card in the name of the applicant and one of the following:
+
+1. Valid permanent resident card in the name of the applicant;
+
+2. Valid I-94 card issued by Immigration and Customs Enforcement in the name of the applicant indicating refugee or asylee status and date of entry into the United States; or
+
+3. Valid employment authorization card in the name of the applicant indicating authorization to reside in the United States pending permanent resident status; and
+
+b. Proof of residency .
+
+(b) Each non-United States citizen temporarily residing in New Hampshire who is applying for an original or renewal driver license shall appear at the Division of Motor Vehicles, 23 Hazen Drive, Concord, N.H. 03305, or at any other DMV location that offers non-US citizen driver license transactions.
+
+(c) Notwithstanding (b) above, each permanent resident and asylee or refugee, to include those with indefinite status, may renew their driver license at any Division of Motor Vehicles office.
+
+(d) Subject to the other requirements set forth in these rules, in order to prevent the expiration of a New Hampshire driver license pending an application for an immigration status extension, all non-US citizens who have received an initial driver license as outlined above, shall receive a 120-day extension of a current and valid driver license upon application if they have met the following criteria:
+
+(1) Each person applying for an extension shall have continually maintained residency in New Hampshire; and
+
+(2) Each person applying for a 120-day extension shall have applied for an immigration status extension prior to the expiration of their current stay and shall supply the DMV with proof of application acceptance by the Department of Homeland Security, U.S. Citizenship and Immigration Services.
+
+(e) A person who has made application pursuant to (d) above may apply for subsequent 120-day extensions in accordance with (d) above so long as the pending application for an immigration status extension has not been denied.
+
+(f) Each non-United States citizen applying for an extension described in (d) above shall complete and submit a DSMV 450 form, indicating a request for a replacement driver license for the reason of obtaining a 120-day extension.
+
+Source. #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.06) (see Revision Note at chapter heading or Saf-C 1000); ss by #13685, eff 8-5-23 (formerly Saf-C 1002.06) (see Revision Note at chapter heading or Saf-C 1000)
+
+Saf-C 1002.06 Driver Education Requirement Exception .
+
+(a) Pursuant to RSA 263:21, a person who has attained their sixteenth birthday and is under 18 years of age and has not completed an approved driver education program shall be issued a driver license, limited to use to and from school, if all other requirements by statute and these rules are met.
+
+(b) A parent, step parent, or legal guardian of a person requesting a limited use driver license shall submit a letter to the director at the:
+
+Division of Motor Vehicles
+Attn: Driver Education
+23 Hazen Drive
+Concord , N.H. 03305.
+
+(c) The letter shall set forth the reasons why there are no readily available means of transportation to and from school, whether public or private, and shall state the reasons why successful completion of a driver education program would cause undue hardship.
+
+(d) The director shall issue the limited use driver license if:
+
+(1) The director determines that there are no readily available means of transportation to and from school; and
+
+(2) The undue hardship caused by the prerequisite of completing a driver education program is not outweighed by the importance of completing a driver education program.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1002.07), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; amd by #8598, eff 4-1-06; ss by #10176, eff 8-23-12; ss by #11133 (eff 7-2-16); amd by #12614, eff 8-23-18; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.06) (see Revision Note at chapter heading or Saf-C 1000); ss by #13685, eff 8-5-23 (formerly Saf-C 1002.07) (see Revision Note at chapter heading or Saf-C 1000);
+
+Saf-C 1002.07 Applicant with Out of State Address . An application for a driver license that does not bear a legal address within the state of New Hampshire shall be rejected and returned to the applicant, pursuant to Saf-C 1002.08, for the applicant to prove that they are a resident of New Hampshire.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1002.09), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.08) (see Revision Note at chapter heading or Saf-C 1000)
+
+Saf-C 1002.08 Application Rejected .
+
+(a) All applications shall be reviewed by the division in accordance with RSA 541-A:29.
+
+(b) The applicant shall be notified of any apparent errors or omissions and allowed to resubmit the application to the division.
+
+(c) In the event an applicant fails to comply with an applicable statute or rule, the application shall not be processed, and the applicant shall be notified of the reason(s) for the rejection.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.09) (see Revision Note at chapter heading or Saf-C 1000)
+
+Saf-C 1002.09 Application Accepted .
+
+(a) Upon receipt of a completed application, an applicant who is not required to complete a knowledge or road skills examination may obtain a driver license or non-driver identification card at any driver licensing office during regular business hours.
+
+(b) Upon receipt of a completed application, an applicant who is required to complete a knowledge examination may take the examination at any driver licensing office.
+
+(c) Upon receipt of a completed application, an applicant who is required to complete a road skills examination shall schedule an appointment at any driver licensing office during regular business hours.
+
+(d) The appointment set forth in (c) above, shall include the following:
+
+(1) Location and time; and
+
+(2) Notification that the applicant shall be required to provide proof of positive identification.
+
+(e) In the event it is necessary for the division to reschedule an appointment, the division shall notify the applicant by letter, or if available, by telephone or e-mail.
+
+(f) In the event an applicant fails to give the division at least 24 hours notice of their inability to appear for a scheduled appointment, the appointment shall be rescheduled no sooner than 30 days after the date of the initial failure to appear.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1002.15), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.10) (see Revision Note at chapter heading or Saf-C 1000)
+
+Saf-C 1002.10 Renewal Notification .
+
+(a) The director shall notify each person holding a valid New Hampshire driver license or non-driver identification card approximately 45 days prior to the expiration date of the same, of the location and time when they shall appear for the issuance of a new license or identification card and any eligibility for on-line renewal thereof.
+
+(b) The renewal notification shall be mailed to the person's mailing address or by electronic or other means.
+
+(c) Notwithstanding the provisions of this section, when a computer system failure, incorrect mailing address, interruption in postal service, or other difficulty prevents the preparation, notification, or receipt of the notification, it shall be the applicant s responsibility to obtain and complete an application form prior to the expiration date of the driver license.
+
+(d) If an applicant is eligible to renew their driver license on-line pursuant to RSA 263:10, II, the applicant shall comply with the procedures set forth in Saf-C 1007.01.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1002.11) (see Revision Note at chapter heading or Saf-C 1000)
+
+PART Saf-C 1003 ORIGINAL DRIVER LICENSE: EXAMINATIONS REQUIRED
+
+Saf-C 1003.01 Authority . Pursuant to RSA 263:6, the director shall require the following driver license examinations:
+
+(a) Visual acuity examination;
+
+(b) Knowledge examination;
+
+(c) Road skills examination; and
+
+(d) Motor vehicle record check.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1003.02 Original Driver License, Examinations Required .
+
+(a) Each applicant for an original driver license shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01;
+
+(2) The knowledge examination set forth in Saf-C 1005.01; and
+
+(3) The road skills examination set forth in Saf-C 1006.01.
+
+(b) In the event an applicant's New Hampshire driver license has been expired, suspended or revoked for a period in excess of 3 years prior to receipt of the application by the division, the applicant shall complete the requirements set forth in (a) above.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1003.03 Original Driver License From Another Jurisdiction, Examinations Required .
+
+(a) Each applicant who surrenders a valid driver license issued by another jurisdiction or a driver license issued by another jurisdiction which has expired no more than 12 months prior to the date of its surrender shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01;
+
+(2) The knowledge examination set forth in Saf-C 1005.01; and
+
+(3) The road skills examination set forth in Saf-C 1006.01, in the event the director determines that:
+
+a. The licensing standards of the jurisdiction in which the applicant is licensed does not comply with the standards set forth in these rules; or
+
+b. The applicant might be a hazard to public safety as a result of an apparent physical or psychological impairment .
+
+(b) The director shall determine whether each driver license surrendered pursuant to (a) above:
+
+(1) Is genuine ;
+
+(2) Was actually issued to the applicant; and
+
+(3) Is not under suspension or revocation.
+
+(c) Upon receipt of a completed form DSMV 450 and the statutory fee, a 60-day temporary paper driver license shall be issued to the applicant.
+
+(d) When the director determines that the surrendered driver license is not under suspension or revocation and that the applicant has no pending actions, the director shall mail the New Hampshire driver license to the applicant, valid for the remainder of the 5-year license period.
+
+(e) Each applicant who indicates that they have a valid driver license issued by another jurisdiction but does not have the driver license to surrender to the division shall not be eligible for a New Hampshire driver license until the director determines that:
+
+(1) The previous driver license is not under suspension or revocation;
+
+(2) The applicant was actually issued a valid driver license by the other jurisdiction;
+
+(3) The applicant has no pending actions in any other jurisdiction; and
+
+(4) The applicant submits form DSMV 90 (rev. 03/22) or similar form.
+
+(f) The applicant shall furnish the following on form DSMV 90 or similar form:
+
+(1) Name and date of birth;
+
+(2) Signature of the applicant;
+
+(3) Statement from an official of the governmental agency which previously issued the driver license indicating :
+
+a. Whether the applicant holds or previously held a driver license in the jurisdiction;
+
+b. Class of driver license;
+
+c. Whether the driver license is currently under suspension or revocation and the reason;
+
+d. If the driver license is currently under suspension or revocation, what action must be taken to get it restored;
+
+e. License number ;
+
+f. Issue date of license;
+
+g. Expiration date of license; and
+
+h. All restrictions the issuing jurisdiction placed on the license;
+
+(4) Signature of the official completing the form and date of signature; and
+
+(5) Official stamp or seal of the governmental agency.
+
+(g) Each applicant who surrenders a driver license issued by another jurisdiction which has expired more than 12 months prior to the date of its surrender or who does not hold a driver license from another jurisdiction shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01;
+
+(2) The knowledge examination set forth in Saf-C 1005.01; and
+
+(3) The road skills examination set forth in Saf-C 1006.01.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1003.04 Original Driver License for Non-United States Citizen, Examinations Required .
+
+(a) Each applicant for an original driver license who is a non-United States citizen shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01;
+
+(2) The knowledge examination set forth in Saf-C 1005.01; and
+
+(3) The road skills examination set forth in Saf-C 1006.01.
+
+(b) In the event a non-United States citizen surrenders a driver license from their home country, the director shall determine if the driver license:
+
+(1) Is genuine ;
+
+(2) Was actually issued to the applicant; and
+
+(3) Is not under suspension or revocation.
+
+(c) In the event a non-United States citizen does not hold a driver license from their home country, they shall indicate, in writing, that they:
+
+(1) Have never held a driver license from their home country; or
+
+(2) Have held a driver license in the United States.
+
+(d) Upon receipt of a completed form DSMV 450 and the statutory fee, along with the documents required in Saf-C 1002.06, a 45-day temporary permit shall be issued to the applicant.
+
+(e) When the director determines that any surrendered driver license is not under suspension or revocation and that the applicant has no pending actions, the director shall mail the New Hampshire driver license to the applicant.
+
+(f) The driver license shall be valid for up to 5 years, or until the following date, whichever occurs first:
+
+(1) The date the visa submitted pursuant to Saf-C 1002.06 expires;
+
+(2) The date the I-20 form or DS-2019 form submitted pursuant to Saf-C 1002.05 (a)(2)c. expires; or
+
+(3) The date employment status expires.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1003.05 Original Motorcycle License and 3-Wheeled Motorcycle Endorsement, Examinations Required .
+
+(a) Each applicant for an original motorcycle license or 3-wheeled motorcycle endorsement, who holds a valid New Hampshire driver license of any other class, shall satisfactorily complete the following in the order reflected, in order to be issued a motorcycle learner's permit:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01; and
+
+(2) The knowledge examination set forth in Saf-C 1005.01.
+
+(b) Upon satisfactory completion of the requirements set forth in (a) above, a motorcycle learner's permit shall be issued to the applicant.
+
+(c) Only one motorcycle learner's permit and one 45-day renewal shall be issued to an applicant, unless exigent circumstances can be shown, which indicate that the original motorcycle learner's permit was unused.
+
+(e) For the purposes of this section, "exigent circumstances" shall include:
+
+(1) Serious illness;
+
+(2) Hospitalization ;
+
+(3) Out of state; or
+
+(4) Any other unforeseen circumstance beyond the applicant's control that prevented them from using the motorcycle learner's permit.
+
+(f) Each applicant for an original motorcycle license or 3-wheeled motorcycle endorsement, who holds no other class of New Hampshire driver license, shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01;
+
+(2) The knowledge examination set forth in Saf-C 1005.01; and
+
+(3) The motorcycle skills examination set forth in Saf-C 1006.04.
+
+(g) Each applicant for an original motorcycle license or 3-wheeled motorcycle endorsement, who holds a valid New Hampshire driver license of any other class or who has previously been issued a motorcycle learner's permit, shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01; and
+
+(2) The motorcycle skills examination set forth in Saf-C 1006.04.
+
+(h) Each applicant for an original motorcycle license or 3-wheeled motorcycle endorsement, who has completed an approved motorcycle rider education program within one year prior to receipt of the application by the division, shall be required to complete the visual acuity examination set forth in Saf-C 1004.01.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1003.06 Special Moped License, Examinations Required . Each applicant for a special moped license shall satisfactory complete the following in the order reflected:
+
+(a) The visual acuity examination set forth in Saf-C 1004.01; and
+
+(b) The knowledge examination set forth in Saf-C 1005.01.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1003 .07 Application After Surrender of Driver License, Examinations Required .
+
+(a) In the event a person surrenders their New Hampshire driver license, the division shall indicate that the person no longer holds a driver license in this state on the person's driver record.
+
+(b) A person who has surrendered their New Hampshire driver license and requests to be relicensed in this state and has not held a driver license in any other jurisdiction, shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01;
+
+(2) The knowledge examination set forth in Saf-C 1005.01;
+
+(3) The road skills examination set forth in Saf-C 1006.01; and
+
+(4) Payment of the statutory fee, pursuant to RSA 263:42.
+
+(c) Any person under the age of 18, who surrenders their driver license, shall be subject to all of the requirements of RSA 263:14, II and III, from the date of reissuance, pursuant to (b) above.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1004 VISUAL ACUITY EXAMINATION REQUIREMENTS
+
+Saf-C 1004 .01 Visual Acuity Examination .
+
+(a) The visual acuity examination shall consist of the following:
+
+(1) The electronic vision test; or
+
+(2) The Snellen eye chart test.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1004 .02 Pass, No Restrictions .
+
+(a) Each applicant shall pass the visual acuity examination if the applicant:
+
+(1) Accurately perceives the line of symbols designated 20/40 with both eyes; or
+
+(2) Is legally blind in one eye and accurately perceives the line of symbols designated 20/30 with the other eye .
+
+(b) For the purposes of this section, "accurately perceives" means determining the symbols presented with no more than one error.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1004.03 Pass, Corrective Lenses Restriction . Each applicant who meets the standards set forth in Saf-C 1004.02 with the use of corrective lenses shall pass the visual acuity examination subject to the corrective lenses restriction pursuant to RSA 263:13 and Saf-C 1008.03.
+
+Source. #2077, eff 7-4-82; ss by #2801, eff 8-3-84; amd by #2992, eff 3-22-85, EXPIRED: 3-22-91
+
+New. #5812, eff 4-19-94; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1004.04 Special Needs Applicant . Each applicant who is illiterate or has a debilitating speech impediment shall complete the tests set forth above by copying in a written manner the symbols perceived.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000); ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf -C 1004 .05 Visual Acuity Failure .
+
+(a) Each applicant who fails to meet the standards set forth in Saf-C 1004.02 shall be required to complete a visual examination conducted by an eye doctor of the applicant's choosing.
+
+(b) After conducting a visual examination pursuant to (a) above, the applicant s eye doctor shall complete form DSMV 61 (rev. 12/22), documenting the eye doctor s determination of the applicant s visual acuity.
+
+(c) The eye doctor shall sign Part B of the form and by signing shall certify the fact that the applicant was fitted with new corrective lenses and the date on which the fitting occurred.
+
+(d) The eye doctor shall sign Part C of the form and by signing shall certify:
+
+(1) I hereby certify that I am familiar with the present medical condition of [applicant], who is an applicant for a New Hampshire driver license. I further certify that said applicant is both physically and mentally capable of safety operating a motor vehicle upon all public highways WITHOUT RESTRICTION , other than the use of corrective lenses. I have read the notice and reprinted segment of SAF-C 1004.08. I understand that this certification and recommendation will be used in determining the applicant s eligibility to receive a driver license. I have read the foregoing statement, and all of the information contained therein is, to the best of my knowledge, true and accurate. I recommend that the Director of Motor Vehicles issue an UNRESTRICTED driver license , other than the use of corrective lenses ; or
+
+(2) I hereby certify that I am familiar with the present medical condition of [applicant], who is an applicant for a New Hampshire driver license. I further certify that said applicant is both physically and mentally capable of safely operating a motor vehicle upon all public highways. RESTRICTED TO OPERATION DURING DAYLIGHT HOURS ONLY (one half hour before sunrise to one half hour after sunset). The use of corrective lenses is required. I have read the notice and reprinted segment of SAF-C 1004.08. I understand that this certification and recommendation will be used in determining the applicant s eligibility to receive a driver license. I have read the foregoing statement, and all of the information contained therein is, to the best of my knowledge, true and accurate. I recommend that the Director of Motor Vehicles issue a driver license RESTRICTED TO OPERATION DURING DAYLIGHT HOURS ONLY (one half hour before sunrise to one half hour after sunset). The use of corrective lenses is required.
+
+(e) The applicant shall sign and submit the completed form DSMV 61, Parts A and B, to the division, within 30 days after it is completed by the eye doctor conducting the examination.
+
+(f) The applicant shall sign the form DSMV 61 to indicate consent to the release of all information contained in the form to the division.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1004.06 Vision Examination Pass . Upon receipt of a completed form DSMV 61 that indicates the applicant meets the vision requirements of Saf-C 1004.02, the director shall issue the applicant a driver license upon the applicant's successful completion of all other applicable requirements.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss and moved by #6120, eff 11-22-95 (formerly Saf-C 1004.07), EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1004.07 Vision Examination Failure . Upon receipt of the information set forth in Saf-C 1004.05(b) and (c) that indicates the applicant cannot meet the vision requirements of Saf-C 1004.02, the applicant may complete the requirements of Saf-C 1004.08.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1004 .08 Special Visual Acuity Requirements .
+
+(a) Notwithstanding any other provision to the contrary, the director shall issue a driver license to an applicant whose visual acuity is between 20/40 and 20/70 only if the provisions of this section are met.
+
+(b) No driver license shall be issued to an applicant whose visual acuity is worse than 20/40 using both eyes, or worse than 20/30 if there is vision in only one eye, unless the following has been completed:
+
+(1) The applicant has submitted a completed form DSMV 61 to the division;
+
+(2) The applicant has also submitted form DSMV 61, Part C to the director, which has been completed by an eye doctor; and
+
+(3) The eye doctor has stated the following on form DSMV 61, Part C:
+
+a. That the applicant's visual acuity allows the applicant to safely operate a motor vehicle with or without restrictions;
+
+b. The nature of the hardship which the applicant would be subject to if the applicant is not issued a driver license;
+
+c. The eye doctor's recommendation that the applicant be issued a driver license; and
+
+d. Any other factors which the eye doctor feels are pertinent.
+
+(c) Upon receipt of a completed form DSMV 61, the director shall issue a driver license to the applicant if they receive the eye doctor's certification and recommendation for a driver license and the applicant's visual acuity meets the division's minimum standards, as set forth in (a) above.
+
+(d) In making this determination, the director shall consider:
+
+(1) The applicant's visual acuity; and
+
+(2) Certification from the applicant's eye doctor that the applicant's visual acuity meets the division's minimum standards as set forth in (a) above.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1005 WRITTEN EXAMINATION REQUIREMENTS
+
+Saf-C 1005 .01 Knowledge Examination: Description .
+
+(a) The knowledge examination shall consist of up to 50 multiple choice questions designated by the director, according to the class of driver license(s) requested by the applicant.
+
+(b) Each question shall have multiple answers, only one which is correct.
+
+(c) Each question shall focus on the New Hampshire motor vehicle laws according to the class of driver license(s) requested by the applicant.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1005 .02 Knowledge Examination: Administration .
+
+(a) Each applicant shall have up to 60 minutes to complete the written examination, according to the class of driver license(s) requested by the applicant.
+
+(b) Each applicant discovered cheating in any way, or consulting with any person other than authorized licensing personnel, shall be immediately disqualified and re-scheduled for an examination no sooner than 30 days later.
+
+(c) Each applicant shall pass the knowledge examination if 80% of the answers are correct.
+
+(d) Knowledge examinations shall be valid for a period of one year.
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89; ss by #4975, eff 11-13-90; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1005.03 Knowledge Test Accommodations
+
+(a) An applicant who speaks or reads a language other than English shall complete an oral or written examination designated by the director of the same format set forth in Saf-C 1005.01.
+
+(b) Each oral examination pursuant to (a) above shall only be conducted by authorized licensing personnel or an interpreter, if applicable.
+
+(c) An applicant who speaks and reads a language other than English shall complete the knowledge examination set forth in Saf-C 1005.01, with the assistance of an interpreter.
+
+(d) An applicant whose interpreter is discovered cheating in any way, or consulting with any person other than authorized licensing personnel , shall be immediately disqualified and rescheduled pursuant to Saf-C 1005.02(b). The applicant shall not be permitted to appear at the rescheduled time with the same interpreter and shall be rescheduled for the examination no sooner than 30 days later.
+
+Source. #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 ; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1006 ROAD SKILLS EXAMINATION REQUIREMENTS
+
+Saf-C 1006.01 Road Skills Examination: Description .
+
+(a) The road skills examination shall consist of a qualitative evaluation of the applicant's abilities and skills in the following general categories:
+
+(1) Starting the vehicle, which shall include:
+
+a. Starting the engine; and
+
+b. Mirrors and looking back;
+
+(2) Use of signals, which shall include:
+
+a. Knowledge of arm signals;
+
+b. Starting from the curb; and
+
+c. Turns;
+
+(3) Steering , which shall include:
+
+a. Position of hands;
+
+b. Smoothness;
+
+c. Two-hand grip; and
+
+d. Over-steering;
+
+(4) Attention and observation, which shall include:
+
+a. Use of mirrors; and
+
+b. Watching the road;
+
+(5) Lane usage , which shall include:
+
+a. Choice of proper lane;
+
+b. Position in the lane; and
+
+c. Unnecessary changing of lanes;
+
+(6) Passing and being passed, which shall include:
+
+a. Clearance;
+
+b. Illegal maneuvers; and
+
+c. Cooperating with passer;
+
+(7) Engine control, which shall include:
+
+a. Use of gears;
+
+b. Choice of gears;
+
+c. Clutch use; and
+
+d. Accelerator use;
+
+(8) Turnabout , which shall include:
+
+a. Number of attempts; and
+
+b. Bumping the curb or an object;
+
+(9) Grade control , which shall include:
+
+a. Amount of roll-back; and
+
+b. Setting of the wheel;
+
+(10) Backing ability;
+
+(11) Parallel parking, which shall include:
+
+a. Number of attempts;
+
+b. Maneuvering; and
+
+c. Final placement of the vehicle;
+
+(12) Signs and traffic signals, which shall include:
+
+a. Obedience to signs;
+
+b. Position after a stop;
+
+c. Failing to make a full stop;
+
+d. Starting before signal changes; and
+
+e. Waiting too long;
+
+(13) Right of way, which shall include:
+
+a. Other vehicles; and
+
+b. Pedestrians;
+
+(14) Speed control , which shall include:
+
+a. Over the speed limit;
+
+b. Too slow or needless stops;
+
+c. Too fast for safety;
+
+d. Turns; and
+
+e. Following distance; and
+
+(15) Right and left turns, which shall include:
+
+a. Swinging too wide;
+
+b. Cutting too short;
+
+c. Starting from the wrong lane; and
+
+d. Ending in the wrong lane.
+
+(b) Point values shall be assigned to each maneuver. Each time a maneuver is not made in compliance with this section, the applicant shall have the prescribed number of points deducted from their score.
+
+Source. #2077, eff 7-4-82; ss #2801, eff 8-3-84; ss by #4647, eff 7-19-89, EXPIRED: 7-19-95
+
+New. #6069, INTERIM, eff 7-28-95, EXPIRES: 11-25-95; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 ; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1006.02 Road Skills Examination Failure .
+
+(a) Each applicant shall fail the road skills examination if they receive 21 demerit points or more.
+
+(b) Notwithstanding (a) above, the examination shall be immediately discontinued and counted as a failure in the event of any of the following:
+
+(1) Striking another vehicle, a pedestrian, or any fixed object;
+
+(2) Improper action causing collision or near-collision of other vehicles in the immediate vicinity;
+
+(3) Action requiring expert driving by another driver or dodging by a pedestrian, to prevent collision;
+
+(4) Action requiring an examiner to come to the aid of the applicant in controlling the vehicle;
+
+(5) Stalling the vehicle within a busy intersection because of inexperience or lack of skill;
+
+(6) Driving 2 wheels over the curb or onto the sidewalk;
+
+(7) Committing any driving maneuver, either because of lack of skill or caution, which causes immediate danger to any person or property;
+
+(8) Lack of control to the point where the examiner believes continuation of the examination would be dangerous;
+
+(9) Serious violation of any traffic law;
+
+(10) Refusal to try any maneuver; or
+
+(11) Repeated failure to follow instructions.
+
+(c) The examination shall not be immediately discontinued and counted as a failure if, in the judgment of the examiner, any of the occurrences set forth in (b) above were unavoidable.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1006.03 Road Skills Examination Vehicle .
+
+(a) The applicant shall provide the test vehicle for completion of the road skills examination.
+
+(b) Test vehicles that are registered in New Hampshire shall comply with all New Hampshire inspection laws and rules.
+
+(c) Test vehicles that are registered by a state other than New Hampshire shall be in safe operating condition.
+
+(d) The test vehicle's size, weight, character, and equipment shall conform with the class of driver license requested by the applicant.
+
+(e) Other than motorcycles, the test vehicle shall provide the examiner with a permanently attached seat which allows the examiner accessibility to vehicle control mechanisms.
+
+(f) No person shall be allowed to ride in the test vehicle during a road skills examination, other than the applicant, the examiner and if applicable, an examiner in training.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1006.04 Motorcycle Skills Examination: Description . The motorcycle skills examination shall include the following:
+
+(a) Overall control and operation of the motorcycle;
+
+(b) Sharp turns;
+
+(c) Stopping at a designated point;
+
+(d) Cone weave;
+
+(e) "U" turns;
+
+(f) Quick stop; and
+
+(g) Obstacle turn.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1006.05 Motorcycle Skills Examination: Criteria .
+
+(a) Point values shall be assigned to each maneuver.
+
+(b) Each time a maneuver is not made in compliance with Saf-C 1006.04, the applicant shall have the prescribed number of points deducted from their score.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1006.06 Motorcycle Skills Examination: Failure .
+
+(a) An applicant shall fail the motorcycle skills examination if they receive 11 demerit points or more.
+
+(b) Notwithstanding (a) above, the examination shall be immediately discontinued and counted as a failure in the event the applicant:
+
+(1) Falls or drops the motorcycle;
+
+(2) Commits an unsafe act; or
+
+(3) Disregards or fails to understand instructions.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1006.07 Re-Examination After Failure .
+
+(a) In the event an applicant fails to complete an examination prescribed herein, no further examinations shall be administered on that date unless the director designates otherwise, as follows:
+
+(1) Criteria for allowing an additional test on a single day for an applicant shall include, but not be limited to:
+
+a. Malfunction of computer-based testing software, through no fault of the applicant;
+
+b. Weather conditions which would present a risk to the applicant or the motoring public; and
+
+c. Traffic conditions that would not allow for an applicant to demonstrate basic skill; and
+
+(2) The employee of the division who believes that a testing condition might exist that warrants a review by the director, shall initiate a request for a review to their supervisor, who shall forward the request to the director.
+
+(b) Notwithstanding Saf-C 1006.07(c) below, the applicant shall be advised of the specific reason(s) for failure. The director shall also designate a subsequent date for a reexamination, which shall be no sooner than 10 days after failure of the examination, unless the conditions outlined in (c), (e), or (h) apply, in which case no reexamination date shall be set.
+
+(c) If an applicant fails the road skills examination 3 times, no further road skills examinations shall be scheduled until the applicant has documented evidence of completing 5 hours of behind the wheel training with an approved NH driving school and 10 hours of documented supervised driving in accordance with NH RSA 263:25. No more than one hour of documented behind the wheel training with an approved NH driving school shall occur per day.
+
+(d) Upon submitting the required documentation in (c) above, but no sooner than 10 days after the last road skills examination failure, the applicant shall be afforded an additional 3 attempts to pass the road skills examination.
+
+(e) In the event an applicant fails the road skills examination an additional 3 times, no further road skills examinations shall be scheduled until the applicant has documented evidence of completing 10 hours of behind the wheel training with an approved NH driving school and 20 hours of documented supervised driving in accordance with NH RSA 263:25. No more than one hour of documented behind the wheel training with an approved NH driving school shall occur per day.
+
+(f) Upon submitting the required documentation in (e) above, but no sooner than 10 days after the last road skills examination failure, the applicant shall be afforded an additional 3 attempts to pass the road skills examination.
+
+(g) In the case of an applicant who has failed a road skills examination pursuant to Saf-C 1006.02(b), no further road skills examinations shall be scheduled until the applicant has submitted documented evidence of completing 10 hours of behind the wheel training with an approved NH driving school and 20 hours of documented supervised driving in accordance with NH RSA 263:25, at which time Saf-C 1006.07(d) and (f) shall again apply.
+
+(h) Any applicant that has failed the road skills examination pursuant to Saf-C 1003.01, 9 times, shall be denied any further road skills examinations for a period of 3 months.
+
+(i) For the purpose of this section, an approved NH driving school means an entity meeting the requirements of RSA 259:26 and is licensed pursuant to Saf-C 3100.
+
+(j) For the purposes of this section, documented means a written log showing hours of supervised driving.
+
+(k) The provisions of this rule concerning eligibility for retesting shall be applied to applicants who have been barred from additional testing based solely on the number of previous attempts, or had reached a final test attempt prior to the adoption date of this rule.
+
+(l) For the purposes of this section, behind the wheel training means the applicant driving, as defined in RSA 259:25 while being trained by an instructor employed by an approved NH driving school.
+
+(m) For the purposes of this section, supervised driving means the applicant driving, as defined in RSA 259:25, while being supervised by a person meeting the requirements in RSA 263:25.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #12614, eff 8-23-18; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1007 RENEWAL DRIVER LICENSE REQUIREMENTS
+
+Saf-C 1007.01 Renewal Driver License, Examinations Required .
+
+(a) Each applicant who appears in person at any driver licensing office for a renewal driver license shall complete the visual acuity examination set forth in Saf-C 1004.01.
+
+(b) Each applicant who is eligible to renew a driver license on-line, pursuant to RSA 263:10, shall attest to the fact that they meet the visual acuity requirement, pursuant to Saf-C 1004.01.
+
+(c) Each applicant for a renewal driver license shall be required to complete a road skills examination if the director has any reason to believe the applicant would be a hazard to public safety if licensed to drive, as a result of an apparent psychological or physical impairment.
+
+Source. #4975, eff 11-13-90; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #9944, INTERIM, eff 7-15-11, EXPIRES: 1-11-12; ss by #10176, eff 8-23-12; ss by #12614, eff 8-23-18 ; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1007.02 Absence from New Hampshire .
+
+(a) Notwithstanding any other provision to the contrary, the director shall postpone any examination required for a renewal driver license if the director determines that:
+
+(1) The applicant will be absent from New Hampshire at the time the applicant's current driver license expires ; and
+
+(2) The applicant is unable to renew their driver license prior to its expiration date.
+
+(b) Each applicant who is unable to comply with the requirements contained in Saf-C 1007.01(a) but who fulfills all other requirements set forth in any applicable statute and rules, shall be issued a 6 month driver license.
+
+(c) Upon receipt of a completed form DSMV 450 and the statutory fee, a 6 month driver license shall be issued to the applicant.
+Source. #4975, eff 11-13-90; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1007.03 Extension of Six Month Driver License .
+
+(a) Each person who remains outside of New Hampshire beyond the expiration date of a 6 month driver license may apply for an extension.
+
+(b) Each applicant for an extension of a 6 month driver license shall submit a letter to the:
+
+Division of Motor Vehicles
+Attn: Driver Licensing
+23 Hazen Drive
+Concord , N.H. 03305.
+
+(c) The letter shall include the following:
+
+(1) A request for an extension of the driver license;
+
+(2) The reason the applicant needs an extension;
+
+(3) A valid mailing address outside of New Hampshire; and
+
+(4) Signature of the applicant.
+
+(d) The applicant shall pass a visual acuity examination before a driver license extension shall be granted.
+
+(e) The applicant may take the visual acuity examination from any eye doctor.
+
+(f) Form DSMV 125 Re-examination Instructions to New Hampshire Residents Temporarily Out-of-State, (rev. 03/22) shall be completed by both the applicant and the eye doctor.
+
+(g) Form DSMV 125 shall be submitted to the:
+
+Division of Motor Vehicles
+Attn: Driver Licensing
+23 Hazen Drive
+Concord, N.H. 03305.
+
+Source. #4975, eff 11-13-90; ss by #6120, eff 11-22-95, EXPIRED: 11-22-03
+
+New. #7995, INTERIM, eff 12-2-03, EXPIRED: 5-30-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1008 RESTRICTED DRIVER LICENSES
+
+Saf-C 1008.01 Hearing Aid .
+
+(a) An applicant who has a hearing defect that requires the wearing of a mechanical, electrical, or other device shall be issued a restricted driver license.
+
+(b) Any person holding a restricted driver license because of a hearing defect shall not drive a motor vehicle on a way within this state unless the person is wearing a hearing device.
+
+Source. #6265, eff 6-11-96, EXPIRED: 6-11-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1008.02 Corrective Lenses .
+
+(a) An applicant who cannot pass the visual acuity examination without the use of corrective lenses shall be issued a restricted driver license.
+
+(b) Any person holding a restricted driver license because of the need for corrective lenses shall not drive a motor vehicle on a way within this state unless the person is wearing corrective lenses.
+
+Source. #6265, eff 6-11-96, EXPIRED: 6-11-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1008.03) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1008.03 Daylight Hours Only .
+
+(a) An applicant who cannot pass the visual acuity examination without the use of corrective lenses and who has been determined by an eye doctor to be unable to safely drive a motor vehicle except during daylight hours shall be issued a restricted driver license when the requirements of Saf-C 1004.08 have been met.
+
+(b) Any person holding a restricted driver license limited to daylight hours only shall not drive a motor vehicle on a way within this state except during daylight hours.
+
+(c) Any person who requests removal of the restricted driver license limited to daylight hours shall submit documentation from their eye doctor that the person is able to safely drive a motor vehicle at night.
+
+Source. #6265, eff 6-11-96, EXPIRED: 6-11-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1008.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1008.04 Automatic Transmission .
+
+(a) An applicant who, because of a missing or damaged limb, cannot drive a motor vehicle with a manual transmission, shall be issued a restricted driver license.
+
+(b) The director shall require each applicant with a missing or damaged limb to pass a road skills examination with a vehicle having an automatic transmission prior to issuing the applicant a restricted driver license.
+
+(c) Any person holding a restricted driver license because of a missing or damaged limb shall not drive a motor vehicle on a way within this state with a manual transmission.
+
+Source. #6265, eff 6-11-96, EXPIRED: 6-11-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1008.05) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1008.05 Special Equipment .
+
+(a) An applicant who, because of a disability cannot safely drive a motor vehicle without the assistance of special equipment, shall be issued a restricted driver license.
+
+(b) The director shall require each applicant with a disability to pass a road skills examination with a vehicle having the special equipment prior to issuing the applicant a restricted driver license.
+
+(c) Any person holding a restricted driver license because of a disability shall not drive a motor vehicle on a way within this state unless the motor vehicle is equipped with the special equipment required for safe operation.
+
+Source. #6265, eff 6-11-96, EXPIRED: 6-11-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1008.06) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1008.06 Alcohol Ignition Interlock Device .
+
+(a) An applicant who has been required by a court to have an alcohol ignition interlock device installed on a motor vehicle pursuant to RSA 265-A:36, shall be issued a restricted driver license.
+
+(b) Any person holding a restricted driver license because of the requirement for an alcohol ignition interlock device shall not drive a motor vehicle on a way within this state at any time unless the motor vehicle is equipped with an alcohol ignition interlock device, including when practice driving and taking a road test examination.
+Source. #6265, eff 6-11-96, EXPIRED: 6-11-04
+
+New. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1008.07) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1008.07 Removal of Restriction .
+
+(a) Any person who has been issued a restricted driver license may request the removal in person at any DMV location.
+
+(b) A corrective lenses restriction shall not be removed unless the applicant passes the visual acuity examination without the use of corrective lenses described in Saf-C 1004.02.
+
+(c) In the event the director determines that a restriction shall be removed, the applicant shall surrender their current driver license and the director shall furnish the applicant with a replacement driver license.
+
+(d) Notwithstanding any other provision to the contrary, the director shall require each applicant requesting removal of a restriction pursuant to Saf-C 1008.04 or Saf-C 1008.05, to pass a road skills examination prior to removing the restriction.
+
+Source. #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (formerly Saf-C 1008.08) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1009 HIGH RISK DRIVERS
+
+Saf-C 1009.01 High Risk Driver . For the purposes of this section, "high risk driver" means a driver who, because of an apparent physical or psychological impairment or condition, needs a reexamination in order to determine their fitness to safely drive a motor vehicle so as not to endanger the public.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 ; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1009.02 Request for a Reexamination .
+
+(a) A request for a driver to submit to a reexamination shall be in writing and forwarded to the:
+
+Office of the Director
+Division of Motor Vehicles
+23 Hazen Drive
+Concord, N.H. 03305.
+
+(b) Each request pursuant to (a) above, shall be accepted from the following sources:
+
+(1) A law enforcement officer;
+
+(2) A health care provider, which shall include a school nurse, nursing home administrator, or hospital administrator; or
+
+(3) A family member.
+
+(c) Each request shall include the following:
+
+(1) Name of requestor;
+
+(2) Address of requestor;
+
+(3) Relationship of requestor to the person identified to be in need of a reexamination;
+
+(4) Name, address, and date of birth of the person being requested to submit to a reexamination; and
+
+(5) Reason(s) for the request and any supporting documentation, if applicable.
+
+(d) The director shall review the information submitted pursuant to (c) above, and determine that:
+
+(1) A reexamination is not warranted;
+
+(2) The person is a high risk driver and a reexamination shall be ordered to be conducted by a licensing examiner; or
+
+(3) The person's driver license shall be immediately suspended in accordance with the provisions of RSA 263:59.
+
+(e) A reexamination ordered by the director pursuant to (d)(2) above, shall consist of the following:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01;
+
+(2) The knowledge examination set forth in Saf-C 1005.01; and
+
+(3) The road skills examination set forth in Saf-C 1006.01.
+
+(f) In the event a reexamination is ordered by the director pursuant to (d)(2) above, the high risk driver shall be notified and given 2 opportunities to pass each required examination.
+
+(g) Failure to successfully pass the reexamination after being given 2 opportunities to do so pursuant to (f) above, or failure to appear for any scheduled reexamination, shall result in an immediate suspension of the person's driver license, in accordance with the provisions of RSA 263:59.
+
+(h) Upon successfully passing the reexamination ordered pursuant to (d)(2) above, the person shall continue to hold a valid driver license until the date of expiration.
+
+(i) Notwithstanding (h) above, the director shall, based upon the information provided in (c) above, along with the licensing examiner's recommendation, order the person to submit to further reexaminations at certain scheduled periods of time or as deemed appropriate, in order to monitor the person's continued fitness to safely drive a motor vehicle.
+
+(j) Any hearing conducted pursuant to this section shall be in accordance with the provisions of Saf-C 200.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1010 INACTIVE STATUS
+
+Saf-C 1010.01 Inactive Status for Purpose of Evaluation .
+
+(a) A high risk driver, as defined in Saf-C 1009.01, whose driver license or driving privileges are under suspension or revocation shall have their driver license temporarily transferred to inactive status in order to allow the person to participate in a certified driver rehabilitation program approved by the director and to be screened on the road when accompanied by a certified driver rehabilitation instructor or licensing examiner, as described in this paragraph and in Saf-C 1010.04.
+
+(b) Inactive status pursuant to (a) above, shall be authorized only if the suspension or revocation is based upon:
+
+(1) The high risk driver's failure to pass a driver license reexamination pursuant to Saf-C 1009.02; or
+
+(2) The high risk driver's physical, medical, or psychological condition.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1009.03); ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1010.02 Approval for Certified Driver Rehabilitation Program . In order to be approved by the director as an approved driver rehabilitation program, each program shall:
+
+(a) Be an approved driver education school or program pursuant to Saf-C 3100;
+
+(b) Have at least one certified driver rehabilitation instructor on staff;
+
+(c) Have all program content and standards of instruction approved in accordance with the requirements of Saf-C 3100; and
+
+(d) Ensure that all program content and standards of instruction are individually tailored to the needs of each student.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1009.04); ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1010.03 Approval for Certified Driver Rehabilitation Instructor . In order to be approved by the director as a certified driver rehabilitation instructor, each applicant shall:
+
+(a) Currently hold a standard driver education certificate pursuant to Saf-C 3100;
+
+(b) Have instructed driver education in New Hampshire for at least 3 years;
+
+(c) Be certified as a driver rehabilitation specialist by the Association for Driver Rehabilitation Specialists (ADED); and
+
+(d) Be employed or under contract with an approved certified driver rehabilitation program, pursuant to Saf-C 1010.02.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1009.04); ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1010.04 Request for Inactive Status for Purpose of Evaluation .
+
+(a) An approved driver rehabilitation program seeking to transfer a high risk driver's driver license suspension or revocation to inactive status for the purpose of an evaluation shall submit a written request to the director containing the following information:
+
+(1) Name of person to be evaluated;
+
+(2) Date of birth;
+
+(3) Mailing address;
+
+(4) Legal address;
+
+(5) Date of evaluation;
+
+(6) Expected time the evaluation will begin;
+
+(7) Expected time the evaluation will finish;
+
+(8) Reason for the evaluation; and
+
+(9) Signature of the certified driver rehabilitation instructor.
+
+(b) The program shall submit the written request in (a) above, within 5 business days prior to the date of the evaluation, to the:
+
+Division of Motor Vehicles
+Attn: Driver Licensing
+23 Hazen Drive
+Concord, N.H. 03305.
+
+(c) Upon receipt of the information set forth in (a) above, the director shall verify that the person is eligible to be transferred to inactive status, pursuant to RSA 263:64-b.
+
+(d) If eligible pursuant to (c) above, the person s driver license shall be transferred to inactive status on the date of the evaluation for the time specified in (a) above.
+
+(e) The program shall immediately notify the division in the event that:
+
+(1) The person cancels the evaluation;
+
+(2) The evaluation is not completed;
+
+(3) The certified driver rehabilitation instructor ends the evaluation because the person is a hazard to themselves or others; or
+
+(4) There has been a change in the person s medical condition during the evaluation.
+
+(f) Upon completion of the evaluation or in the event that the evaluation has ended pursuant to (e)(3) above, the certified driver rehabilitation instructor shall submit a report to the director within 10 days after the date that the evaluation was completed or ended.
+
+(g) The report pursuant to (f) above shall include:
+
+(1) A full evaluation and determination as to the person s fitness to safely drive a motor vehicle so as not to endanger the public; and
+
+(2) Recommendation that the person needs further training or that the person can proceed to testing with a licensing examiner, unless the evaluation ended pursuant to (e)(3) above.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1009.06); ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1010.05 Inactive Status for Purpose of Driver Training .
+
+(a) A driver whose driver license or driving privileges are under suspension or revocation
+shall have their driver license temporarily transferred to inactive status in order to allow the person to participate in driver training with an approved driver education school and to be screened on the road when accompanied by a certified driver education instructor or licensing examiner, as described in this paragraph and in Saf-C 1010.06.
+
+(b) Inactive status pursuant to (a) above, shall be authorized only if the suspension or revocation is based upon failure to pass the road skills examination or for the purpose of practicing driving skills because of a lack of driving skills or ability.
+
+Source. #10176, eff 8-23-12; ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1010.06 Request for Inactive Status for Purpose of Driver Training .
+
+(a) An approved driver education school seeking to transfer a person s driver license suspension or revocation to inactive status for the purpose of driver training shall submit a written request to the director containing the following information:
+
+(1) Name of person;
+
+(2) Date of birth;
+
+(3) Mailing address;
+
+(4) Legal address;
+
+(5) Date driver training will begin;
+
+(6) Expected length of time for driver training, not to exceed 30 days;
+
+(7) Reason for driver training; and
+
+(8) Signature of the certified driver education instructor.
+
+(b) The driver education school shall submit the written request in (a) above, within 5 business days prior to the date that driver training will begin, to the:
+
+Division of Motor Vehicles
+Attn: Driver Licensing
+23 Hazen Drive
+Concord, N.H. 03305.
+
+(c) Upon receipt of the information set forth in (a) above, the director shall verify that the person is eligible to be transferred to inactive status, pursuant to RSA 263:64-b.
+
+(d) If eligible pursuant to (c) above, the person s driver license shall be transferred to inactive status on the date that driver training will begin for the time specified in (a) above.
+
+(e) The driver education school shall immediately notify the division in the event that:
+
+(1) The person cancels driver training;
+
+(2) Driver training is not completed; or
+
+(3) The certified driver education instructor ends driver training because the person is a hazard to themselves or others.
+
+(f) Upon completion of driver training or in the event that driver training has ended pursuant to (e)(3) above, the certified driver education instructor shall submit a report to the director within 10 days after the date that driver training was completed or ended.
+
+(g) The report pursuant to (f) above shall include:
+
+(1) A full determination as to the person s fitness to safely drive a motor vehicle so as not to endanger the public; and
+
+(2) Recommendation that the person needs further training or that the person can proceed to testing with a licensing examiner, unless the driver training ended pursuant to (e)(3) above.
+
+(h) If, at the end of the period of additional training specified in (a)(5) and (6) above, the certified driver education instructor determines that further driver training is necessary, they shall submit a request on the prescribed form pursuant to (a) above.
+
+(i) A restoration fee shall not be imposed in the event a person, after the completion of driver training, passes the required examinations with a licensing examiner and obtains a valid driver license.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1009.07); ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1011 GENERAL ADMINISTRATION
+
+Saf-C 1011.01 Change of Address . Within 30 days of changing legal address, mailing address, or both, a licensee shall complete and submit form DSMV 30 Record Change Request (rev. 06/23) to the division:
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.01); ss by #13685, eff 8-5-23; ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1011.02 Change of Name .
+
+(a) Within 30 days of changing a name, a licensee shall complete and submit form DSMV 30 to the division.
+
+(b) As evidence of a new name, a licensee shall present a copy of one of the following:
+
+(1) Name change petition from the court of Probate;
+
+(2) Marriage certificate;
+
+(3) Divorce decree;
+
+(4) Passport;
+
+(5) Adoption decree; or
+
+(6) Court decree.
+
+(c) The licensee shall surrender their driver license, and the director shall furnish the licensee with a replacement driver license indicating the new name.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.02); ss by #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1011.03 Signature Required .
+
+(a) Each applicant shall electronically sign the driver license or non-driver identification card prior to issuance by the division.
+
+(b) No written remarks or markings, other than the applicant's signature, shall be permitted in the area designated for the signature on the driver license or non-driver identification card.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.04); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1011.04 Duplicate Driver License .
+
+(a) In the event a person's driver license is lost, stolen, or destroyed, the person may apply for a duplicate driver license.
+
+(b) Each applicant for a duplicate driver license shall complete and submit form DSMV 637 Application for a Duplicate Driver License or Non-Driver ID Card, (rev. 06/23) and the statutory fee to the division.
+
+(c) Applicants submitting form DSMV 637 shall sign and date the form, and in doing so, shall certify the following under the penalties of unsworn falsification pursuant to RSA 641:3:
+
+By signing above, I certify that I have paid all resident taxes or Interest and Dividends Tax (RSA 77) for which I am liable, and, if required, insurance certificates are on file with the Director of Motor Vehicles. My driving privileges are not subject to or under disqualification, suspension or revocation by any jurisdiction (does not apply to non-driver ID). This application is signed under penalty of unsworn falsification pursuant to RSA 641:3.
+
+(d) In addition to (b) above, each applicant for a duplicate driver license shall provide positive proof of identification as set forth in Saf-C 1002.02 , unless the applicant s computerized image is on file with the division.
+
+(e) Upon receipt of a completed form DSMV 637 and the statutory fee, the director shall issue the applicant a duplicate driver license consistent with driver license statutes and rules.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.05); ss by #12614, eff 8-23-18; ss by #13685, eff 8-5-23 (formerly Saf-C 1011.05); ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1011.05 Replacement Driver License or Non-Driver Identification Card .
+
+(a) In the event a person changes their name, their gender, or both, has a restriction added or removed, upgrades their license or identification card to Real ID, or is issued an incorrect driver license, the person may apply for a replacement driver license or identification card.
+
+(b) In the event a person changes their address and wants the new address printed on their driver license or identification card, they may apply for a replacement driver license or non-driver identification card.
+
+(c) Each applicant for a replacement driver license or non-driver identification card shall complete and submit form DSMV 450 Application for Driver License or non-Driver ID Card, (rev. 06/23) to the division, along with the statutory fee set forth in RSA 263:42, IV-a.
+
+(d) Upon receipt of a completed form DSMV 450 and the statutory fee, the director shall issue the applicant the requested replacement driver license or non-driver identification card consistent with driver license statutes and rules.
+
+(e) The applicant shall surrender their current driver license or non-driver identification card to the director, prior to being issued a replacement driver license or non-driver identification card.
+
+(f) In the event a licensee obtains walking disability plates or a permanent placard, the licensee may apply for a replacement driver license or non-driver identification card, bearing the international symbol of accessibility.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.06); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.06); ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1011.06 Non-Driver Identification Card .
+
+(a) Each applicant for a non-driver identification card shall complete and submit form DSMV 450 Application for Driver License or non-Driver ID Card, (rev. 06/23) and the statutory fee, to the division.
+
+(b) In addition to (a) above, the applicant shall surrender any current driver license or non-driver identification card they have been issued.
+
+(c) Notwithstanding (b) above, an applicant who has been issued a valid temporary driving permit pursuant to the provisions of RSA 265-A:31 shall not be required to surrender their driver license as a prerequisite to the issuance of a non-driver identification card, as the applicant's driver license has already been confiscated by a law enforcement officer in accordance with those provisions.
+
+(d) Upon receipt of a completed form DSMV 450 and the statutory fee, the director shall issue the applicant a non-driver identification card.
+
+(e) The director shall require the surrender of any non-driver identification card issued upon receipt of information indicating that the person:
+
+(1) Misrepresented any information contained on the non-driver identification card to the division;
+
+(2) Knowingly altered any information contained on the non-driver identification card;
+
+(3) Allowed, caused, or permitted another person to use the non-driver identification card; or
+
+(4) Used the non-driver identification card for an illegal purpose.
+
+(f) The provisions set forth in Saf-C 1017.14 shall apply in the event a person makes an unsworn falsification on a non-driver identification card application.
+
+(g) Any person required to surrender a non-driver identification card pursuant to the provisions of (f) shall be entitled to notice and a hearing within 10 days of issuance of the order requiring such surrender. The hearing shall be conducted in accordance with the provisions of Saf-C 200.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.07); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.05); ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1011.07 Driver Record History .
+
+(a) For the purposes of this section, a "driver record history" means the name, date of birth, prior motor vehicle convictions, and motor vehicle accidents of a New Hampshire licensed driver.
+
+(b) Driver record histories shall be available to the public, if applicable, for the following fees:
+
+(1) A certified record: $15.00 per record; and
+
+(2) An insurance copy: $15.00 per record.
+
+(c) Driver record histories shall be available to an insurance company or authorized agent, if applicable, in accordance with the fees set forth in RSA 260:15.
+
+(d) Driver record histories requested by a record holder for themselves shall be furnished at any DMV office.
+
+(e) Driver record histories requested by anyone other than the record holder shall be furnished at Division of Motor Vehicles, 23 Hazen Drive, Concord N.H. 03305.
+
+(f) Each person requesting a driver record history shall furnish the division with a complete legal name and date of birth of the person whose history is requested.
+
+(g) The fee set forth in (b) or (c) above shall be furnished to the division at the time of the request and shall not be refunded for any reason.
+
+(h) Driver record histories shall not include a person's social security number.
+
+(i) Each driver record history shall be furnished in accordance with the provisions of RSA 260:14.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.08); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.06); ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1011.08 Petition For Refund of Driver License Fee .
+
+(a) Pursuant to RSA 263:43, a driver whose driver license has been voluntarily surrendered because of a physical or mental incapacity may petition the department for a refund of their fee for the unexpired full years of their driver license.
+
+(b) The petition shall be submitted to the:
+
+Division of Motor Vehicles
+Attn: Driver Licensing
+23 Hazen Drive
+Concord, N.H. 03305.
+
+(c) The petition shall include the following:
+
+(1) Name and date of birth;
+
+(2) Address and driver license number;
+
+(3) The date the driver license was surrendered;
+
+(4) The reason the driver license was surrendered; and
+
+(5) A request for a prorated refund for the remaining full years.
+
+(d) The department shall authorize treasury to refund the prorated driver license fee if the director determines that the driver license was voluntarily surrendered because of a physical or mental incapacity.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.09); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.07) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1011.09 Waiver of Retention of Image, Likeness, or Photograph .
+
+(a) Any image, likeness, or photograph retrieved for the on-line imaging system shall be retained by the department unless an applicant for an original or a renewal driver license, who is a New Hampshire resident, requests a waiver pursuant to this section.
+
+(b) An applicant may request a waiver by checking the box on form DSMV 450 Application for Driver License or non-Driver ID Card, (rev. 06/23) or form DSMV 637 Application for a Duplicate Driver License or Non-Driver ID Card, (rev. 06/23).
+
+(c) The division shall remove the applicant's image, likeness, or photograph from its records, unless the applicant is exempted from such removal in accordance with the provisions of RSA 260:14 or any other law.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.10); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.08); ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1011.10 Confidentiality of Driver Licensee's Image, Likeness, or Photograph .
+
+(a) Each driver's image, likeness, or photograph retained in the division's records shall be confidential, pursuant to RSA 91-A:5, IV and RSA 260:14.
+
+(b) Notwithstanding (a) above, a driver's image, likeness, or photograph shall be released to the following:
+
+(1) Law enforcement agencies for ongoing investigations; or
+
+(2) Other state motor vehicle departments for official driver licensing purposes.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.11); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.09) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1011.11 Uniform Organ Donor .
+
+(a) Every driver licensing office, including substations, shall have literature, including that published by the New England Organ Bank, providing information about organ and tissue donation. All literature and notices shall be placed in an accessible and conspicuous place.
+
+(b) A licensee may become an organ donor by marking the box in the shape of a heart on form DSMV 450 Application for Driver License or non-Driver ID Card, (rev. 06/23), form DSMV 637 Application for a Duplicate Driver License or Non-Driver ID Card, (rev. 06/23), or form DSMV 30 Record Change Request (rev. 06/23).
+
+(c) Upon receipt of the information set forth in (b) above, the division shall issue the licensee a replacement driver license bearing a heart symbol in red on the front of the driver license.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.12); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.10; ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1011.12 Probationary Driver License .
+
+(a) Each licensee who applies for reissuance of a driver license in accordance with the provisions of RSA 265-A:35 and RSA 262:24 shall be:
+
+(1) Considered an "at risk" driver; and
+
+(2) Issued a probationary driver license for a period of 5 years from the date of reissuance.
+
+(b) A probationary driver license issued pursuant to this section shall contain red lettering on the driver license number located on the front of the driver license.
+
+(c) Upon submission of an application from the licensee at the expiration of the 5-year period, the division shall issue a replacement driver license without the red lettering.
+
+(d) A probationary license holder shall not drive or attempt to drive a vehicle upon a way while under the influence of a controlled drug or intoxicating liquor if their blood alcohol content is 3/100 percent or greater.
+
+(e) A probationary license holder who refuses a blood alcohol content test of the officer's choosing shall have their driver license administratively suspended for 90 days, and:
+
+(1) The division shall notify the person in writing by first class mail of the suspension, which shall become effective 30 days from the date of notification;
+
+(2) The person may request a hearing by submitting a written request to the bureau of hearings within 30 days from the date of notification;
+
+(3) A request, pursuant to (2) above, shall not delay, postpone or otherwise interrupt the suspension;
+
+(4) If a request pursuant to (2) above is made, a hearing shall be scheduled within 15 days after receipt of the request;
+
+(5) The law enforcement officer who filed the report shall be notified of the hearing;
+
+(6) If the law enforcement officer fails to appear at the hearing, or appears at the hearing and fails to produce relevant evidence, the case shall be dismissed; and
+
+(7) The hearings examiner's decision shall be forwarded to the individual, or his legal counsel, within 15 working days after the conclusion of the hearing.
+
+(f) The department shall suspend the driver license of a probationary license holder who submits to an alcohol concentration test, and the results are 3/100 percent or more. The licensee shall be suspended for 90 days for a first probationary license offense and 180 days for a subsequent probationary license offense.
+
+(g) In the case of (f) above the following shall apply:
+
+(1) The division shall notify the person in writing by first class mail of the suspension, which shall become effective 30 days from the date of notification;
+
+(2) The person shall be afforded a hearing by submitting a written request to the bureau of hearings within 30 days of the date of notification;
+
+(3) A request, pursuant to (2) above, shall not delay postpone or otherwise interrupt the suspension;
+
+(4) If a request pursuant to (2) above is made, a hearing shall be scheduled within 15 days of receipt of the request;
+
+(5) The law enforcement officer who filed the report shall be notified of the hearing;
+
+(6) If the law enforcement officer fails to appear at the hearing, or appears at the hearing and fails to produce relevant evidence, the case shall be dismissed; and
+
+(7) The hearing examiner's decision shall be forwarded to the individual, or his legal counsel, within 15 working days after the conclusion of the hearing.
+
+(h) The scope of the hearing described in (e) or (g) above shall be limited to whether:
+
+(1) The person held a probationary license at the time of the offense; and
+
+(2) The person refused a blood alcohol content test as specified in (g); or
+
+(3) The person took a blood alcohol content test which showed a result of 3/100 percent or more as specified in (f).
+
+(i) A request for a hearing received more than 30 days from the date of the notification shall be denied as untimely.
+
+(j) Pursuant to RSA 265-A:35, II, the penalties prescribed in paragraphs (e) and (f), shall not run concurrently with any other penalties.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1010.13); ); ss by #13685, eff 8-5-23 (formerly Saf-C 1011.12) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1012 VANPOOLING
+
+Saf-C 1012.01 Vanpool Operator's Permit .
+
+(a) The director shall issue at no charge a vanpool operator's permit to any licensed driver who transports no fewer than 8 nor more than 15 people to and from work on a non-profit basis, when the vehicle used is of a type specified in RSA 376:2, XII.
+
+(b) Each applicant for a vanpool operator s permit shall submit a letter to the:
+
+Division of Motor Vehicles
+Attn: Driver Licensing
+23 Hazen Drive
+Concord, N.H. 03305.
+
+(c) Each letter pursuant to (b) above shall include the following:
+
+(1) Name and date of birth;
+
+(2) Legal address;
+
+(3) Height and weight;
+
+(4) Gender;
+
+(5) Color of hair and eyes;
+
+(6) Driver license number;
+
+(7) The following certified statements:
+
+a. The applicant has paid all residence taxes for which they are liable;
+
+b. The applicant has filed an insurance certificate with the director;
+
+c. The applicant has no mental or physical handicap which would be detrimental or incapacitate the applicant from holding a vanpool operator's permit;
+
+d. The applicant's driver license is not under suspension or revocation in any jurisdiction, and no legal or administrative action relating to the applicant's operation of a motor vehicle is pending against them in any jurisdiction; and
+
+e. The applicant is aware of their responsibility to notify the director of any change in the status of an insurance certificate filed with the director in connection with a vanpool operator's permit; and
+
+(8) Signature of the applicant and date the letter was signed.
+
+(d) Each applicant shall submit the information in (c) above to the division, along with a certificate from an insurance company indicating that the vehicle used for vanpooling service is covered by a liability insurance policy.
+
+(e) The insurance policy shall be for at least the following amounts:
+
+(1) For injury to or death of one person, $100,000;
+
+(2) For injury to or death of more than one person, $300,000; and
+
+(3) For damage to the property of others, $20,000.
+
+(f) Each applicant for a vanpool operator's permit shall produce a valid New Hampshire driver license of the proper classification for the vehicle used for vanpooling service.
+
+(g) Each applicant shall satisfactorily complete the following in the order reflected:
+
+(1) The visual acuity examination set forth in Saf-C 1004.01; and
+
+(2) The road skills examination set forth in Saf-C 1006.01, in the vehicle that shall be used for vanpooling service.
+
+(h) Each vanpool operator's permit shall be in the form of a sticker affixed to the applicant's New Hampshire driver license.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1011.01); ss by 13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1013 SOCIAL SECURITY NUMBERS
+
+Saf-C 1013.01 Social Security Number Waiver .
+
+(a) Pursuant to RSA 263:40-a, each applicant for a driver license who has not previously been licensed to drive a motor vehicle in this state shall provide their social security number to the department.
+
+(b) Each applicant for a renewal driver license shall be given the opportunity to determine whether to provide their social security number to the department.
+
+(c) Each applicant's social security number obtained pursuant to (a) or (b) above shall be retained by the department unless the applicant requests a waiver to remove the social security number from the department's records, provided that a waiver shall not be available for applicants requesting a Real ID compliant driver license or non-driver identification card.
+
+(d) An applicant for a non-Real ID compliant driver license or non-driver identification card may request a waiver pursuant to (c) above by checking the appropriate box on form DSMV 450 Application for Driver License or non-Driver ID Card, (rev. 06/23) or form DSMV 637 Application for a Duplicate Driver License or Non-Driver ID Card, (rev. 06/23).
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1012.01); ss by 13685, eff 8-5-23; ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1013.02 Waiver Approval . Each applicant who requests a social security number waiver, in accordance with Saf-C 1011.01(d), shall receive automatic approval for the waiver.
+
+Source. #8109, eff 6-24-04; ss by #10176, eff 8-23-12 (from Saf-C 1012.02); ss by 13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1014 LIMITED PRIVILEGE LICENSES
+
+Saf-C 1014 .01 Purpose . The purpose of these rules is to provide the process by which the department shall issue limited privilege licenses to certain persons convicted of a first offense under RSA 265-A:2, I, when a court has ordered the restoration of the person s operator s license, pursuant to RSA 263:57-b.
+
+Source. #12020, INTERIM, eff 10-26-16, EXPIRES: 4-24-17; ss by #12162, eff 4-24-17); ss by 13685, eff 8-5-23 (formerly Saf-C 1015.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1014.02 Definitions .
+
+(a) Enhanced technology ignition interlock device means enhanced technology ignition interlock device as defined in RSA 259:28-b, namely, an ignition interlock device equipped with a camera and which will transmit data as events occur and is capable of capturing and encoding as events occur a digital or photographic image of the vehicle driver including the time, date, and breath alcohol level of all breath attempts. Images and data shall be stored by the manufacturer for 3 years.
+
+(b) Financial responsibility means an SR-22 certificate or other proof of financial responsibility acceptable pursuant to RSA 264:21.
+
+(c) First offense means the first and only conviction for RSA 265-A:2, I.
+
+(d) Operator s license means a license issued by the State of New Hampshire to drive a non-commercial motor vehicle.
+
+(e) SR-22 certificate means a uniform document filed by an insurance company pursuant to RSA 264:21 and RSA 259:9 that certifies the policyholder is insured for New Hampshire's minimum liability requirements under RSA 264.
+
+Source. #12020, INTERIM, eff 10-26-16, EXPIRES: 4-24-17; ss by #12162, eff 4-24-17; ss by 13685, eff 8-5-23 (formerly Saf-C 1015.02) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1014.03 Issuance of Limited Privilege License . The department shall issue a limited privilege license pursuant to RSA 263:57-b upon receipt of all of the following:
+
+(a) A completed form DSMV 450 Application for Driver License or Non-Driver ID Card, (rev. 06/23);
+
+(b) Certified order from a New Hampshire court, granting a petition for a limited privilege license, bearing the court s certification on every page , including all pages of documents submitted to the court by the applicant and incorporated by reference in the order;
+
+(c) Proof of financial responsibility in accordance with RSA 265-A:28;
+
+(d) Certificate of installation of an approved enhanced technology ignition interlock device; and
+
+(e) Payment of the fee required by RSA 263:42, V(b).
+
+Source. #12020, INTERIM, eff 10-26-16, EXPIRES: 4-24-17; ss by #12162, eff 4-24-17; ss by 13685, eff 8-5-23 (formerly Saf-C 1015.03); ss by #14504, EMERGENCY, eff 2-6-26, EXPIRED: 8-5-26; reverted back to #13685
+
+Saf-C 1014 . 04 Denial of Limited Privilege License . Notwithstanding the provisions of Saf-C 1014 .03, the department shall deny an application for a limited privilege license if:
+
+(a) The applicant s operator s license is currently under suspension or revocation for a reason independent of a first and only conviction under RSA 265-A:2, I; or
+
+(b) The application fails to comply with these rules.
+
+Source. #12020, INTERIM, eff 10-26-16, EXPIRES: 4-24-17; ss by #12162, eff 4-24-17; ss by 13685, eff 8-5-23 (formerly Saf-C 1015.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART 1015 MEDICALLY RECOGNIZED DISORDER DESIGNATION
+
+Saf-C 1015.01 Medically Recognized Disorder Indication .
+
+(a) Pursuant to RSA 263:41-b, an applicant for a driver license or non-driver identification card may apply to have a medically recognized disorder displayed on their driver license or non-driver identification card. Only medical disorders authorized by RSA 263:41-b, III, shall be displayed on a driver license or non-driver identification card.
+
+(b) An applicant for a medically recognized disorder designation shall complete and submit form DSMV 643 Medically Recognized Disorder Indication, (rev. 06/23).
+
+(c) By signing and dating the application under penalty of unsworn falsification, the applicant authorizes the division to add the indication of the selected medical disorder pursuant to RSA 263:41-b, III to their driver license identification card.
+
+(d) On form DSMV 643, the applicant shall provide a licensed physician s certification confirming the applicant s recognized medical condition. The certification shall be signed and dated within 60 days prior to the submission of the applicant s application.
+
+(e) By signing and dating form DSMV 643 under penalty of unsworn falsification, the licensed physician is certifying that the applicant is under the licensed physician s treatment and care for the diagnosed designated medical condition.
+
+(f) Upon receipt of a completed form DSMV 643, in compliance with this section, an applicant shall be given a 60-day temporary driver license or non-driver identification card bearing the approved medically recognized disorder indication.
+
+(g) An applicant who receives a 60-day temporary driver license or non-driver identification card as provided in (e) above, shall thereafter receive by mail a driver license or non-driver identification card bearing the approved medically recognized disorder indication.
+
+Source. #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1016 DRIVER LICENSE ACTIONS
+
+Saf-C 1016.01 License Under Suspension or Revocation .
+
+(a) Upon receipt of official notice, that an applicant or driver licensed by the state of New Hampshire has had their privileges to operate suspended or revoked in another jurisdiction, the director or their designee shall:
+
+(1) Send the driver written notification by first class mail that the driver s privileges shall be suspended or revoked on the date which is 30 days from the date of notification. A driver may request an administrative hearing before the suspension or revocation takes effect.
+
+(2) A request for a hearing shall be in writing.
+
+(3) If the division receives the request for a hearing more than 30 days from the date the notice of suspension or revocation was issued, the request shall be denied as untimely.
+
+(4) If the suspension has not gone into effect, a hearings examiner shall have the discretion to postpone the effective date of suspension for good cause shown.
+
+a. If the director receives official notice that an applicant for a New Hampshire driver s license has had their privileges to operate suspended or revoked in another jurisdiction, the director shall not issue a license to that person.
+
+b. In the case of (b), if the other jurisdiction reinstated or subsequently reinstates the privileges to operate of the person, he or she may apply to the director for reinstatement of their privileges in the state of New Hampshire.
+
+(b) The suspension of operating privileges listed above, shall be in addition to any penalties or sanctions prescribed by RSA 263:77.
+
+(c) If the applicant or license holder has evidence that the suspension is due to unpaid taxes in another jurisdiction, they shall be eligible for a hearing as set forth in (a)(2) and (a)(3).
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5274, eff 11-20-91; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.01); amd by #7349, eff 8-22-00; ss by #8230-B, eff 12-17-04 ; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.02 Physical or Mental Impairment: Driver Re-Examination .
+
+(a) "Substance use disorder evaluation" for the purposes of this section, means an evaluation conducted by a licensed alcohol and drug counselor or master licensed alcohol and drug counselor to determine if a chemical dependency exists and if the individual is at risk to recidivate.
+
+(b) An alcohol evaluation shall include, but not be limited to:
+
+(1) The reason for evaluation;
+
+(2) A mental status examination;
+
+(3) A psychosocial history, including:
+
+a. A family background;
+
+b. Any physical and emotional difficulties;
+
+c. The employment situation;
+
+(4) An arrest history;
+
+(5) The medical history;
+
+(6) A history of alcohol usage, drug usage, or both, including:
+
+a. The age of onset;
+
+b. The duration ;
+
+c. Consumption ;
+
+d. Patterns of consumption and use;
+
+e. Family members usage; and
+
+f. The types of previous treatment and response;
+
+(7) The substance abuse treatment history;
+
+(8) The diagnostic test scores; and
+
+(9) Summary and recommendations, including the current risk of repeating an alcohol or drug related offense.
+
+(c) "Driver examination" for the purposes of this section, means a visual acuity screening, a road performance test, or a written examination, or all 3, or any combination thereof, administered by the driver licensing section of the division.
+
+(d) Driver re-examination for the purposes of this section means the requirements set forth in Saf-C 1009.
+
+(e) "Medical evaluation" for the purposes of this section means a medical, psychiatric, or psychological examination , or any combination thereof.
+
+(f) A hearings examiner shall require a licensee or license applicant to undergo an alcohol evaluation, a medical evaluation, a driver re-examination, or any combination thereof upon receipt of information that the licensee or applicant has a condition which might impair their driving ability.
+
+(g) Information shall be accepted from sources including, but not limited to:
+
+(1) The licensee's or applicant's admission to impairment;
+
+(2) Accident reports;
+
+(3) Law enforcement officers;
+
+(4) Physicians;
+
+(5) Private complaints; and
+
+(6) Licensing officers.
+
+(h) If a medical or substance use disorder evaluation is required, the licensee or applicant shall be responsible for the cost of such evaluation and for releasing and forwarding the results of such evaluation in written form to the department.
+
+(i) Prior to requiring such medical evaluation, substance use disorder evaluation, or driver re-examination, a hearings examiner shall afford the licensee the opportunity for a hearing, except as provided in paragraph (k).
+
+(j) Upon receipt of the results of such substance use disorder or medical evaluation or driver re-examination, the hearings examiner shall take administrative action. The licensee shall be afforded an opportunity for a hearing prior to any administrative action unless the hearing examiner determines that action pursuant to (k) is applicable.
+
+(k) If the department receives information which substantiates that the licensee is so physically or mentally impaired that immediate harm to the public could occur if the licensee retains their driver license or operating privilege, the director shall immediately suspend the driver license or operating privilege.
+
+(l) Such information referred to in (k) above shall include, but not be limited to, reports:
+
+(1) Of chemical dependency, substance abuse, seizures, or blackouts;
+
+(2) That the licensee has been adjudicated as incapacitated in accordance with the provisions of RSA 464-A:1, et seq.;
+
+(3) That the licensee is suffering from a mental illness as defined in RSA 135-C:2, X, and the rules adopted therefrom, or is severely mentally disabled as defined in RSA 135-C:2, XV, and the rules adopted therefrom; or
+
+(4) That the licensee has been involuntarily committed to a psychiatric facility.
+
+(m) Nothing contained herein shall prohibit the commissioner from requiring proof of financial responsibility pursuant to RSA 264:2 and Saf-C 207.06.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.02) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.03 Original License Suspension or Revocation .
+
+(a) Every first license issued shall be deemed an original license. It shall be issued subject to the conditions set forth in the following paragraphs.
+
+(b) Unless extenuating circumstances exist, a hearings examiner shall, after the hearing, suspend a licensee s original license and require the filing of proof of financial responsibility pursuant to RSA 264:2 and Saf-C 207.06 upon receipt of evidence of:
+
+(1) Misconduct in the licensee s driving of a vehicle, as alleged in a written complaint from a law enforcement officer whereby the licensee s conduct poses a hazard to the public's safety;
+
+(2) Misuse or abuse of the licensee s driving privileges as alleged in a written complaint from a law enforcement officer; or
+
+(3) The licensee s having 3 or more at fault accidents within the term of the original license.
+
+(c) Extenuating circumstances, for the purposes of (b) above, shall include, but not be limited to the following:
+
+(1) The maturity of the licensee;
+
+(2) The impact a suspension would have on the licensee s education or employment;
+
+(3) The length of time the licensee has held an original license without prior motor vehicle convictions;
+
+(4) The licensee s lack of prior motor vehicle convictions; and
+
+(5) The licensee does not present as a hazard to public safety;
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.03); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13685, eff 8-5-23 (formerly Saf-C 204.03) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.04 Original License Suspension Drivers Under Age 20 .
+
+(a) For the purposes of this section, conviction is defined as and includes a violation of any motor vehicle offense, whether it occurred in New Hampshire or any other jurisdiction.
+
+(b) Pursuant to RSA 263:14 and for the purpose of this section, "offense" shall include proof of a conviction of any motor vehicle violation excluding a conviction of RSA 261:40, RSA 261:59, or RSA 266:5.
+
+(c) Pursuant to RSA 263:14 and for the purpose of this section, "original license" means any driver license issued under title XXI to a person under the age of 20.
+
+(d) Upon learning that an original license holder under the age of 20 has been convicted of an offense, the director or the director s agent shall suspend the original license as specified in this rule. In addition to a suspension of the original license, the director or the director s agent shall require that proof of liability insurance in the form of an SR-22 certificate be filed when an original license holder has 2 or more speeding convictions based upon violations that occurred within 2 years from the date the license was issued.
+
+(e) An original license holder shall be given an opportunity for a hearing before the director or the director s agent suspends the original license.
+
+(f) The division shall notify the driver of a date, location, and time where the driver may appear to show just cause why their license should not be suspended.
+
+(g) Just cause pursuant to (f) above shall be that:
+
+(1) The driver was 20 years or older at the time of the violation;
+
+(2) The driver was not convicted of the violation;
+
+(3) The driver did not hold an original New Hampshire license at the time of the violation; or
+
+(4) There are extenuating or mitigating circumstances that the hearings examiner should consider.
+
+(h) The scope of the original license suspension hearing shall be limited to:
+
+(1) Whether the driver was under the age of 20 on the date of the violation;
+
+(2) Whether the driver held an original New Hampshire license at the time of the violation;
+
+(3) Whether the driver was convicted of a violation listed in (a) above; and
+
+(4) Whether the driver presented compelling evidence of extenuating or mitigating circumstances.
+
+(i) Extenuating or mitigating circumstances pursuant to (g) and (h) above shall include:
+
+(1) The impact a suspension would have on the driver's education or employment;
+
+(2) The length of time the driver has held an original license without prior motor vehicle violations;
+
+(3) The driver's lack of prior motor vehicle convictions; and
+
+(4) The lack of seriousness of the violation for which the driver has been convicted.
+
+(j) Failure to appear as provided in (f) above shall waive the driver's right to a hearing and result in suspension periods as specified in (k) below unless exigent circumstances as defined in Saf-C 203.05(b), apply. In the case of a failure to appear, the suspension will be effective as of 12:01 AM the date of the scheduled hearing.
+
+(k) The following suspension periods shall apply to original licenses:
+
+(1) For the first conviction, 20 days;
+
+(2) For the second conviction, 45 days; and
+
+(3) For the third or subsequent conviction, 90 days.
+
+(l) The suspension periods listed in (k) above, shall be in addition to any other penalty or remedy prescribed by statute or rule. If an additional suspension period is provided for by statute or rule, the original license suspension period shall not run concurrently.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.04); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss and moved by #8230-B, eff 12-17-04 (formerly Saf-C 204.031); ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.05 Parent or Guardian Authorization Certificate .
+
+(a) If the department receives written information which indicates the death of a signatory of a "parent or guardian authorization certificate," form DSMV 38 as set forth in Saf-C 1002.04, the financial responsibility administrator shall suspend the named minor's license.
+
+(b) If the signatory of a "parent or guardian authorization certificate" withdraws such consent, the or financial responsibility administrator shall suspend the named minor's license. Such withdrawal of consent shall be in written form.
+
+(c) The withdrawal of consent, pursuant to (b) above, shall include:
+
+(1) The withdrawal of consent;
+
+(2) The name of the parent or guardian; and
+
+(3) The name of the minor.
+
+(d) As long as all restoration fees have been paid, suspension under this section shall remain in effect until the earlier of:
+
+(1) The named minor attains the age of 18;
+
+(2) A new "parent or guardian authorization certificate" is received;
+
+(3) Proof of insurance in the form of an SR-22 certificate covering the named minor is received; or
+
+(4) The person under 18 years of age is emancipated by marriage.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.05); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss and moved by #8230-B, eff 12-17-04 (formerly Saf-C 204.04); ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.05) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.06 Revocation: Third Offense .
+
+(a) Upon receipt of a driver's record which reflects a third or subsequent conviction of a violation of title XXI in the same calendar year, the hearings examiner shall review such record to determine whether the license shall be revoked.
+
+(b) Subsequent to such review, the hearings examiner shall:
+
+(1) Defer action if more information through investigation is needed to proceed with any administrative action; or
+
+(2) Schedule a hearing if the record indicates there is basis for administrative action; or
+
+(3) Take no administrative action based upon the results of the investigation and recommendation of the investigation.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.06); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss and moved by #8230-B, eff 12-17-04 (formerly Saf-C 204.05); ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.06) (see Revision Note at chapter heading forr Saf-C 1000)
+
+Saf-C 1016.07 Suspension or Revocation for Serious Offenses Under Reciprocity .
+
+(a) The commissioner shall revoke the license or operating privileges of a resident upon receipt of evidence of conviction in another jurisdiction for reckless driving, driving while intoxicated, negligent homicide resulting from the operation of a motor vehicle, or manslaughter resulting from the operating of a motor vehicle.
+
+(b) The date of revocation or suspension shall be the date of final conviction by a court of competent jurisdiction based upon a criminal or civil proceeding.
+
+(c) If the conviction is for driving while intoxicated, and if there are no prior driving while intoxicated convictions, the revocation shall be for the same duration as if the conviction had occurred in New Hampshire. The initial revocation shall be nine months subject to review after successful completion of an approved alcohol education program pursuant to RSA 265-A:42. Upon such completion and after a minimum 90 day period of revocation, the defendant may submit a written request for a hearing under the provisions of Saf-C 1016.07(h) to reduce the period of revocation. Restoration shall be contingent upon the person s compliance with Saf-C 205.04.
+
+(d) If the conviction is for driving while intoxicated, and if there is a record of prior driving while intoxicated conviction(s), the initial revocation shall be one year, subject to review after successful completion of an approved alcohol education program pursuant to RSA 265-A:42. Upon such completion and after a minimum 6-month period of revocation, the defendant may, under the provisions of Saf-C 1017.06(h), submit a written request for a hearing. Restoration shall be contingent on the defendant's compliance with Saf-C 205.04.
+
+(e) If the conviction is for reckless operation, and there is evidence of a suspension from the reporting jurisdiction, the minimum period of revocation shall be 60 days. If there is a record of prior reckless operation convictions within 5 years, the provisions of Saf-C 207.05 and Saf-C 205.02 shall apply.
+
+(f) If the conviction is for either negligent homicide or manslaughter, the restoration provisions of Saf-C 2018 shall apply.
+
+(g) If action is taken under paragraphs (c), (d), (e), or (f), the defendant shall be afforded the opportunity for a hearing. Any such hearing request shall not postpone, delay , or otherwise impact the revocation or suspension. The hearing shall be scheduled within 15 days from the date the request is received.
+
+(h) At the hearing, after introduction of evidence by the state, or a review of the driver record, or both, the respondent shall have the burden of proving by a preponderance of evidence that:
+
+(1) The respondent is not the same person named on the notice(s);
+
+(2) The respondent was not convicted of the charges or similar charges as listed in (a) above; and
+
+(3) The respondent s operating privilege or license was not suspended or revoked as a result of the conviction.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.07); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss and moved by #8230-B, eff 12-17-04 (formerly Saf-C 204.06); ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.07) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.08 Suspension by Justice for Cause . Pursuant to RSA 263:57, whenever the department receives an abstract of conviction from a municipal, district, or superior court suspending a license or operating privilege for up to 30 days, the financial responsibility administrator shall notify the individual by first class mail of the suspension and administrative requirements for restoration. Restoration shall take effect at the conclusion of the suspension period imposed by the court provided all administrative requirements have been met and, further provided, there are no other suspensions, revocations, or both, in effect.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5377, eff 4-21-92; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 203.08); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss and moved by #8230-B, eff 12-17-04 (formerly Saf-C 204.07); ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.08) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.09 Flagrant Cases .
+
+(a) If a court or justice recommends the suspension or revocation of a license or operating privilege on an abstract of conviction for a period longer than 30 days pursuant to RSA 263:61, the financial responsibility administrator shall immediately notify the bureau of hearings. The bureau of hearings shall notify the person of a hearing or opportunity to be heard.
+
+(b) The scope of any such hearing shall be:
+
+(1) A review of the court's abstract of conviction;
+
+(2) Any additional information provided by the court or justice;
+
+(3) A review of the person's motor vehicle record on file with the director; and
+
+(4) Information received in the hearing.
+
+(c) If the bureau of hearings concurs with the court's recommendation, pursuant to Saf-C 1016.09(a), the person shall be notified in writing. The notice shall include a brief explanation of the suspension or revocation and the restoration process.
+
+(d) Restoration shall be effectuated at the conclusion of the sanction period imposed by the bureau of hearings, provided all administrative requirements have been met and further provided, there are no other suspensions, revocations, or both, in effect.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.09); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss and moved by #8230-B, eff 12-17-04 (formerly Saf-C 204.08); ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.09) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.10 Transporting Alcoholic Beverages .
+
+(a) Upon receipt of evidence alleging a violation of RSA 265-A:45, a hearing shall be scheduled and the person notified in accordance with these rules.
+
+(b) The scope of such hearing shall be limited to the following issues:
+
+(1) Whether the person is the individual identified on the complaint;
+
+(2) Whether the person was under the age prescribed by RSA 265-A:45 at the time of the alleged violation;
+
+(3) Whether the person was driving a motor vehicle upon a way;
+
+(4) Whether the person was accompanied by a parent or legal guardian or legal age spouse;
+
+(5) Whether liquor or alcoholic beverage was present in any part of the vehicle; and
+
+(6) Whether the person falls within the exemption pursuant to RSA 179:23.
+
+(c) If the hearings examiner finds that the provisions of paragraph (b) have been met, the hearings examiner shall suspend the license or deny the person's privilege to drive for a period not to exceed the maximum penalty prescribed by law.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.10; ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss and moved by #8230-B, eff 12-17-04 (formerly Saf-C 204.09); ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.10) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.11 Persons Hazardous to Public Safety .
+
+(a) The commissioner, upon receipt of information that a person might be hazardous to public safety, shall issue an order requiring the person to appear and show cause why their driver license or operating privilege should not be revoked or denied.
+
+(b) A person who shall be subject to such an order shall include, but is not limited to, one who:
+
+(1) Has been driving to endanger the public;
+
+(2) A law enforcement officer has reported for misconduct, abuse, or misuse of the person s driving privileges;
+
+(3) Has been convicted 2 or more times of driving a motor vehicle while under the influence of intoxicating liquor or controlled drugs, or any combination thereof; or
+
+(4) Has an alcohol or drug problem that is not under control.
+
+(c) The commissioner shall presume that a person with an alcohol or drug problem that is not under control is a person hazardous to the public safety.
+
+(d) Nothing contained herein shall prevent the department from conducting an investigation or requiring a driver examination, alcohol evaluation, a medical examination, or any combination thereof of such person or requiring the filing of proof of financial responsibility pursuant to RSA 264:2 and Saf-C 207.06.
+
+(e) After notice and an opportunity for a hearing, a hearings examiner shall suspend, revoke, or deny the driver license or driving privilege of any person whose past record of convictions, accident involvement, or other serious misbehavior would make the person a hazard to themselves or other highway users, or result in the person being declared a habitual violator.
+
+(f) The commissioner shall suspend the license or driving privilege of a person prior to a hearing, whenever there is reason to believe that the person is operating in such a manner so as to constitute a present danger to the public or themselves.
+
+(g) In the case of a person whose license has been suspended or revoked pursuant to RSA 263:56, I(d) by reason of physical or mental impairment, the suspension or revocation shall be for an indefinite period provided, however, the person may request a hearing once every year thereafter for the purpose of reviewing the original order. Such a request shall be in writing. The person shall produce medical evidence clearly indicating their condition no longer renders them a hazard.
+
+(h) For the purposes of (g) above, the request for a hearing shall contain:
+
+(1) The individual's name, address, and date of birth; and
+
+(2) A request for a hearing to be scheduled.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.12); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.13) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.12 False Statements in Official Proceedings .
+
+(a) Where any licensee, testifying under oath or affirmation in any hearing conducted by the commissioner, makes a false statement, the licensee s driver license or driving privilege shall be suspended if such a statement is found to affect the course or outcome of the proceeding.
+
+(b) Upon receipt of information that any person has made a materially false statement in any proceeding, the commissioner shall issue an order, pursuant to RSA 263:59, of suspension of a licensee s driver license or driving privilege and if applicable, order the license to be delivered to the department. Upon written request, a licensee shall be granted a hearing within 15 days of filing his or her request.
+
+(c) The hearing shall be held before the commissioner or designee provided, however, that in no case shall the hearing be conducted before the person who presided at the proceeding during which the alleged false statement was made.
+
+(d) The scope of the hearing shall be limited to whether:
+
+(1) The respondent made a false statement;
+
+(2) The false statement which they made was not material;
+
+(3) The false statement which they made was the result of coercion by a person whom the respondent reasonably believed would cause them harm; or
+
+(4) The respondent reasonably believed the false statement to be true.
+
+(e) The commissioner shall continue the suspension of the driver license or driving privilege, or deny the pending application for a driver license, and as appropriate, rescind any administrative action which was substantially affected by the false statement, of any person found to have made a materially false statement which was not the result of factors contained in (d)(2), (3), or (4) above.
+
+(f) Where the license or driving privilege of any person is already under suspension, revocation, or has been denied, the license or driving privilege shall be suspended, revoked, or denied for an additional period of time.
+
+(g) Notwithstanding the above provisions, where any person has, in the course of the original hearing, retracted the false material statement before it could substantially affect the outcome of the proceeding, the person s driver license or driving privilege shall not be suspended, revoked, or denied.
+
+(h) Nothing contained in this rule shall prevent the department from seeking criminal prosecution under RSA 641, of any person making a false material statement in any official proceeding.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.13); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13685, eff 8-5-23 (formerly Saf-C 204.14) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.13 Fraudulent Activities .
+
+(a) The commissioner shall, after notice and opportunity for a hearing, suspend a driver license, driving privileges, or permit upon receipt of information indicating that any person has:
+
+(1) Fraudulently altered a driver license or permit;
+
+(2) Lent their driver license or permit to another person;
+
+(3) Displayed, possessed, or represented as their own a driver license or permit not issued to them by the proper authority;
+
+(4) Displayed or possessed any fraudulently altered, fictitious, facsimile, or simulated driver license or permit;
+
+(5) Photographed, photostatted, duplicated, or in any manner reproduced a driver license or permit in such a manner that it could be mistaken for a valid driver license or permit;
+
+(6) Used a false or fictitious name, age, or address, or other false information in any application, submitted to the department relative to a driver license or permit;
+
+(7) Been found in possession of more than one valid driver license;
+
+(8) Applied for a temporary registration, a temporary plate, or both, contrary to RSA 261:57 or RSA 261:57-a; or
+
+(9) Produced or otherwise provided fraudulent documentation or evidence of compliance with an order(s) of the department.
+
+(b) The commissioner shall, after notice and opportunity for a hearing, suspend a non-driver identification card if, pursuant to RSA 260:21, IX, there is just cause to withdraw the non-driver identification. Just cause shall include, offenses enumerated in (a) and any other action which contributes to the improper receipt or display of a non-driver identification card, contrary to RSA 260:21.
+
+(c) Upon receipt of information indicating that any person has committed an unsworn falsification, pursuant to RSA 260:10, the department shall, after notice and opportunity for a hearing, suspend any or a combination of the following:
+
+(1) A driver license or privilege;
+
+(2) A permit; and
+
+(3) A non-driver identification card.
+
+(d) When determining what privileges are to be suspended under (c) above, the hearings examiner shall determine the severity of the offense after considering the following:
+
+(1) Which documents were obtained by the individual;
+
+(2) Whether the individual falsified information given to the department; and
+
+(3) Any other evidence relevant to a violation of RSA 260:10.
+
+(e) The privileges to be suspended shall correlate positively with the severity of the offense as determined in (d) above, and after considering any mitigating circumstances.
+
+(f) For the purposes of (c) above, the hearings examiner in making the determination what to suspend, shall not be limited to the privilege, license, permit, or card for which the person was making application for when the person committed an unsworn falsification.
+
+(g) Notwithstanding any rule to the contrary, the commissioner or director shall suspend a person's driver license prior to a hearing, pursuant to RSA 263:59, if:
+
+(1) The person admits to making a material false statement in their application for a driver license; or
+
+(2) The department receives evidence that indicates the person made a materially false statement in their application for a driver license.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.14); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.15) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016.14 Operation After Suspension or Revocation . Upon receipt of information indicating that any person has been convicted of driving a vehicle after suspension or revocation of the driver license, the commissioner shall, after notice and a hearing, extend the period of such suspension(s) or revocation(s) in effect for an additional period of the same duration, unless extenuating circumstances exist such as, but not limited to:
+
+(a) Failure to receive notice of suspension or revocation; or
+
+(b) Failure of an insurance company to act in a timely manner.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.15); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.16) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016 .15 Refusal to Surrender Articles .
+
+(a) The commissioner shall extend the period of suspension or revocation of any license or permit in any case in which a person fails or refuses to comply with an order to return any suspended or revoked license or permit to the department unless extenuating circumstances exist. Extenuating circumstances shall include but not be limited to failure to receive notice of suspension or revocation or failure of an insurance company to file proof of insurance in the form of an SR-22 certificate in a timely manner.
+
+(b) Parties aggrieved by this decision may submit a written request to the department for a hearing.
+
+(c) At a hearing pursuant to this section, the following shall apply:
+
+(1) A person shall be deemed to have failed or refused to comply with an order if the person does not mail or deliver the suspended or revoked items to the department within 5 working days of the effective date of any suspension or revocation; and
+
+(2) The maximum additional period imposed under this section shall be equal to the period of time during which any person fails or refuses to return any suspended or revoked item to the department. Calculation of the maximum period shall commence after the expiration of the 5 working day period set forth in (c)(1) above.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.16); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.17) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016 .16 Division Files . "The date of conviction", for the purposes of RSA 265-A:14 and RSA 265-A:30, means:
+
+(a) In the case of refusal to consent, the date of the act of refusal; and
+
+(b) In the case of an administrative license suspension, the effective date of the suspension.
+
+Source. #6337, eff 9-25-96 (from Saf-C 203.18); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13685, eff 8-5-23 (formerly Saf-C 204.18) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1016. 17 Alcohol Program Completion Hearings .
+
+(a) Any person who attends an impaired driver care management program as required by RSA 265-A:42, is entitled to a hearing before the commissioner or designee who shall determine whether the service plan requirements are warranted and appropriate.
+
+(b) Hearings may be requested by writing to the Department of Safety, Bureau of Hearings, 33 Hazen Drive, Concord, NH 03305; or by emailing safety-hearings@dos.nh.gov ; or by facsimile at 603-271-6653.
+
+(c) The bureau of hearings shall notify the person and the approved impaired driver care management program of the time , date, and location of the hearing.
+
+(d) There shall be a rebuttable presumption that the impaired driver care management program s evaluation is correct if the impaired driver care management program complied with He-A 500.
+
+(e) Prior to hearing, the person may obtain evidence to rebut the service plan requirements in (a), including:
+
+(1) A second opinion from a state licensed alcohol and drug counselor as defined in He-A 501.01(x) that was performed in the 12 months preceding the hearing, at their own expense, a copy of which shall be given to the original approved alcohol program provider before the hearing;
+
+(2) Any evidence showing that the approved alcohol program provider did not comply with He-A 500,; and
+
+(3) Any other evidence that the person believes demonstrates that the service plan requirements are not warranted and appropriate.
+
+(f) The scope of the hearing shall be limited to whether:
+
+(1) The service plan requirements are reasonable and appropriate;
+
+(2) Any changes to the service plan requirements are reasonable and appropriate;
+
+(g) Following hearing, the examiner shall:
+
+(1) Sustain the service plan requirements as being reasonable and appropriate; or
+
+(2) Determine that the service plan requirements are not reasonable and appropriate and modify the service plan requirements.
+
+Source. #7349, eff 8-22-00; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 204.20) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1017 HABITUAL OFFENDERS
+
+Saf-C 1017.01 Hearing Order .
+
+(a) Upon receipt of evidence that any person might qualify as a habitual offender within the meaning of RSA 259:39, the commissioner shall issue an order requiring that person to appear for a hearing to show cause why they should not be barred from driving a motor vehicle on the ways of this state.
+
+(b) The order shall incorporate a certified transcript or abstract of the person's driver record report.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 205.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 206.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1017.02 Scope of Hearing .
+
+(a) The scope of a habitual offender hearing shall be limited to a review of the convictions which shall be used as the basis for finding a person to be a habitual offender.
+
+(b) In the event that the commissioner finds there are sufficient convictions to satisfy RSA 259:39, that the convictions are valid, and that the person is the same person named in the transcript, the commissioner shall certify the person to be a habitual offender.
+
+(c) If a person is convicted under the laws of another state of an offense specified in RSA 262:19, V, the conviction shall be used for the purpose of certifying the person as a habitual offender.
+
+(d) Pursuant to RSA 259:39, after a conviction for an offense listed in either RSA 259:39, I or in RSA 259:39, II, and within a 5 year period, if a person has a subsequent single incident resulting in 2 or more convictions of an offense under the same paragraph as the initial conviction, each such subsequent conviction shall be counted separately for the purposes of certifying the individual as a habitual offender.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 205.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 206.02) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1017.03 Burden of Proof . If the person shall deny any of the facts stated in the transcript or abstract, or deny, in the case of a conviction for a misdemeanor, that they were represented by counsel or that there was an appropriate waiver of counsel and acknowledgment of rights documented in the court, then the person shall have the burden of proving that such is untrue.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 205.03); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 206.03) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1017.04 Commissioner Ordered Prohibition .
+
+(a) If, as a result of the hearing, the commissioner finds a person to be a habitual offender, the commissioner shall cause notice to be served in hand.
+
+(b) The notice in (a) above shall:
+
+(1) Order the person not to drive on the ways of this state until such privilege is restored in writing:
+
+(2) Advise the person that the penalty of driving after being declared a habitual offender is a one to 5 year term of imprisonment;
+
+(3) Indicate the period of time that the habitual offender's license shall be revoked; and
+
+(4) Indicate conditions of probation as authorized pursuant to Saf-C 203.18.
+
+(c) The department shall cause all licenses and permits to drive a motor vehicle on the ways of this state, held by such person, to be surrendered.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 205.04); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 206.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1017.05 Default Judgment .
+
+(a) Failure of the person named in the order to appear for the hearing shall result in a default judgment certifying the person to be a habitual offender if the commissioner determines that:
+
+(1) The convictions contained in the transcript or abstract are valid and are of sufficient numbers to qualify the person as a habitual offender; and
+
+(2) The person named in the order was properly notified as provided in RSA 262:19 pursuant to Saf-C 1017 .01.
+
+(b) A default order of certification will be effective 30 days from the date of the scheduled hearing,
+
+(c) Default orders shall be served in-hand to the person named in that order.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 205.05); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 206.05) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1017.06 The Habitual Offender Decertification Process and Restoration of License .
+
+(a) The habitual offender certification shall remain in effect until the habitual offender is decertified.
+
+(b) When the original period of certification has expired, if the habitual offender wishes to be decertified, the habitual offender shall submit a written statement requesting a decertification hearing or a decertification record review.
+
+(c) The written request, referred to in (b) above, shall include:
+
+(1) The habitual offender's full name;
+
+(2) The habitual offender's address; and
+
+(3) The habitual offender's date of birth.
+
+(d) The department shall schedule a review hearing within 30 days from the date of receipt of the written request, so long as:
+
+(1) The written request meets the provisions of (c) above;
+
+(2) The habitual offender has been free from incarceration for at least 6 months for a motor vehicle offense;
+
+(3) The habitual offender has complied with all the terms and conditions of the certification order; and
+
+(4) There are no other suspensions or revocations in effect in New Hampshire or any other jurisdiction.
+
+(e) The burden of persuasion for the hearing in this section shall be on the habitual offender.
+
+(f) The scope of the decertification hearing or review shall be limited to the following:
+
+(1) A review of the record and the division's files to determine if any agency has filed complaints against the habitual offender alleging the habitual offender remains an on-going hazard to the public's safety;
+
+(2) A review of the record to determine if the habitual offender drove a motor vehicle in New Hampshire during the period of revocation or if there are out-of-state convictions during the period of revocation of an offense specified in RSA 262:19, V;
+
+(3) A determination that the habitual offender has no unpaid court fines;
+
+(4) A determination that the habitual offender has no court defaults;
+
+(5) A determination that the habitual offender's driving privileges are not suspended or revoked in any other jurisdiction;
+
+(6) A determination that all alcohol education requirements, pursuant to RSA 265-A:42, have been satisfied;
+
+(7) A determination that current medical information is on file, favorable to the habitual offender, if there was any suspension or revocation activity remaining that was medically related; and
+
+(8) A determination that the habitual offender has been free of confinement or incarceration for a motor vehicle offense, for a period of 6 months or more.
+
+(g) For the purposes of (f)(7) above, any medical information that is older than 6 months shall not be considered current.
+
+(h) When there is an outstanding implied consent revocation to be served, it shall not preclude the decertification process.
+
+(i) If after a hearing, the habitual offender decertification is denied, the habitual offender certification shall remain in full force and effect. The habitual offender may request a decertification hearing once every year thereafter.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 205.06); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 206.05) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1017.07 Restoration of License or Nonresident Operating Privileges . Once the habitual offender has been decertified, the driver license or nonresident operating privileges shall be restored upon:
+
+(a) Receipt of evidence that the person has successfully completed an approved driver attitude progr am pursuant to RSA 263:56-e, I(c) or, pursuant to Saf-C 212.09, the requirement has been waived;
+
+(b) T he habitual offender s compliance with the financial responsibility requirements of RSA 262:22, II;
+
+(c) Payment of the restoration fee, pursuant to RSA 263:42, V; and
+
+(d) Serving any outstanding implied consent revocation(s).
+
+P Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 205.07); amd by #7349, eff 8-22-00; amd by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 206.05) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1018 PROCEDURES IN CASES OF FATAL ACCIDENTS
+
+Saf-C 1018.01 Suspension Upon Findings .
+
+(a) On receipt of a written report indicating that the surviving driver involved in an accident, wherein one or more persons lost their lives, drove a vehicle in an improper or illegal manner and contributed materially to the accident and the resulting death, the director of motor vehicles shall forward a notice of suspension to such driver.
+
+(b) The effective date of such suspension shall be 5 days subsequent to its issuance.
+
+(c) The notice of suspension shall include:
+
+(1) The time, date, and location of the accident;
+
+(2) The name of any deceased;
+
+(3) A letter signed by the commissioner noting the effective date of the suspension and the authority therefor; and
+
+(4) Reasons for the suspension order.
+
+(d) In those cases where such a report indicates the driver might have contributed materially to the resulting accident or death and the driver is not determined to be an immediate hazard, the department shall schedule a hearing prior to suspension.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 208.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 209.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1018.02 Request for Hearing . Upon receipt of a written request for a hearing, subsequent to a suspension pursuant to RSA 263:59, the department shall schedule a hearing within 15 calendar days of receipt of the request. For any hearing scheduled under the provisions of RSA 263:56 or 263:59 regarding a fatality, the decedent's next of kin shall receive notice of the hearing and shall have the right to be present at the hearing. Next of kin shall be deemed to have been properly notified by certified mail with return receipt requested to at least one of the next of kin who is listed in RSA 259:66-a and who has been identified as a result of a review of department records or of information made known to the department.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 208.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13 ; ss by #13685, eff 8-5-23 (formerly Saf-C 209.02) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1018.03 Summary of Findings .
+
+(a) The hearings examiner shall file with the department a published summary of the hearing, which shall include all findings of fact and conclusions of law and disposition. Such summary of findings may be made orally at the hearing, but a written summary shall be issued to the respondent or the respondent s representative within 15 working days following the conclusion of the hearing.
+
+(b) Such summary shall be available to any person in attendance on request and payment of the prescribed fee detailed in Saf-C 203.14.
+
+(c) In proceedings concerning accidents involving motor vehicle fatalities, the hearings examiner shall not give weight to the lack of a criminal prosecution relative to the accident, in making the decision concerning license suspension or revocation.
+
+Source. #6337, eff 9-25-96 (from Saf-C 208.03); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 209.03) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1018.04 Statement of Next of Kin of Deceased .
+
+(a) "Next of kin", for the purpose of this section, means at least one party listed in RSA 259:66-a and who has been identified as a result of a review of department records or of information made known to the department.
+
+(b) Testimony from the next of kin shall be considered by the hearings examiner only after the hearings examiner s findings have been made and in consideration of the appropriate sanction.
+
+(c) Next of kin may submit to the hearings examiner oral testimony or written statements which may contain such information or opinions concerning the accident, the person responsible and the appropriate sanction.
+
+(d) A copy of any written statement submitted to the department by next of kin shall be made available to the respondent who is the subject of the hearing, or their representative. The respondent or the respondent s representative shall be afforded 15 working days to provide relevant written evidence and statements for dispositional purposes.
+
+(e) Nothing in this section shall be construed as preventing the hearings examiner from imposing an indefinite suspension of license or driving privileges until said rebuttal is considered by the hearings examiner in the decision.
+
+Source. #6337, eff 9-25-96 (from Saf-C 208.04); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 209.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1018.05 Decision of Hearing Examiner .
+
+(a) The hearings examiner's disposition and sanction shall be imposed within 15 working days after the close of evidence. Dispositions and sanctions of the hearings examiner shall be based on the findings of fact and conclusions of law as made by the hearings examiner.
+
+(b) The hearings examiner shall forward a copy of the decision to the parties , and the decision of the hearings examiner shall be available to individuals in attendance on request and payment of the fee prescribed in Saf-C 203.14.
+
+(c) The decision shall include the length of suspension or revocation, if any, and the appropriate appeal mechanism available, pursuant to RSA 263:76.
+
+(d) A copy of such decision shall be forwarded to the complainant in attendance at the hearing.
+
+(e) The hearings examiner shall forward a copy of the decision to the next of kin by first class mail. If aggrieved by the decision, the next of kin shall, pursuant to RSA 263:56, IV, have standing under RSA 263:76 to file a petition in the superior court for review of the questions of law in the decision.
+
+Source. #6337, eff 9-25-96 (from Saf-C 208.05); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 209.05) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1018.06 Restoration: Fatal Accident Involvement .
+
+(a) On receipt of a petition for reinstatement subsequent to suspension for fatal accident involvement pursuant to RSA 263:56 or 263:59, the commissioner or director, after a hearing, shall restore the privilege to drive a motor vehicle on the ways of this state provided the following conditions have been met:
+
+(1) There is indication through any additional investigation that the applicant is no longer a hazard to public safety. Such investigation shall include a report from a probation/parole officer if applicable;
+
+(2) There is no evidence the applicant drove a motor vehicle on the ways of this state during the period of suspension;
+
+(3) The fee pursuant to RSA 263:42, V, has been paid;
+
+(4) All court fines have been paid;
+
+(5) Any defaults have been cleared;
+
+(6) There are no court imposed sanctions resulting from the fatal accident that remain unsatisfied;
+
+(7) The hearing and record review clearly indicate the defendant is in complete compliance with applicable statutes and rules;
+
+(8) Proof of financial responsibility in the form of an SR-22 certificate is on file with the division for a minimum of 3 years from the date of eligibility; and
+
+(9) There are no other revocations or suspensions in effect under any other statute or rule, including reciprocity agreements and requirements.
+
+(b) The commissioner or director shall require:
+
+(1) A license examination as prescribed in Saf-C 1016.02(c) and (f), as appropriate;
+
+(2) A medical evaluation as prescribed in Saf-C 1016.02(e) and (f), as appropriate;
+
+(3) An alcohol evaluation as prescribed in Saf-C 1016.02(a), (b), and (f), as appropriate; and
+
+(4) Any other terms and conditions as allowed by other provisions of law.
+
+Source. #6337, eff 9-25-96 (from Saf-C 208.06); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 209.06) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1019 PROCEDURES IN CASES OF PERSONAL INJURY ACCIDENTS OR SERIOUS PROPERTY DAMAGE ACCIDENTS
+
+Saf-C 1019.01 Suspension Upon Findings .
+
+(a) The commissioner or the director, on receipt of a written report indicating that a surviving driver recklessly or unlawfully operated a motor vehicle, causing or materially contributing to the accident that resulted in injury or serious property damage, shall forward a request to the financial responsibility administrator that notice of suspension be issued to said operator.
+
+(b) The effective date of such suspension shall be 5 days subsequent to its issuance.
+
+(c) The notice of suspension shall include:
+
+(1) The date, time, and location of the accident;
+
+(2) The name of any injured parties;
+
+(3) A brief description of the serious property damage;
+
+(4) A letter issued by the commissioner or director noting the effective date of the suspension and the authority therefore; and
+
+(5) Reasons for the suspension order.
+
+(d) In cases where a report indicates that the driver may have contributed materially to the resulting accident and the driver is not determined to be an immediate hazard, the department shall schedule a hearing prior to suspension.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5428, eff 6-25-92; amd by #5688, eff 8-20-93; amd by #6143, eff 12-21-95; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 209.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 210.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1019.02 Request for Hearing . Upon receipt of a written request for a hearing, subsequent to a suspension pursuant to RSA 263:59, the department shall schedule a hearing within 15 calendar days of receipt of the request. For any hearing scheduled under the provisions of RSA 263:56 or RSA 263:59 regarding a serious injury, any seriously injured person shall receive notice of the hearing, shall have the right to be present at the hearing, and shall be permitted to testify at the hearing.
+
+Source. #2250, eff 12-31-82; ss by #2946-a, eff 1-3-85; ss by #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5274, eff 11-20-91; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 209.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 210.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1019.03 Summary of Findings .
+
+(a) The hearings examiner shall file with the department a published summary of the hearing, which shall include all findings of fact and conclusions of law and disposition. Such summary of findings may be made orally at the hearing, but a written summary shall be issued to the respondent or the respondent s representative within 15 working days following the conclusion of the hearing.
+
+(b) Such summary shall be available to any person in attendance on request and payment of the prescribed fee detailed in Saf-C 203.14.
+
+(c) In proceedings concerning accidents involving serious injury, the hearings examiner shall not give weight to the lack of a criminal prosecution relative to the accident in making the decision concerning license suspension or revocation.
+
+Source. #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1019.04 Statement of Seriously Injured Party .
+
+(a) Testimony from the seriously injured person shall be considered by the hearings examiner only after the hearings examiner s findings have been made and in consideration of the appropriate sanction.
+
+(b) The seriously injured person may submit to the hearings examiner oral testimony or written statements which may contain such information or opinions concerning the accident, the person responsible and the appropriate sanction.
+
+(c) A copy of any written statement submitted to the department by seriously injured person shall be made available to the respondent who is the subject of the hearing, or their representative. The respondent or the respondent s representative shall be afforded 15 working days to provide relevant written evidence and statements for dispositional purposes.
+
+(d) Nothing in this section shall be construed as preventing the hearings examiner from imposing an indefinite suspension of license or driving privileges until said rebuttal is considered by the hearings examiner in the decision.
+
+Source. #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1019.05 Decision of Hearing Examiner .
+
+(a) The hearings examiner's disposition and sanction shall be imposed within 15 working days after the close of evidence. Dispositions and sanctions of the hearings examiner shall be based on the findings of fact and conclusions of law as made by the hearings examiner.
+
+(b) The hearings examiner shall forward a copy of the decision to the parties, and the decision of the hearings examiner shall be available to individuals in attendance on request and payment of the fee prescribed in Saf-C 203.14.
+
+(c) The decision shall include the length of suspension or revocation, if any, and the appropriate appeal mechanism available, pursuant to RSA 263:76.
+
+(d) A copy of such decision shall be forwarded to the complainant in attendance at the hearing.
+
+(e) The hearings examiner shall forward a copy of the decision to the seriously injured party by first class mail. If aggrieved by the decision, the seriously injured party shall, pursuant to RSA 263:56, IV, have standing under RSA 263:76 to file a petition in the superior court for review of the questions of law in the decision.
+
+Source. #13685, eff 8-5-23 (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1019 .06 Restoration: Injury or Serious Property Damage Accident Involvement .
+
+(a) On receipt of a petition for reinstatement subsequent to suspension for injury or serious property accident involvement pursuant to RSA 263:56 or RSA 263:59, the commissioner shall restore the privilege to drive a motor vehicle on the ways of this state provided the following conditions have been met:
+
+(1) There is indication through any additional investigation, such as a report from a probation or parole officer, if applicable, that the applicant is no longer a hazard to public safety;
+
+(2) There is no evidence the applicant drove a motor vehicle on the ways of this state during the period of suspension ;
+
+(3) The fee pursuant to RSA 263:42, V has been paid;
+
+(4) All court fines have been paid;
+
+(5) Any defaults have been cleared;
+
+(6) There are no court imposed sanctions resulting from the accident that remain unsatisfied;
+
+(7) The hearing and record review clearly indicate the respondent is in complete compliance with applicable statutes and rules;
+
+(8) Proof of financial responsibility in the form of an SR-22 certificate is on file with the division for a minimum of 3 years from the date of license eligibility; and
+
+(9) There are no other revocations or suspensions in effect under any other statute or rule, including reciprocity agreements and requirements.
+
+(b) The commissioner shall require:
+
+(1) A license examination as prescribed in Saf-C 1016.02(c) and (f), as appropriate;
+
+(2) A medical evaluation, as prescribed in Saf-C 1016.02(e) and (f), as appropriate;
+
+(3) An alcohol evaluation as prescribed in Saf-C 1016.02(a), (b), and (f), as appropriate; and
+
+(4) Any other terms and conditions as allowed by other provisions of law.
+
+Source. #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 210.03) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1020 SUSPENSION FOR IN-STATE RESIDENT'S DEFAULT OR FAILURE TO PAY A FINE
+
+Saf-C 1020 .01 Suspension Process . The director shall notify the person at the person s last known address that their license or operating privileges shall be suspended 30 days subsequent to the date notice issued after finding and notification as applicable, that one or more of the following occurred:
+
+(a) Failure of the individual to appear at a scheduled court proceeding or administrative hearing on a charge or conviction or notice to appear for any reason which results in a default;
+
+(b) Failure of the individual to pay a fine or penalty imposed by a court or the director, for any offense;
+
+(c) The individual paid a fine or penalty with a bad check; or
+
+(d) Failure of the individual to comply with an order within the jurisdiction of and made by the court or the director, that results in a default.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 212.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 213.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1020 .02 Summons from Law Enforcement Officer .
+
+(a) Pursuant to RSA 263:56-a, I(d), if the person fails to comply with the conditions outlined on the summons, the director shall issue an order of suspension effective 30 days subsequent to the date notice issued.
+
+(b) If a summons is not received in hand from the law enforcement officer, the director shall notify the person, by certified mail at his last known address, that their driving privilege shall be suspended 30 days from the date of notification.
+
+Source. #4451, eff 6-24-88; ss by #4844, eff 6-20-90; amd by #5688, eff 8-20-93; amd by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 212.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 213.02) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1020.03 Court's Role in Suspension Process .
+
+(a) Pursuant to RSA 263:56-a, II, all courts shall notify the commissioner or director of defaults, unpaid fines, or non-compliance.
+
+(b) Suspensions shall be for an indefinite period with the files marked accordingly.
+
+Source. #6337, eff 9-25-96 (from Saf-C 212.03); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 213.03) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1020.04 Restoration Process .
+
+(a) Reinstatement shall be affected upon:
+
+(1) Payment of the restoration fee prescribed by RSA 263:56-a, III(a);
+
+(2) Receipt from the court of evidence that the defendant has cleared all problems related to the suspension ; and
+
+(3) Completion of a record review by an agent of the commissioner to ensure there are no other suspensions or revocations in effect.
+
+(b) Pursuant to RSA 263:56-a, III(b), in the event the default, unpaid fine or non-compliance is cleared prior to the suspension effective date, the court shall immediately notify the department and the director shall forthwith rescind the order of suspension and update the file by deleting the evidence of the default, unpaid fine or non-compliance and record the disposition of the court.
+
+Source. #6337, eff 9-25-96 (from Saf-C 212.04); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 213.04) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1021 SUSPENSIONS UNDER THE PROVISIONS OF THE NON-RESIDENT VIOLATOR COMPACT
+
+Saf-C 1021 .01 Suspension Process .
+
+(a) Upon receipt of evidence that a New Hampshire resident has defaulted a scheduled court appearance or failed to pay a fine in a member jurisdiction of the non-resident violator compact, the defendant shall be notified by first class mail, at their address of record, of the department's intent to suspend their driver license and operating privilege 60 days from the date of notice. The suspension shall be for an indefinite period, and the files shall be marked accordingly.
+
+(b) Pursuant to RSA 262:27, III, upon receipt of evidence that a non-resident has defaulted a scheduled court appearance or failed to pay a fine in a member jurisdiction of the non-resident violator compact, the court shall notify the commissioner of the default or unpaid fine.
+
+(c) The commissioner shall:
+
+(1) Note this on the defendant's record;
+
+(2) Suspend the operating privileges 30 days but in the event of default or unpaid fine by an individual licensed in a foreign country this 30 days shall be extended to 60 days, subsequent to notice sent date; and
+
+(3) Notify the defendant's motor vehicle department and request a suspension of their license and operating privileges until the court is satisfied that the default has been cleared, the fine paid in full, or both.
+
+(d) The following summonses shall not be covered under the non-resident violator compact:
+
+(1) Offenses which mandate personal appearances;
+
+(2) Moving traffic violations which carry a suspension or revocation;
+
+(3) Size and weight violations;
+
+(4) Parking violations ; and
+
+(5) Transportation of hazardous material violations.
+
+Source. #4844, eff 6-20-90; ss by #6249, INTERIM, eff 6-16-96, EXPIRES: 10-14-96; ss and moved by #6337, eff 9-25-96 (from Saf-C 213.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 214.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+Saf-C 1021. 02 Suspension Restoration or Cancellation Process .
+
+(a) When the court is satisfied that all required fines and assessments have been paid, a suspension cancellation notice shall be mailed immediately to the defendant. The defendant shall be responsible for notifying their motor vehicle department and providing them with the cancellation notice.
+
+(b) If a suspension took effect under the provisions of Saf-C 1021.01(a) and the suspension exceeds 15 days, in addition to the suspension cancellation notice, the defendant shall provide the division with the restoration fee prescribed in RSA 263:42, V.
+
+(c) If action took effect under the provisions of Saf-C 1021.01(b), the court shall send an abstract of conviction to the division . The division shall clear the default and update the record to reflect the conviction and restore operating privileges provided the restoration fee prescribed in RSA 263:42,V has been paid and further provided there are no other suspensions or revocations in effect.
+
+Source. #6337, eff 9-25-96 (from Saf-C 213.02); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 214.02) (see Revision Note at chapter heading for Saf-C 1000)
+
+PART Saf-C 1022 REVOCATION OF MINOR'S LICENSE OR OPERATING PRIVILEGES PURSUANT TO RSA 263:56-b.
+
+Saf-C 1022.01 Revocation of Minor's License or Operating Privileges .
+
+(a) Upon receipt of an abstract of conviction pursuant to RSA 263:56-b, I or III, the director or financial responsibility administrator shall cause the conviction to be posted to the individual s driver report categorized as "other ". The director or financial responsibility administrator shall ensure that the record is sealed and labeled accordingly.
+
+(b) The director or financial responsibility administrator shall immediately forward the sealed file to the administrator of bureau of hearings.
+
+(c) The bureau of hearings shall notify the individual to appear for a hearing, in accordance with the provisions of Saf-C 203 .02 and Saf-C 203.04.
+
+(d) The scope of the hearing shall be limited to the following:
+
+(1) Whether the offense is related to alcohol or drugs;
+
+(2) Whether on the date of the violation, the offender was under 21 years of age; and
+
+(3) Whether the individual was convicted, or found by the court to be delinquent pursuant to RSA 169-B or be in need of services pursuant to RSA 169-D, for an offense that involved the sale, possession, use , or abuse of alcohol or controlled drug(s) as defined in RSA 318-B:1, VI or of a controlled drug analog as defined in RSA 318-B:1, VI-a.
+
+(e) Provided the presiding hearings examiner concludes in the affirmative to (d) above, the penalties prescribed in RSA 263:56-b, II or III, shall apply.
+
+(f) In cases of denial of applications for licenses, the period imposed shall begin on the date of the hearing provided the person is then eligible by age for the issuance of a license. Otherwise the denial shall be imposed effective on the individual s 16 th birthday.
+
+Source. #6337, eff 9-25-96 (from Saf-C 214.01); ss by #8174, INTERIM, eff 9-25-04, EXPIRES: 3-24-05; ss by #8230-B, eff 12-17-04; ss by #10395-B, eff 8-15-13; ss by #13685, eff 8-5-23 (formerly Saf-C 215.01) (see Revision Note at chapter heading for Saf-C 1000)
+
+APPENDIX
+
+RULE
+SPECIFIC STATE STATUTE THE RULE IMPLEMENTS
+
+Saf-C 1001.01-1001.02
+RSA 541-A:7
+
+Saf-C 1001.03
+RSA 259:13
+
+Saf-C 1001.04
+RSA 259:19
+
+Saf-C 1001.05
+RSA 259:20
+
+Saf-C 1001.06
+RSA 259:22
+
+Saf-C 1001.07-1001.13
+RSA 541-A:7
+
+Saf-C 1001.14
+RSA 21:6-a
+
+Saf-C 1001.15
+RSA 21:6
+
+Saf-C 1002.01
+RSA 263:5; RSA 263:57-b
+
+Saf-C 1002.02
+RSA 263:5
+
+Saf-C 1002.03
+RSA 263:42
+
+Saf-C 1002.04
+RSA 263:17; RSA 263:19
+
+Saf-C 1002.05
+RSA 263:39-a
+
+Saf-C 1002.06
+RSA 263:21
+
+Saf-C 1002.07-1002.09
+RSA 263:5; RSA 263:6
+
+Saf-C 1002.10
+RSA 263:10
+
+Saf-C 1003.01-1003.04
+RSA 263:6; RSA 263:39-a
+
+Saf-C 1003.05
+RSA 263:31; RSA 263:32
+
+Saf-C 1003.06
+RSA 263:33-a
+
+Saf-C 1003.07-1006.07
+RSA 263:6
+
+Saf-C 1006.07
+RSA 263:7
+
+Saf-C 1007.01
+RSA 263:7; RSA 263:10
+
+Saf-C 1007.02-1007.03
+RSA 263:5-a
+
+Saf-C 1008.01-1008.07
+RSA 263:13; RSA 265-A:36
+
+Saf-C 1009.01-1009.02
+RSA 263:7
+
+Saf-C 1010.01-1010.06
+RSA 263:64-b
+
+Saf-C 1011.01-1011.02
+RSA 263:9
+
+Saf-C 1011.03
+RSA 263:9; RSA 263:5
+
+Saf-C 1011.04
+RSA 263:5
+
+Saf-C 1011.05
+RSA 263:5
+
+Saf-C 1011.06
+RSA 260:21
+
+Saf-C 1011.07
+RSA 260:15; RSA 263:42
+
+Saf-C 1011.08
+RSA 263:43
+
+Saf-C 1011.09
+RSA 260:14, VIII-a; RSA 263:40-a
+
+Saf-C 1011.10-1011.11
+RSA 260:10-a, II; RSA 263:41
+
+Saf-C 1011.12
+RSA 262:24; RSA 265-A:35
+
+Saf-C 1012.01
+RSA 376:2, XII
+
+Saf-C 1013.01-1013.02
+RSA 263:40-a
+
+Saf-C 1014
+RSA 263:5; RSA 263:57-b
+
+Saf-C 1015
+RSA 263:41-b
+
+Saf-C 1016.01
+RSA 263:47
+
+Saf-C 1016.02
+RSA 263:56, I(d); RSA 541-A:7
+
+Saf-C 1016.03
+RSA 263:14; RSA 263:14-a; RSA 263:47; RSA 264:2; RSA 265-A:35, II; RSA 265-A:35, III
+
+Saf-C 1016.04
+RSA 263:14
+
+Saf-C 1016.05
+RSA 263:17
+
+Saf-C 1016.06
+RSA 263:55
+
+Saf-C 1016.07
+RSA 263:77, Article IV (a)
+
+Saf-C 1016.08
+RSA 263:57
+
+Saf-C 1016.09
+RSA 263:61
+
+Saf-C 1016.10
+RSA 265-A:45, I
+
+Saf-C 1016.11
+RSA 263:59
+
+Saf-C 1016.12
+RSA 263:59; RSA 541-A:30-a, III
+
+Saf-C 1016.13
+RSA 263:12; RSA 263:47
+
+Saf-C 1016.14
+RSA 263:64-a
+
+Saf-C 1016.15
+RSA 261:180; RSA 263:64-a
+
+Saf-C 1016.16
+RSA 260:16; RSA 265-A:18; RSA 541-A:7
+
+Saf-C 1016.17
+RSA 263:65-a, II
+
+Saf-C 1017.01 & 1017.02
+RSA 262:19
+
+Saf-C 1017.03
+RSA 541-A:30-a, III(d)
+
+Saf-C 1017.04
+RSA 262:19, III
+
+Saf-C 1017.05
+RSA 262:19
+
+Saf-C 1017.06
+RSA 262:19
+
+Saf-C 1017.07
+RSA 262:24
+
+Saf-C 1018.01 - 1018.06
+RSA 264:26 & RSA 263:56, III
+
+Saf-C 1019
+RSA 263:56 & 263:59
+
+Saf-C 1020
+RSA 263:56-a
+
+Saf-C 1021
+RSA 262:27
+
+Saf-C 1022
+RSA 263:56-b, I; RSA 541-A:31, III

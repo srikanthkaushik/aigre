@@ -58,9 +58,12 @@ services:
       postgres:
         condition: service_healthy
     environment:
+      # Domain profile: unset = city departments, "dmv" = NH DMV bureaus
+      # (application-dmv.yml). Each profile gets its own database (AIGRE_DB_NAME).
+      SPRING_PROFILES_ACTIVE: "${AIGRE_PROFILE:-}"
       # Service name on the compose network -- container port 5432, not the
       # 5434 host mapping.
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/aigre
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/${AIGRE_DB_NAME:-aigre}"
       SPRING_DATASOURCE_USERNAME: aigre
       SPRING_DATASOURCE_PASSWORD: aigre_dev
       # GPU machine's Ollama -- see docs/RUNNING.md step a for the OLLAMA_HOST +
@@ -90,6 +93,9 @@ services:
       # public tunnel hostname when one is configured, so the page works from the internet;
       # the LAN origin otherwise. ?api= on the page URL still overrides either.
       AIGRE_API_ORIGIN: "${AIGRE_APP_PUBLIC_ORIGIN:-${AIGRE_LAN_ORIGIN}}"
+      # Which unit the demo widget is scoped to. Empty = agency-wide (dmv profile); the city
+      # profile needs a department id here, e.g. DMV.
+      AIGRE_EMBED_DEPARTMENT: "${AIGRE_EMBED_DEPARTMENT:-}"
     ports:
       # The page's origin is then http://<this-box-ip>:5500, which must be registered
       # as a DMV embed origin on the app, or the chat panel renders blank.
