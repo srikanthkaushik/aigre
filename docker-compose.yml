@@ -64,9 +64,10 @@ services:
       # <script type="module"> requests get CORS-403'd by Spring Security
       # before any permitAll rule is reached (same bug class as the
       # Cloudflare-tunnel CORS fix, see SecurityConfig.corsConfigurationSource).
-      # Replaces application.yml's default list, so the quick-tunnel pattern has to be
-      # repeated here for the tunnel-app service below to work.
-      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087,https://*.trycloudflare.com"
+      # Replaces application.yml's default list. The second entry is the app's public
+      # hostname behind the Cloudflare tunnel (AIGRE_APP_PUBLIC_ORIGIN in .env); when that's
+      # unset it falls back to repeating the LAN origin, which is harmless.
+      SECURITY_CORS_ALLOWED_ORIGIN_PATTERNS: "http://192.168.5.34:8087,${AIGRE_APP_PUBLIC_ORIGIN:-http://192.168.5.34:8087}"
       # The application.yml default is committed and baked into the image -- anyone holding
       # it can forge an ADMIN JWT. Set a deployment-only value in .env next to this file:
       #   echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
@@ -82,34 +83,32 @@ services:
     container_name: aigre-embed-demo
     restart: unless-stopped
     environment:
-      # The app as the *browser* reaches it -- not app:8085 on the compose network.
-      AIGRE_API_ORIGIN: "http://192.168.5.34:8087"
+      # The app as the *browser* reaches it -- not app:8085 on the compose network. The
+      # public tunnel hostname when one is configured, so the page works from the internet;
+      # the LAN origin otherwise. ?api= on the page URL still overrides either.
+      AIGRE_API_ORIGIN: "${AIGRE_APP_PUBLIC_ORIGIN:-http://192.168.5.34:8087}"
     ports:
       # The page's origin is then http://192.168.5.34:5500, which must be registered
       # as a DMV embed origin on the app, or the chat panel renders blank.
       - "5500:80"
 
-  # Public HTTPS URLs for internet testing via Cloudflare quick tunnels: outbound-only, no
-  # router changes, no Cloudflare account. Each prints a random
-  # https://<words>.trycloudflare.com URL in its logs (docker logs aigre-tunnel-app), and
-  # the URL changes whenever the container restarts. The whole app is exposed, not just
-  # chat -- see docs/RUNNING.md before starting these. They're opt-in via a profile:
+  # Named Cloudflare tunnel publishing two hostnames on your own domain, both configured
+  # in the Cloudflare dashboard (Zero Trust -> Networks -> Tunnels -> Public hostnames):
+  #   <demo-subdomain>.<domain> -> http://embed-demo:80
+  #   <app-subdomain>.<domain>  -> http://app:8085   (needed: the demo's chat loads from it)
+  # The tunnel's connector token goes in .env as CLOUDFLARE_TUNNEL_TOKEN. This exposes the
+  # whole app, not just chat -- see docs/RUNNING.md. Opt-in via a profile:
   #   docker compose --profile tunnel up -d
-  # Testers open https://<demo-url>/?api=https://<app-url>.
-  tunnel-app:
+  tunnel:
     image: cloudflare/cloudflared:2026.9.1
-    container_name: aigre-tunnel-app
+    container_name: aigre-tunnel
     profiles: ["tunnel"]
     restart: unless-stopped
-    command: tunnel --no-autoupdate --url http://app:8085
+    command: tunnel --no-autoupdate run
+    environment:
+      # ":-" not ":?" -- compose interpolates every service even when this profile is off,
+      # and a required variable would block plain `docker compose up` without a tunnel.
+      TUNNEL_TOKEN: "${CLOUDFLARE_TUNNEL_TOKEN:-}"
     depends_on:
       - app
-
-  tunnel-demo:
-    image: cloudflare/cloudflared:2026.9.1
-    container_name: aigre-tunnel-demo
-    profiles: ["tunnel"]
-    restart: unless-stopped
-    command: tunnel --no-autoupdate --url http://embed-demo:80
-    depends_on:
       - embed-demo

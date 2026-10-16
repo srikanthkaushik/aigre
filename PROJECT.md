@@ -3073,6 +3073,21 @@ origin (`http://192.168.5.34:8087`), not `app:8085`, because the browser loads
 as a DMV embed origin in the Unraid database only, not in the dev database.
 Verified end to end on 2026-10-15: chat works from the Unraid-hosted page.
 
+**Public access: named Cloudflare tunnel on the user's own domain (2026-10-16).**
+This replaces the brief quick-tunnel pass (random trycloudflare URLs, one tunnel per
+origin). One `cloudflared` service (compose profile `tunnel`, token in `.env` as
+`CLOUDFLARE_TUNNEL_TOKEN`) publishes two dashboard-configured hostnames:
+`dmv-demo.<domain>` → `embed-demo:80` and `aigre.<domain>` → `app:8085`. The app
+must be public as well, since the browser loads `embed.js` and the iframe from the
+app's origin. `AIGRE_APP_PUBLIC_ORIGIN` in `.env` drives both the CORS list and the
+demo's default `aigre-api` origin. Exposing the app also exposes the dashboard and
+admin API. Two mitigations are already done: the JWT secret now comes from
+`AIGRE_JWT_SECRET` in `.env`, because the committed `application.yml` default would
+let anyone forge an ADMIN token; and the runbook has a step to replace the shared
+`Demo1234!` password. Cloudflare Access on the whole app hostname was rejected,
+because the chat iframe would need a third-party Access cookie. Access on the
+employee and admin paths only is the next hardening step if the URL circulates.
+
 Full runbook (exact commands for all of the above) is in `docs/RUNNING.md`'s
 "Splitting across two machines (Unraid deployment)" section.
 

@@ -368,38 +368,65 @@ committed and baked into the image, and anyone holding it can forge an ADMIN tok
 echo "AIGRE_JWT_SECRET=$(openssl rand -base64 32)" > .env
 ```
 
-**e) Exposing the embed demo to the internet (optional, testing only).** Two
-`cloudflared` quick tunnels (compose profile `tunnel`) give the app and the demo site
-random public `https://<words>.trycloudflare.com` URLs. Both are needed, because the
-browser loads `embed.js` and the chat iframe from the app's origin. The tunnel exposes
-**the whole app**, including the employee dashboard and admin API, so lock it down first:
+**e) Exposing the embed demo on your own domain (optional, testing only).** One named
+Cloudflare tunnel publishes two stable hostnames. The app needs its own hostname,
+because the browser loads `embed.js` and the chat iframe from the app's origin, not the
+demo's. The tunnel exposes **the whole app**, including the employee dashboard and
+admin API.
+
+*In the Cloudflare dashboard:* Zero Trust → Networks → Tunnels → **Create a tunnel** →
+Cloudflared, name it (e.g. `aigre-unraid`), and copy the connector token from the
+install command it shows. Under the tunnel's **Public hostnames**, add:
+
+| Subdomain | Service |
+|---|---|
+| `dmv-demo.<domain>` | `HTTP` → `embed-demo:80` |
+| `aigre.<domain>` | `HTTP` → `app:8085` |
+
+The service addresses are compose service names, resolved from inside the `cloudflared`
+container on the compose network. Cloudflare creates the DNS records itself.
+
+*On Machine B:*
 
 ```
-# 1. Allow any trycloudflare.com page to frame DMV's chat. Run this while the seeded
-#    password still works; the wildcard survives tunnel URL changes.
+# 1. Add to .env (next to AIGRE_JWT_SECRET):
+cat >> .env <<'ENV'
+CLOUDFLARE_TUNNEL_TOKEN=<token from the dashboard>
+AIGRE_APP_PUBLIC_ORIGIN=https://aigre.<domain>
+ENV
+
+# 2. Allow the demo's public origin to frame DMV's chat (admin login on the LAN).
+read -rsp "ops.admin password: " PW; echo
 TOKEN=$(curl -s -X POST http://localhost:8087/auth/login -H "Content-Type: application/json" \
-  -d '{"username":"ops.admin","password":"Demo1234!"}' | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
+  -d "{\"username\":\"ops.admin\",\"password\":\"$PW\"}" | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
 curl -s -X POST http://localhost:8087/admin/departments/DMV/embed-origins \
   -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
-  -d '{"origin":"https://*.trycloudflare.com"}'
+  -d '{"origin":"https://dmv-demo.<domain>"}'
 
-# 2. Replace the shared seeded password (Demo1234!) on every employee account.
-#    seed.sql isn't re-run at boot, so this persists.
+# 3. Recreate app + embed-demo with the public origin, and start the tunnel.
+docker compose --profile tunnel up -d
+docker logs aigre-tunnel 2>&1 | grep -i "registered tunnel connection" | head -2
+```
+
+Testers open `https://dmv-demo.<domain>`. No `?api=` is needed, because the page
+defaults to `AIGRE_APP_PUBLIC_ORIGIN`. Stop the tunnel with
+`docker compose --profile tunnel stop tunnel`.
+
+**Before sharing the URL:** replace the shared seeded password (`Demo1234!`) on every
+employee account. `seed.sql` isn't re-run at boot, so the change persists:
+
+```
 read -rsp "New employee password: " PW; echo
 HASH=$(docker run --rm httpd:2.4-alpine htpasswd -nbBC 10 "" "$PW" | tr -d ':\n')
 docker exec aigre-pg-unraid psql -U aigre -d aigre \
   -c "UPDATE department_employees SET password_hash = '$HASH' WHERE username IS NOT NULL;"
-
-# 3. Start the tunnels and read their URLs.
-docker compose --profile tunnel up -d
-docker logs aigre-tunnel-app 2>&1 | grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' | head -1
-docker logs aigre-tunnel-demo 2>&1 | grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' | head -1
 ```
 
-Testers open `https://<demo-url>/?api=https://<app-url>`. Both URLs change whenever a
-tunnel container restarts. Stop the tunnels with
-`docker compose --profile tunnel stop tunnel-app tunnel-demo`. Every public chat message
-still runs on Machine A's GPU, and there is no rate limiting.
+With stable hostnames you can also put Cloudflare Access (Zero Trust → Access →
+Applications) in front of the app's employee and admin paths. Don't put it on the whole
+app hostname: the chat iframe would then need an Access cookie on a third-party origin,
+which browsers increasingly block. Every public chat message runs on Machine A's GPU,
+and there is no rate limiting.
 
 ---
 
