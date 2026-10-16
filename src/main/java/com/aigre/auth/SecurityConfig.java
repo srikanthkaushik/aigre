@@ -112,6 +112,8 @@ public class SecurityConfig {
                         // Public: department-name.pipe.ts renders on citizen.html, the
                         // unauthenticated citizen status page.
                         .pathMatchers(HttpMethod.GET, "/departments").permitAll()
+                        // Public: the UI's agency wording, loaded before anyone logs in.
+                        .pathMatchers(HttpMethod.GET, "/app-config").permitAll()
                         // Creating a new department/routing target is bigger blast-radius than
                         // day-to-day supervisor work -- ADMIN only, not SUPERVISOR too.
                         .pathMatchers(HttpMethod.POST, "/admin/departments").hasRole("ADMIN")

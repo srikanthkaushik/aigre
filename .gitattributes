@@ -1,0 +1,2 @@
+# Classifier prompts are hashed by ClassifierPromptTemplateTest; keep them LF everywhere.
+src/main/resources/prompts/** text eol=lf

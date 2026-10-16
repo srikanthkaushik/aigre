@@ -1,6 +1,7 @@
 package com.aigre.embed;
 
 import com.aigre.classification.DepartmentDirectory;
+import com.aigre.config.DomainProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -21,6 +22,12 @@ import java.util.List;
  * "frame-ancestors 'none'": the browser simply won't render the iframe on any site, which is
  * the correct default, not an error state needing its own UI.
  *
+ * With aigre.domain.agency-wide-embed=true (the dmv profile), an embed with NO department is
+ * allowed too, framed by the union of every department's registered origins: in a single-agency
+ * deployment every registered origin belongs to that agency, and an unscoped widget searches the
+ * whole corpus. Off by default, because in the city profile it would let a site registered for one
+ * department frame a widget answering for all of them. An unknown department id is still 'none'.
+ *
  * X-Frame-Options: DENY (Spring Security's default everywhere else) is suppressed only for
  * /embed/** by a dedicated SecurityWebFilterChain (see SecurityConfig) -- without that, it would
  * block framing outright regardless of this header, since browsers honor whichever of the two is
@@ -31,18 +38,28 @@ public class EmbedChatController {
 
     private final EmbedOriginService embedOriginService;
     private final DepartmentDirectory departmentDirectory;
+    private final boolean agencyWideEmbed;
 
-    public EmbedChatController(EmbedOriginService embedOriginService, DepartmentDirectory departmentDirectory) {
+    public EmbedChatController(
+            EmbedOriginService embedOriginService,
+            DepartmentDirectory departmentDirectory,
+            DomainProperties domain) {
         this.embedOriginService = embedOriginService;
         this.departmentDirectory = departmentDirectory;
+        this.agencyWideEmbed = domain.agencyWideEmbed();
     }
 
     @GetMapping(value = "/embed/chat", produces = MediaType.TEXT_HTML_VALUE)
     public Mono<ResponseEntity<Resource>> embedChat(@RequestParam(required = false) String department) {
         return Mono.fromCallable(() -> {
-            List<String> origins = department != null && departmentDirectory.departmentIds().contains(department)
-                    ? embedOriginService.listOrigins(department)
-                    : List.of();
+            List<String> origins;
+            if (department == null || department.isBlank()) {
+                origins = agencyWideEmbed ? embedOriginService.listAllOrigins() : List.of();
+            } else if (departmentDirectory.departmentIds().contains(department)) {
+                origins = embedOriginService.listOrigins(department);
+            } else {
+                origins = List.of();
+            }
             String frameAncestors = origins.isEmpty() ? "'none'" : String.join(" ", origins);
 
             return ResponseEntity.ok()

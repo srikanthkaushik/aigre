@@ -36,6 +36,13 @@ public class EmbedOriginService {
                 (rs, rowNum) -> rs.getString("origin"));
     }
 
+    /** Every origin registered for any department -- the allowlist for an agency-wide embed. */
+    public List<String> listAllOrigins() {
+        return jdbc.query(
+                "SELECT DISTINCT origin FROM department_embed_origins ORDER BY origin",
+                (rs, rowNum) -> rs.getString("origin"));
+    }
+
     public void addOrigin(String departmentId, String origin) {
         requireValidDepartment(departmentId);
         if (!VALID_ORIGIN.matcher(origin).matches()) {
