@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +16,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Issues and validates the JWTs employees authenticate with. Signing key is a configured
- * base64-encoded secret (application.yml), not regenerated per restart -- a per-restart random
- * key would log every employee out on every backend restart, which happens often in this dev
- * workflow. Fine for a single-instance demo; a real deployment would pull this from a secrets
- * manager, not a properties file.
+ * Issues and validates the JWTs employees authenticate with. The signing key is the shared
+ * jwtSigningKey bean (JwtKeyConfig): SECURITY_JWT_SECRET when set, otherwise random per boot.
+ * Fine for a single-instance demo; a real deployment would pull it from a secrets manager.
  */
 @Component
 public class JwtService {
@@ -27,11 +26,17 @@ public class JwtService {
     private final SecretKey key;
     private final long expirationMillis;
 
+    @Autowired
     public JwtService(
-            @Value("${security.jwt.secret}") String base64Secret,
+            SecretKey jwtSigningKey,
             @Value("${security.jwt.expiration-hours:8}") long expirationHours) {
-        this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(base64Secret));
+        this.key = jwtSigningKey;
         this.expirationMillis = expirationHours * 3600_000L;
+    }
+
+    /** For tests that build the service directly from a base64 secret. */
+    public JwtService(String base64Secret, long expirationHours) {
+        this(Keys.hmacShaKeyFor(Base64.getDecoder().decode(base64Secret)), expirationHours);
     }
 
     public String issueToken(EmployeePrincipal principal) {

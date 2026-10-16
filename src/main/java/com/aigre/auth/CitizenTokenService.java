@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -39,11 +40,17 @@ public class CitizenTokenService {
     private final SecretKey key;
     private final long expirationMillis;
 
+    @Autowired
     public CitizenTokenService(
-            @Value("${security.jwt.secret}") String base64Secret,
+            SecretKey jwtSigningKey,
             @Value("${security.citizen-token.expiration-days:365}") long expirationDays) {
-        this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(base64Secret));
+        this.key = jwtSigningKey;
         this.expirationMillis = expirationDays * 86_400_000L;
+    }
+
+    /** For tests that build the service directly from a base64 secret. */
+    public CitizenTokenService(String base64Secret, long expirationDays) {
+        this(Keys.hmacShaKeyFor(Base64.getDecoder().decode(base64Secret)), expirationDays);
     }
 
     public String issueToken(UUID citizenId) {

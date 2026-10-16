@@ -104,10 +104,11 @@ security:
     # without editing this default. See SecurityConfig.corsConfigurationSource().
     allowed-origin-patterns: http://localhost:*,https://*.trycloudflare.com
   jwt:
-    # Demo-only: a fixed configured secret, not per-restart-random (that would log every
-    # employee out on every backend restart) and not pulled from a real secrets manager (that's
-    # the real requirement beyond a single-instance demo). 256-bit random value, base64-encoded.
-    secret: 6UWjAYsTXxU3N61ttvUPFyDn4JfGXXmMBLTeff9XfKo=
+    # Base64, at least 256 bits. Set per deployment via SECURITY_JWT_SECRET; never commit one.
+    # This repo is public, so the value that used to live here is compromised -- any deployment
+    # still using it must rotate. Left empty, JwtKeyConfig generates a random key per boot (fine
+    # for dev; restarts log employees out and drop citizen recognition).
+    secret:
     expiration-hours: 8
   # Silent citizen-recognition token (CitizenTokenService) -- deliberately long-lived compared
   # to the employee JWT above: the point is recognizing a returning citizen months later, not a
