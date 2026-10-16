@@ -386,6 +386,21 @@ install command it shows. Under the tunnel's **Public hostnames**, add:
 The service addresses are compose service names, resolved from inside the `cloudflared`
 container on the compose network. Cloudflare creates the DNS records itself.
 
+Gotchas from the first setup:
+- **The dashboard shows an install command, not a token.** Pick the Docker tab and copy
+  the `eyJ...` string after `--token`. Don't run the command: a standalone container
+  can't resolve `embed-demo` or `app`. The dashboard waits for the compose `tunnel`
+  service to connect before you can continue.
+- **The routes tab is called "Published application routes"** in newer dashboards
+  ("Public Hostname" in older ones). The single "Service URL" field needs the scheme:
+  `http://embed-demo:80`. If it rejects container names, use `http://<unraid-ip>:5500`
+  and `http://<unraid-ip>:8087`. Routes under "Private networks" create no public DNS.
+  `NXDOMAIN` for the subdomain means no route was saved.
+- **Unraid's Compose Manager plugin keeps its own `.env`.** Set it via the stack's
+  **Edit Stack → Env File**, or in
+  `/boot/config/plugins/compose.manager/projects/<stack>/.env`. If the stack logs say
+  `required variable AIGRE_JWT_SECRET is missing a value`, the plugin isn't seeing it.
+
 *On Machine B:*
 
 ```
