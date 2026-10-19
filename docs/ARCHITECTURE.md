@@ -1,10 +1,18 @@
 # AIGRE — Architecture
 
 AIGRE (AI Grievance Resolution Engine) is a G2C (government-to-citizen) system for
-intake, AI classification, routing, and resolution tracking of city service complaints
-("grievances"). This document describes the system architecture, with particular focus
-on **where and how AI is used** — that's the load-bearing part of the system, not a
-bolt-on feature.
+intake, AI classification, routing, and resolution tracking of citizen complaints
+("grievances"). It is deployed for the NH Division of Motor Vehicles, routing complaints
+to five DMV bureaus; it was first built for a city's six service departments, which
+remain the default [domain profile](#domain-profiles). This document describes the
+system architecture, with particular focus on **where and how AI is used** — that's the
+load-bearing part of the system, not a bolt-on feature.
+
+**Reading note.** Code, APIs and tables call every routing unit a *department*, and so
+does this document; under the `dmv` profile each department row is a bureau. Many
+examples and measurements below come from the city build, where most of the system was
+developed — they're labeled where it matters, and the DMV numbers are in [Domain
+profiles](#domain-profiles).
 
 ## Contents
 
@@ -127,8 +135,9 @@ rather than assumed, the answer is mostly no:
   would be solving a problem SQL's own recursive-query primitive already handles
   natively at this data's actual scale.
 - **Everything else that *sounds* graph-like in this project's own docs has zero
-  backing data structure.** Department "topic overlap" (DOT/DPW, DHHS/DOE, etc.)
-  exists only as disambiguation prose inside the classifier's LLM prompt — no table,
+  backing data structure.** Department "topic overlap" (DOT/DPW in the city build,
+  DL/FR or REG/TITLE among the DMV bureaus) exists only as disambiguation prose inside
+  the classifier's LLM prompt — no table,
   no adjacency structure, nothing queryable. Policy-document cross-references
   (`[[XREF]]...[[/XREF]]`, described below under Retrieval-augmented chat) are a
   retrieval-scoring fix, not relationship data — there's no "document A references
@@ -278,13 +287,19 @@ department from a dropdown (which citizens routinely get wrong for genuinely
 cross-department issues).
 
 **How it's prompted** — a single structured prompt, not a chain of calls:
-- A domain glossary of all 6 departments (DOT, DPW, DHHS, DOE, DHUD, DEP) with
-  explicit disambiguation rules for the deliberately-overlapping cases (e.g. "DPW owns
-  infrastructure hazards even when they sound environmental — a gas smell from a
-  sewer/manhole is DPW's, not DEP's").
-- A deterministic priority rubric the model is told to *apply*, not invent
-  (CRITICAL = active safety hazard, HIGH = outage affecting many / vulnerable
-  population, MEDIUM = default, LOW = cosmetic).
+- A domain glossary of every department row (built by `DepartmentDirectory` from each
+  row's `jurisdiction_notes`), with explicit disambiguation rules for the
+  deliberately-overlapping cases. For the DMV bureaus: "FR owns any complaint about
+  being suspended … even when the citizen calls it a 'license problem'", and "a dealer
+  that never delivered a title or registration to a buyer is DEALER, not TITLE or REG".
+  The city build's equivalent: "a gas smell from a sewer/manhole is DPW's, not DEP's".
+- A deterministic priority rubric the model is told to *apply*, not invent. The rubric
+  is part of the profile's prompt file. DMV: CRITICAL = active fraud or theft (someone
+  else titled, registered or licensed in the citizen's name, a stolen vehicle), HIGH =
+  the citizen can't legally drive or work because of a DMV error or delay, or an outage
+  affecting many, MEDIUM = default individual service issue, LOW = cosmetic or
+  informational. City: CRITICAL = active safety hazard, HIGH = outage affecting many /
+  vulnerable population, MEDIUM = default, LOW = cosmetic.
 - Explicit confidence guidance: low confidence for genuinely vague text, mid
   confidence for real department ambiguity, high confidence only when both the issue
   and department are clear — **the model is told not to force a guess**.
@@ -334,8 +349,9 @@ fuller text now saved so they see the citizen's complete context either way.
 
 ### 2. Retrieval-augmented chat (`RetrievalService`, `ChatController`)
 
-**What it does**: answers citizen policy questions ("How long does DOT have to fix a
-pothole?") by retrieving the actual policy document and having the LLM answer *only*
+**What it does**: answers citizen policy questions ("How do I get a duplicate title if
+mine was lost?" — answered from Saf-C 1900, form TDMV 18) by retrieving the actual
+policy document and having the LLM answer *only*
 from that retrieved text — with a citation, and a refusal (not a fabrication) when the
 corpus doesn't contain the answer.
 
@@ -368,8 +384,8 @@ question" — a cross-encoder or LLM judging pass is required. This project uses
 judge (a dedicated cross-encoder was attempted and reverted — see
 [Known limitations](#known-limitations)).
 
-**Cross-reference-competition, fixed via corpus restructuring**: department policy
-documents deliberately contain disambiguating cross-references ("this is a DPW matter,
+**Cross-reference-competition, fixed via corpus restructuring** (city corpus): department
+policy documents deliberately contain disambiguating cross-references ("this is a DPW matter,
 not DEP's — see Policy 4.2"), per the corpus's own realism requirements. Those
 sentences contain the *other* department's keywords, so they sometimes outscored the
 actually-correct document — confirmed reproducible across three separate eval runs as
@@ -536,9 +552,9 @@ sequenceDiagram
     Chat->>T: parseToken(citizenToken)
     T-->>Chat: citizenId (or empty — invalid/expired treated as anonymous)
     Chat->>DB: SELECT 5 most recent grievances WHERE citizen_id
-    DB-->>Chat: G0429 (TRIAGED, DMV, submitted ...)
+    DB-->>Chat: G0062 (NEW, REG predicted, submitted ...)
     Chat->>L: stream answer (RAG context + this citizen's own grievance list)
-    L->>Chat: tool call get_grievance_status(G0429)
+    L->>Chat: tool call get_grievance_status(G0062)
     Chat-->>C: event: token (live status, no ID needed from the citizen)
 ```
 
@@ -761,10 +777,10 @@ on first bring-up: `PROJECT.md` "Two-machine split".
 ## Domain profiles
 
 The routing unit ("department") is data, so the same code serves different agencies. A
-Spring profile swaps everything agency-specific. With no profile, the app is the city
-demo; with `dmv`, it routes complaints to the bureaus of the NH Division of Motor
-Vehicles. Code, APIs and tables still say "department" in both; only the words shown to
-people change.
+Spring profile swaps everything agency-specific. The deployment is the `dmv` profile,
+which routes complaints to the bureaus of the NH Division of Motor Vehicles; with no
+profile, the app is the original city build. Code, APIs and tables still say
+"department" in both; only the words shown to people change.
 
 | Piece | City (default) | `dmv` profile | Where it's chosen |
 |---|---|---|---|
@@ -793,6 +809,12 @@ Gotchas:
 A new profile is a `seed/<name>/departments.sql`, a `prompts/<name>/classifier.txt`, a
 corpus folder with one subfolder per unit, and an `application-<name>.yml` setting the
 properties above.
+
+**Measured under the `dmv` profile** (local `aigre_dmv`, `qwen3:8b` classification):
+classification 40/42 (95.2%) on `test-data/dmv/grievances/eval-complaints.jsonl`;
+retrieval 12/16 top-1 on `DmvRagEvalSuiteTest`, the four misses losing to the large
+general chapters Saf-C 1000 and 500. Details and the misses' analysis are in
+`PROJECT.md`, "Domain profiles".
 
 ---
 

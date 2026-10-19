@@ -1,5 +1,12 @@
 # AIGRE — Running the Application Locally
 
+AIGRE is deployed for the NH Division of Motor Vehicles: the `dmv` domain profile, which
+routes complaints to five DMV bureaus, against its own `aigre_dmv` database. The
+numbered steps below are shared groundwork (Postgres, Ollama, backend, frontend) and
+default to the original city build. **To run the DMV bureaus, do steps 1, 2 and 5 as
+written, and follow [Running the DMV profile](#running-the-dmv-profile-nh-dmv-bureaus)
+in place of steps 3 and 4.**
+
 ## Prerequisites
 
 | Tool | Version used in development | Notes |
@@ -87,6 +94,9 @@ Get-CimInstance Win32_Process -Filter "Name='java.exe'" | Where-Object { $_.Comm
 ```
 
 ## 4. Seed data
+
+> These steps seed the **city** build (database `aigre`). For the DMV bureaus, use
+> [Running the DMV profile](#running-the-dmv-profile-nh-dmv-bureaus) instead.
 
 Two independent seeding steps — do both for a fully populated dashboard/chatbot:
 
@@ -469,11 +479,12 @@ and there is no rate limiting.
 
 ---
 
-## Running the DMV profile (NH DMV bureaus, optional)
+## Running the DMV profile (NH DMV bureaus)
 
 The `dmv` profile routes complaints to five NH Division of Motor Vehicles bureaus instead of
-the city departments (see `ARCHITECTURE.md` "Domain profiles"). It uses its **own
-database**, so the city data is untouched and you can switch between the two.
+the city departments (see `ARCHITECTURE.md` "Domain profiles"). It's the deployment the
+README and `APP_WALKTHROUGH.md` describe. It uses its **own database**, so the city data
+is untouched and you can switch between the two.
 
 **Locally (CMD, with `aigre-pg` and Ollama running):**
 
@@ -494,8 +505,21 @@ curl -s -X POST http://localhost:8085/auth/login -H "Content-Type: application/j
 curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://localhost:8085/ingest/reset?confirm=true"
 ```
 
-The seed adds 2 employees per bureau plus `ops.admin` (password `Demo1234!`) and 8 sample
-grievances. Ingestion loads the 16 rule chapters in `test-data/dmv/documents` (see
+The seed adds 2 employees per bureau plus `ops.admin` and 8 sample grievances. Every
+account's password is `Demo1234!` (replace it before exposing the deployment — step e of
+the two-machine setup):
+
+| Username | Name | Bureau | Role |
+|---|---|---|---|
+| `erin.callahan` / `victor.osei` | Erin Callahan / Victor Osei | `REG` Registration | AGENT / SUPERVISOR |
+| `hannah.pruitt` / `luis.ferreira` | Hannah Pruitt / Luis Ferreira | `DL` Driver Licensing | AGENT / SUPERVISOR |
+| `maya.lindqvist` / `owen.brightwater` | Maya Lindqvist / Owen Brightwater | `FR` Financial Responsibility | AGENT / SUPERVISOR |
+| `priscilla.moreau` / `dev.raman` | Priscilla Moreau / Dev Raman | `TITLE` Title & Anti-Theft | AGENT / SUPERVISOR |
+| `colleen.shaw` / `tomas.novak` | Colleen Shaw / Tomas Novak | `DEALER` Dealers & Inspections | AGENT / SUPERVISOR |
+| `ops.admin` | Ops Admin | *(none — all bureaus)* | ADMIN |
+
+Roles work as in step 4c. A complaint too vague to assign any bureau has no department,
+so it appears only in `ops.admin`'s Pending Review queue. Ingestion loads the 16 rule chapters in `test-data/dmv/documents` (see
 `test-data/dmv/corpus-manifest.md`). `curl http://localhost:8085/departments` should list
 `DEALER`, `DL`, `FR`, `REG` and `TITLE`, and the UI should say "Bureau". Unset both
 variables to go back to the city.
@@ -601,18 +625,25 @@ mvn test -Dtest=ComplaintEvalHarnessTest,DmvRagEvalSuiteTest -Dspring.profiles.a
 ## Testing the embeddable chat widget (optional)
 
 The citizen portal's floating chat can also be embedded on an *external* website via
-one `<script>` tag (`frontend/public/embed.js`), scoped to a single department's own
-policy corpus — e.g. a real DMV website embedding a widget that only ever answers from
-DMV's documents. Trying this locally means running **two separate "apps"** at once: the
-main AIGRE app (steps 1-5 above) and a second, throwaway static site standing in for
-"some department's existing website."
+one `<script>` tag (`frontend/public/embed.js`). Under the `dmv` profile the widget can
+be **agency-wide** (no `data-department`: answers from every bureau's rules) or scoped to
+one bureau (`data-department="TITLE"`: answers only from that bureau's rules). Under the
+city profile it must name a department. Trying this locally means running **two
+separate "apps"** at once: the main AIGRE app and a second, throwaway static site
+standing in for "the agency's existing website."
 
 `test-data/embed-demo/index.html` is a ready-made stand-in for that second site — a
-locally-styled (not real) NH DMV–style page that already includes the embed script.
+locally-styled (not real) NH DMV–style page that already includes the embed script. Its
+`<meta name="aigre-department" content="DMV">` names the department the city build
+onboarded. **Under the `dmv` profile, edit that to `content=""`** (agency-wide) or to a
+bureau id: there is no `DMV` department in the DMV database, so the widget would stay
+blank (`frame-ancestors 'none'`). The Docker image rewrites the meta from
+`AIGRE_EMBED_DEPARTMENT`, so this only matters when serving the file locally.
 
-**a) With AIGRE running (steps 1-5 above), register an embed origin as an admin.**
-Embedding is allowlisted per department, not open to any site that includes the
-script — nothing renders until its origin is registered:
+**a) With AIGRE running, register an embed origin as an admin.** Embedding is
+allowlisted per bureau (department), not open to any site that includes the script —
+nothing renders until its origin is registered. An agency-wide widget may be framed by
+an origin registered for any bureau:
 
 ```
 curl -s -X POST http://localhost:8085/auth/login ^
@@ -623,11 +654,14 @@ curl -s -X POST http://localhost:8085/auth/login ^
 Grab the `token` field from the response, then:
 
 ```
-curl -s -X POST http://localhost:8085/admin/departments/DMV/embed-origins ^
+curl -s -X POST http://localhost:8085/admin/departments/REG/embed-origins ^
   -H "Content-Type: application/json" ^
   -H "Authorization: Bearer <TOKEN>" ^
   -d "{\"origin\": \"http://localhost:5500\"}"
 ```
+
+For a bureau-scoped widget, register the origin under that bureau's id instead. On the
+city build, use `DMV` (the onboarded department the demo page names).
 
 > **Load the demo page as `http://localhost:5500`, not `http://127.0.0.1:5500`.**
 > `http-server`'s own startup banner prints `127.0.0.1` as one of its "Available on"
@@ -652,13 +686,13 @@ must be registered (step a) on *that* instance.
 
 **c) Open `http://localhost:5500` in a browser.** A floating chat button appears
 bottom-right — that's `embed.js`, injected by the demo page's own `<script>` tag, not
-part of AIGRE's own frontend. Click it, ask a DMV-specific question (e.g. *"How do I
-get a duplicate title if my original was lost or damaged?"*) and confirm it answers
-and cites from DMV's own corpus. Ask a question about a different department (e.g. a
-DOT pothole question) and confirm it does **not** cross-contaminate — an honest "I
-don't know" instead, or a real MCP tool call if the question references a specific
-grievance ID (department scoping only restricts the RAG corpus, not tool-calling — see
-`PROJECT.md`).
+part of AIGRE's own frontend. Click it, ask a DMV question (e.g. *"What happens if my
+car fails its state inspection?"*) and confirm it answers and cites Saf-C chapters. To
+check scoping, set the meta to `TITLE`, register the origin under `TITLE`, and ask a
+question another bureau owns (e.g. *"What do I need to restore my license after a
+suspension?"*): it should **not** cross-contaminate — an honest "I don't know" instead,
+or a real MCP tool call if the question references a specific grievance ID (scoping
+only restricts the RAG corpus, not tool-calling — see `PROJECT.md`).
 
 **To see the allowlist actually being enforced**, serve the same demo page on a
 *different*, unregistered port instead (e.g. `npx http-server -p 5501` from the same
@@ -761,5 +795,6 @@ config changes needed either direction.
 curl http://localhost:8085/actuator/health          # {"status":"UP"}
 curl http://localhost:11434/api/tags                 # 200 = Ollama reachable
 docker ps --filter name=aigre-pg                     # container running
-curl "http://localhost:8085/grievances?department=DOT"  # [] or real rows once seeded
+curl http://localhost:8085/departments               # REG, DL, FR, TITLE, DEALER (dmv) or the city departments
+curl http://localhost:8085/app-config                # "unitLabel":"Bureau" under the dmv profile
 ```

@@ -3280,6 +3280,33 @@ answering for all of them. Unknown department ids still get `frame-ancestors 'no
   on `window.matchMedia` in the test environment (ThemeService). Untouched apart from
   adding the HTTP test providers `AppConfigService` now needs.
 
+## Docs and screenshots: the DMV bureaus as the deployment
+
+README, `APP_WALKTHROUGH.md`, `RUNNING.md`, `ARCHITECTURE.md`, `TEST_SCENARIOS.md` and the
+onboarding/roadmap docs now describe the `dmv` profile as the deployment, with the city
+build kept as the default profile. All 21 `docs/images/*.png` were recaptured with a
+throwaway Playwright script (scratchpad, not the repo) against a local `dmv` boot on
+`aigre_dmv`, `ng serve` on 4200. The walkthrough quotes those runs' real outputs. City
+measurements (91-case set, 62-question RAG set) stay in the docs, labeled as the city
+build's.
+
+Found while capturing:
+- **Local embed demo is blank under `dmv`.** `test-data/embed-demo/index.html` hardcodes
+  `<meta name="aigre-department" content="DMV">`; there's no `DMV` row in `aigre_dmv`, so
+  the frame gets `frame-ancestors 'none'`. Docker rewrites the meta from
+  `AIGRE_EMBED_DEPARTMENT`; locally it has to be edited to `""` or a bureau id. Documented
+  in `RUNNING.md`; the file itself is unchanged.
+- **Vague complaints are visible only to `ops.admin`.** A paused case with no predicted
+  bureau has no department, so no bureau supervisor's Pending Review queue shows it.
+  The pending-review screenshots use `ops.admin` for that reason.
+- **The review dialog said "(no reasoning captured for this run)"** for every paused case:
+  the workflow responses carried `"reasoning":""` from `qwen3:8b`.
+- **A clarification can resolve to `DUPLICATE`.** Adding detail that matched open case
+  G0010 resumed the workflow into a duplicate link; the citizen banner still said "Routed
+  to …" with no SLA date and no mention of the duplicate.
+- **The citizen form's placeholder is still the pothole example** (`citizen.html`), not
+  profile wording. It only shows on an empty, focused textarea, so no screenshot shows it.
+
 ## Open items to revisit
 - Dark mode — **built, see "Dark mode" below**. The "fast follow, not a
   rewrite" prediction from the redesign pass held up: verified by direct

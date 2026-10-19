@@ -11,8 +11,11 @@ back to, not as a spec ready to implement.
 
 ## The problem this would solve
 
-AIGRE has been built greenfield end to end: one agency (a single city), six
-departments it owns outright, one Postgres database it's the sole writer to.
+AIGRE has been built greenfield end to end: one agency per deployment (first a single
+city with six departments, now the NH DMV with five bureaus, chosen by a domain profile —
+see `ARCHITECTURE.md` "Domain profiles"), routing units it owns outright, and one
+Postgres database it's the sole writer to. A profile retargets the whole app at a
+different agency; it doesn't let two agencies share one deployment.
 Real-world adoption means two very different onboarding stories, and they need
 different architecture, not one "multi-tenant" checkbox:
 
