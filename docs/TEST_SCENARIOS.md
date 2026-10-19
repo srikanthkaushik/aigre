@@ -6,12 +6,12 @@ labeled examples for the DMV bureaus and for the original city build), and a man
 checklist for exercising the running application by hand.
 
 **Which profile the tests run under.** AIGRE is deployed as the `dmv` profile (five NH
-DMV bureaus), but the automated suite predates it. Apart from the two DMV evals, every
-backend test runs under the **default (city) profile** against the city database
+DMV bureaus), but most of the automated suite predates it. Apart from the four DMV
+tests, every backend test runs under the **default (city) profile** against the city database
 `aigre` — many hardcode city department codes (`DOT`, `DPW`, `DHHS`, `DEP`) and expect
 the city seed. They exercise profile-independent machinery (workflow, duplicates, SLA,
 auth, MCP, caching, redaction), so they still cover the DMV deployment's code paths;
-the DMV-specific prompt, bureaus and corpus are measured by the DMV evals.
+the DMV-specific prompt, bureaus, seed and corpus are covered by the DMV tests.
 
 ## Contents
 
@@ -36,7 +36,7 @@ Run a single class:
 mvn test -Dtest=ClassName
 ```
 
-All rows below are city-profile tests except `DmvRagEvalSuiteTest` (DMV only) and
+All rows below are city-profile tests except the three `Dmv*` classes (DMV only) and
 `ComplaintEvalHarnessTest` (either, by file — see below).
 
 | Test class | Type | What it verifies |
@@ -53,6 +53,8 @@ All rows below are city-profile tests except `DmvRagEvalSuiteTest` (DMV only) an
 | `ChatControllerTest` | Integration (real Postgres + live Ollama + real self-referential MCP client) | Citizen chat's MCP tool-calling, end to end: a deterministic check that only the 3 read-only tools are ever exposed to the model (`filterToolNames`, no LLM involved), a RAG-only question that must never trigger a tool call, and a status question about a just-submitted real grievance that must trigger exactly one live `get_grievance_status` call. See variance note below |
 | `ClassifierPromptTemplateTest` | Pure unit | Pins `prompts/city/classifier.txt` to the exact text its accuracy was measured with (SHA-256), and checks every profile's prompt has its two `%s` slots |
 | `DmvRagEvalSuiteTest` | Integration (live Ollama, `dmv` profile only) | 16 retrieval questions against the NH DMV rule corpus, each expecting a specific Saf-C chapter as the top result. Skipped unless run with `-Dspring.profiles.active=dmv` against the DMV database (`RUNNING.md` "Running the DMV profile") |
+| `DmvGrievanceClassifierTest` | Integration (live Ollama, `dmv` profile only) | The DMV counterpart to `LlmGrievanceClassifierTest`: lost title → `TITLE` (confident), paid-but-still-suspended → `FR` at `HIGH` (the DL/FR boundary), a car registered in the citizen's name → `CRITICAL`, a vague complaint → not confident, a pothole → not actionable |
+| `DmvSecurityIntegrationTest` | Integration (real Postgres, seeded DMV employees, `dmv` profile only) | The DMV counterpart to `SecurityIntegrationTest`: `/app-config` serves "Bureau" wording, `/departments` is exactly the five bureaus, a bureau login carries its bureau, a bureau queue holds only that bureau's rows, AGENT can't change status, SUPERVISOR can within its bureau but not across, ADMIN can act on any bureau. Needs `test-data/dmv/sql/seed.sql` loaded |
 | `PriorityTest` | Pure unit | Priority tier bumping (one tier up, `CRITICAL` stays `CRITICAL`), used by the reopen rule |
 | `JwtServiceTest` | Pure unit | Employee JWT round-trip, malformed token, wrong signing key and expired token all handled |
 | `ChatResponseCacheTest` | Pure unit | The `/chat/stream` exact-match cache: hit/miss, case and whitespace normalisation, per-department keys, TTL expiry, disabled mode, `invalidateAll()` |
@@ -65,9 +67,16 @@ All rows below are city-profile tests except `DmvRagEvalSuiteTest` (DMV only) an
 | `EmailGrievancePollerTest` | Integration (real Postgres, embedded GreenMail mailbox, **mocked** classifier) | The email channel end to end: an unread message becomes a grievance, and the SEEN flag prevents reprocessing |
 | `CorpusIngestionServiceCacheInvalidationTest` | Integration (live Ollama, slow) | `POST /ingest/reset` clears the chat response cache. **Re-ingests the whole corpus**, so run it deliberately: `mvn test -Dtest=CorpusIngestionServiceCacheInvalidationTest` |
 
-**The DMV evals** run under the `dmv` profile against `aigre_dmv` (set up per
-`RUNNING.md`, "Running the DMV profile"). Last measured: classification 40/42 (95.2%),
-retrieval 12/16 top-1 (`PROJECT.md`, "Domain profiles"):
+**The DMV tests** run under the `dmv` profile against `aigre_dmv` with the DMV seed and
+corpus loaded (`RUNNING.md`, "Running the DMV profile"). The smoke and security tests are
+quick (about a minute and a half, mostly the five live classifications):
+
+```
+mvn test -Dtest=DmvGrievanceClassifierTest,DmvSecurityIntegrationTest -Dspring.profiles.active=dmv -Dspring.datasource.url=jdbc:postgresql://localhost:5434/aigre_dmv
+```
+
+The evals take minutes. Last measured: classification 40/42 (95.2%), retrieval 12/16
+top-1 (`PROJECT.md`, "Domain profiles"):
 
 ```
 mvn test -Dtest=ComplaintEvalHarnessTest,DmvRagEvalSuiteTest -Dspring.profiles.active=dmv -Dspring.datasource.url=jdbc:postgresql://localhost:5434/aigre_dmv -Daigre.eval.complaints=test-data/dmv/grievances/eval-complaints.jsonl
