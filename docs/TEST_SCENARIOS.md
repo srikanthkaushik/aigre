@@ -140,48 +140,69 @@ Full distribution: scenario 1 ×42, 2 ×5, 3 ×5, 4 ×6, 5 ×8, 7 ×4, 8 ×11, 9
 (91 total; scenario 6 is intentionally excluded from this file since it's a
 state/time-based condition, not something a citizen types).
 
+**The same scenarios for the DMV bureaus** — the deployed profile. Examples from
+`test-data/dmv/grievances/eval-complaints.jsonl` (42 labeled complaints, same numbering;
+scenarios 5–7 aren't represented there):
+
+| # | Example | Expected outcome |
+|---|---|---|
+| 1 | *"I lost my car title when I moved last year and now I need it to sell the car. How do I get a replacement?"* | `TITLE`, `duplicate-title`, `MEDIUM`, `TRIAGED` |
+| 2 | *"I bought a car from my neighbor and when I went to register it, the clerk said the title was never transferred out of his late wife's name."* | Spans `TITLE`/`REG` (`TITLE` preferred), `title-transfer`, `MEDIUM` |
+| 3 | *"Someone transferred the title of my truck to themselves using a forged signature. The truck is gone from my driveway."* | `TITLE`, `CRITICAL` (active fraud and theft) |
+| 4 | *"The DMV messed up my paperwork again."* | No bureau forced; `NEEDS_CLARIFICATION` or a `human_review` pause |
+| 8 | *"My registration renewal has been pending for a month and honestly I'm furious, this is ridiculous and incompetent!"* | `REG`, `MEDIUM` — anger alone must not bump the tier |
+| 9 | *"There's a huge pothole on Route 3 that blew out my tire."* | `NOT_ACTIONABLE` — road maintenance is not the DMV |
+| 10 | *"This is a registration problem: my lender still shows on my title after I paid off the loan."* (citizen mislabels it) | `TITLE`, `lien-release` — a lien on the title is `TITLE`'s regardless of the citizen's wording |
+
 ---
 
 ## Manual QA checklist
 
-Since there's no browser automation in this project yet, use this checklist to
-exercise the running app by hand after any frontend change. Requires both servers up
-(`RUNNING.md`) and the corpus/seed data loaded.
+There's no browser automation checked into this project (screenshots and live checks
+use a throwaway Playwright script outside the repo), so use this checklist to exercise
+the running app by hand after any frontend change. Requires both servers up
+(`RUNNING.md`, "Running the DMV profile") and the corpus/seed data loaded. The
+examples are the DMV ones above; on the city build use the city table's.
 
 **Citizen portal:**
 
+- [ ] Every label says "Bureau" (not "Department"), and the landing page names the NH
+      Division of Motor Vehicles.
 - [ ] Submit a clear complaint (try the scenario 1 example above) → routes
-      immediately, shows department/category/priority/SLA date.
+      immediately, shows bureau/category/priority/SLA date.
 - [ ] Submit a vague complaint (scenario 4 example) → shows "needs a closer look",
-      *not* a forced department, with an inline "Can you tell us more?" form.
+      *not* a forced bureau, with an inline "Can you tell us more?" form.
 - [ ] Add real detail in that form → reclassifies the combined text and, if now
       confident, auto-routes without a supervisor (banner flips to the normal "Routed
       to ..." state). The form does not reappear.
 - [ ] Add vague/unhelpful detail instead → stays in "needs a closer look" state with
       an updated message ("this still needs a supervisor's review"); the form is gone.
-- [ ] Submit a pure compliment (scenario 9 example) → "not something this portal
-      handles".
+- [ ] Submit the pothole (scenario 9 example) or a pure compliment → "not something
+      this portal handles".
 - [ ] Click **Track this** on a fresh submission → jumps to Check Status with the ID
       pre-filled and resolves correctly.
 - [ ] Check status with an unknown/malformed ID → clear error, not a raw stack trace.
-- [ ] Ask a policy question (try the pothole SLA example) → streams token-by-token,
-      ends with a correct, real citation.
+- [ ] Ask a policy question (try "How do I get a duplicate title if mine was lost?") →
+      streams token-by-token, ends with a real Saf-C citation (Saf-C 1900).
 - [ ] Ask a question with no corpus coverage → the model says it doesn't know rather
       than fabricating an answer.
 - [ ] Click an example-question chip in the empty chat state → sends it immediately.
 
 **Employee dashboard:**
 
-- [ ] Switch the "Viewing as" department picker → department queue and Trends both
-      refresh to the new department; long department names don't wrap.
+- [ ] Sign in as a bureau employee (e.g. `priscilla.moreau`) → the queue and Trends
+      are scoped to that bureau; long bureau names ("Bureau of Certificate of Title and
+      Anti-Theft") don't break the toolbar or tabs.
+- [ ] Sign in as `ops.admin` → the bureau filter shows "All Bureaus" plus the five
+      bureaus; vague complaints with no bureau appear in its Pending Review queue.
 - [ ] Open **Review** on a Pending Review item → shows the citizen's original text,
       the LLM's reasoning, and an editable form with "(keep as-is)" defaults.
 - [ ] Submit a review decision → item leaves the Pending Review queue, appears in the
-      correct department's queue with `department_confirmed` reflecting the decision.
+      correct bureau's queue with `department_confirmed` reflecting the decision.
 - [ ] Open **View** on an already-routed item → read-only detail, no edit form.
-- [ ] Confirm SLA-breached rows are visually flagged in the department queue table.
+- [ ] Confirm SLA-breached rows are visually flagged in the bureau queue table.
 - [ ] Switch pagination page size / page on both tables.
-- [ ] Trends tab: toggle This Department ↔ All Departments and 7/30/90-day window →
+- [ ] Trends tab: toggle own bureau ↔ All Bureaus and 7/30/90-day window →
       all 4 charts and the SLA snapshot update together.
 - [ ] Resize the browser to a narrow width → toolbar nav collapses into a menu; stat
       row and chart grid reflow to a single column rather than overflowing.

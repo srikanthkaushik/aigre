@@ -1,16 +1,21 @@
-# AIGRE — Onboarding a New Department
+# AIGRE — Onboarding a New Department (or Bureau)
 
-How to add a genuinely new city department — not just more documents for an
-existing one — including pulling its policy PDFs from a public URL. This is
+How to add a genuinely new routing unit — a DMV bureau under the `dmv` profile, or a city
+department under the default profile — not just more documents for an existing one —
+including pulling its policy PDFs from a public URL. This is
 a reusable, repeatable admin action: onboarding department #2 (and #3, #4...)
 needs no code change or redeploy. See `PROJECT.md`'s "Onboard a new
 department from a public URL" for the full build history and the two real
 bugs found while shipping this; this doc is the operational how-to.
 
 Under the `dmv` domain profile the routing units are DMV **bureaus**, but they're the same
-`departments` rows, so everything here applies unchanged. A new bureau is onboarded exactly
-like a new department, and its documents land in its own folder under the profile's corpus
-path (`test-data/dmv/documents/<ID>/`). See `ARCHITECTURE.md` "Domain profiles".
+`departments` rows (and the same `/admin/departments` API), so everything here applies
+unchanged. A new bureau — say Pupil Transportation, one of the two NH bureaus this
+deployment leaves out — is onboarded exactly like a new department, and its documents land
+in its own folder under the profile's corpus path (`test-data/dmv/documents/<ID>/`). The
+worked example below is from the city build, where the DMV itself was onboarded as a
+seventh city department before the `dmv` profile existed. See `ARCHITECTURE.md` "Domain
+profiles".
 
 ## What this does, in one call
 

@@ -1,6 +1,8 @@
 # Future state: infrastructure-network root-cause analysis
 
-**Status: not built.** Documented here as a candidate future enhancement,
+**Status: not built. Applies to the city build (default profile) only** — DMV bureau
+complaints are about paperwork and records, not shared physical infrastructure.
+Documented here as a candidate future enhancement,
 deliberately deferred — see [`PROJECT.md`](../PROJECT.md#open-items-to-revisit) for
 how open items are tracked in this project. This file exists so the idea has a
 home to come back to, not as a spec ready to implement.
