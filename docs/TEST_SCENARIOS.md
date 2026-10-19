@@ -2,8 +2,16 @@
 
 This document covers three distinct things: the automated backend/frontend test
 suites, the 10 domain routing scenarios the system is designed against (with real
-labeled examples), and a manual QA checklist for exercising the running application
-by hand.
+labeled examples for the DMV bureaus and for the original city build), and a manual QA
+checklist for exercising the running application by hand.
+
+**Which profile the tests run under.** AIGRE is deployed as the `dmv` profile (five NH
+DMV bureaus), but most of the automated suite predates it. Apart from the four DMV
+tests, every backend test runs under the **default (city) profile** against the city database
+`aigre` — many hardcode city department codes (`DOT`, `DPW`, `DHHS`, `DEP`) and expect
+the city seed. They exercise profile-independent machinery (workflow, duplicates, SLA,
+auth, MCP, caching, redaction), so they still cover the DMV deployment's code paths;
+the DMV-specific prompt, bureaus, seed and corpus are covered by the DMV tests.
 
 ## Contents
 
@@ -28,6 +36,9 @@ Run a single class:
 mvn test -Dtest=ClassName
 ```
 
+All rows below are city-profile tests except the three `Dmv*` classes (DMV only) and
+`ComplaintEvalHarnessTest` (either, by file — see below).
+
 | Test class | Type | What it verifies |
 |---|---|---|
 | `SlaCalculatorTest` | Pure unit | SLA due-date arithmetic — no LLM, no DB, deterministic |
@@ -35,13 +46,15 @@ mvn test -Dtest=ClassName
 | `GrievanceWorkflowServiceTest` | Integration (real Postgres + live Ollama) | The auto-commit (high-confidence) path through the LangGraph4j workflow, end to end |
 | `GrievanceWorkflowPauseResumeTest` | Integration (real Postgres, **mocked** classifier) | The interrupt/resume *mechanics* deterministically — pause on low confidence, resume with a supervisor decision, skip-review on not-actionable, and the citizen-clarification path (`clarify()`) both when it resolves the pause and when it doesn't. Mocked deliberately so this test isn't flaky for reasons unrelated to graph wiring (see note below) |
 | `GrievanceTrendsServiceTest` | Integration (real Postgres) | The 5 trend aggregation queries against isolated fixture data (a dedicated `ZZTEST` department code, cleaned up after) — exact expected counts/averages |
-| `LlmGrievanceClassifierTest` | Integration (live Ollama) | Fast structural smoke test — a handful of unambiguous cases (confident pothole, critical gas leak, vague/unconfident, non-actionable compliment). Not the accuracy measurement |
-| `ComplaintEvalHarnessTest` | Integration (live Ollama, slow) | **The accuracy measurement** — all 91 labeled complaints in `test-data/grievances/eval-complaints.jsonl` run through the real classification pipeline, department-match accuracy reported. See variance note below |
+| `LlmGrievanceClassifierTest` | Integration (live Ollama) | Fast structural smoke test on the city prompt — a handful of unambiguous cases (confident pothole → `DOT`, critical gas leak, vague/unconfident, non-actionable compliment). Not the accuracy measurement |
+| `ComplaintEvalHarnessTest` | Integration (live Ollama, slow) | **The accuracy measurement** — every labeled complaint in an eval file run through the real classification pipeline, department-match accuracy reported. Defaults to the city's 91 (`test-data/grievances/eval-complaints.jsonl`); the DMV's 42 with the command below. See variance note below |
 | `RetrievalEvalTest` | Integration (live Ollama) | Day-one retrieval smoke test — ⚠️ **destructive**, see warning below |
-| `RagEvalSuiteTest` | Integration (live Ollama, slow, ~9 min) | 34 labeled retrieval cases from `test-data/eval-questions.md` against the real hybrid-retrieval + rerank pipeline |
+| `RagEvalSuiteTest` | Integration (live Ollama, slow, ~9 min) | 34 labeled retrieval cases from `test-data/eval-questions.md` against the city policy corpus, through the real hybrid-retrieval + rerank pipeline |
 | `ChatControllerTest` | Integration (real Postgres + live Ollama + real self-referential MCP client) | Citizen chat's MCP tool-calling, end to end: a deterministic check that only the 3 read-only tools are ever exposed to the model (`filterToolNames`, no LLM involved), a RAG-only question that must never trigger a tool call, and a status question about a just-submitted real grievance that must trigger exactly one live `get_grievance_status` call. See variance note below |
 | `ClassifierPromptTemplateTest` | Pure unit | Pins `prompts/city/classifier.txt` to the exact text its accuracy was measured with (SHA-256), and checks every profile's prompt has its two `%s` slots |
 | `DmvRagEvalSuiteTest` | Integration (live Ollama, `dmv` profile only) | 16 retrieval questions against the NH DMV rule corpus, each expecting a specific Saf-C chapter as the top result. Skipped unless run with `-Dspring.profiles.active=dmv` against the DMV database (`RUNNING.md` "Running the DMV profile") |
+| `DmvGrievanceClassifierTest` | Integration (live Ollama, `dmv` profile only) | The DMV counterpart to `LlmGrievanceClassifierTest`: lost title → `TITLE` (confident), paid-but-still-suspended → `FR` at `HIGH` (the DL/FR boundary), a car registered in the citizen's name → `CRITICAL`, a vague complaint → not confident, a pothole → not actionable |
+| `DmvSecurityIntegrationTest` | Integration (real Postgres, seeded DMV employees, `dmv` profile only) | The DMV counterpart to `SecurityIntegrationTest`: `/app-config` serves "Bureau" wording, `/departments` is exactly the five bureaus, a bureau login carries its bureau, a bureau queue holds only that bureau's rows, AGENT can't change status, SUPERVISOR can within its bureau but not across, ADMIN can act on any bureau. Needs `test-data/dmv/sql/seed.sql` loaded |
 | `PriorityTest` | Pure unit | Priority tier bumping (one tier up, `CRITICAL` stays `CRITICAL`), used by the reopen rule |
 | `JwtServiceTest` | Pure unit | Employee JWT round-trip, malformed token, wrong signing key and expired token all handled |
 | `ChatResponseCacheTest` | Pure unit | The `/chat/stream` exact-match cache: hit/miss, case and whitespace normalisation, per-department keys, TTL expiry, disabled mode, `invalidateAll()` |
@@ -54,13 +67,27 @@ mvn test -Dtest=ClassName
 | `EmailGrievancePollerTest` | Integration (real Postgres, embedded GreenMail mailbox, **mocked** classifier) | The email channel end to end: an unread message becomes a grievance, and the SEEN flag prevents reprocessing |
 | `CorpusIngestionServiceCacheInvalidationTest` | Integration (live Ollama, slow) | `POST /ingest/reset` clears the chat response cache. **Re-ingests the whole corpus**, so run it deliberately: `mvn test -Dtest=CorpusIngestionServiceCacheInvalidationTest` |
 
-`ComplaintEvalHarnessTest` also measures the DMV bureaus: point it at
-`test-data/dmv/grievances/eval-complaints.jsonl` (42 labeled DMV complaints, same scenario
-numbering) with `-Daigre.eval.complaints=...` under the `dmv` profile.
+**The DMV tests** run under the `dmv` profile against `aigre_dmv` with the DMV seed and
+corpus loaded (`RUNNING.md`, "Running the DMV profile"). The smoke and security tests are
+quick (about a minute and a half, mostly the five live classifications):
 
-Most integration tests expect the dev stack from `RUNNING.md` steps 1–4: `aigre-pg` on
-port 5434 with `seed.sql` loaded, and Ollama on 11434 for the "live Ollama" rows. Tests
-marked **mocked** classifier don't need Ollama.
+```
+mvn test -Dtest=DmvGrievanceClassifierTest,DmvSecurityIntegrationTest -Dspring.profiles.active=dmv -Dspring.datasource.url=jdbc:postgresql://localhost:5434/aigre_dmv
+```
+
+The evals take minutes. Last measured: classification 40/42 (95.2%), retrieval 12/16
+top-1 (`PROJECT.md`, "Domain profiles"):
+
+```
+mvn test -Dtest=ComplaintEvalHarnessTest,DmvRagEvalSuiteTest -Dspring.profiles.active=dmv -Dspring.datasource.url=jdbc:postgresql://localhost:5434/aigre_dmv -Daigre.eval.complaints=test-data/dmv/grievances/eval-complaints.jsonl
+```
+
+**Everything else** expects the city dev stack from `RUNNING.md` steps 1–4: `aigre-pg` on
+port 5434 with the city `test-data/sql/seed.sql` loaded into `aigre`, and Ollama on 11434
+for the "live Ollama" rows. Run plain `mvn test` with `SPRING_PROFILES_ACTIVE` and
+`SPRING_DATASOURCE_URL` unset — if they're still set from running the DMV profile, the
+city tests will fail against the DMV database. Tests marked **mocked** classifier don't
+need Ollama.
 
 ### ⚠️ `RetrievalEvalTest` is destructive against the shared dev database
 
@@ -81,7 +108,7 @@ itself.
 ### LLM sampling variance is expected, not a bug
 
 `ComplaintEvalHarnessTest` against Ollama's `qwen2.5:7b` has measured 65.9%–86.8%
-accuracy across different runs of the *identical* 91 cases and code — genuine model
+accuracy across different runs of the *identical* 91 city cases and code — genuine model
 sampling variance, confirmed by re-running a single flagged case in isolation and
 getting a different (correct) answer with no code change in between. The regression
 floor is set at 55% (a comfortable margin below the observed low end), not pinned to
@@ -118,10 +145,37 @@ the UI itself is actually verified.
 ## The 10 domain routing scenarios
 
 These are the routing/escalation branches the classification and workflow pipeline is
-designed against (originally defined in the Milestone-0 plan, §1.4). Each is backed by
-real labeled examples in `test-data/grievances/eval-complaints.jsonl`
-(`ComplaintEvalHarnessTest` asserts against all of them); one representative example is
-shown per scenario below.
+designed against (originally defined in the Milestone-0 plan, §1.4). Each profile has
+its own labeled examples with the same scenario numbering, and `ComplaintEvalHarnessTest`
+asserts against whichever file it's given. One representative example per scenario.
+
+### DMV bureaus (the deployed `dmv` profile)
+
+Labeled examples in `test-data/dmv/grievances/eval-complaints.jsonl`. Bureaus: `REG`
+Registration, `DL` Driver Licensing, `FR` Financial Responsibility, `TITLE` Title &
+Anti-Theft, `DEALER` Dealers & Inspections.
+
+| # | Scenario | Example | Expected outcome |
+|---|---|---|---|
+| 1 | Clear single-bureau routing | *"I lost my car title when I moved last year and now I need it to sell the car. How do I get a replacement?"* | `TITLE`, `duplicate-title`, `MEDIUM`, `TRIAGED` |
+| 2 | Multi-bureau ambiguity | *"I bought a car from my neighbor and when I went to register it, the clerk said the title was never transferred out of his late wife's name."* | Spans `TITLE`/`REG` (`TITLE` preferred — the problem is the title, it only surfaced at registration), `title-transfer`, `MEDIUM`, `TRIAGED` |
+| 3 | Fraud / theft escalation | *"Someone transferred the title of my truck to themselves using a forged signature. The truck is gone from my driveway."* | `TITLE`, `CRITICAL` (active fraud and vehicle theft force the tier) |
+| 4 | Low-confidence / needs clarification | *"The DMV messed up my paperwork again."* | Actionable, but no bureau/category/priority forced; `NEEDS_CLARIFICATION` (plain intake) or pauses at `human_review` (workflow path) |
+| 5 | Duplicate detection | *(not in the DMV eval file)* | Same rule as the city build: a new complaint matching an open one in the same bureau and category within 7 days links via `duplicate_of_id` with status `DUPLICATE` — seen live in `APP_WALKTHROUGH.md` |
+| 6 | SLA breach imminent/breached | *(state-based; the DMV seed has no deliberately breached row)* | Open cases past `sla_due_at` are flagged `BREACHED` in the bureau queue and counted in the Trends SLA snapshot |
+| 7 | Reopened complaint | *(citizen action, not intake text)* | `REOPENED`, priority bumped one tier, fresh SLA — the lien-release reopen in `APP_WALKTHROUGH.md` (`MEDIUM` → `HIGH`) |
+| 8 | Sentiment must not bump priority | *"My registration renewal has been pending for a month and honestly I'm furious, this is ridiculous and incompetent!"* | `REG`, `registration-renewal`, `MEDIUM`, `NEGATIVE` — anger alone never changes the tier |
+| 9 | Out-of-scope / non-actionable | *"There's a huge pothole on Route 3 that blew out my tire."* | `actionable=false`, `NOT_ACTIONABLE` — road maintenance isn't the DMV's; same for compliments, private-seller disputes and traffic-ticket fines |
+| 10 | Manual re-route candidate | *"This is a registration problem: my lender still shows on my title after I paid off the loan."* (citizen mislabels it) | `TITLE`, `lien-release` — a lien on the title is `TITLE`'s regardless of the citizen's wording |
+
+Distribution: scenario 1 ×24, 2 ×4, 3 ×3, 4 ×3, 8 ×2, 9 ×4, 10 ×2 (42 total; 5–7 depend
+on existing data or a citizen action, so they aren't in the file).
+
+### City build (default profile)
+
+Labeled examples in `test-data/grievances/eval-complaints.jsonl`. Departments: `DOT`
+Transportation, `DPW` Public Works, `DHHS` Health & Human Services, `DOE` Education,
+`DHUD` Housing & Urban Development, `DEP` Environmental Protection.
 
 | # | Scenario | Example | Expected outcome |
 |---|---|---|---|
@@ -129,7 +183,7 @@ shown per scenario below.
 | 2 | Multi-department ambiguity | *"The playground fence at Lincoln Elementary is broken and kids are running right out into the street during recess."* | Spans `DOE`/`DOT`/`DPW`, `CRITICAL` (child-safety hazard forces the tier regardless of department split), `TRIAGED` |
 | 3 | Safety-critical escalation | *"I smell gas near the manhole cover on Elm Street, it's pretty strong."* | `DPW`, `CRITICAL` (hazard keyword forces the tier immediately) |
 | 4 | Low-confidence / needs clarification | *"Things have been bad on my street lately and nobody seems to care."* | No department/category/priority forced; `NEEDS_CLARIFICATION` (plain intake) or pauses at `human_review` (workflow path) |
-| 5 | Duplicate detection | *"There's a pothole at the corner of 5th and Birch that's about 3 inches deep and causing cars to swerve."* | First of a 3-complaint duplicate cluster (see `GRV-042`/`GRV-043`) — later ones should link via `duplicate_of_id` *(detection itself is unbuilt — see `ARCHITECTURE.md` limitations; the labeled data exists, `find_duplicate_chain` can walk a link once it exists)* |
+| 5 | Duplicate detection | *"There's a pothole at the corner of 5th and Birch that's about 3 inches deep and causing cars to swerve."* | First of a 3-complaint duplicate cluster (see `GRV-042`/`GRV-043`) — later ones link via `duplicate_of_id` (`DuplicateDetectionService`) |
 | 6 | SLA breach imminent/breached | *(state-based, not intake-based — lives in `test-data/sql/seed.sql`, not the complaint eval set)* | A seeded `IN_PROGRESS` row with `sla_due_at` in the past — exercised by `GrievanceMcpToolsTest.staleUnescalatedBreachIsDetected` and the Trends tab's SLA snapshot |
 | 7 | Reopened complaint | *"I'm reopening my case — the pothole on Main St that was marked resolved is already back and just as bad as before."* | `REOPENED`, priority bumped one tier from the original `MEDIUM` to `HIGH` |
 | 8 | Sentiment-driven priority bump | *"There's a pothole outside my office on Maple St, medium size, hasn't caused any damage that I've seen."* (calm half of a paired case) | `MEDIUM`, `NEUTRAL` — its angry-tone pair (`GRV-054`) should land at the **same** priority; only anger *plus* a repeat submission bumps a tier |
@@ -140,20 +194,6 @@ Full distribution: scenario 1 ×42, 2 ×5, 3 ×5, 4 ×6, 5 ×8, 7 ×4, 8 ×11, 9
 (91 total; scenario 6 is intentionally excluded from this file since it's a
 state/time-based condition, not something a citizen types).
 
-**The same scenarios for the DMV bureaus** — the deployed profile. Examples from
-`test-data/dmv/grievances/eval-complaints.jsonl` (42 labeled complaints, same numbering;
-scenarios 5–7 aren't represented there):
-
-| # | Example | Expected outcome |
-|---|---|---|
-| 1 | *"I lost my car title when I moved last year and now I need it to sell the car. How do I get a replacement?"* | `TITLE`, `duplicate-title`, `MEDIUM`, `TRIAGED` |
-| 2 | *"I bought a car from my neighbor and when I went to register it, the clerk said the title was never transferred out of his late wife's name."* | Spans `TITLE`/`REG` (`TITLE` preferred), `title-transfer`, `MEDIUM` |
-| 3 | *"Someone transferred the title of my truck to themselves using a forged signature. The truck is gone from my driveway."* | `TITLE`, `CRITICAL` (active fraud and theft) |
-| 4 | *"The DMV messed up my paperwork again."* | No bureau forced; `NEEDS_CLARIFICATION` or a `human_review` pause |
-| 8 | *"My registration renewal has been pending for a month and honestly I'm furious, this is ridiculous and incompetent!"* | `REG`, `MEDIUM` — anger alone must not bump the tier |
-| 9 | *"There's a huge pothole on Route 3 that blew out my tire."* | `NOT_ACTIONABLE` — road maintenance is not the DMV |
-| 10 | *"This is a registration problem: my lender still shows on my title after I paid off the loan."* (citizen mislabels it) | `TITLE`, `lien-release` — a lien on the title is `TITLE`'s regardless of the citizen's wording |
-
 ---
 
 ## Manual QA checklist
@@ -162,7 +202,7 @@ There's no browser automation checked into this project (screenshots and live ch
 use a throwaway Playwright script outside the repo), so use this checklist to exercise
 the running app by hand after any frontend change. Requires both servers up
 (`RUNNING.md`, "Running the DMV profile") and the corpus/seed data loaded. The
-examples are the DMV ones above; on the city build use the city table's.
+examples are from the DMV table above; on the city build use the city table's.
 
 **Citizen portal:**
 
